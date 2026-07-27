@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hey... You Found Me | Ember's Haven</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Night Forest Sky & Moon -->
+    <div class="sky-background">
+        <div class="moon"></div>
+        <div id="firefly-container"></div>
+    </div>
+
+    <!-- Main Storybook Container -->
+    <main class="hero-container">
+        <div class="storybook-card">
+            <div class="cat-mascot-container">
+                <!-- SVG Animated Cat Carrying a Travel Bundle -->
+                <svg class="cat-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Body -->
+                    <ellipse cx="100" cy="110" rx="35" ry="25" fill="#3a2e2b"/>
+                    <!-- Stripes/Details -->
+                    <path d="M 85 95 Q 100 90 115 95" stroke="#221815" stroke-width="3" fill="none"/>
+                    <!-- Head -->
+                    <circle cx="130" cy="85" r="22" fill="#3a2e2b"/>
+                    <!-- Ears -->
+                    <polygon points="120,68 128,50 135,68" fill="#3a2e2b"/>
+                    <polygon points="135,68 142,52 148,70" fill="#3a2e2b"/>
+                    <!-- Eye (Glow in Dark) -->
+                    <circle cx="140" cy="82" r="3" fill="#ffd700"/>
+                    <!-- Tail Swish -->
+                    <path class="animated-tail" d="M 65 110 Q 40 100 45 75" stroke="#3a2e2b" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <!-- Stick and Bundle in mouth -->
+                    <line x1="125" y1="92" x2="175" y2="70" stroke="#8b5a2b" stroke-width="4" stroke-linecap="round"/>
+                    <polygon points="168,70 185,80 170,95 158,82" fill="#d9534f"/>
+                </svg>
+            </div>
+
+            <h1 class="title">Hey... You Found Me</h1>
+            <p class="subtitle">If you've found Ember, you've found someone very special.</p>
+
+            <div class="button-group">
+                <a href="#contact" class="btn btn-primary">🐾 I Found Ember!</a>
+                <a href="#about" class="btn btn-secondary">📖 Meet Ember</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Story / Info Section -->
+    <section id="about" class="story-section">
+        <div class="scroll-paper">
+            <h2>About Ember 🌙</h2>
+            <p>Ember is a adventurous tabby cat with a curious spirit and a penchant for exploring hidden trails. If she's wandered into your path, please let us know so we can guide her back home.</p>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <strong>Appearance:</strong> Tabby markings, warm amber eyes, friendly posture.
+                </div>
+                <div class="detail-item">
+                    <strong>Personality:</strong> Adventurous, cautious but gentle, loves treats.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="story-section">
+        <div class="scroll-paper alert-paper">
+            <h2>Found Her? 🧡</h2>
+            <p>Please reach out immediately. We are waiting eagerly for news!</p>
+            <div class="contact-box">
+                <p>📞 <strong>Phone / Text:</strong> <a href="tel:1234567890">(555) 019-2831</a></p>
+                <p>📍 <strong>Last Seen:</strong> Near the Forest Edge Trail</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="sleeping-cat">
+            <span class="tooltip">Thanks for visiting... 🐾</span>
+            🌙 🐈💤
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
