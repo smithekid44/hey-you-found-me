@@ -3,90 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hey... You Found Me | Ember's Haven</title>
+    <title>Hey... You Found Me | Ember's Trail</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Charm:wght@400;700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Night Forest Sky & Moon -->
+    <!-- Night Forest Environment -->
     <div class="sky-background">
         <div class="moon"></div>
         <div id="firefly-container"></div>
     </div>
 
-    <!-- Main Storybook Container -->
-    <main class="hero-container">
-        <div class="storybook-card">
-            <div class="cat-mascot-container">
-                <!-- SVG Animated Cat Carrying a Travel Bundle -->
-                <svg class="cat-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Body -->
-                    <ellipse cx="100" cy="110" rx="35" ry="25" fill="#3a2e2b"/>
-                    <!-- Stripes/Details -->
-                    <path d="M 85 95 Q 100 90 115 95" stroke="#221815" stroke-width="3" fill="none"/>
-                    <!-- Head -->
-                    <circle cx="130" cy="85" r="22" fill="#3a2e2b"/>
-                    <!-- Ears -->
-                    <polygon points="120,68 128,50 135,68" fill="#3a2e2b"/>
-                    <polygon points="135,68 142,52 148,70" fill="#3a2e2b"/>
-                    <!-- Eye (Glow in Dark) -->
-                    <circle cx="140" cy="82" r="3" fill="#ffd700"/>
-                    <!-- Tail Swish -->
-                    <path class="animated-tail" d="M 65 110 Q 40 100 45 75" stroke="#3a2e2b" stroke-width="8" stroke-linecap="round" fill="none"/>
-                    <!-- Stick and Bundle in mouth -->
-                    <line x1="125" y1="92" x2="175" y2="70" stroke="#8b5a2b" stroke-width="4" stroke-linecap="round"/>
-                    <polygon points="168,70 185,80 170,95 158,82" fill="#d9534f"/>
+    <!-- The Winding Trail (Visual Line) -->
+    <div class="forest-trail-line"></div>
+
+    <div class="storybook-wrapper">
+
+        <!-- Chapter 1: The Entrance -->
+        <section class="trail-node chapter-1">
+            <div class="cat-walker">
+                <!-- Ember Walking with Stick & Bundle -->
+                <svg class="cat-svg" viewBox="0 0 200 160">
+                    <ellipse cx="100" cy="110" rx="35" ry="25" fill="#5a4033"/>
+                    <path d="M 80 95 Q 100 88 120 95" stroke="#36241b" stroke-width="4" fill="none"/>
+                    <circle cx="130" cy="85" r="22" fill="#5a4033"/>
+                    <polygon points="120,68 128,50 135,68" fill="#5a4033"/>
+                    <polygon points="135,68 142,52 148,70" fill="#5a4033"/>
+                    <circle cx="140" cy="82" r="3" fill="#ffbf00"/>
+                    <path class="animated-tail" d="M 65 110 Q 40 95 45 70" stroke="#5a4033" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <!-- Stick and Bundle -->
+                    <line x1="125" y1="92" x2="180" y2="68" stroke="#8b5a2b" stroke-width="5" stroke-linecap="round"/>
+                    <polygon points="170,68 188,78 174,95 160,82" fill="#c0392b"/>
                 </svg>
             </div>
 
-            <h1 class="title">Hey... You Found Me</h1>
-            <p class="subtitle">If you've found Ember, you've found someone very special.</p>
-
-            <div class="button-group">
-                <a href="#contact" class="btn btn-primary">🐾 I Found Ember!</a>
-                <a href="#about" class="btn btn-secondary">📖 Meet Ember</a>
+            <div class="storybook-scroll">
+                <span class="chapter-number">Chapter I</span>
+                <h1 class="story-title">Hey... You Found Me</h1>
+                <p class="handwritten-intro">A quiet trail brought you here into the moonlit woods. If you've met the small tabby carrying her bundle, you've met someone very special.</p>
+                <a href="#about-trail" class="trail-btn">Walk Down the Path 🐾</a>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <!-- Story / Info Section -->
-    <section id="about" class="story-section">
-        <div class="scroll-paper">
-            <h2>About Ember 🌙</h2>
-            <p>Ember is a adventurous tabby cat with a curious spirit and a penchant for exploring hidden trails. If she's wandered into your path, please let us know so we can guide her back home.</p>
+        <!-- Chapter 2: Meet Ember -->
+        <section id="about-trail" class="trail-node chapter-2">
+            <div class="cat-sitter">
+                <!-- Ember Sitting Curious -->
+                <svg class="cat-svg" viewBox="0 0 160 180">
+                    <ellipse cx="80" cy="130" rx="30" ry="35" fill="#5a4033"/>
+                    <circle cx="80" cy="75" r="24" fill="#5a4033"/>
+                    <polygon points="65,58 73,38 82,58" fill="#5a4033"/>
+                    <polygon points="80,58 88,40 95,58" fill="#5a4033"/>
+                    <circle cx="72" cy="72" r="3.5" fill="#ffbf00"/>
+                    <circle cx="88" cy="72" r="3.5" fill="#ffbf00"/>
+                    <!-- Stripes -->
+                    <path d="M 68 110 Q 80 105 92 110" stroke="#36241b" stroke-width="3" fill="none"/>
+                    <path d="M 65 125 Q 80 120 95 125" stroke="#36241b" stroke-width="3" fill="none"/>
+                </svg>
+            </div>
 
-            <div class="details-grid">
-                <div class="detail-item">
-                    <strong>Appearance:</strong> Tabby markings, warm amber eyes, friendly posture.
+            <div class="storybook-scroll">
+                <span class="chapter-number">Chapter II</span>
+                <h2>The Wandering Tabby</h2>
+                <p>Ember is an adventurous explorer with warm amber eyes, soft brown tabby stripes, and a curious heart. She loves exploring hidden paths, but she belongs back home.</p>
+                
+                <div class="field-notes">
+                    <h3>🐾 Explorer's Notes</h3>
+                    <ul>
+                        <li><strong>Name:</strong> Ember</li>
+                        <li><strong>Coat:</strong> Brown Classic Tabby</li>
+                        <li><strong>Eyes:</strong> Golden Amber</li>
+                        <li><strong>Temperament:</strong> Gentle, curious, responds to soft calls</li>
+                    </ul>
                 </div>
-                <div class="detail-item">
-                    <strong>Personality:</strong> Adventurous, cautious but gentle, loves treats.
+            </div>
+        </section>
+
+        <!-- Chapter 3: Found Her Banner -->
+        <section id="contact-trail" class="trail-node chapter-3">
+            <div class="storybook-scroll alert-scroll">
+                <span class="chapter-number">Chapter III</span>
+                <h2>Help Ember Find Her Way Home 🧡</h2>
+                <p class="story-alert-text">If she is traveling beside you or you spotted her nearby, please send word!</p>
+                
+                <div class="lantern-box">
+                    <p class="phone-link">📞 <strong>Send Word / Call:</strong> <a href="tel:5550192831">(555) 019-2831</a></p>
+                    <p>📍 <strong>Last Spotted Trail:</strong> Near the Forest Edge Trailhead</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="story-section">
-        <div class="scroll-paper alert-paper">
-            <h2>Found Her? 🧡</h2>
-            <p>Please reach out immediately. We are waiting eagerly for news!</p>
-            <div class="contact-box">
-                <p>📞 <strong>Phone / Text:</strong> <a href="tel:1234567890">(555) 019-2831</a></p>
-                <p>📍 <strong>Last Seen:</strong> Near the Forest Edge Trail</p>
+        <!-- Chapter 4: Resting Footer -->
+        <footer class="trail-node trail-end">
+            <div class="cat-sleeping">
+                🐈💤
             </div>
-        </div>
-    </section>
+            <p class="footer-note">Ember reposes beneath the stars. Thank you for walking her path.</p>
+        </footer>
 
-    <footer>
-        <div class="sleeping-cat">
-            <span class="tooltip">Thanks for visiting... 🐾</span>
-            🌙 🐈💤
-        </div>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
