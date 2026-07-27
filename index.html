@@ -125,12 +125,81 @@
 
     <!-- Embedded Audio & Animation Controller Script -->
     <script>
-        // HTML5 Audio stream using high-quality royalty-free ambient forest audio
-        const forestAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/10/audio_c2957908b8.mp3?filename=night-crickets-and-ambient-10515.mp3');
-        forestAudio.loop = true;
-        forestAudio.volume = 0.3;
+        let audioCtx = null;
+        let isPlaying = false;
+        let cricketInterval = null;
+        let windNode = null;
 
-        let isMusicPlaying = false;
+        function startAudioEngine() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            // Create soft ambient wind noise
+            const bufferSize = audioCtx.sampleRate * 2;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 300; // Soft low wind murmur
+
+            const gain = audioCtx.createGain();
+            gain.gain.value = 0.015; // Very subtle volume
+
+            whiteNoise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            whiteNoise.start();
+            windNode = { whiteNoise, gain };
+
+            // Gentle cricket chirps
+            cricketInterval = setInterval(() => {
+                if (!isPlaying || !audioCtx) return;
+                
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const chirpGain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(4200 + Math.random() * 300, now);
+
+                chirpGain.gain.setValueAtTime(0, now);
+                chirpGain.gain.linearRampToValueAtTime(0.005, now + 0.01);
+                chirpGain.gain.linearRampToValueAtTime(0, now + 0.03);
+                chirpGain.gain.linearRampToValueAtTime(0.005, now + 0.05);
+                chirpGain.gain.linearRampToValueAtTime(0, now + 0.07);
+
+                osc.connect(chirpGain);
+                chirpGain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.08);
+            }, 1800);
+        }
+
+        function stopAudioEngine() {
+            if (cricketInterval) clearInterval(cricketInterval);
+            if (windNode) {
+                windNode.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                setTimeout(() => {
+                    windNode.whiteNoise.stop();
+                }, 500);
+            }
+            if (audioCtx) {
+                audioCtx.suspend();
+            }
+        }
 
         function createFireflies() {
             const container = document.getElementById('firefly-container');
@@ -187,19 +256,15 @@
 
             const audioBtn = document.getElementById('audio-toggle-btn');
             if (audioBtn) {
-                audioBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (!isMusicPlaying) {
-                        forestAudio.play().then(() => {
-                            isMusicPlaying = true;
-                            audioBtn.classList.add('playing');
-                            audioBtn.innerHTML = '🌙 Forest Ambience: On';
-                        }).catch(err => {
-                            console.error("Audio playback error:", err);
-                        });
+                audioBtn.addEventListener('click', () => {
+                    if (!isPlaying) {
+                        startAudioEngine();
+                        isPlaying = true;
+                        audioBtn.classList.add('playing');
+                        audioBtn.innerHTML = '🌙 Forest Ambience: On';
                     } else {
-                        forestAudio.pause();
-                        isMusicPlaying = false;
+                        stopAudioEngine();
+                        isPlaying = false;
                         audioBtn.classList.remove('playing');
                         audioBtn.innerHTML = '🔇 Forest Ambience: Off';
                     }
