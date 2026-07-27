@@ -11,70 +11,111 @@
 </head>
 <body>
 
+    <!-- SVG Filter for Watercolor Paint Edges -->
+    <svg style="display:none;">
+        <defs>
+            <filter id="watercolor-wash">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
     <!-- Night Forest Environment -->
     <div class="sky-background">
         <div class="moon"></div>
         <div id="firefly-container"></div>
     </div>
 
-    <!-- The Winding Trail (Visual Line) -->
-    <div class="forest-trail-line"></div>
+    <!-- Side-View Dirt/Moss Forest Path -->
+    <div class="side-view-ground"></div>
 
     <div class="storybook-wrapper">
 
         <!-- Chapter 1: The Entrance -->
         <section class="trail-node chapter-1">
-            <div class="cat-walker">
-                <!-- Ember Walking with Stick & Bundle -->
-                <svg class="cat-svg" viewBox="0 0 200 160">
-                    <ellipse cx="100" cy="110" rx="35" ry="25" fill="#5a4033"/>
-                    <path d="M 80 95 Q 100 88 120 95" stroke="#36241b" stroke-width="4" fill="none"/>
-                    <circle cx="130" cy="85" r="22" fill="#5a4033"/>
-                    <polygon points="120,68 128,50 135,68" fill="#5a4033"/>
-                    <polygon points="135,68 142,52 148,70" fill="#5a4033"/>
-                    <circle cx="140" cy="82" r="3" fill="#ffbf00"/>
-                    <path class="animated-tail" d="M 65 110 Q 40 95 45 70" stroke="#5a4033" stroke-width="8" stroke-linecap="round" fill="none"/>
-                    <!-- Stick and Bundle -->
-                    <line x1="125" y1="92" x2="180" y2="68" stroke="#8b5a2b" stroke-width="5" stroke-linecap="round"/>
-                    <polygon points="170,68 188,78 174,95 160,82" fill="#c0392b"/>
+            <div class="walker-stage">
+                <!-- Ember Side-Profile Walking with Stick & Bundle -->
+                <svg class="ember-side-profile" viewBox="0 0 220 140" filter="url(#watercolor-wash)">
+                    <defs>
+                        <radialGradient id="tabbyGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#91674a"/>
+                            <stop offset="70%" stop-color="#6e4a32"/>
+                            <stop offset="100%" stop-color="#4d3220"/>
+                        </radialGradient>
+                    </defs>
+                    <!-- Body (Side View Profile) -->
+                    <ellipse cx="100" cy="85" rx="45" ry="26" fill="url(#tabbyGradient)"/>
+                    
+                    <!-- Tabby Stripes (Vertical Side Stripes) -->
+                    <path d="M 80 65 Q 82 85 80 100" stroke="#2b1a10" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.75"/>
+                    <path d="M 95 62 Q 98 85 96 102" stroke="#2b1a10" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.75"/>
+                    <path d="M 110 65 Q 112 85 110 100" stroke="#2b1a10" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.75"/>
+
+                    <!-- Walking Legs (Side Profile) -->
+                    <rect x="68" y="100" width="8" height="25" rx="4" fill="#4d3220"/>
+                    <rect x="85" y="102" width="8" height="23" rx="4" fill="#6e4a32"/>
+                    <rect x="115" y="102" width="8" height="23" rx="4" fill="#4d3220"/>
+                    <rect x="128" y="100" width="8" height="25" rx="4" fill="#6e4a32"/>
+
+                    <!-- Head (Side View Facing Right) -->
+                    <circle cx="150" cy="65" r="22" fill="url(#tabbyGradient)"/>
+                    <!-- Ears -->
+                    <polygon points="142,48 150,30 156,48" fill="#543723"/>
+                    <polygon points="152,48 158,32 165,48" fill="#543723"/>
+                    <!-- Eye (Side Profile Golden Amber) -->
+                    <ellipse cx="160" cy="62" rx="3" ry="4" fill="#e5a823"/>
+                    <circle cx="161" cy="62" r="1" fill="#000"/>
+
+                    <!-- Tail (Curving Backwards) -->
+                    <path class="animated-walking-tail" d="M 58 85 Q 30 70 35 45" stroke="#543723" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+                    <!-- Stick with Red Handkerchief Bundle held in Mouth -->
+                    <line x1="155" y1="72" x2="210" y2="50" stroke="#5c3b20" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M 198 50 Q 215 54 205 75 Q 188 68 198 50" fill="#b83b2e"/>
                 </svg>
             </div>
 
             <div class="storybook-scroll">
                 <span class="chapter-number">Chapter I</span>
                 <h1 class="story-title">Hey... You Found Me</h1>
-                <p class="handwritten-intro">A quiet trail brought you here into the moonlit woods. If you've met the small tabby carrying her bundle, you've met someone very special.</p>
+                <p class="handwritten-intro">A quiet forest trail brought you here into the moonlit woods. If you've met the small tabby carrying her bundle down the path, you've met someone very special.</p>
                 <a href="#about-trail" class="trail-btn">Walk Down the Path 🐾</a>
             </div>
         </section>
 
         <!-- Chapter 2: Meet Ember -->
         <section id="about-trail" class="trail-node chapter-2">
-            <div class="cat-sitter">
-                <!-- Ember Sitting Curious -->
-                <svg class="cat-svg" viewBox="0 0 160 180">
-                    <ellipse cx="80" cy="130" rx="30" ry="35" fill="#5a4033"/>
-                    <circle cx="80" cy="75" r="24" fill="#5a4033"/>
-                    <polygon points="65,58 73,38 82,58" fill="#5a4033"/>
-                    <polygon points="80,58 88,40 95,58" fill="#5a4033"/>
-                    <circle cx="72" cy="72" r="3.5" fill="#ffbf00"/>
-                    <circle cx="88" cy="72" r="3.5" fill="#ffbf00"/>
-                    <!-- Stripes -->
-                    <path d="M 68 110 Q 80 105 92 110" stroke="#36241b" stroke-width="3" fill="none"/>
-                    <path d="M 65 125 Q 80 120 95 125" stroke="#36241b" stroke-width="3" fill="none"/>
+            <div class="walker-stage">
+                <!-- Ember Sitting in Profile -->
+                <svg class="ember-side-profile" viewBox="0 0 160 160" filter="url(#watercolor-wash)">
+                    <!-- Body Sitting -->
+                    <ellipse cx="75" cy="105" rx="28" ry="35" fill="url(#tabbyGradient)"/>
+                    <circle cx="85" cy="55" r="22" fill="url(#tabbyGradient)"/>
+                    <!-- Ears -->
+                    <polygon points="75,38 83,20 90,38" fill="#543723"/>
+                    <polygon points="88,38 95,22 102,38" fill="#543723"/>
+                    <!-- Eye -->
+                    <ellipse cx="94" cy="52" rx="3" ry="4" fill="#e5a823"/>
+                    <!-- Tabby Side Stripes -->
+                    <path d="M 62 90 Q 75 88 88 90" stroke="#2b1a10" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.75"/>
+                    <path d="M 60 105 Q 75 102 90 105" stroke="#2b1a10" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.75"/>
+                    <!-- Paws in Front -->
+                    <rect x="80" y="125" width="8" height="20" rx="4" fill="#6e4a32"/>
+                    <rect x="90" y="125" width="8" height="20" rx="4" fill="#6e4a32"/>
                 </svg>
             </div>
 
             <div class="storybook-scroll">
                 <span class="chapter-number">Chapter II</span>
                 <h2>The Wandering Tabby</h2>
-                <p>Ember is an adventurous explorer with warm amber eyes, soft brown tabby stripes, and a curious heart. She loves exploring hidden paths, but she belongs back home.</p>
+                <p>Ember is an adventurous explorer with warm amber eyes, soft brown tabby coat, and a curious heart. She loves wandering hidden paths, but she belongs back home.</p>
                 
                 <div class="field-notes">
                     <h3>🐾 Explorer's Notes</h3>
                     <ul>
                         <li><strong>Name:</strong> Ember</li>
-                        <li><strong>Coat:</strong> Brown Classic Tabby</li>
+                        <li><strong>Coat:</strong> Warm Brown Tabby with soft striping</li>
                         <li><strong>Eyes:</strong> Golden Amber</li>
                         <li><strong>Temperament:</strong> Gentle, curious, responds to soft calls</li>
                     </ul>
@@ -82,7 +123,7 @@
             </div>
         </section>
 
-        <!-- Chapter 3: Found Her Banner -->
+        <!-- Chapter 3: Contact Section -->
         <section id="contact-trail" class="trail-node chapter-3">
             <div class="storybook-scroll alert-scroll">
                 <span class="chapter-number">Chapter III</span>
@@ -98,10 +139,16 @@
 
         <!-- Chapter 4: Resting Footer -->
         <footer class="trail-node trail-end">
-            <div class="cat-sleeping">
-                🐈💤
+            <div class="walker-stage">
+                <!-- Ember Sleeping Curled Up -->
+                <svg class="ember-side-profile" viewBox="0 0 160 120" filter="url(#watercolor-wash)">
+                    <ellipse cx="80" cy="75" rx="40" ry="26" fill="url(#tabbyGradient)"/>
+                    <circle cx="110" cy="70" r="18" fill="url(#tabbyGradient)"/>
+                    <path d="M 50 75 Q 42 55 58 45" stroke="#543723" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <path d="M 60 70 Q 80 62 100 70" stroke="#2b1a10" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+                </svg>
             </div>
-            <p class="footer-note">Ember reposes beneath the stars. Thank you for walking her path.</p>
+            <p class="footer-note">Ember reposes beneath the quiet stars. Thank you for walking her path.</p>
         </footer>
 
     </div>
