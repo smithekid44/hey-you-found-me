@@ -1,10 +1,12 @@
-// Web Audio API Sound Generator (Music & SFX without external MP3 files!)
+// Web Audio API Sound Generator: Sleepy Lullaby & Gentle Crickets
 class FairytaleAudioController {
     constructor() {
         this.ctx = null;
         this.isPlayingAmbient = false;
         this.ambientGain = null;
-        this.ambientOscs = [];
+        this.lullabyTimer = null;
+        this.cricketTimer = null;
+        this.lullabyIndex = 0;
     }
 
     init() {
@@ -16,7 +18,7 @@ class FairytaleAudioController {
         }
     }
 
-    // Gentle Ambient Forest Drone / Wind Chime Harmonies
+    // Toggle Music & Night Ambience
     toggleAmbientMusic() {
         this.init();
 
@@ -25,39 +27,14 @@ class FairytaleAudioController {
             return false;
         }
 
-        // Master Gain for Music
         this.ambientGain = this.ctx.createGain();
         this.ambientGain.gain.setValueAtTime(0.01, this.ctx.currentTime);
-        this.ambientGain.gain.exponentialRampToValueAtTime(0.08, this.ctx.currentTime + 2);
+        this.ambientGain.gain.exponentialRampToValueAtTime(0.12, this.ctx.currentTime + 1.5);
         this.ambientGain.connect(this.ctx.destination);
 
-        // Mystical Chord Frequencies (Fairytale Pentatonic Scale)
-        const frequencies = [146.83, 220.00, 293.66, 440.00, 659.25]; // D3, A3, D4, A4, E5
-
-        this.ambientOscs = frequencies.map((freq, i) => {
-            const osc = this.ctx.createOscillator();
-            const oscGain = this.ctx.createGain();
-            
-            osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-            // Subtle slow shimmer modulation
-            const lfo = this.ctx.createOscillator();
-            const lfoGain = this.ctx.createGain();
-            lfo.frequency.setValueAtTime(0.2 + i * 0.1, this.ctx.currentTime);
-            lfoGain.gain.setValueAtTime(0.02, this.ctx.currentTime);
-            lfo.connect(oscGain.gain);
-            lfo.start();
-
-            oscGain.gain.setValueAtTime(0.03 / frequencies.length, this.ctx.currentTime);
-            osc.connect(oscGain);
-            oscGain.connect(this.ambientGain);
-            osc.start();
-
-            return osc;
-        });
-
         this.isPlayingAmbient = true;
+        this.startCrickets();
+        this.startSleepyLullaby();
         return true;
     }
 
@@ -65,47 +42,128 @@ class FairytaleAudioController {
         if (this.ambientGain) {
             this.ambientGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1);
             setTimeout(() => {
-                this.ambientOscs.forEach(osc => osc.stop());
-                this.ambientOscs = [];
+                if (this.lullabyTimer) clearInterval(this.lullabyTimer);
+                if (this.cricketTimer) clearInterval(this.cricketTimer);
                 this.isPlayingAmbient = false;
             }, 1000);
         }
     }
 
-    playPageTurn() {
-        this.init();
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(280, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(70, this.ctx.currentTime + 0.18);
-        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.18);
+    // Soft Crickets Chirping
+    startCrickets() {
+        const playCricketChirp = () => {
+            if (!this.isPlayingAmbient) return;
+            
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            // High soft cricket frequency
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(4500 + Math.random() * 200, now);
+
+            // Subtle triple chirp envelope
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.008, now + 0.02);
+            gain.gain.linearRampToValueAtTime(0, now + 0.04);
+            gain.gain.linearRampToValueAtTime(0.008, now + 0.06);
+            gain.gain.linearRampToValueAtTime(0, now + 0.08);
+
+            osc.connect(gain);
+            gain.connect(this.ambientGain);
+
+            osc.start(now);
+            osc.stop(now + 0.1);
+        };
+
+        // Randomly chirp every few seconds
+        this.cricketTimer = setInterval(() => {
+            if (Math.random() > 0.3) {
+                playCricketChirp();
+            }
+        }, 1200);
     }
 
-    playFootstep() {
+    // Gentle Music Box Sleepy Lullaby
+    startSleepyLullaby() {
+        // Soft Lullaby Frequencies (C Major / A Minor Pentatonic Bell Tones)
+        const lullabyNotes = [
+            523.25, 587.33, 659.25, 783.99, 880.00, // C5, D5, E5, G5, A5
+            659.25, 523.25, 392.00, 440.00, 523.25
+        ];
+
+        const playBellNote = (freq) => {
+            if (!this.isPlayingAmbient) return;
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now);
+
+            // Music-box style decay
+            gain.gain.setValueAtTime(0.03, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+            osc.connect(gain);
+            gain.connect(this.ambientGain);
+
+            osc.start(now);
+            osc.stop(now + 2.3);
+        };
+
+        this.lullabyIndex = 0;
+        this.lullabyTimer = setInterval(() => {
+            const note = lullabyNotes[this.lullabyIndex % lullabyNotes.length];
+            playBellNote(note);
+            this.lullabyIndex++;
+        }, 1600); // Slow, soothing rhythm
+    }
+
+    // Very Subtle Soft Page Turn
+    playPageTurn() {
         this.init();
+        const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
+        
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(120, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(35, this.ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(50, now + 0.12);
+
+        gain.gain.setValueAtTime(0.02, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.12);
+
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.12);
+    }
+
+    // Soft Organic Grass Step
+    playFootstep() {
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(80, now);
+        osc.frequency.exponentialRampToValueAtTime(30, now + 0.06);
+
+        gain.gain.setValueAtTime(0.015, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.06);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.06);
     }
 }
 
 const sfx = new FairytaleAudioController();
 
-// Dynamic Glowing Firefly Generator
+// Dynamic Glowing Fireflies Generator
 function createFireflies() {
     const container = document.getElementById('firefly-container');
     if (!container) return;
@@ -121,7 +179,7 @@ function createFireflies() {
     }
 }
 
-// Scroll Mechanics: Animate Ember Walking Legs & Trigger Footsteps
+// Scroll Mechanics: Animate Ember Walking Legs & Footstep Rustles
 let lastScrollY = window.scrollY;
 let isScrollingTimer = null;
 let footstepInterval = null;
@@ -134,7 +192,7 @@ window.addEventListener('scroll', () => {
         if (ember && !ember.classList.contains('is-walking')) {
             ember.classList.add('is-walking');
             if (!footstepInterval) {
-                footstepInterval = setInterval(() => sfx.playFootstep(), 220);
+                footstepInterval = setInterval(() => sfx.playFootstep(), 260);
             }
         }
 
@@ -149,7 +207,7 @@ window.addEventListener('scroll', () => {
     lastScrollY = window.scrollY;
 });
 
-// Reveal Storybook Parchment Pages with Page-Turn SFX as You Walk
+// Reveal Storybook Scrolls on Scroll
 const pageObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -168,17 +226,17 @@ document.addEventListener('DOMContentLoaded', () => {
         pageObserver.observe(scroll);
     });
 
-    // Audio Toggle Button Event Listener
+    // Toggle Music Button Listener
     const audioBtn = document.getElementById('audio-toggle-btn');
     if (audioBtn) {
         audioBtn.addEventListener('click', () => {
             const isPlaying = sfx.toggleAmbientMusic();
             if (isPlaying) {
                 audioBtn.classList.add('playing');
-                audioBtn.innerHTML = '🔊 Forest Music: On';
+                audioBtn.innerHTML = '🌙 Lullaby & Crickets: On';
             } else {
                 audioBtn.classList.remove('playing');
-                audioBtn.innerHTML = '🔇 Forest Music: Off';
+                audioBtn.innerHTML = '🔇 Lullaby & Crickets: Off';
             }
         });
     }
