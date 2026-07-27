@@ -1,11 +1,11 @@
 :root {
-    --bg-dark: #0b1325;
-    --bg-forest: #14231e;
-    --paper-bg: #f5eedc;
-    --paper-text: #2c221e;
-    --gold: #f4c430;
-    --gold-glow: rgba(244, 196, 48, 0.4);
-    --moss: #4a6b4a;
+    --sky-dark: #09101d;
+    --trail-gold: #f4c430;
+    --parchment: #f4ebd0;
+    --parchment-border: #d4c5a0;
+    --ink: #33251a;
+    --ink-light: #5c4738;
+    --accent-amber: #d35400;
 }
 
 * {
@@ -15,130 +15,152 @@
 }
 
 body {
-    background-color: var(--bg-dark);
+    background-color: var(--sky-dark);
     color: #e0e6ed;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
-    min-height: 100vh;
 }
 
-/* Background & Atmosphere */
+/* Sky & Moon */
 .sky-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #070c18, #111d28, #13271f);
+    background: radial-gradient(circle at 80% 15%, #182a3a 0%, #080d1a 70%);
     z-index: -2;
 }
 
 .moon {
     position: absolute;
-    top: 40px;
-    right: 50px;
-    width: 80px;
-    height: 80px;
+    top: 30px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
     background: #fffdf0;
     border-radius: 50%;
-    box-shadow: 0 0 40px rgba(255, 253, 240, 0.8), 0 0 80px rgba(244, 196, 48, 0.3);
+    box-shadow: 0 0 30px #fffdf0, 0 0 70px rgba(244, 196, 48, 0.2);
+}
+
+/* Winding Trail Line in Background */
+.forest-trail-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(244, 196, 48, 0.3) 10%, rgba(244, 196, 48, 0.3) 90%, transparent);
+    border-left: 2px dashed rgba(244, 196, 48, 0.4);
+    transform: translateX(-50%);
+    z-index: -1;
 }
 
 /* Fireflies */
 .firefly {
     position: absolute;
-    width: 6px;
-    height: 6px;
-    background-color: #ffd700;
+    width: 5px;
+    height: 5px;
+    background-color: var(--trail-gold);
     border-radius: 50%;
-    box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
-    animation: float 6s infinite ease-in-out;
-    opacity: 0.8;
+    box-shadow: 0 0 10px var(--trail-gold);
+    animation: floatFly 5s infinite ease-in-out;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-    50% { transform: translateY(-30px) translateX(15px); opacity: 1; }
+@keyframes floatFly {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+    50% { transform: translateY(-25px) translateX(10px); opacity: 0.9; }
 }
 
-/* Hero Section */
-.hero-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
-}
-
-.storybook-card {
-    background: rgba(15, 25, 35, 0.75);
-    backdrop-filter: blur(8px);
-    border: 2px solid rgba(244, 196, 48, 0.3);
-    border-radius: 20px;
-    padding: 40px 25px;
-    max-width: 550px;
-    width: 100%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.title {
-    font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
-    color: #f7e7c4;
-    margin-bottom: 15px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
-}
-
-.subtitle {
-    font-size: 1.1rem;
-    color: #c0d1c7;
-    margin-bottom: 30px;
-    line-height: 1.5;
-}
-
-/* Buttons */
-.button-group {
+/* Storybook Nodes along the trail */
+.storybook-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 100px;
 }
 
-.btn {
+.trail-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Parchment Scroll Design */
+.storybook-scroll {
+    background-color: var(--parchment);
+    color: var(--ink);
+    padding: 40px 30px;
+    border-radius: 16px;
+    border: 3px solid var(--parchment-border);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 0 50px rgba(180, 150, 100, 0.2);
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.chapter-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--accent-amber);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.story-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: var(--ink);
+}
+
+.storybook-scroll h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.7rem;
+    margin-bottom: 15px;
+}
+
+.handwritten-intro {
+    font-family: 'Charm', cursive;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--ink-light);
+    margin-bottom: 25px;
+}
+
+/* Trail Buttons */
+.trail-btn {
     display: inline-block;
-    padding: 14px 28px;
-    border-radius: 30px;
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 12px 28px;
+    border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.2s, background 0.2s;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #e67e22, #d35400);
-    color: white;
-    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
-}
-
-.btn-primary:hover {
+.trail-btn:hover {
+    background: var(--accent-amber);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(230, 126, 34, 0.6);
 }
 
-.btn-secondary {
-    background: transparent;
-    border: 2px solid var(--gold);
-    color: var(--gold);
+/* SVGs & Mascot Poses */
+.cat-walker, .cat-sitter {
+    width: 140px;
+    margin-bottom: -15px;
+    z-index: 2;
 }
 
-.btn-secondary:hover {
-    background: var(--gold);
-    color: var(--bg-dark);
-}
-
-/* Animated Mascot SVG */
-.cat-mascot-container {
-    width: 150px;
-    margin: 0 auto 15px auto;
+.cat-svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
 }
 
 .animated-tail {
@@ -148,106 +170,87 @@ body {
 
 @keyframes swish {
     0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(12deg); }
+    50% { transform: rotate(10deg); }
 }
 
-/* Story Sections */
-.story-section {
-    padding: 60px 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.scroll-paper {
-    background-color: var(--paper-bg);
-    color: var(--paper-text);
-    padding: 35px 25px;
-    border-radius: 12px;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    position: relative;
-}
-
-.scroll-paper h2 {
-    font-family: 'Cinzel', serif;
-    margin-bottom: 15px;
-    color: #4a3222;
-}
-
-.scroll-paper p {
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.details-grid {
+/* Field Notes Box */
+.field-notes {
     margin-top: 20px;
-    background: rgba(0,0,0,0.05);
-    padding: 15px;
-    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-amber);
+    text-align: left;
 }
 
-.alert-paper {
-    border-left: 6px solid #e67e22;
-}
-
-.contact-box {
-    margin-top: 15px;
+.field-notes h3 {
+    font-family: 'Cinzel', serif;
     font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-.contact-box a {
-    color: #d35400;
-    font-weight: bold;
+.field-notes ul {
+    list-style: none;
+}
+
+.field-notes li {
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+
+/* Contact / Alert Scroll */
+.alert-scroll {
+    border-color: var(--accent-amber);
+    background: #fbf5e8;
+}
+
+.story-alert-text {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.lantern-box {
+    background: rgba(211, 84, 0, 0.1);
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px dashed var(--accent-amber);
+}
+
+.phone-link a {
+    color: var(--accent-amber);
+    font-size: 1.2rem;
     text-decoration: none;
 }
 
-/* Footer */
-footer {
+/* Footer Resting Cat */
+.trail-end {
     text-align: center;
-    padding: 40px 20px;
+    gap: 10px;
 }
 
-.sleeping-cat {
-    font-size: 1.8rem;
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
+.cat-sleeping {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(244, 196, 48, 0.3));
 }
 
-.sleeping-cat .tooltip {
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    font-size: 0.8rem;
-    padding: 5px 10px;
-    border-radius: 6px;
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.sleeping-cat:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
+.footer-note {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    font-style: italic;
 }
 
 /* Paw Print Effect */
 .paw-print {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: rgba(244, 196, 48, 0.4);
+    width: 10px;
+    height: 10px;
+    background: var(--trail-gold);
     border-radius: 50%;
     pointer-events: none;
-    animation: fadePaw 1.5s forwards;
+    animation: fadePaw 1.2s forwards;
 }
 
 @keyframes fadePaw {
-    0% { opacity: 0.8; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0.3); }
+    0% { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.2); }
 }
