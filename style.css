@@ -1,11 +1,11 @@
-:root {
-    --sky-dark: #09101d;
-    --trail-gold: #f4c430;
-    --parchment: #f4ebd0;
-    --parchment-border: #d4c5a0;
-    --ink: #33251a;
-    --ink-light: #5c4738;
-    --accent-amber: #d35400;
+::root {
+    --bg-watercolor-sky: #131b2e;
+    --paper-texture: #f7f3e9;
+    --paper-shadow: rgba(30, 20, 10, 0.15);
+    --ink-brown: #3b2c23;
+    --ink-soft: #634d3f;
+    --amber-paint: #d97724;
+    --water-gold: #e5b842;
 }
 
 * {
@@ -15,178 +15,194 @@
 }
 
 body {
-    background-color: var(--sky-dark);
-    color: #e0e6ed;
-    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg-watercolor-sky);
+    /* Watercolor night sky wash overlay */
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(35, 60, 95, 0.6), transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(20, 45, 40, 0.5), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(15, 20, 35, 0.8), transparent 70%);
+    color: #e2e8f0;
+    font-family: 'Quicksand', serif;
     overflow-x: hidden;
 }
 
-/* Sky & Moon */
-.sky-background {
+/* Painted Moon */
+.moon {
+    position: absolute;
+    top: 35px;
+    right: 45px;
+    width: 75px;
+    height: 75px;
+    background: radial-gradient(circle, #fffef0 40%, #f4e8c1 80%, rgba(244, 232, 193, 0) 100%);
+    border-radius: 50%;
+    filter: blur(1px);
+    box-shadow: 0 0 35px rgba(244, 232, 193, 0.5);
+}
+
+/* Fireflies as soft glowing paint dots */
+#firefly-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 80% 15%, #182a3a 0%, #080d1a 70%);
-    z-index: -2;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.moon {
+.firefly {
     position: absolute;
-    top: 30px;
-    right: 40px;
-    width: 70px;
-    height: 70px;
-    background: #fffdf0;
+    width: 6px;
+    height: 6px;
+    background: #ffeb8d;
     border-radius: 50%;
-    box-shadow: 0 0 30px #fffdf0, 0 0 70px rgba(244, 196, 48, 0.2);
+    box-shadow: 0 0 8px #ffd54f, 0 0 16px #ffb300;
+    animation: floatPaint 6s infinite ease-in-out;
+    opacity: 0.75;
 }
 
-/* Winding Trail Line in Background */
+@keyframes floatPaint {
+    0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0.3; }
+    50% { transform: translateY(-20px) translateX(12px) scale(1.1); opacity: 0.95; }
+}
+
+/* Forest Trail Line */
 .forest-trail-line {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 4px;
+    width: 6px;
     height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(244, 196, 48, 0.3) 10%, rgba(244, 196, 48, 0.3) 90%, transparent);
-    border-left: 2px dashed rgba(244, 196, 48, 0.4);
+    background: linear-gradient(to bottom, 
+        transparent, 
+        rgba(229, 184, 66, 0.25) 15%, 
+        rgba(229, 184, 66, 0.25) 85%, 
+        transparent);
     transform: translateX(-50%);
+    filter: blur(1px);
     z-index: -1;
 }
 
-/* Fireflies */
-.firefly {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background-color: var(--trail-gold);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--trail-gold);
-    animation: floatFly 5s infinite ease-in-out;
-}
-
-@keyframes floatFly {
-    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-    50% { transform: translateY(-25px) translateX(10px); opacity: 0.9; }
-}
-
-/* Storybook Nodes along the trail */
+/* Main Storybook Container */
 .storybook-wrapper {
-    max-width: 700px;
+    max-width: 650px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 70px 20px;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 90px;
+    position: relative;
+    z-index: 2;
 }
 
 .trail-node {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
 }
 
-/* Parchment Scroll Design */
+/* Watercolor Parchment Cards */
 .storybook-scroll {
-    background-color: var(--parchment);
-    color: var(--ink);
-    padding: 40px 30px;
-    border-radius: 16px;
-    border: 3px solid var(--parchment-border);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 0 50px rgba(180, 150, 100, 0.2);
+    background-color: var(--paper-texture);
+    /* Subtle watercolor wash edges on paper */
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(215, 195, 160, 0.3), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(200, 180, 145, 0.35), transparent 40%);
+    color: var(--ink-brown);
+    padding: 42px 32px;
+    /* Soft deckled border radius */
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    border: 2px solid rgba(180, 155, 120, 0.5);
+    box-shadow: 
+        0 15px 35px var(--paper-shadow),
+        inset 0 0 30px rgba(160, 130, 90, 0.15);
     width: 100%;
     text-align: center;
-    position: relative;
 }
 
 .chapter-number {
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
-    letter-spacing: 2px;
-    color: var(--accent-amber);
+    letter-spacing: 3px;
+    color: var(--amber-paint);
     text-transform: uppercase;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .story-title {
     font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
-    margin-bottom: 15px;
-    color: var(--ink);
+    font-size: 2.3rem;
+    margin-bottom: 18px;
+    color: var(--ink-brown);
+    font-weight: 700;
 }
 
 .storybook-scroll h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.7rem;
+    font-size: 1.75rem;
     margin-bottom: 15px;
+    color: var(--ink-brown);
 }
 
 .handwritten-intro {
     font-family: 'Charm', cursive;
-    font-size: 1.4rem;
-    line-height: 1.6;
-    color: var(--ink-light);
+    font-size: 1.45rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
     margin-bottom: 25px;
 }
 
-/* Trail Buttons */
+/* Storybook Button */
 .trail-btn {
     display: inline-block;
-    background: var(--ink);
-    color: var(--parchment);
-    padding: 12px 28px;
-    border-radius: 25px;
+    background: var(--ink-brown);
+    color: var(--paper-texture);
+    padding: 13px 30px;
+    border-radius: 200px 10px 180px 10px/10px 180px 10px 200px;
     text-decoration: none;
     font-weight: 600;
-    transition: transform 0.2s, background 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .trail-btn:hover {
-    background: var(--accent-amber);
+    background: var(--amber-paint);
     transform: translateY(-2px);
 }
 
-/* SVGs & Mascot Poses */
-.cat-walker, .cat-sitter {
-    width: 140px;
-    margin-bottom: -15px;
-    z-index: 2;
+/* Painted Cat Wrapper & Styles */
+.cat-illustration-container {
+    width: 180px;
+    height: 150px;
+    margin-bottom: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.cat-svg {
+/* Soft Watercolor Painted Tabby Cat SVG */
+.watercolor-cat {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
 }
 
-.animated-tail {
-    transform-origin: bottom right;
-    animation: swish 3s infinite ease-in-out;
-}
-
-@keyframes swish {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(10deg); }
-}
-
-/* Field Notes Box */
+/* Field Notes / Paper Box */
 .field-notes {
-    margin-top: 20px;
-    background: rgba(0, 0, 0, 0.04);
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 4px solid var(--accent-amber);
+    margin-top: 22px;
+    background: rgba(80, 55, 35, 0.05);
+    padding: 22px;
+    border-radius: 12px;
+    border-left: 4px solid var(--amber-paint);
     text-align: left;
 }
 
 .field-notes h3 {
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    color: var(--ink-brown);
 }
 
 .field-notes ul {
@@ -194,63 +210,57 @@ body {
 }
 
 .field-notes li {
-    margin-bottom: 6px;
-    font-size: 0.95rem;
+    margin-bottom: 8px;
+    font-size: 0.98rem;
+    color: var(--ink-soft);
 }
 
-/* Contact / Alert Scroll */
+/* Alert / Contact Parchment */
 .alert-scroll {
-    border-color: var(--accent-amber);
-    background: #fbf5e8;
-}
-
-.story-alert-text {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
+    border-color: rgba(217, 119, 36, 0.6);
 }
 
 .lantern-box {
-    background: rgba(211, 84, 0, 0.1);
-    padding: 18px;
+    background: rgba(217, 119, 36, 0.08);
+    padding: 20px;
     border-radius: 10px;
-    border: 1px dashed var(--accent-amber);
+    border: 1px dashed var(--amber-paint);
+    margin-top: 15px;
 }
 
 .phone-link a {
-    color: var(--accent-amber);
-    font-size: 1.2rem;
+    color: var(--amber-paint);
+    font-size: 1.25rem;
+    font-weight: 700;
     text-decoration: none;
 }
 
-/* Footer Resting Cat */
+/* Footer Sleeping Cat */
 .trail-end {
     text-align: center;
-    gap: 10px;
-}
-
-.cat-sleeping {
-    font-size: 3rem;
-    filter: drop-shadow(0 0 10px rgba(244, 196, 48, 0.3));
+    padding-top: 20px;
 }
 
 .footer-note {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #a0aec0;
     font-style: italic;
+    margin-top: 10px;
 }
 
-/* Paw Print Effect */
+/* Interactive Paw Prints */
 .paw-print {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--trail-gold);
+    width: 12px;
+    height: 12px;
+    background: rgba(229, 184, 66, 0.5);
     border-radius: 50%;
     pointer-events: none;
-    animation: fadePaw 1.2s forwards;
+    filter: blur(0.5px);
+    animation: fadePaw 1.4s forwards;
 }
 
 @keyframes fadePaw {
     0% { opacity: 0.9; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0.2); }
+    100% { opacity: 0; transform: scale(0.3); }
 }
