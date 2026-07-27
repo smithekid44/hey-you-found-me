@@ -1,11 +1,12 @@
 ::root {
-    --bg-watercolor-sky: #131b2e;
-    --paper-texture: #f7f3e9;
-    --paper-shadow: rgba(30, 20, 10, 0.15);
+:root {
+    --sky-dark: #0a111e;
+    --trail-dirt: #3a271d;
+    --trail-moss: #2b3a26;
+    --parchment: #f6f1e3;
     --ink-brown: #3b2c23;
-    --ink-soft: #634d3f;
-    --amber-paint: #d97724;
-    --water-gold: #e5b842;
+    --amber-glow: #d97724;
+    --gold-glow: #e5b842;
 }
 
 * {
@@ -15,31 +16,36 @@
 }
 
 body {
-    background-color: var(--bg-watercolor-sky);
-    /* Watercolor night sky wash overlay */
-    background-image: 
-        radial-gradient(circle at 20% 20%, rgba(35, 60, 95, 0.6), transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(20, 45, 40, 0.5), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(15, 20, 35, 0.8), transparent 70%);
-    color: #e2e8f0;
-    font-family: 'Quicksand', serif;
+    background-color: var(--sky-dark);
+    color: var(--ink-brown);
+    font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
 }
 
-/* Painted Moon */
-.moon {
-    position: absolute;
-    top: 35px;
-    right: 45px;
-    width: 75px;
-    height: 75px;
-    background: radial-gradient(circle, #fffef0 40%, #f4e8c1 80%, rgba(244, 232, 193, 0) 100%);
-    border-radius: 50%;
-    filter: blur(1px);
-    box-shadow: 0 0 35px rgba(244, 232, 193, 0.5);
+/* Fixed Background Atmosphere */
+.sky-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 75% 20%, #17283c 0%, #080d1a 75%);
+    z-index: -3;
 }
 
-/* Fireflies as soft glowing paint dots */
+.moon {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #fffef0 40%, #f4e8c1 80%, rgba(244, 232, 193, 0) 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(244, 232, 193, 0.4);
+    z-index: -2;
+}
+
+/* Fireflies floating around */
 #firefly-container {
     position: fixed;
     top: 0;
@@ -54,43 +60,38 @@ body {
     position: absolute;
     width: 6px;
     height: 6px;
-    background: #ffeb8d;
+    background: var(--gold-glow);
     border-radius: 50%;
-    box-shadow: 0 0 8px #ffd54f, 0 0 16px #ffb300;
-    animation: floatPaint 6s infinite ease-in-out;
-    opacity: 0.75;
+    box-shadow: 0 0 10px var(--gold-glow);
+    animation: floatPaint 5s infinite ease-in-out;
 }
 
 @keyframes floatPaint {
-    0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0.3; }
-    50% { transform: translateY(-20px) translateX(12px) scale(1.1); opacity: 0.95; }
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+    50% { transform: translateY(-20px) translateX(10px); opacity: 0.9; }
 }
 
-/* Forest Trail Line */
-.forest-trail-line {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 6px;
-    height: 100%;
-    background: linear-gradient(to bottom, 
-        transparent, 
-        rgba(229, 184, 66, 0.25) 15%, 
-        rgba(229, 184, 66, 0.25) 85%, 
-        transparent);
-    transform: translateX(-50%);
-    filter: blur(1px);
-    z-index: -1;
+/* Side-View Ground Trail Layer */
+.side-view-ground {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(to bottom, var(--trail-moss) 0%, var(--trail-dirt) 40%, #20130c 100%);
+    border-top: 4px solid #4a5d42;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
+    z-index: 5;
 }
 
-/* Main Storybook Container */
+/* Storybook Wrapper */
 .storybook-wrapper {
     max-width: 650px;
     margin: 0 auto;
-    padding: 70px 20px;
+    padding: 60px 20px 200px 20px;
     display: flex;
     flex-direction: column;
-    gap: 90px;
+    gap: 120px;
     position: relative;
     z-index: 2;
 }
@@ -101,21 +102,17 @@ body {
     align-items: center;
 }
 
-/* Watercolor Parchment Cards */
+/* Storybook Parchment Pages */
 .storybook-scroll {
-    background-color: var(--paper-texture);
-    /* Subtle watercolor wash edges on paper */
+    background-color: var(--parchment);
     background-image: 
         radial-gradient(circle at 10% 10%, rgba(215, 195, 160, 0.3), transparent 40%),
         radial-gradient(circle at 90% 90%, rgba(200, 180, 145, 0.35), transparent 40%);
     color: var(--ink-brown);
-    padding: 42px 32px;
-    /* Soft deckled border radius */
+    padding: 38px 28px;
     border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
     border: 2px solid rgba(180, 155, 120, 0.5);
-    box-shadow: 
-        0 15px 35px var(--paper-shadow),
-        inset 0 0 30px rgba(160, 130, 90, 0.15);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
     width: 100%;
     text-align: center;
 }
@@ -124,7 +121,7 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     letter-spacing: 3px;
-    color: var(--amber-paint);
+    color: var(--amber-glow);
     text-transform: uppercase;
     display: block;
     margin-bottom: 6px;
@@ -132,77 +129,85 @@ body {
 
 .story-title {
     font-family: 'Cinzel', serif;
-    font-size: 2.3rem;
-    margin-bottom: 18px;
-    color: var(--ink-brown);
-    font-weight: 700;
+    font-size: 2.1rem;
+    margin-bottom: 15px;
 }
 
 .storybook-scroll h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.75rem;
+    font-size: 1.7rem;
     margin-bottom: 15px;
-    color: var(--ink-brown);
 }
 
 .handwritten-intro {
     font-family: 'Charm', cursive;
-    font-size: 1.45rem;
-    line-height: 1.65;
-    color: var(--ink-soft);
+    font-size: 1.4rem;
+    line-height: 1.6;
     margin-bottom: 25px;
 }
 
-/* Storybook Button */
+/* Trail Buttons */
 .trail-btn {
     display: inline-block;
     background: var(--ink-brown);
-    color: var(--paper-texture);
-    padding: 13px 30px;
+    color: var(--parchment);
+    padding: 12px 28px;
     border-radius: 200px 10px 180px 10px/10px 180px 10px 200px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .trail-btn:hover {
-    background: var(--amber-paint);
+    background: var(--amber-glow);
     transform: translateY(-2px);
 }
 
-/* Painted Cat Wrapper & Styles */
-.cat-illustration-container {
-    width: 180px;
-    height: 150px;
-    margin-bottom: -10px;
+/* Ember Side-Profile Walker on Ground */
+.walker-stage {
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    position: relative;
+    margin-bottom: -15px;
 }
 
-/* Soft Watercolor Painted Tabby Cat SVG */
-.watercolor-cat {
-    width: 100%;
+.ember-side-profile {
+    width: 170px;
     height: auto;
-    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
+    animation: gentleBreathe 2.5s infinite ease-in-out;
 }
 
-/* Field Notes / Paper Box */
+@keyframes gentleBreathe {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.animated-walking-tail {
+    transform-origin: bottom left;
+    animation: tailWag 3.5s infinite ease-in-out;
+}
+
+@keyframes tailWag {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-8deg); }
+}
+
+/* Field Notes Box */
 .field-notes {
-    margin-top: 22px;
+    margin-top: 20px;
     background: rgba(80, 55, 35, 0.05);
-    padding: 22px;
+    padding: 20px;
     border-radius: 12px;
-    border-left: 4px solid var(--amber-paint);
+    border-left: 4px solid var(--amber-glow);
     text-align: left;
 }
 
 .field-notes h3 {
     font-family: 'Cinzel', serif;
-    font-size: 1.15rem;
-    margin-bottom: 12px;
-    color: var(--ink-brown);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .field-notes ul {
@@ -210,57 +215,37 @@ body {
 }
 
 .field-notes li {
-    margin-bottom: 8px;
-    font-size: 0.98rem;
-    color: var(--ink-soft);
+    margin-bottom: 6px;
 }
 
-/* Alert / Contact Parchment */
+/* Alert Parchment */
 .alert-scroll {
     border-color: rgba(217, 119, 36, 0.6);
 }
 
 .lantern-box {
     background: rgba(217, 119, 36, 0.08);
-    padding: 20px;
+    padding: 18px;
     border-radius: 10px;
-    border: 1px dashed var(--amber-paint);
+    border: 1px dashed var(--amber-glow);
     margin-top: 15px;
 }
 
 .phone-link a {
-    color: var(--amber-paint);
-    font-size: 1.25rem;
+    color: var(--amber-glow);
+    font-size: 1.2rem;
     font-weight: 700;
     text-decoration: none;
 }
 
-/* Footer Sleeping Cat */
+/* Footer Resting Area */
 .trail-end {
     text-align: center;
-    padding-top: 20px;
 }
 
 .footer-note {
     font-size: 0.95rem;
     color: #a0aec0;
     font-style: italic;
-    margin-top: 10px;
-}
-
-/* Interactive Paw Prints */
-.paw-print {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: rgba(229, 184, 66, 0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(0.5px);
-    animation: fadePaw 1.4s forwards;
-}
-
-@keyframes fadePaw {
-    0% { opacity: 0.9; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0.3); }
+    margin-top: 12px;
 }
