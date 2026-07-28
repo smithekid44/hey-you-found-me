@@ -17,15 +17,17 @@
     </div>
 
     <!-- Main Interactive Stage -->
-    <div class="ghibli-stage">
+    <div class="ghibli-stage" id="ghibli-bg">
         <!-- Floating Fireflies & Forest Spirits Overlay -->
         <div id="firefly-container"></div>
         <div class="kodama-spirits-glow"></div>
 
         <!-- Central Character Container -->
         <div class="ember-character-wrap" id="ember-character">
-            <!-- Save your image as 'ember-ghibli.png' in the same folder -->
-            <img id="ember-img" src="ember-ghibli.png" alt="Ember the Tabby Traveler" />
+            <img id="ember-img" 
+                 src="ember-ghibli.png" 
+                 alt="Ember the Tabby Traveler" 
+                 onerror="handleImageError(this);" />
         </div>
 
         <!-- Floating Interactive Orbs around Ember -->
@@ -90,8 +92,28 @@
 
     </div>
 
-    <!-- Script for Audio, Fireflies, and Interactive Popups -->
+    <!-- Script for Audio, Image Handling, Fireflies, and Interactive Popups -->
     <script>
+        // Automatic Image Fallback Handler for GitHub Case Sensitivity
+        const possibleImageNames = [
+            'ember-ghibli.png',
+            'Ember-Ghibli.png',
+            'ember-ghibli.PNG',
+            'ember-ghibli.jpg',
+            'ember-ghibli.jpeg',
+            'Ember.png'
+        ];
+        let imgAttemptIndex = 0;
+
+        function handleImageError(imgElement) {
+            imgAttemptIndex++;
+            if (imgAttemptIndex < possibleImageNames.length) {
+                imgElement.src = possibleImageNames[imgAttemptIndex];
+            } else {
+                console.warn("Could not load local image file. Please verify file name on GitHub.");
+            }
+        }
+
         let audioCtx = null;
         let isPlaying = false;
         let cricketInterval = null;
