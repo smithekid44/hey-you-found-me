@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hey You Found Me | Ember</title>
-
-  <link rel="stylesheet" href="style.css">
-
+  <title>Hey You Found Me — Meet Ember</title>
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- TOP NAVIGATION BAR -->
+  <!-- Background Animated Fireflies Container -->
+  <div id="fireflies"></div>
+
+  <!-- 1. TOP NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
       <span class="logo-icon">🐾</span>
@@ -21,164 +26,180 @@
     </div>
 
     <ul class="nav-links">
-      <li><a href="#meet" class="active">Meet Ember 🐾</a></li>
+      <li><a href="#" class="active">Meet Ember 🐾</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#adventures">Adventures</a></li>
-      <li><a href="#lost">If I'm Lost</a></li>
+      <li><a href="#if-im-lost">If I'm Lost</a></li>
     </ul>
 
     <div class="nav-right">
-      <div class="status-pill">Ember is home <span class="status-dot"></span></div>
-      <button class="hamburger-btn" aria-label="Menu">
-        <span></span><span></span><span></span>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>Ember is home</span>
+      </div>
+      <button class="hamburger-btn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
-  <header class="hero">
+  <!-- 2. HERO SECTION -->
+  <section class="hero">
+    <!-- Moon & Atmospheric Layers -->
     <div class="moon"></div>
-    <div class="mist-layer"></div>
     <div class="forest-trees"></div>
-    <div id="fireflies"></div>
+    <div class="mist-layer"></div>
 
-    <!-- Main Title Content -->
+    <!-- Hero Text & Buttons (Left) -->
     <div class="content">
       <h1>Hey... ♡<br>You Found Me</h1>
-      <p>If you're here, you may have found<br>someone very special.</p>
+      <p>If you're here, you may have found someone very special.</p>
       
       <div class="hero-buttons">
-        <button class="btn-wooden-orange" id="found-btn">🧡 I Found Ember</button>
-        <button class="btn-wooden-dark" id="meet-btn">📖 Meet Ember</button>
+        <button class="btn-wooden-orange" id="btn-i-found">❤️ I Found Ember</button>
+        <button class="btn-wooden-dark" id="btn-meet">📖 Meet Ember</button>
       </div>
     </div>
 
-    <!-- Character Stage on Path -->
-    <div class="stone-path"></div>
-    <div class="ember-stage" id="ember-container">
-      <div class="speech-bubble">Thank you for<br>being here! ♡</div>
+    <!-- Ember & Cobblestone Path Stage (Right) -->
+    <div class="ember-stage">
+      <div class="speech-bubble">Thank you for being here! ♡</div>
       
-      <!-- Vector Cat Placeholder -->
-      <svg id="ember-character" class="ember-idle" viewBox="0 0 160 180" width="160" height="180">
-        <ellipse cx="80" cy="170" rx="50" ry="10" fill="rgba(0,0,0,0.4)" />
-        <path class="ember-tail" d="M 105 135 C 130 135 140 100 120 80 C 115 75 110 80 112 85 C 125 105 115 125 98 128" fill="#e07a5f" stroke="#b04b30" stroke-width="2"/>
-        <path d="M 50 90 Q 30 120 40 160 L 120 160 Q 130 120 110 90 Z" fill="#e07a5f" />
-        <path d="M 60 100 Q 80 110 100 100 Q 110 140 105 160 L 55 160 Q 50 140 60 100 Z" fill="#f4efe6" opacity="0.8"/>
-        <ellipse cx="60" cy="162" rx="12" ry="8" fill="#f4efe6" />
-        <ellipse cx="100" cy="162" rx="12" ry="8" fill="#f4efe6" />
-        <circle cx="80" cy="70" r="38" fill="#e07a5f" />
-        <polygon points="50,45 42,10 68,35" fill="#e07a5f" />
-        <polygon points="53,42 47,16 65,35" fill="#f2a68d" />
-        <polygon points="110,45 118,10 92,35" fill="#e07a5f" />
-        <polygon points="107,42 113,16 95,35" fill="#f2a68d" />
-        <ellipse cx="80" cy="78" rx="14" ry="10" fill="#f4efe6" />
-        <polygon points="76,73 84,73 80,78" fill="#58312b" />
-        <ellipse cx="66" cy="62" rx="7" ry="10" fill="#7df9ff" />
-        <ellipse cx="94" cy="62" rx="7" ry="10" fill="#7df9ff" />
-        <ellipse cx="66" cy="62" rx="3" ry="7" fill="#0b1326" />
-        <ellipse cx="94" cy="62" rx="3" ry="7" fill="#0b1326" />
-        <circle cx="68" cy="59" r="2" fill="#ffffff" />
-        <circle cx="96" cy="59" r="2" fill="#ffffff" />
-        <line x1="45" y1="72" x2="25" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
-        <line x1="45" y1="77" x2="22" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
-        <line x1="115" y1="72" x2="135" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
-        <line x1="115" y1="77" x2="138" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+      <!-- Ember SVG Illustration -->
+      <svg id="ember-character" class="ember-idle" width="180" height="220" viewBox="0 0 200 240">
+        <!-- Tail -->
+        <path class="ember-tail" d="M 105 150 C 130 150, 160 130, 150 100 C 145 85, 130 85, 135 105 C 140 120, 115 135, 105 138" fill="#e07a5f" stroke="#a24b1f" stroke-width="3"/>
+        <!-- Body -->
+        <path d="M 70 110 C 60 140, 60 190, 70 200 C 80 205, 120 205, 130 200 C 140 190, 140 140, 130 110 Z" fill="#e07a5f" />
+        <!-- Paws -->
+        <ellipse cx="80" cy="202" rx="12" ry="7" fill="#fff6e8" />
+        <ellipse cx="120" cy="202" rx="12" ry="7" fill="#fff6e8" />
+        <!-- Chest Patch -->
+        <path d="M 85 115 C 80 140, 80 170, 100 185 C 120 170, 120 140, 115 115 Z" fill="#fff6e8" />
+        <!-- Head -->
+        <path d="M 60 80 C 50 110, 150 110, 140 80 C 140 50, 60 50, 60 80 Z" fill="#e07a5f" />
+        <!-- Ears -->
+        <polygon points="65,65 50,25 80,50" fill="#e07a5f" />
+        <polygon points="68,62 55,32 78,50" fill="#f1a690" />
+        <polygon points="135,65 150,25 120,50" fill="#e07a5f" />
+        <polygon points="132,62 145,32 122,50" fill="#f1a690" />
+        <!-- Eyes -->
+        <ellipse cx="80" cy="75" rx="8" ry="12" fill="#7df9ff" />
+        <ellipse cx="120" cy="75" rx="8" ry="12" fill="#7df9ff" />
+        <ellipse cx="80" cy="75" rx="3" ry="8" fill="#091122" />
+        <ellipse cx="120" cy="75" rx="3" ry="8" fill="#091122" />
+        <circle cx="78" cy="71" r="2.5" fill="#ffffff" />
+        <circle cx="118" cy="71" r="2.5" fill="#ffffff" />
+        <!-- Nose & Whiskers -->
+        <polygon points="97,84 103,84 100,88" fill="#f1a690" />
+        <path d="M 70 85 L 45 82 M 70 88 L 48 90 M 130 85 L 155 82 M 130 88 L 152 90" stroke="#fff6e8" stroke-width="1.5" stroke-linecap="round" />
       </svg>
-      <div class="paw-prints" id="paw-container"></div>
-    </div>
-  </header>
 
-  <!-- SECTION 2: EXPLORE EMBER'S WORLD -->
+      <!-- Cobblestone Path Hill (Anchored Directly Below Ember) -->
+      <div class="stone-path"></div>
+    </div>
+  </section>
+
+  <!-- 3. EXPLORE EMBER'S WORLD GRID SECTION -->
   <section class="explore-section">
     <div class="section-title">
-      <h2>☘ Explore Ember's World ☘</h2>
+      <h2>Explore Ember's World</h2>
     </div>
 
     <div class="card-grid">
-      <!-- Card 1 -->
-      <div class="world-card">
-        <div class="card-icon">🏠</div>
-        <h3>Meet Ember</h3>
-        <p>Learn more about me and my story.</p>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="world-card">
-        <div class="card-icon">📷</div>
-        <h3>Gallery</h3>
-        <p>Photos of my adventures big and small.</p>
-      </div>
-
-      <!-- Card 3 -->
       <div class="world-card">
         <div class="card-icon">📖</div>
-        <h3>Adventures</h3>
-        <p>Stories from my journeys and daily life.</p>
+        <h3>Her Story</h3>
+        <p>Learn how Ember found her forever home and family.</p>
       </div>
 
-      <!-- Card 4 -->
       <div class="world-card">
-        <div class="card-icon">✉️</div>
-        <h3>If I'm Lost</h3>
-        <p>Information to help get me safely home.</p>
+        <div class="card-icon">📸</div>
+        <h3>Photo Gallery</h3>
+        <p>A collection of her favorite naps, sunbeams, and spots.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🌲</div>
+        <h3>Adventures</h3>
+        <p>Tales from her backyard explorations and forest walks.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🏷️</div>
+        <h3>If She's Lost</h3>
+        <p>Important contact details and medical info to help her.</p>
       </div>
     </div>
 
-    <!-- Bottom Thank You Banner -->
+    <!-- Kindness Banner -->
     <div class="kindness-banner">
-      <div class="sleeping-cat">😴🐾</div>
-      
+      <div class="sleeping-cat">😴</div>
       <div class="banner-text">
-        <h3>🧡 Thank you for being kind.</h3>
-        <p>The world is a better place with people like you.</p>
+        <h3>Thank You for Being Kind</h3>
+        <p>Every small act of care helps keep creatures safe.</p>
       </div>
-
-      <div class="connect-links">
-        <span class="connect-title">Connect with us</span>
-        <div class="icon-buttons">
-          <a href="tel:5551234567">📞<br>Call</a>
-          <a href="sms:5551234567">💬<br>Text</a>
-          <a href="mailto:ember@example.com">✉️<br>Email</a>
-        </div>
-      </div>
-
       <div class="badge-oval">
-        <p>Proudly loved<br>since<br><strong>September 2025</strong></p>
+        <span>Made with ♡ for Ember</span>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- 4. FOOTER -->
   <footer>
-    <p>© 2026 Hey You Found Me ♡</p>
-    <div class="footer-paw">🐾</div>
-    <p>Made with love for Ember ♡</p>
+    <p>&copy; 2026 Hey You Found Me. All rights reserved.</p>
+    <span class="footer-paw">🐾</span>
   </footer>
 
-  <!-- MODAL POPUP -->
+  <!-- 5. "I FOUND EMBER" MODAL POPUP -->
   <div class="modal-overlay" id="found-modal">
     <div class="modal-card">
       <button class="close-btn" id="close-modal">&times;</button>
-      <h2>🐾 Thank You for Finding Ember!</h2>
-      <p class="modal-intro">She belongs to a loving home nearby.</p>
+      <h2>You Found Ember!</h2>
+      <p class="modal-intro">Thank you so much for reaching out. Please call or send a quick message below!</p>
       
       <div class="urgent-contact">
-        <p class="label">Direct Call / Text:</p>
-        <a href="tel:5551234567" class="phone-link">📞 (555) 123-4567</a>
+        <div class="label">Emergency Phone</div>
+        <a href="tel:5551234567" class="phone-link">(555) 123-4567</a>
       </div>
 
       <form id="found-form">
         <label for="finder-name">Your Name</label>
-        <input type="text" id="finder-name" placeholder="e.g., Alex" required>
+        <input type="text" id="finder-name" placeholder="e.g. Sarah" required>
 
-        <label for="finder-location">Location / Message</label>
-        <textarea id="finder-location" rows="3" placeholder="Where is Ember right now?" required></textarea>
+        <label for="finder-location">Where is she right now?</label>
+        <input type="text" id="finder-location" placeholder="e.g. Near Oak Street Park" required>
 
-        <button type="submit" class="submit-btn">Send Message 🐾</button>
+        <label for="finder-message">Additional Notes</label>
+        <textarea id="finder-message" rows="3" placeholder="Is she safe, wearing her collar, resting?"></textarea>
+
+        <button type="submit" class="submit-btn">Send Alert</button>
       </form>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- JavaScript -->
+  <script>
+    // Simple Modal Toggle Logic
+    const btnFound = document.getElementById('btn-i-found');
+    const modal = document.getElementById('found-modal');
+    const btnClose = document.getElementById('close-modal');
+
+    btnFound.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
+    btnClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>
