@@ -1,7 +1,8 @@
 :root {
   --moon-gold: #fdf3c6;
   --night-blue: #0b1326;
-  --forest-dark: #08101d;
+  --forest-dark: #050a14;
+  --tree-color: #0d1a2d;
   --text-light: #f4efe6;
   --accent-orange: #e07a5f;
   --kodama-glow: #7df9ff;
@@ -21,99 +22,108 @@ body {
   min-height: 100vh;
 }
 
-/* Hero Section & Layered Forest Background */
+/* Hero Stage */
 .hero {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 20%, #1c2d42 0%, var(--night-blue) 85%);
+  background: radial-gradient(circle at 50% 25%, #1e324d 0%, var(--night-blue) 80%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 50px 20px 30px;
+  padding: 40px 20px 20px;
   overflow: hidden;
 }
 
 /* Glowing Moon */
 .moon {
   position: absolute;
-  top: 8%;
+  top: 6%;
   left: 50%;
   transform: translateX(-50%);
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   background: var(--moon-gold);
   border-radius: 50%;
-  box-shadow: 0 0 60px rgba(253, 243, 198, 0.5), 0 0 120px rgba(253, 243, 198, 0.2);
+  box-shadow: 0 0 50px rgba(253, 243, 198, 0.6), 0 0 100px rgba(253, 243, 198, 0.3);
   z-index: 1;
 }
 
-/* Atmospheric Fog & Forest Vignette */
-.hero::before {
-  content: '';
+/* Forest Trees Silhouette */
+.forest-trees {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40%;
-  background: linear-gradient(to top, var(--forest-dark), transparent);
+  height: 50%;
+  background: 
+    linear-gradient(to top, var(--forest-dark) 20%, transparent 100%),
+    repeating-linear-gradient(90deg, var(--tree-color) 0px, var(--tree-color) 40px, transparent 40px, transparent 120px);
   z-index: 2;
+  opacity: 0.85;
+}
+
+/* Mist / Fog Layer */
+.mist-layer {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  width: 200%;
+  height: 30%;
+  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
+  animation: floatMist 12s infinite linear;
+  z-index: 3;
   pointer-events: none;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(11,19,38,0.1), rgba(8,16,29,0.7));
-  z-index: 2;
+@keyframes floatMist {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* Typography & Content Box */
+/* Stone Path Base */
+.stone-path {
+  position: absolute;
+  bottom: 0;
+  width: 320px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50% 50% 0 0;
+  border-top: 2px solid rgba(253, 243, 198, 0.2);
+  z-index: 4;
+}
+
+/* Content Box */
 .content {
   position: relative;
   z-index: 10;
   text-align: center;
   max-width: 600px;
   margin-top: 20px;
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeInDown 1.2s forwards 0.5s ease-out;
-}
-
-@keyframes fadeInDown {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.8rem;
+  font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.1;
   color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+  text-shadow: 0 4px 20px rgba(0,0,0,0.9);
   margin-bottom: 15px;
 }
 
 p {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 300;
-  margin-bottom: 28px;
-  opacity: 0.9;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  margin-bottom: 25px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
 .buttons {
   display: flex;
   gap: 15px;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
 a.primary, a.secondary {
@@ -122,7 +132,7 @@ a.primary, a.secondary {
   border-radius: 30px;
   font-weight: 600;
   font-size: 1rem;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.3s ease;
 }
 
 a.primary {
@@ -132,62 +142,41 @@ a.primary {
 }
 
 a.secondary {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--text-light);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(8px);
 }
 
 a.primary:hover, a.secondary:hover {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-3px);
 }
 
-/* Ember Character Stage & Animations */
+/* Ember Character Stage */
 .ember-stage {
   position: relative;
   z-index: 10;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #ember-character {
-  max-width: 280px;
+  width: 240px;
   height: auto;
   border-radius: 16px;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-  transition: transform 0.4s ease, filter 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  display: block;
 }
 
-/* Walk-in Entrance Animation */
-.ember-entering {
-  animation: enterFromLeft 2.2s ease-out forwards;
-}
-
-@keyframes enterFromLeft {
-  0% {
-    transform: translateX(-100vw) rotate(-3deg);
-    opacity: 0;
-  }
-  70% {
-    transform: translateX(10px) rotate(1deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(0) rotate(0deg);
-    opacity: 1;
-  }
-}
-
-/* Breathing / Idle Animation */
+/* Idle Breathing Animation */
 .ember-idle {
   animation: breathe 4s infinite ease-in-out;
 }
 
 @keyframes breathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-7px) scale(1.02); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 .ember-walking {
@@ -199,7 +188,7 @@ a.primary:hover, a.secondary:hover {
   100% { transform: translateY(-10px) rotate(2deg); }
 }
 
-/* Paw Print Container */
+/* Paw Prints */
 .paw-prints {
   position: absolute;
   bottom: -20px;
@@ -210,19 +199,18 @@ a.primary:hover, a.secondary:hover {
 
 .paw-print {
   position: absolute;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--kodama-glow);
-  opacity: 0.8;
-  text-shadow: 0 0 8px var(--kodama-glow);
-  animation: fadePaw 1.8s forwards ease-out;
+  text-shadow: 0 0 10px var(--kodama-glow);
+  animation: fadePaw 1.5s forwards ease-out;
 }
 
 @keyframes fadePaw {
-  0% { opacity: 0.9; transform: scale(1); }
+  0% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; transform: scale(0.5) translateY(-10px); }
 }
 
-/* Fireflies Particle System */
+/* Fireflies */
 #fireflies {
   position: absolute;
   top: 0;
@@ -230,24 +218,20 @@ a.primary:hover, a.secondary:hover {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 3;
+  z-index: 5;
 }
 
 .firefly {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   background: var(--moon-gold);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--moon-gold);
+  box-shadow: 0 0 12px var(--moon-gold);
   animation: float 5s infinite ease-in-out;
 }
 
 @keyframes float {
   0%, 100% { opacity: 0; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-25px); }
-}
-@keyframes float {
-  0%, 100% { opacity: 0; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-20px); }
+  50% { opacity: 1; transform: translateY(-30px); }
 }
