@@ -13,13 +13,14 @@
 </head>
 <body>
 
-  <!-- Moonlit Forest Background Layers -->
+  <!-- Hero Section -->
   <header class="hero">
+    <!-- Moon & Atmospheric Layers -->
     <div class="moon"></div>
-    <div class="stars"></div>
     <div class="mist-layer"></div>
+    
+    <!-- Tree Silhouettes Background -->
     <div class="forest-trees"></div>
-    <div class="stone-path"></div>
     
     <!-- Floating Fireflies Overlay -->
     <div id="fireflies"></div>
@@ -34,12 +35,62 @@
       </div>
     </div>
 
-    <!-- Animated Ember Character Stage -->
+    <!-- Stone Path & Animated Vector Ember -->
+    <div class="stone-path"></div>
     <div class="ember-stage" id="ember-container">
-      <img src="https://i.imgur.com/8Q9ZQ9Z.jpg" alt="Ember the Tabby Traveler" id="ember-character">
+      
+      <!-- Built-in SVG Ember Character -->
+      <svg id="ember-character" class="ember-idle" viewBox="0 0 160 180" width="160" height="180">
+        <!-- Shadow -->
+        <ellipse cx="80" cy="170" rx="50" ry="10" fill="rgba(0,0,0,0.4)" />
+        
+        <!-- Tail -->
+        <path class="ember-tail" d="M 105 135 C 130 135 140 100 120 80 C 115 75 110 80 112 85 C 125 105 115 125 98 128" fill="#e07a5f" stroke="#b04b30" stroke-width="2"/>
+        
+        <!-- Cat Body -->
+        <path d="M 50 90 Q 30 120 40 160 L 120 160 Q 130 120 110 90 Z" fill="#e07a5f" />
+        <path d="M 60 100 Q 80 110 100 100 Q 110 140 105 160 L 55 160 Q 50 140 60 100 Z" fill="#f4efe6" opacity="0.8"/>
+        
+        <!-- Paws -->
+        <ellipse cx="60" cy="162" rx="12" ry="8" fill="#f4efe6" />
+        <ellipse cx="100" cy="162" rx="12" ry="8" fill="#f4efe6" />
+
+        <!-- Head -->
+        <circle cx="80" cy="70" r="38" fill="#e07a5f" />
+        
+        <!-- Ears -->
+        <polygon points="50,45 42,10 68,35" fill="#e07a5f" />
+        <polygon points="53,42 47,16 65,35" fill="#f2a68d" />
+        
+        <polygon points="110,45 118,10 92,35" fill="#e07a5f" />
+        <polygon points="107,42 113,16 95,35" fill="#f2a68d" />
+
+        <!-- Muzzle & Nose -->
+        <ellipse cx="80" cy="78" rx="14" ry="10" fill="#f4efe6" />
+        <polygon points="76,73 84,73 80,78" fill="#58312b" />
+        
+        <!-- Eyes -->
+        <ellipse cx="66" cy="62" rx="7" ry="10" fill="#7df9ff" />
+        <ellipse cx="94" cy="62" rx="7" ry="10" fill="#7df9ff" />
+        <ellipse cx="66" cy="62" rx="3" ry="7" fill="#0b1326" />
+        <ellipse cx="94" cy="62" rx="3" ry="7" fill="#0b1326" />
+        <circle cx="68" cy="59" r="2" fill="#ffffff" />
+        <circle cx="96" cy="59" r="2" fill="#ffffff" />
+
+        <!-- Whiskers -->
+        <line x1="45" y1="72" x2="25" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+        <line x1="45" y1="77" x2="22" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+        <line x1="115" y1="72" x2="135" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+        <line x1="115" y1="77" x2="138" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+      </svg>
+
       <div class="paw-prints" id="paw-container"></div>
     </div>
   </header>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
   <script src="script.js"></script>
 </body>
