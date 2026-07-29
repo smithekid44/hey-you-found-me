@@ -1,10 +1,11 @@
 :root {
   --moon-gold: #fdf3c6;
-  --night-blue: #0b1326;
+  --night-blue: #091122;
   --forest-dark: #050a14;
-  --tree-color: #0c182b;
+  --wood-orange: #b85b28;
+  --wood-orange-glow: #e07a5f;
+  --wood-dark: #1b2820;
   --text-light: #f4efe6;
-  --accent-orange: #e07a5f;
   --kodama-glow: #7df9ff;
 }
 
@@ -19,229 +20,410 @@ body {
   background-color: var(--night-blue);
   color: var(--text-light);
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
-/* Hero Stage */
+/* NAVBAR */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  background: linear-gradient(to bottom, rgba(5,10,20,0.8), transparent);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--moon-gold);
+}
+
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  opacity: 1;
+  color: var(--moon-gold);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ef081;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ef081;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger-btn span {
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* HERO SECTION */
 .hero {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 25%, #1d334e 0%, var(--night-blue) 80%);
+  background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 20px 20px;
+  padding: 100px 20px 20px;
   overflow: hidden;
 }
 
-/* Moon */
 .moon {
   position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 150px;
+  top: 8%;
+  left: 58%;
+  width: 140px;
+  height: 140px;
   background: var(--moon-gold);
   border-radius: 50%;
   box-shadow: 0 0 60px rgba(253, 243, 198, 0.6), 0 0 120px rgba(253, 243, 198, 0.25);
   z-index: 1;
 }
 
-/* Forest Silhouettes Layer */
 .forest-trees {
   position: absolute;
   bottom: 0;
-  left: 0;
   width: 100%;
-  height: 45%;
-  background: 
-    linear-gradient(to top, var(--forest-dark) 25%, transparent 100%),
-    repeating-linear-gradient(90deg, var(--tree-color) 0px, var(--tree-color) 50px, transparent 50px, transparent 130px);
+  height: 50%;
+  background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
   z-index: 2;
-  opacity: 0.9;
 }
 
-/* Mist Layer */
-.mist-layer {
-  position: absolute;
-  bottom: 12%;
-  left: 0;
-  width: 200%;
-  height: 25%;
-  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
-  animation: floatMist 14s infinite linear;
-  z-index: 3;
-  pointer-events: none;
-}
-
-@keyframes floatMist {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Stone Path */
-.stone-path {
-  position: absolute;
-  bottom: 0;
-  width: 380px;
-  height: 110px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 50% 50% 0 0;
-  border-top: 2px solid rgba(253, 243, 198, 0.25);
-  z-index: 4;
-}
-
-/* Content Box */
 .content {
   position: relative;
   z-index: 10;
-  text-align: center;
-  max-width: 600px;
-  margin-top: 30px;
+  text-align: left;
+  align-self: flex-start;
+  margin-left: 8%;
+  margin-top: 40px;
 }
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.8rem;
+  font-size: 4.2rem;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1;
   color: #ffffff;
   text-shadow: 0 4px 20px rgba(0,0,0,0.9);
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 p {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 300;
   margin-bottom: 25px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  opacity: 0.9;
 }
 
-.buttons {
+.hero-buttons {
   display: flex;
-  gap: 15px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  width: 240px;
 }
 
-a.primary, a.secondary {
-  text-decoration: none;
-  padding: 14px 28px;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+/* WOODEN CARVED BUTTONS */
+.btn-wooden-orange, .btn-wooden-dark {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
 }
 
-a.primary {
-  background: var(--accent-orange);
+.btn-wooden-orange {
+  background: linear-gradient(180deg, #d87037 0%, #a4481d 100%);
   color: #fff;
-  box-shadow: 0 4px 20px rgba(224, 122, 95, 0.5);
+  border: 1px solid #f29054;
+  box-shadow: 0 6px 20px rgba(216, 112, 55, 0.5), inset 0 2px 4px rgba(255,255,255,0.3);
 }
 
-a.secondary {
-  background: rgba(255, 255, 255, 0.12);
+.btn-wooden-dark {
+  background: linear-gradient(180deg, #25382b 0%, #121c16 100%);
   color: var(--text-light);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
+  border: 1px solid #3c5744;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.15);
 }
 
-a.primary:hover, a.secondary:hover {
-  transform: translateY(-3px) scale(1.03);
+.btn-wooden-orange:hover, .btn-wooden-dark:hover {
+  transform: translateY(-3px) scale(1.02);
 }
 
-/* Ember Stage & SVG Animation */
+/* EMBER STAGE & SPEECH BUBBLE */
 .ember-stage {
   position: relative;
   z-index: 10;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.speech-bubble {
+  position: absolute;
+  top: -35px;
+  right: -100px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--moon-gold);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+/* SECTION 2: EXPLORE WORLD */
+.explore-section {
+  position: relative;
+  background: #060c18;
+  padding: 60px 20px;
+  text-align: center;
+  z-index: 10;
+}
+
+.section-title h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--text-light);
+  margin-bottom: 40px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto 60px;
+}
+
+.world-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 25px 20px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.world-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--moon-gold);
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.world-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.world-card p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* KINDSNESS BANNER FOOTER */
+.kindness-banner {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #131f31, #0a1220);
+  border: 1px solid rgba(253, 243, 198, 0.15);
+  border-radius: 20px;
+  padding: 25px 30px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  transition: transform 0.4s ease;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-align: left;
 }
 
-#ember-character {
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
+.sleeping-cat {
+  font-size: 2.2rem;
 }
 
-/* Idle Breathing */
-.ember-idle {
-  animation: breathe 4s infinite ease-in-out;
+.banner-text h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--moon-gold);
 }
 
-@keyframes breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
+.banner-text p {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
 }
 
-/* Tail Swish */
-.ember-tail {
-  transform-origin: 105px 135px;
-  animation: tailSwish 3s infinite ease-in-out;
+.connect-links .connect-title {
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.7;
 }
 
-@keyframes tailSwish {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(8deg); }
+.icon-buttons {
+  display: flex;
+  gap: 15px;
 }
 
-/* Walking Class */
-.ember-walking {
-  animation: walkBounce 0.35s infinite alternate ease-in-out !important;
+.icon-buttons a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0.85;
 }
 
-@keyframes walkBounce {
-  0% { transform: translateY(0) rotate(-2deg); }
-  100% { transform: translateY(-10px) rotate(2deg); }
+.badge-oval {
+  border: 1px solid rgba(253, 243, 198, 0.3);
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0.8;
 }
 
-/* Paw Prints */
-.paw-prints {
-  position: absolute;
-  bottom: -15px;
-  width: 100%;
-  height: 30px;
-  pointer-events: none;
+/* FOOTER */
+footer {
+  padding: 25px;
+  background: #040810;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
 
-.paw-print {
-  position: absolute;
-  font-size: 1rem;
-  color: var(--kodama-glow);
-  text-shadow: 0 0 10px var(--kodama-glow);
-  animation: fadePaw 1.5s forwards ease-out;
-}
-
-@keyframes fadePaw {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.5) translateY(-10px); }
-}
-
-/* Fireflies */
-#fireflies {
-  position: absolute;
+/* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 10, 20, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 0;
   pointer-events: none;
-  z-index: 5;
+  transition: opacity 0.3s ease;
 }
 
-.firefly {
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  position: relative;
+  background: #111d2e;
+  border: 1px solid rgba(253, 243, 198, 0.2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 30px;
+}
+
+.close-btn {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  background: var(--moon-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--moon-gold);
-  animation: float 5s infinite ease-in-out;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
 }
 
-@keyframes float {
-  0%, 100% { opacity: 0; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-30px); }
+#found-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+#found-form input, #found-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+}
+
+.submit-btn {
+  background: var(--wood-orange-glow);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
 }
