@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey You Found Me | Ember</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Floating Fireflies Overlay -->
+  <div id="fireflies"></div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="overlay"></div>
+    <div class="moon"></div>
+    
+    <div class="content">
+      <h1>Hey...<br>You Found Me</h1>
+      <p>If you're here, you may have found someone very special.</p>
+      
+      <div class="buttons">
+        <a href="#found" class="primary" id="found-btn">🐾 I Found Ember</a>
+        <a href="#meet" class="secondary" id="meet-btn">📖 Meet Ember</a>
+      </div>
+    </div>
+
+    <!-- Animated Ember Character Stage -->
+    <div class="ember-stage" id="ember-container">
+      <img src="https://i.imgur.com/8Q9ZQ9Z.jpg" alt="Ember the Tabby Traveler" id="ember-character" class="ember-idle">
+    </div>
+  </header>
+
+  <script src="script.js"></script>
+</body>
+</html>
