@@ -2,7 +2,7 @@
   --moon-gold: #fdf3c6;
   --night-blue: #0b1326;
   --forest-dark: #050a14;
-  --tree-color: #0d1a2d;
+  --tree-color: #0c182b;
   --text-light: #f4efe6;
   --accent-orange: #e07a5f;
   --kodama-glow: #7df9ff;
@@ -27,7 +27,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 25%, #1e324d 0%, var(--night-blue) 80%);
+  background: radial-gradient(circle at 50% 25%, #1d334e 0%, var(--night-blue) 80%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,43 +36,43 @@ body {
   overflow: hidden;
 }
 
-/* Glowing Moon */
+/* Moon */
 .moon {
   position: absolute;
-  top: 6%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   background: var(--moon-gold);
   border-radius: 50%;
-  box-shadow: 0 0 50px rgba(253, 243, 198, 0.6), 0 0 100px rgba(253, 243, 198, 0.3);
+  box-shadow: 0 0 60px rgba(253, 243, 198, 0.6), 0 0 120px rgba(253, 243, 198, 0.25);
   z-index: 1;
 }
 
-/* Forest Trees Silhouette */
+/* Forest Silhouettes Layer */
 .forest-trees {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 45%;
   background: 
-    linear-gradient(to top, var(--forest-dark) 20%, transparent 100%),
-    repeating-linear-gradient(90deg, var(--tree-color) 0px, var(--tree-color) 40px, transparent 40px, transparent 120px);
+    linear-gradient(to top, var(--forest-dark) 25%, transparent 100%),
+    repeating-linear-gradient(90deg, var(--tree-color) 0px, var(--tree-color) 50px, transparent 50px, transparent 130px);
   z-index: 2;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-/* Mist / Fog Layer */
+/* Mist Layer */
 .mist-layer {
   position: absolute;
-  bottom: 10%;
+  bottom: 12%;
   left: 0;
   width: 200%;
-  height: 30%;
+  height: 25%;
   background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
-  animation: floatMist 12s infinite linear;
+  animation: floatMist 14s infinite linear;
   z-index: 3;
   pointer-events: none;
 }
@@ -82,15 +82,15 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-/* Stone Path Base */
+/* Stone Path */
 .stone-path {
   position: absolute;
   bottom: 0;
-  width: 320px;
-  height: 120px;
-  background: rgba(255, 255, 255, 0.05);
+  width: 380px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 50% 50% 0 0;
-  border-top: 2px solid rgba(253, 243, 198, 0.2);
+  border-top: 2px solid rgba(253, 243, 198, 0.25);
   z-index: 4;
 }
 
@@ -100,21 +100,21 @@ body {
   z-index: 10;
   text-align: center;
   max-width: 600px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   font-weight: 700;
   line-height: 1.1;
   color: #ffffff;
   text-shadow: 0 4px 20px rgba(0,0,0,0.9);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 p {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 300;
   margin-bottom: 25px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.8);
@@ -132,7 +132,7 @@ a.primary, a.secondary {
   border-radius: 30px;
   font-weight: 600;
   font-size: 1rem;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 a.primary {
@@ -142,45 +142,55 @@ a.primary {
 }
 
 a.secondary {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   color: var(--text-light);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
 }
 
 a.primary:hover, a.secondary:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.03);
 }
 
-/* Ember Character Stage */
+/* Ember Stage & SVG Animation */
 .ember-stage {
   position: relative;
   z-index: 10;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.4s ease;
 }
 
 #ember-character {
-  width: 240px;
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-  display: block;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
 }
 
-/* Idle Breathing Animation */
+/* Idle Breathing */
 .ember-idle {
   animation: breathe 4s infinite ease-in-out;
 }
 
 @keyframes breathe {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-7px); }
 }
 
+/* Tail Swish */
+.ember-tail {
+  transform-origin: 105px 135px;
+  animation: tailSwish 3s infinite ease-in-out;
+}
+
+@keyframes tailSwish {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+
+/* Walking Class */
 .ember-walking {
-  animation: walkBounce 0.4s infinite alternate ease-in-out !important;
+  animation: walkBounce 0.35s infinite alternate ease-in-out !important;
 }
 
 @keyframes walkBounce {
@@ -191,7 +201,7 @@ a.primary:hover, a.secondary:hover {
 /* Paw Prints */
 .paw-prints {
   position: absolute;
-  bottom: -20px;
+  bottom: -15px;
   width: 100%;
   height: 30px;
   pointer-events: none;
