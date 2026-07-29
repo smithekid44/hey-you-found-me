@@ -291,29 +291,27 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 25px; /* Creates room for her paws on the path */
+  padding-bottom: 0px;
   min-width: 320px;
 }
 
-/* Cobblestone Path centered directly underneath Ember */
+/* Visible Cobblestone Path Platform */
 .stone-path {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 110px;
+  position: relative;
+  margin-top: -25px; /* Pulls path slightly under Ember's feet */
+  width: 280px;
+  height: 60px;
   background: 
-    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.25) 0%, transparent 70%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 2px, transparent 3px),
-    linear-gradient(180deg, rgba(20, 32, 25, 0.95) 0%, rgba(10, 16, 12, 1) 100%);
-  background-size: 100% 100%, 20px 15px, 100% 100%;
-  border-radius: 50% 50% 0 0;
-  border-top: 3px solid rgba(253, 243, 198, 0.35);
+    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.3) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 2px, transparent 3px),
+    linear-gradient(180deg, #2a3d31 0%, #152219 100%);
+  background-size: 100% 100%, 18px 14px, 100% 100%;
+  border-radius: 50% 50% 20% 20%;
+  border-top: 3px solid rgba(253, 243, 198, 0.5);
   box-shadow: 
-    0 -15px 30px rgba(125, 249, 255, 0.12),
-    inset 0 8px 15px rgba(253, 243, 198, 0.15);
-  z-index: 1; /* Path stays behind Ember */
+    0 -10px 20px rgba(125, 249, 255, 0.15),
+    0 10px 25px rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 #ember-character {
