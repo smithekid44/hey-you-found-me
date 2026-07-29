@@ -1,18 +1,182 @@
-/* --- HERO LAYOUT ADJUSTMENT --- */
+:root {
+  --moon-gold: #fdf3c6;
+  --night-blue: #091122;
+  --forest-dark: #050a14;
+  --wood-orange: #b85b28;
+  --wood-orange-glow: #e07a5f;
+  --wood-dark: #1b2820;
+  --text-light: #f4efe6;
+  --kodama-glow: #7df9ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--night-blue);
+  color: var(--text-light);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   1. TOP NAVIGATION BAR
+   ========================================================================== */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  background: linear-gradient(to bottom, rgba(5, 10, 20, 0.8), transparent);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--moon-gold);
+}
+
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  opacity: 1;
+  color: var(--moon-gold);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ef081;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ef081;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger-btn span {
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   2. HERO SECTION & ATMOSPHERE
+   ========================================================================== */
 .hero {
   position: relative;
   width: 100%;
   min-height: 100vh;
   background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
   display: flex;
-  flex-direction: row; /* Split left and right content */
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 120px 8% 60px;
   box-sizing: border-box;
 }
 
-/* Left side text & buttons */
+/* Moon */
+.moon {
+  position: absolute;
+  top: 8%;
+  left: 58%;
+  width: 140px;
+  height: 140px;
+  background: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(253, 243, 198, 0.6), 0 0 120px rgba(253, 243, 198, 0.25);
+  z-index: 1;
+}
+
+/* Forest Silhouettes & Mist */
+.forest-trees {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
+  z-index: 2;
+}
+
+.mist-layer {
+  position: absolute;
+  bottom: 12%;
+  left: 0;
+  width: 200%;
+  height: 25%;
+  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
+  animation: floatMist 14s infinite linear;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@keyframes floatMist {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Hero Content (Left Side) */
 .content {
   position: relative;
   z-index: 10;
@@ -26,7 +190,7 @@
   font-size: 3.8rem;
   font-weight: 600;
   line-height: 1.05;
-  color: #fff;
+  color: #ffffff;
   text-shadow: 0 4px 15px rgba(0,0,0,0.8);
   margin-bottom: 12px;
 }
@@ -41,49 +205,214 @@
 .hero-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 240px;
+  gap: 14px;
+  width: 260px;
 }
 
-/* CARVED WOODEN BUTTONS */
-.btn-wooden-orange {
-  background: linear-gradient(180deg, #ca6c38 0%, #8c3f19 100%);
-  color: #fff;
-  border: 1px solid #e28e5c;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.4);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
+/* ==========================================================================
+   3. TEXTURED WOODEN BUTTONS
+   ========================================================================== */
+.btn-wooden-orange,
 .btn-wooden-dark {
-  background: linear-gradient(180deg, #1d2a22 0%, #0d1510 100%);
-  color: #d1e2d7;
-  border: 1px solid #324739;
-  padding: 12px 20px;
-  border-radius: 10px;
+  position: relative;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
   font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.15);
+  letter-spacing: 0.5px;
+  padding: 14px 24px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
 }
 
-.btn-wooden-orange:hover, .btn-wooden-dark:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+/* Orange Wood Plank */
+.btn-wooden-orange {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(180deg, #d36a33 0%, #a24b1f 50%, #7d3511 100%);
+  color: #fff6e8;
+  border: 2px solid #f1935c;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 2px 3px rgba(255, 255, 255, 0.4),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5);
 }
 
+/* Dark Forest Wood Plank */
+.btn-wooden-dark {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(180deg, #243529 0%, #17241c 50%, #0d1510 100%);
+  color: #e2ede5;
+  border: 2px solid #3e5b46;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 2px 3px rgba(255, 255, 255, 0.25),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+}
 
-/* --- EXPLORE EMBER'S WORLD GRID SECTION --- */
+.btn-wooden-orange:hover,
+.btn-wooden-dark:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: brightness(1.1);
+}
+
+.btn-wooden-orange:active,
+.btn-wooden-dark:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   4. COBBLESTONE PATH & EMBER CHARACTER
+   ========================================================================== */
+.stone-path {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 180px;
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.15) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 2px, transparent 3px),
+    linear-gradient(180deg, rgba(20, 32, 25, 0.9) 0%, rgba(10, 16, 12, 1) 100%);
+  background-size: 100% 100%, 24px 18px, 100% 100%;
+  border-radius: 50% 50% 0 0;
+  border-top: 3px solid rgba(253, 243, 198, 0.3);
+  box-shadow: 
+    0 -15px 40px rgba(125, 249, 255, 0.08),
+    inset 0 10px 20px rgba(253, 243, 198, 0.1);
+  z-index: 3;
+}
+
+.ember-stage {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.speech-bubble {
+  position: absolute;
+  top: -35px;
+  right: -100px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--moon-gold);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+#ember-character {
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
+}
+
+.ember-idle {
+  animation: breathe 4s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.ember-tail {
+  transform-origin: 105px 135px;
+  animation: tailSwish 3s infinite ease-in-out;
+}
+
+@keyframes tailSwish {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.ember-walking {
+  animation: walkBounce 0.35s infinite alternate ease-in-out !important;
+}
+
+@keyframes walkBounce {
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* Paw Prints Trail */
+.paw-prints {
+  position: absolute;
+  bottom: -15px;
+  width: 100%;
+  height: 30px;
+  pointer-events: none;
+}
+
+.paw-print {
+  position: absolute;
+  font-size: 1rem;
+  color: var(--kodama-glow);
+  text-shadow: 0 0 10px var(--kodama-glow);
+  animation: fadePaw 1.5s forwards ease-out;
+}
+
+@keyframes fadePaw {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-10px); }
+}
+
+/* Fireflies */
+#fireflies {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.firefly {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--moon-gold);
+  animation: float 5s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-30px); }
+}
+
+/* ==========================================================================
+   5. EXPLORE EMBER'S WORLD GRID SECTION
+   ========================================================================== */
 .explore-section {
   position: relative;
   background: #060b14;
-  padding: 50px 5% 80px;
+  padding: 60px 5% 80px;
   text-align: center;
+  z-index: 10;
 }
 
 .section-title h2 {
@@ -99,18 +428,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   max-width: 1100px;
-  margin: 0 auto 50px;
-}
-
-@media (max-width: 900px) {
-  .hero { flex-direction: column; text-align: center; }
-  .content { max-width: 100%; margin-bottom: 40px; }
-  .hero-buttons { margin: 0 auto; }
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 550px) {
-  .card-grid { grid-template-columns: 1fr; }
+  margin: 0 auto 60px;
 }
 
 .world-card {
@@ -124,7 +442,7 @@
 }
 
 .world-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   border-color: rgba(253, 243, 198, 0.4);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
@@ -147,7 +465,7 @@
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #fff;
+  color: #ffffff;
 }
 
 .world-card p {
@@ -155,4 +473,260 @@
   line-height: 1.3;
   opacity: 0.75;
   margin: 0;
+}
+
+/* Kindness Banner Footer */
+.kindness-banner {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #131f31, #0a1220);
+  border: 1px solid rgba(253, 243, 198, 0.15);
+  border-radius: 20px;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-align: left;
+}
+
+.sleeping-cat {
+  font-size: 2.2rem;
+}
+
+.banner-text h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--moon-gold);
+}
+
+.banner-text p {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.connect-links .connect-title {
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.icon-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.icon-buttons a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.badge-oval {
+  border: 1px solid rgba(253, 243, 198, 0.3);
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Footer Bottom Bar */
+footer {
+  padding: 25px 40px;
+  background: #040810;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.footer-paw {
+  font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   6. MODAL POPUP
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 10, 20, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  position: relative;
+  background: linear-gradient(135deg, #16243b, #0b1326);
+  border: 1px solid rgba(253, 243, 198, 0.2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-card {
+  transform: translateY(0);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.8rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+.modal-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+  color: var(--moon-gold);
+}
+
+.modal-intro {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  opacity: 0.85;
+}
+
+.urgent-contact {
+  background: rgba(224, 122, 95, 0.15);
+  border: 1px solid var(--wood-orange-glow);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.urgent-contact .label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.phone-link {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--moon-gold);
+  text-decoration: none;
+}
+
+#found-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#found-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+#found-form input,
+#found-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+#found-form input:focus,
+#found-form textarea:focus {
+  outline: none;
+  border-color: var(--kodama-glow);
+}
+
+.submit-btn {
+  background: var(--wood-orange-glow);
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #d0694e;
+}
+
+/* ==========================================================================
+   7. MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 100px;
+  }
+  
+  .content {
+    max-width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .hero-buttons {
+    margin: 0 auto;
+  }
+  
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .kindness-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 550px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-links {
+    display: none;
+  }
 }
