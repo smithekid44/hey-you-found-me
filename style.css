@@ -268,6 +268,276 @@ body {
     inset 0 2px 3px rgba(255, 255, 255, 0.25),
     inset 0 -3px 6px rgba(0, 0, 0, 0.6);
 }
+:root {
+  --moon-gold: #fdf3c6;
+  --night-blue: #091122;
+  --forest-dark: #050a14;
+  --wood-orange: #b85b28;
+  --wood-orange-glow: #e07a5f;
+  --wood-dark: #1b2820;
+  --text-light: #f4efe6;
+  --kodama-glow: #7df9ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--night-blue);
+  color: var(--text-light);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   1. TOP NAVIGATION BAR
+   ========================================================================== */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  background: linear-gradient(to bottom, rgba(5, 10, 20, 0.8), transparent);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--moon-gold);
+}
+
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  opacity: 1;
+  color: var(--moon-gold);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ef081;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ef081;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger-btn span {
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   2. HERO SECTION & ATMOSPHERE
+   ========================================================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 120px 8% 40px;
+  box-sizing: border-box;
+}
+
+/* Moon */
+.moon {
+  position: absolute;
+  top: 8%;
+  left: 58%;
+  width: 140px;
+  height: 140px;
+  background: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(253, 243, 198, 0.6), 0 0 120px rgba(253, 243, 198, 0.25);
+  z-index: 1;
+}
+
+/* Forest Silhouettes & Mist */
+.forest-trees {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
+  z-index: 2;
+}
+
+.mist-layer {
+  position: absolute;
+  bottom: 12%;
+  left: 0;
+  width: 200%;
+  height: 25%;
+  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
+  animation: floatMist 14s infinite linear;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@keyframes floatMist {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Hero Content (Left Side) */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: left;
+  max-width: 420px;
+  margin-bottom: 40px;
+}
+
+.content h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.8rem;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+  margin-bottom: 12px;
+}
+
+.content p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  opacity: 0.9;
+  margin-bottom: 24px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 260px;
+}
+
+/* ==========================================================================
+   3. TEXTURED WOODEN BUTTONS
+   ========================================================================== */
+.btn-wooden-orange,
+.btn-wooden-dark {
+  position: relative;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Orange Wood Plank */
+.btn-wooden-orange {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(180deg, #d36a33 0%, #a24b1f 50%, #7d3511 100%);
+  color: #fff6e8;
+  border: 2px solid #f1935c;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 2px 3px rgba(255, 255, 255, 0.4),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Forest Wood Plank */
+.btn-wooden-dark {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    linear-gradient(180deg, #243529 0%, #17241c 50%, #0d1510 100%);
+  color: #e2ede5;
+  border: 2px solid #3e5b46;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 2px 3px rgba(255, 255, 255, 0.25),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+}
 
 .btn-wooden-orange:hover,
 .btn-wooden-dark:hover {
