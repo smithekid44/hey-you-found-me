@@ -130,8 +130,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  padding: 120px 8% 60px;
+  align-items: flex-end;
+  padding: 120px 8% 40px;
   box-sizing: border-box;
 }
 
@@ -182,7 +182,7 @@ body {
   z-index: 10;
   text-align: left;
   max-width: 420px;
-  margin: 0;
+  margin-bottom: 40px;
 }
 
 .content h1 {
@@ -284,33 +284,34 @@ body {
 /* ==========================================================================
    4. COBBLESTONE PATH & EMBER CHARACTER
    ========================================================================== */
-.stone-path {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 480px;
-  height: 180px;
-  background: 
-    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.15) 0%, transparent 70%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 2px, transparent 3px),
-    linear-gradient(180deg, rgba(20, 32, 25, 0.9) 0%, rgba(10, 16, 12, 1) 100%);
-  background-size: 100% 100%, 24px 18px, 100% 100%;
-  border-radius: 50% 50% 0 0;
-  border-top: 3px solid rgba(253, 243, 198, 0.3);
-  box-shadow: 
-    0 -15px 40px rgba(125, 249, 255, 0.08),
-    inset 0 10px 20px rgba(253, 243, 198, 0.1);
-  z-index: 3;
-}
-
 .ember-stage {
   position: relative;
   z-index: 10;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 15px;
+}
+
+.stone-path {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 420px;
+  height: 120px;
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.2) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 2px, transparent 3px),
+    linear-gradient(180deg, rgba(20, 32, 25, 0.95) 0%, rgba(10, 16, 12, 1) 100%);
+  background-size: 100% 100%, 24px 18px, 100% 100%;
+  border-radius: 50% 50% 0 0;
+  border-top: 3px solid rgba(253, 243, 198, 0.35);
+  box-shadow: 
+    0 -15px 30px rgba(125, 249, 255, 0.1),
+    inset 0 8px 15px rgba(253, 243, 198, 0.15);
+  z-index: 1;
 }
 
 .speech-bubble {
@@ -322,9 +323,12 @@ body {
   font-size: 1.05rem;
   color: var(--moon-gold);
   text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  z-index: 5;
 }
 
 #ember-character {
+  position: relative;
+  z-index: 2;
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
 }
 
@@ -359,10 +363,11 @@ body {
 /* Paw Prints Trail */
 .paw-prints {
   position: absolute;
-  bottom: -15px;
+  bottom: 0;
   width: 100%;
   height: 30px;
   pointer-events: none;
+  z-index: 3;
 }
 
 .paw-print {
@@ -698,6 +703,7 @@ footer {
   .hero {
     flex-direction: column;
     text-align: center;
+    align-items: center;
     padding-top: 100px;
   }
   
