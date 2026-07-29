@@ -9,88 +9,175 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Hero Section -->
+  <!-- TOP NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">🐾</span>
+      <span class="logo-text">Hey You<br>Found Me</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#meet" class="active">Meet Ember 🐾</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#adventures">Adventures</a></li>
+      <li><a href="#lost">If I'm Lost</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="status-pill">Ember is home <span class="status-dot"></span></div>
+      <button class="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
   <header class="hero">
-    <!-- Moon & Atmospheric Layers -->
     <div class="moon"></div>
     <div class="mist-layer"></div>
-    
-    <!-- Tree Silhouettes Background -->
     <div class="forest-trees"></div>
-    
-    <!-- Floating Fireflies Overlay -->
     <div id="fireflies"></div>
 
+    <!-- Main Title Content -->
     <div class="content">
-      <h1>Hey...<br>You Found Me</h1>
-      <p>If you're here, you may have found someone very special.</p>
+      <h1>Hey... ♡<br>You Found Me</h1>
+      <p>If you're here, you may have found<br>someone very special.</p>
       
-      <div class="buttons">
-        <a href="#found" class="primary" id="found-btn">🐾 I Found Ember</a>
-        <a href="#meet" class="secondary" id="meet-btn">📖 Meet Ember</a>
+      <div class="hero-buttons">
+        <button class="btn-wooden-orange" id="found-btn">🧡 I Found Ember</button>
+        <button class="btn-wooden-dark" id="meet-btn">📖 Meet Ember</button>
       </div>
     </div>
 
-    <!-- Stone Path & Animated Vector Ember -->
+    <!-- Character Stage on Path -->
     <div class="stone-path"></div>
     <div class="ember-stage" id="ember-container">
+      <div class="speech-bubble">Thank you for<br>being here! ♡</div>
       
-      <!-- Built-in SVG Ember Character -->
+      <!-- Vector Cat Placeholder -->
       <svg id="ember-character" class="ember-idle" viewBox="0 0 160 180" width="160" height="180">
-        <!-- Shadow -->
         <ellipse cx="80" cy="170" rx="50" ry="10" fill="rgba(0,0,0,0.4)" />
-        
-        <!-- Tail -->
         <path class="ember-tail" d="M 105 135 C 130 135 140 100 120 80 C 115 75 110 80 112 85 C 125 105 115 125 98 128" fill="#e07a5f" stroke="#b04b30" stroke-width="2"/>
-        
-        <!-- Cat Body -->
         <path d="M 50 90 Q 30 120 40 160 L 120 160 Q 130 120 110 90 Z" fill="#e07a5f" />
         <path d="M 60 100 Q 80 110 100 100 Q 110 140 105 160 L 55 160 Q 50 140 60 100 Z" fill="#f4efe6" opacity="0.8"/>
-        
-        <!-- Paws -->
         <ellipse cx="60" cy="162" rx="12" ry="8" fill="#f4efe6" />
         <ellipse cx="100" cy="162" rx="12" ry="8" fill="#f4efe6" />
-
-        <!-- Head -->
         <circle cx="80" cy="70" r="38" fill="#e07a5f" />
-        
-        <!-- Ears -->
         <polygon points="50,45 42,10 68,35" fill="#e07a5f" />
         <polygon points="53,42 47,16 65,35" fill="#f2a68d" />
-        
         <polygon points="110,45 118,10 92,35" fill="#e07a5f" />
         <polygon points="107,42 113,16 95,35" fill="#f2a68d" />
-
-        <!-- Muzzle & Nose -->
         <ellipse cx="80" cy="78" rx="14" ry="10" fill="#f4efe6" />
         <polygon points="76,73 84,73 80,78" fill="#58312b" />
-        
-        <!-- Eyes -->
         <ellipse cx="66" cy="62" rx="7" ry="10" fill="#7df9ff" />
         <ellipse cx="94" cy="62" rx="7" ry="10" fill="#7df9ff" />
         <ellipse cx="66" cy="62" rx="3" ry="7" fill="#0b1326" />
         <ellipse cx="94" cy="62" rx="3" ry="7" fill="#0b1326" />
         <circle cx="68" cy="59" r="2" fill="#ffffff" />
         <circle cx="96" cy="59" r="2" fill="#ffffff" />
-
-        <!-- Whiskers -->
         <line x1="45" y1="72" x2="25" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
         <line x1="45" y1="77" x2="22" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
         <line x1="115" y1="72" x2="135" y2="68" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
         <line x1="115" y1="77" x2="138" y2="77" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
       </svg>
-
       <div class="paw-prints" id="paw-container"></div>
     </div>
   </header>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <!-- SECTION 2: EXPLORE EMBER'S WORLD -->
+  <section class="explore-section">
+    <div class="section-title">
+      <h2>☘ Explore Ember's World ☘</h2>
+    </div>
+
+    <div class="card-grid">
+      <!-- Card 1 -->
+      <div class="world-card">
+        <div class="card-icon">🏠</div>
+        <h3>Meet Ember</h3>
+        <p>Learn more about me and my story.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="world-card">
+        <div class="card-icon">📷</div>
+        <h3>Gallery</h3>
+        <p>Photos of my adventures big and small.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="world-card">
+        <div class="card-icon">📖</div>
+        <h3>Adventures</h3>
+        <p>Stories from my journeys and daily life.</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="world-card">
+        <div class="card-icon">✉️</div>
+        <h3>If I'm Lost</h3>
+        <p>Information to help get me safely home.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Thank You Banner -->
+    <div class="kindness-banner">
+      <div class="sleeping-cat">😴🐾</div>
+      
+      <div class="banner-text">
+        <h3>🧡 Thank you for being kind.</h3>
+        <p>The world is a better place with people like you.</p>
+      </div>
+
+      <div class="connect-links">
+        <span class="connect-title">Connect with us</span>
+        <div class="icon-buttons">
+          <a href="tel:5551234567">📞<br>Call</a>
+          <a href="sms:5551234567">💬<br>Text</a>
+          <a href="mailto:ember@example.com">✉️<br>Email</a>
+        </div>
+      </div>
+
+      <div class="badge-oval">
+        <p>Proudly loved<br>since<br><strong>September 2025</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Hey You Found Me ♡</p>
+    <div class="footer-paw">🐾</div>
+    <p>Made with love for Ember ♡</p>
+  </footer>
+
+  <!-- MODAL POPUP -->
+  <div class="modal-overlay" id="found-modal">
+    <div class="modal-card">
+      <button class="close-btn" id="close-modal">&times;</button>
+      <h2>🐾 Thank You for Finding Ember!</h2>
+      <p class="modal-intro">She belongs to a loving home nearby.</p>
+      
+      <div class="urgent-contact">
+        <p class="label">Direct Call / Text:</p>
+        <a href="tel:5551234567" class="phone-link">📞 (555) 123-4567</a>
+      </div>
+
+      <form id="found-form">
+        <label for="finder-name">Your Name</label>
+        <input type="text" id="finder-name" placeholder="e.g., Alex" required>
+
+        <label for="finder-location">Location / Message</label>
+        <textarea id="finder-location" rows="3" placeholder="Where is Ember right now?" required></textarea>
+
+        <button type="submit" class="submit-btn">Send Message 🐾</button>
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
