@@ -1,244 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ember | A Ghibli Fairytale Trail</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey You Found Me | Ember</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Audio Toggle Button -->
-    <div class="audio-control-box">
-        <button id="audio-toggle-btn" class="audio-btn">🔇 Forest Ambience: Off</button>
+  <!-- Floating Fireflies Overlay -->
+  <div id="fireflies"></div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="overlay"></div>
+    <div class="moon"></div>
+    
+    <div class="content">
+      <h1>Hey...<br>You Found Me</h1>
+      <p>If you're here, you may have found someone very special.</p>
+      
+      <div class="buttons">
+        <a href="#found" class="primary" id="found-btn">🐾 I Found Ember</a>
+        <a href="#meet" class="secondary" id="meet-btn">📖 Meet Ember</a>
+      </div>
     </div>
 
-    <!-- Main Interactive Stage -->
-    <div class="ghibli-stage" id="ghibli-bg">
-        <!-- Floating Fireflies & Forest Spirits Overlay -->
-        <div id="firefly-container"></div>
-        <div class="kodama-spirits-glow"></div>
-
-        <!-- Central Character Container -->
-        <div class="ember-character-wrap" id="ember-character">
-            <!-- Ember Image Baked Directly Into Code -->
-            <img id="ember-img" 
-                 src="https://i.imgur.com/8Q9ZQ9Z.jpg" 
-                 alt="Ember the Tabby Traveler" 
-                 onerror="this.src='ember-ghibli.png';" />
-        </div>
-
-        <!-- Floating Interactive Orbs around Ember -->
-        <div class="interactive-nodes">
-            <button class="node-btn node-chapter1" onclick="openScroll('scroll-chapter1')">
-                <span class="node-icon">✨</span>
-                <span class="node-label">Chapter I: Found Me</span>
-            </button>
-
-            <button class="node-btn node-chapter2" onclick="openScroll('scroll-chapter2')">
-                <span class="node-icon">🐾</span>
-                <span class="node-label">Chapter II: Chronicles</span>
-            </button>
-
-            <button class="node-btn node-chapter3" onclick="openScroll('scroll-chapter3')">
-                <span class="node-icon">🌹</span>
-                <span class="node-label">Chapter III: Send Word</span>
-            </button>
-        </div>
+    <!-- Animated Ember Character Stage -->
+    <div class="ember-stage" id="ember-container">
+      <img src="https://i.imgur.com/8Q9ZQ9Z.jpg" alt="Ember the Tabby Traveler" id="ember-character" class="ember-idle">
     </div>
+  </header>
 
-    <!-- Pop-up Storybook Scrolls -->
-    <div class="scroll-overlay" id="scroll-overlay">
-        
-        <!-- Scroll 1 -->
-        <div class="popup-scroll" id="scroll-chapter1">
-            <button class="close-btn" onclick="closeScroll()">&times;</button>
-            <span class="chapter-number">Chapter I</span>
-            <h2 class="story-title">Hey... You Found Me</h2>
-            <p class="story-text">"A quiet trail through the enchanted woods brought you here. If you have crossed paths with the wandering tabby carrying her traveler's bundle, you have found someone very special."</p>
-            <button class="walk-btn" onclick="triggerWalkAnimation()">Walk the Path with Ember ✦</button>
-        </div>
-
-        <!-- Scroll 2 -->
-        <div class="popup-scroll" id="scroll-chapter2">
-            <button class="close-btn" onclick="closeScroll()">&times;</button>
-            <span class="chapter-number">Chapter II</span>
-            <h2 class="story-title">The Wandering Tabby</h2>
-            <p class="story-text">Ember is a gentle traveler with golden amber eyes, warm tabby markings, and a brave spirit carrying her polka-dot traveler's bundle through the misty forest.</p>
-            <div class="field-notes">
-                <h3>✦ Traveler's Chronicles</h3>
-                <ul>
-                    <li><strong>Name:</strong> Ember</li>
-                    <li><strong>Coat:</strong> Warm Brown Tabby with dark stripes & white paws</li>
-                    <li><strong>Eyes:</strong> Golden Amber</li>
-                    <li><strong>Companions:</strong> Forest Kodama & Fireflies</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Scroll 3 -->
-        <div class="popup-scroll alert-scroll" id="scroll-chapter3">
-            <button class="close-btn" onclick="closeScroll()">&times;</button>
-            <span class="chapter-number">Chapter III</span>
-            <h2 class="story-title">Help Ember Find Her Way Home 🌹</h2>
-            <p class="story-text">If Ember is walking beside you or if you spotted her along your journey through the woods, please send word immediately!</p>
-            <div class="lantern-box">
-                <p class="phone-link">📞 <strong>Send Word:</strong> <a href="tel:5550192831">(555) 019-2831</a></p>
-                <p>📍 <strong>Last Seen:</strong> Whispering Woods Trailhead</p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Script for Audio, Fireflies, and Interactive Popups -->
-    <script>
-        let audioCtx = null;
-        let isPlaying = false;
-        let cricketInterval = null;
-        let windNode = null;
-
-        function startAudioEngine() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            const bufferSize = audioCtx.sampleRate * 2;
-            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                output[i] = Math.random() * 2 - 1;
-            }
-
-            const whiteNoise = audioCtx.createBufferSource();
-            whiteNoise.buffer = noiseBuffer;
-            whiteNoise.loop = true;
-
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.value = 300;
-
-            const gain = audioCtx.createGain();
-            gain.gain.value = 0.015;
-
-            whiteNoise.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-            whiteNoise.start();
-            windNode = { whiteNoise, gain };
-
-            cricketInterval = setInterval(() => {
-                if (!isPlaying || !audioCtx) return;
-                
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const chirpGain = audioCtx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(4200 + Math.random() * 300, now);
-
-                chirpGain.gain.setValueAtTime(0, now);
-                chirpGain.gain.linearRampToValueAtTime(0.005, now + 0.01);
-                chirpGain.gain.linearRampToValueAtTime(0, now + 0.03);
-                chirpGain.gain.linearRampToValueAtTime(0.005, now + 0.05);
-                chirpGain.gain.linearRampToValueAtTime(0, now + 0.07);
-
-                osc.connect(chirpGain);
-                chirpGain.connect(audioCtx.destination);
-
-                osc.start(now);
-                osc.stop(now + 0.08);
-            }, 1800);
-        }
-
-        function stopAudioEngine() {
-            if (cricketInterval) clearInterval(cricketInterval);
-            if (windNode && audioCtx) {
-                windNode.gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-                setTimeout(() => {
-                    windNode.whiteNoise.stop();
-                }, 500);
-            }
-            if (audioCtx) {
-                audioCtx.suspend();
-            }
-        }
-
-        // Fireflies Generator
-        function createFireflies() {
-            const container = document.getElementById('firefly-container');
-            if (!container) return;
-            container.innerHTML = '';
-            for (let i = 0; i < 30; i++) {
-                const fly = document.createElement('div');
-                fly.className = 'firefly';
-                fly.style.left = Math.random() * 100 + 'vw';
-                fly.style.top = Math.random() * 100 + 'vh';
-                fly.style.animationDelay = (Math.random() * 5) + 's';
-                fly.style.animationDuration = (3 + Math.random() * 4) + 's';
-                container.appendChild(fly);
-            }
-        }
-
-        // Open Scroll Popup
-        function openScroll(scrollId) {
-            const overlay = document.getElementById('scroll-overlay');
-            document.querySelectorAll('.popup-scroll').forEach(el => el.classList.remove('active'));
-            document.getElementById(scrollId).classList.add('active');
-            overlay.classList.add('active');
-        }
-
-        // Close Scroll Popup
-        function closeScroll() {
-            document.getElementById('scroll-overlay').classList.remove('active');
-        }
-
-        // Trigger Ember Walking Motion
-        function triggerWalkAnimation() {
-            closeScroll();
-            const ember = document.getElementById('ember-character');
-            ember.classList.add('is-walking');
-            setTimeout(() => {
-                ember.classList.remove('is-walking');
-            }, 3000);
-        }
-
-        // Walking motion on page scroll
-        let isScrolling;
-        window.addEventListener('scroll', () => {
-            const ember = document.getElementById('ember-character');
-            ember.classList.add('is-walking');
-            clearTimeout(isScrolling);
-            isScrolling = setTimeout(() => {
-                ember.classList.remove('is-walking');
-            }, 200);
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            createFireflies();
-
-            const audioBtn = document.getElementById('audio-toggle-btn');
-            if (audioBtn) {
-                audioBtn.addEventListener('click', () => {
-                    if (!isPlaying) {
-                        startAudioEngine();
-                        isPlaying = true;
-                        audioBtn.classList.add('playing');
-                        audioBtn.innerHTML = '🌙 Forest Ambience: On';
-                    } else {
-                        stopAudioEngine();
-                        isPlaying = false;
-                        audioBtn.classList.remove('playing');
-                        audioBtn.innerHTML = '🔇 Forest Ambience: Off';
-                    }
-                });
-            }
-        });
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
