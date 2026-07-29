@@ -15,18 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fireflyContainer.appendChild(fly);
   }
 
-  // 2. Ember Entrance Sequence
-  // On page load, Ember walks in from the left and then enters breathing/idle mode
-  if (ember) {
-    ember.classList.add('ember-entering', 'ember-walking');
-
-    setTimeout(() => {
-      ember.classList.remove('ember-entering', 'ember-walking');
-      ember.classList.add('ember-idle');
-    }, 2200);
-  }
-
-  // Helper Function: Spawn Glowing Paw Prints
+  // Helper Function: Spawn Paw Prints
   function spawnPawPrint(offsetPixels) {
     if (!pawContainer) return;
     const paw = document.createElement('span');
@@ -37,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
       paw.remove();
-    }, 1800);
+    }, 1500);
   }
 
-  // 3. Interactive Button Actions
+  // 2. Interactive Button Hover Actions
   const foundBtn = document.getElementById('found-btn');
   const meetBtn = document.getElementById('meet-btn');
 
@@ -52,15 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ember.classList.add('ember-walking');
       }
       if (emberStage) {
-        emberStage.style.transform = 'scale(1.06) translateY(-4px)';
+        emberStage.style.transform = 'scale(1.05)';
       }
 
-      // Drop glowing paw prints while hovering over the "I Found Ember" button
-      let offset = -30;
+      let offset = -25;
       pawInterval = setInterval(() => {
         spawnPawPrint(offset);
-        offset = offset === -30 ? 30 : -30;
-      }, 400);
+        offset = offset === -25 ? 25 : -25;
+      }, 350);
     });
 
     foundBtn.addEventListener('mouseleave', () => {
@@ -78,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (meetBtn) {
     meetBtn.addEventListener('mouseenter', () => {
       if (ember) {
-        ember.style.transform = 'rotate(-3deg) scale(1.02)';
+        ember.style.transform = 'rotate(-5deg)';
       }
     });
     meetBtn.addEventListener('mouseleave', () => {
