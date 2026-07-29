@@ -295,32 +295,30 @@ body {
   margin-bottom: 20px;
 }
 
-/* Stone Path locked right under Ember's feet */
-.stone-path {
-  position: absolute !important;
-  bottom: -15px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 260px !important;
-  height: 80px !important;
-  background: 
-    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.35) 0%, transparent 70%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 2px, transparent 3px),
-    linear-gradient(180deg, #203527 0%, #0d1810 100%) !important;
-  background-size: 100% 100%, 18px 14px, 100% 100% !important;
-  border-radius: 50% 50% 0 0 !important;
-  border-top: 3px solid rgba(253, 243, 198, 0.5) !important;
-  box-shadow: 
-    0 -10px 25px rgba(125, 249, 255, 0.2),
-    0 10px 30px rgba(0, 0, 0, 0.8) !important;
-  z-index: 1 !important;
-  display: block !important;
-}
-
 #ember-character {
   position: relative;
-  z-index: 5; /* Forces Ember to sit clearly on top of path */
+  z-index: 10; /* Ember stays above the path */
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
+}
+
+/* The Cobblestone Path Hill Directly Under Ember */
+.stone-path {
+  width: 280px !important;
+  height: 90px !important;
+  margin-top: -35px !important; /* Pulls path up under Ember's feet */
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.4) 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 2px, transparent 3px),
+    linear-gradient(180deg, #223b2b 0%, #0e1a12 100%) !important;
+  background-size: 100% 100%, 18px 14px, 100% 100% !important;
+  border-radius: 120px 120px 0 0 !important;
+  border-top: 3px solid rgba(253, 243, 198, 0.6) !important;
+  box-shadow: 
+    0 -10px 25px rgba(125, 249, 255, 0.25),
+    0 15px 35px rgba(0, 0, 0, 0.9) !important;
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
 }
 
 .speech-bubble {
@@ -332,7 +330,7 @@ body {
   font-size: 1.05rem;
   color: var(--moon-gold);
   text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-  z-index: 10;
+  z-index: 15;
 }
 
 .ember-idle {
