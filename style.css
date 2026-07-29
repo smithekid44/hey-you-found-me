@@ -1,9 +1,10 @@
 :root {
   --moon-gold: #fdf3c6;
   --night-blue: #0b1326;
-  --forest-green: #182825;
+  --forest-dark: #08101d;
   --text-light: #f4efe6;
   --accent-orange: #e07a5f;
+  --kodama-glow: #7df9ff;
 }
 
 * {
@@ -20,31 +21,45 @@ body {
   min-height: 100vh;
 }
 
-/* Hero Section & Background */
+/* Hero Section & Layered Forest Background */
 .hero {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 20%, #1c2d42 0%, var(--night-blue) 80%);
+  background: radial-gradient(circle at 50% 20%, #1c2d42 0%, var(--night-blue) 85%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 60px 20px;
+  padding: 50px 20px 30px;
   overflow: hidden;
 }
 
+/* Glowing Moon */
 .moon {
   position: absolute;
-  top: 10%;
+  top: 8%;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   background: var(--moon-gold);
   border-radius: 50%;
-  box-shadow: 0 0 50px rgba(253, 243, 198, 0.4);
+  box-shadow: 0 0 60px rgba(253, 243, 198, 0.5), 0 0 120px rgba(253, 243, 198, 0.2);
   z-index: 1;
+}
+
+/* Atmospheric Fog & Forest Vignette */
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, var(--forest-dark), transparent);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .overlay {
@@ -53,34 +68,45 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(11,19,38,0.2), rgba(11,19,38,0.8));
+  background: linear-gradient(to bottom, rgba(11,19,38,0.1), rgba(8,16,29,0.7));
   z-index: 2;
 }
 
-/* Typography & Content */
+/* Typography & Content Box */
 .content {
   position: relative;
   z-index: 10;
   text-align: center;
   max-width: 600px;
-  margin-top: 40px;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeInDown 1.2s forwards 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   font-weight: 700;
   line-height: 1.1;
   color: #ffffff;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  text-shadow: 0 4px 20px rgba(0,0,0,0.8);
   margin-bottom: 15px;
 }
 
 p {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 300;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
   opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .buttons {
@@ -102,34 +128,56 @@ a.primary, a.secondary {
 a.primary {
   background: var(--accent-orange);
   color: #fff;
-  box-shadow: 0 4px 15px rgba(224, 122, 95, 0.4);
+  box-shadow: 0 4px 20px rgba(224, 122, 95, 0.5);
 }
 
 a.secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   color: var(--text-light);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
 }
 
 a.primary:hover, a.secondary:hover {
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-4px) scale(1.05);
 }
 
-/* Ember Character Container & Animations */
+/* Ember Character Stage & Animations */
 .ember-stage {
   position: relative;
   z-index: 10;
-  margin-bottom: 20px;
-  transition: transform 0.8s ease-in-out;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #ember-character {
   max-width: 280px;
   height: auto;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+  transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+/* Walk-in Entrance Animation */
+.ember-entering {
+  animation: enterFromLeft 2.2s ease-out forwards;
+}
+
+@keyframes enterFromLeft {
+  0% {
+    transform: translateX(-100vw) rotate(-3deg);
+    opacity: 0;
+  }
+  70% {
+    transform: translateX(10px) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 /* Breathing / Idle Animation */
@@ -139,7 +187,7 @@ a.primary:hover, a.secondary:hover {
 
 @keyframes breathe {
   0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.02); }
+  50% { transform: translateY(-7px) scale(1.02); }
 }
 
 .ember-walking {
@@ -147,8 +195,31 @@ a.primary:hover, a.secondary:hover {
 }
 
 @keyframes walkBounce {
-  0% { transform: translateY(0) rotate(-1deg); }
-  100% { transform: translateY(-8px) rotate(1deg); }
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* Paw Print Container */
+.paw-prints {
+  position: absolute;
+  bottom: -20px;
+  width: 100%;
+  height: 30px;
+  pointer-events: none;
+}
+
+.paw-print {
+  position: absolute;
+  font-size: 0.9rem;
+  color: var(--kodama-glow);
+  opacity: 0.8;
+  text-shadow: 0 0 8px var(--kodama-glow);
+  animation: fadePaw 1.8s forwards ease-out;
+}
+
+@keyframes fadePaw {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-10px); }
 }
 
 /* Fireflies Particle System */
@@ -172,6 +243,10 @@ a.primary:hover, a.secondary:hover {
   animation: float 5s infinite ease-in-out;
 }
 
+@keyframes float {
+  0%, 100% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-25px); }
+}
 @keyframes float {
   0%, 100% { opacity: 0; transform: translateY(0); }
   50% { opacity: 1; transform: translateY(-20px); }
