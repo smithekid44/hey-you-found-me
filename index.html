@@ -66,12 +66,12 @@
     <div class="ember-stage">
       <div class="speech-bubble" id="ember-bubble">Thank you for being here! ♡</div>
       
-      <!-- Fixed Proportion Ember SVG -->
+      <!-- Proportioned Ember SVG Character -->
       <svg id="ember-character" class="ember-idle" width="160" height="200" viewBox="0 0 200 220">
         <!-- Tail -->
         <path class="ember-tail" d="M 115 140 C 145 130, 165 100, 150 75 C 140 60, 125 70, 132 88 C 138 102, 122 120, 110 130" fill="#e07a5f" stroke="#a24b1f" stroke-width="3" stroke-linecap="round"/>
         
-        <!-- Back Paws (Sitting/Standing Base) -->
+        <!-- Back Paws (Base) -->
         <ellipse class="paw paw-back-left" cx="72" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
         <ellipse class="paw paw-back-right" cx="128" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
 
@@ -85,7 +85,7 @@
         <ellipse class="paw paw-front-left" cx="86" cy="200" rx="10" ry="7" fill="#fff6e8" />
         <ellipse class="paw paw-front-right" cx="114" cy="200" rx="10" ry="7" fill="#fff6e8" />
 
-        <!-- Cute proportioned Head -->
+        <!-- Head -->
         <path d="M 55 75 C 45 102, 155 102, 145 75 C 145 42, 55 42, 55 75 Z" fill="#e07a5f" />
         
         <!-- Ears -->
@@ -94,7 +94,7 @@
         <polygon points="138,55 152,15 122,40" fill="#e07a5f" />
         <polygon points="135,52 147,22 124,40" fill="#f1a690" />
         
-        <!-- Big Cute Eyes -->
+        <!-- Eyes -->
         <ellipse cx="80" cy="70" rx="9" ry="13" fill="#7df9ff" />
         <ellipse cx="120" cy="70" rx="9" ry="13" fill="#7df9ff" />
         <ellipse cx="80" cy="70" rx="4" ry="9" fill="#091122" />
@@ -104,7 +104,7 @@
         <circle cx="82" cy="73" r="1.5" fill="#ffffff" />
         <circle cx="122" cy="73" r="1.5" fill="#ffffff" />
         
-        <!-- Cute Nose & Smile -->
+        <!-- Nose & Mouth -->
         <polygon points="97,78 103,78 100,82" fill="#f1a690" />
         <path d="M 96 85 Q 100 88 104 85" stroke="#a24b1f" stroke-width="2" fill="none" stroke-linecap="round" />
         
@@ -194,7 +194,7 @@
     </div>
   </div>
 
-  <!-- JavaScript for Walking Animations -->
+  <!-- JavaScript for Interaction & Walking Animations -->
   <script>
     const btnFound = document.getElementById('btn-i-found');
     const modal = document.getElementById('found-modal');
@@ -204,12 +204,12 @@
     const btnWalk = document.getElementById('btn-walk');
     const speechBubble = document.getElementById('ember-bubble');
 
-    // Modal trigger
+    // Modal popup trigger
     btnFound.addEventListener('click', () => modal.classList.add('active'));
     btnClose.addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-    // Toggle Walking Animation
+    // Walking Animation Toggle
     let isWalking = false;
     btnWalk.addEventListener('click', () => {
       isWalking = !isWalking;
