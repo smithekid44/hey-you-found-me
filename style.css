@@ -10,6 +10,8 @@
   --wood-dark: #1b2820;
   --text-light: #f4efe6;
   --kodama-glow: #7df9ff;
+  --shroom-teal: #4ef0d0;
+  --lantern-gold: #ffb703;
 }
 
 * {
@@ -183,14 +185,8 @@ html, body {
 }
 
 @keyframes pulseRed {
-  0%, 100% { 
-    transform: scale(1); 
-    opacity: 1; 
-  }
-  50% { 
-    transform: scale(1.35); 
-    opacity: 0.6; 
-  }
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
 }
 
 .hamburger-btn {
@@ -238,14 +234,44 @@ html, body {
   z-index: 1;
 }
 
+/* --- FOREST TREES BEHIND EMBER --- */
 .forest-trees {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 45%;
-  background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
+  height: 55%;
   z-index: 2;
+  pointer-events: none;
+}
+
+.tree-group {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tree-group.bg-trees {
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.tree-group.fg-trees {
+  opacity: 0.8;
+}
+
+.tree-trunk {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, #09131f 0%, #03070d 100%);
+  border-radius: 8px 8px 0 0;
+}
+
+.tree-canopy {
+  position: absolute;
+  background: radial-gradient(circle, #0e1e33 0%, #040912 100%);
+  border-radius: 50%;
 }
 
 .mist-layer {
@@ -332,7 +358,7 @@ html, body {
 }
 
 /* ==========================================
-   5. EMBER STAGE & CHARACTER ANIMATIONS
+   5. EMBER STAGE, MUSHROOMS & LANTERNS
    ========================================== */
 .ember-stage {
   position: relative;
@@ -341,7 +367,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
@@ -363,8 +389,8 @@ html, body {
 
 .character-container {
   position: relative;
-  width: 260px;
-  height: 200px;
+  width: 280px;
+  height: 210px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -384,14 +410,99 @@ html, body {
 .stone-path {
   position: relative;
   z-index: 5;
-  width: 260px;
+  width: 280px;
   height: 75px;
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   background: linear-gradient(180deg, #1b2e22 0%, #0c1610 100%);
   border-top: 2px solid rgba(253, 243, 198, 0.5);
 }
 
-/* Character Keyframes */
+/* --- GLOWING MUSHROOMS --- */
+.glowing-mushroom {
+  position: absolute;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mushroom-1 { bottom: 22px; left: 18px; transform: scale(0.85); }
+.mushroom-2 { bottom: 15px; left: 45px; transform: scale(0.65) rotate(-10deg); }
+.mushroom-3 { bottom: 25px; right: 25px; transform: scale(0.9) rotate(8deg); }
+
+.shroom-cap {
+  width: 22px;
+  height: 14px;
+  background: var(--shroom-teal);
+  border-radius: 14px 14px 4px 4px;
+  box-shadow: 0 0 12px var(--shroom-teal), 0 0 25px var(--kodama-glow);
+  animation: shroomPulse 3s infinite ease-in-out;
+}
+
+.shroom-stem {
+  width: 4px;
+  height: 12px;
+  background: #c3e8e1;
+  border-radius: 2px;
+  margin-top: -2px;
+}
+
+@keyframes shroomPulse {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 8px var(--shroom-teal); }
+  50% { opacity: 1; box-shadow: 0 0 18px var(--shroom-teal), 0 0 30px var(--kodama-glow); }
+}
+
+/* --- GLOWING LANTERNS --- */
+.glowing-lantern {
+  position: absolute;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: lanternSway 4s infinite ease-in-out;
+}
+
+.lantern-left { top: -20px; left: 10px; }
+.lantern-right { top: -10px; right: 15px; animation-delay: -2s; }
+
+.lantern-string {
+  width: 1px;
+  height: 35px;
+  background: rgba(253, 243, 198, 0.4);
+}
+
+.lantern-body {
+  width: 16px;
+  height: 22px;
+  background: linear-gradient(180deg, #42260e 0%, #1a0d03 100%);
+  border: 1px solid var(--lantern-gold);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lantern-glow {
+  width: 10px;
+  height: 12px;
+  background: var(--lantern-gold);
+  border-radius: 2px;
+  box-shadow: 0 0 12px var(--lantern-gold), 0 0 25px var(--moon-gold);
+  animation: lanternFlicker 2.5s infinite ease-in-out;
+}
+
+@keyframes lanternSway {
+  0%, 100% { transform: rotate(-4deg); transform-origin: top center; }
+  50% { transform: rotate(4deg); transform-origin: top center; }
+}
+
+@keyframes lanternFlicker {
+  0%, 100% { opacity: 0.8; box-shadow: 0 0 10px var(--lantern-gold); }
+  50% { opacity: 1; box-shadow: 0 0 18px var(--lantern-gold), 0 0 30px var(--moon-gold); }
+}
+
+/* Character Animations */
 .ember-idle { 
   animation: breathe 3.5s infinite ease-in-out; 
 }
