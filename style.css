@@ -1,3 +1,6 @@
+/* ==========================================
+   1. VARIABLES & GLOBAL RESETS
+   ========================================== */
 :root {
   --moon-gold: #fdf3c6;
   --night-blue: #091122;
@@ -25,7 +28,9 @@ html, body {
   color: var(--text-light);
 }
 
-/* FIREFLIES */
+/* ==========================================
+   2. BACKGROUND FIREFLIES
+   ========================================== */
 #fireflies {
   position: fixed;
   top: 0;
@@ -49,14 +54,28 @@ html, body {
 }
 
 @keyframes floatAndGlow {
-  0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.6); }
-  30% { opacity: 0.9; }
-  50% { transform: translateY(-80px) translateX(40px) scale(1.2); }
-  70% { opacity: 0.8; }
-  100% { opacity: 0; transform: translateY(-160px) translateX(-30px) scale(0.4); }
+  0% { 
+    opacity: 0; 
+    transform: translateY(0) translateX(0) scale(0.6); 
+  }
+  30% { 
+    opacity: 0.9; 
+  }
+  50% { 
+    transform: translateY(-80px) translateX(40px) scale(1.2); 
+  }
+  70% { 
+    opacity: 0.8; 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-160px) translateX(-30px) scale(0.4); 
+  }
 }
 
-/* NAVBAR */
+/* ==========================================
+   3. NAVIGATION BAR
+   ========================================== */
 .navbar {
   position: absolute;
   top: 0;
@@ -99,8 +118,10 @@ html, body {
   color: var(--text-light);
   font-size: 0.95rem;
   opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
+.nav-links a:hover,
 .nav-links a.active {
   color: var(--moon-gold);
   opacity: 1;
@@ -112,7 +133,7 @@ html, body {
   gap: 10px;
 }
 
-/* MUSIC & STATUS PILLS */
+/* Pill Buttons (Audio & Status) */
 .music-pill,
 .status-pill {
   background: rgba(255, 255, 255, 0.1);
@@ -128,6 +149,11 @@ html, body {
   backdrop-filter: blur(5px);
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.music-pill:hover,
+.status-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .music-pill.is-playing {
@@ -157,8 +183,14 @@ html, body {
 }
 
 @keyframes pulseRed {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.6; }
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+  50% { 
+    transform: scale(1.35); 
+    opacity: 0.6; 
+  }
 }
 
 .hamburger-btn {
@@ -178,7 +210,9 @@ html, body {
   border-radius: 2px;
 }
 
-/* HERO SECTION */
+/* ==========================================
+   4. HERO SECTION & SCENERY
+   ========================================== */
 .hero {
   position: relative;
   width: 100%;
@@ -275,21 +309,31 @@ html, body {
   justify-content: center;
   gap: 10px;
   width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-wooden-orange:hover,
+.btn-wooden-dark:hover {
+  transform: translateY(-2px);
 }
 
 .btn-wooden-orange {
   background: linear-gradient(180deg, #d36a33 0%, #a24b1f 100%);
   color: #fff6e8;
   border: 2px solid #f1935c;
+  box-shadow: 0 4px 15px rgba(211, 106, 51, 0.3);
 }
 
 .btn-wooden-dark {
   background: linear-gradient(180deg, #243529 0%, #17241c 100%);
   color: #e2ede5;
   border: 2px solid #3e5b46;
+  box-shadow: 0 4px 15px rgba(27, 40, 32, 0.4);
 }
 
-/* STAGE CONTAINER */
+/* ==========================================
+   5. EMBER STAGE & CHARACTER ANIMATIONS
+   ========================================== */
 .ember-stage {
   position: relative;
   z-index: 10;
@@ -314,6 +358,7 @@ html, body {
   border-radius: 20px;
   border: 1px solid rgba(253, 243, 198, 0.3);
   text-align: center;
+  transition: all 0.3s ease;
 }
 
 .character-container {
@@ -346,8 +391,11 @@ html, body {
   border-top: 2px solid rgba(253, 243, 198, 0.5);
 }
 
-/* ANIMATIONS */
-.ember-idle { animation: breathe 3.5s infinite ease-in-out; }
+/* Character Keyframes */
+.ember-idle { 
+  animation: breathe 3.5s infinite ease-in-out; 
+}
+
 @keyframes breathe {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50% { transform: translateX(-50%) translateY(-3px); }
@@ -357,19 +405,25 @@ html, body {
   transform-origin: 110px 130px;
   animation: tailSwish 3s infinite ease-in-out;
 }
+
 @keyframes tailSwish {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(12deg); }
 }
 
-.ember-walking { animation: walkOnMound 2.8s infinite ease-in-out !important; }
+.ember-walking { 
+  animation: walkOnMound 2.8s infinite ease-in-out !important; 
+}
+
 @keyframes walkOnMound {
   0% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
   50% { transform: translateX(0px) translateY(5px) rotate(5deg); }
   100% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
 }
 
-/* EXPLORE SECTION */
+/* ==========================================
+   6. EXPLORE SECTION & CARDS
+   ========================================== */
 .explore-section {
   position: relative;
   background: #060b14;
@@ -397,6 +451,12 @@ html, body {
   border: 1px solid rgba(253, 243, 198, 0.12);
   border-radius: 16px;
   padding: 24px 15px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.world-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(253, 243, 198, 0.3);
 }
 
 .card-icon {
@@ -436,6 +496,9 @@ html, body {
   font-size: 0.75rem;
 }
 
+/* ==========================================
+   7. FOOTER
+   ========================================== */
 footer {
   padding: 20px;
   background: #040810;
@@ -446,7 +509,9 @@ footer {
   opacity: 0.6;
 }
 
-/* MODAL */
+/* ==========================================
+   8. MODAL POPUP
+   ========================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -487,6 +552,7 @@ footer {
   border: none;
   color: var(--text-light);
   font-size: 1.6rem;
+  cursor: pointer;
 }
 
 .urgent-contact {
@@ -530,9 +596,12 @@ footer {
   border-radius: 8px;
   font-weight: 700;
   margin-top: 5px;
+  cursor: pointer;
 }
 
-/* MOBILE MEDIA QUERIES (< 768px) */
+/* ==========================================
+   9. MEDIA QUERIES & RESPONSIVENESS
+   ========================================== */
 @media (max-width: 768px) {
   .hamburger-btn {
     display: flex;
