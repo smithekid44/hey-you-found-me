@@ -640,7 +640,7 @@
       <!-- Built-in Audio Control -->
       <button class="music-pill" id="music-toggle" aria-label="Toggle Night Audio">
         <span class="music-dot" id="music-dot"></span>
-        <span id="music-text">🎵 Night Sounds</span>
+        <span id="music-text">✨ Magical Ambient</span>
       </button>
 
       <!-- Status Pill Toggle -->
@@ -899,10 +899,10 @@
         }
       }
 
-      // WEB AUDIO API - Built-in Crickets & Lullaby
+      // NEW MAGICAL AUDIO SYSTEM (SOFT WIND HUM + DREAMY CHIMES)
       let audioCtx = null;
       let isAudioPlaying = false;
-      let cricketInterval = null;
+      let ambientGain = null;
       let melodyTimeout = null;
 
       const musicToggle = document.getElementById('music-toggle');
@@ -918,94 +918,119 @@
         }
       }
 
-      function triggerCricketChirp() {
-        if (!isAudioPlaying || !audioCtx) return;
+      // Soft atmospheric background tone
+      function startSoftAmbientPad() {
+        if (!audioCtx) return;
 
         const now = audioCtx.currentTime;
-        const osc1 = audioCtx.createOscillator();
-        const osc2 = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
+        ambientGain = audioCtx.createGain();
+        ambientGain.gain.setValueAtTime(0.001, now);
+        ambientGain.gain.linearRampToValueAtTime(0.03, now + 3);
 
-        osc1.type = 'sine';
-        osc2.type = 'sine';
-        osc1.frequency.setValueAtTime(4500, now);
-        osc2.frequency.setValueAtTime(4650, now);
+        // Warm fundamental synth pads
+        [130.81, 196.00, 261.63].forEach(freq => {
+          const osc = audioCtx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
 
-        const pulses = 3 + Math.floor(Math.random() * 2);
-        const pulseLen = 0.035;
-        
-        gainNode.gain.setValueAtTime(0, now);
-        for (let i = 0; i < pulses; i++) {
-          const t = now + (i * pulseLen * 1.8);
-          gainNode.gain.setValueAtTime(0.08, t);
-          gainNode.gain.exponentialRampToValueAtTime(0.001, t + pulseLen);
-        }
+          // Subtle LFO modulation for breathing wind effect
+          const lfo = audioCtx.createOscillator();
+          const lfoGain = audioCtx.createGain();
+          lfo.frequency.setValueAtTime(0.15 + Math.random() * 0.1, now);
+          lfoGain.gain.setValueAtTime(1.5, now);
+          lfo.connect(osc.frequency);
+          lfo.start(now);
 
-        osc1.connect(gainNode);
-        osc2.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+          osc.connect(ambientGain);
+          osc.start(now);
+        });
 
-        osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + (pulses * pulseLen * 2));
-        osc2.stop(now + (pulses * pulseLen * 2));
+        ambientGain.connect(audioCtx.destination);
       }
 
-      function playLullabyNote(freq, duration = 1.8) {
+      function stopSoftAmbientPad() {
+        if (ambientGain && audioCtx) {
+          ambientGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+          setTimeout(() => {
+            try { ambientGain.disconnect(); } catch (e) {}
+          }, 1600);
+        }
+      }
+
+      // Soft magical bell sound with rich harmonic decay
+      function playMagicalChime(freq, duration = 3.5) {
         if (!isAudioPlaying || !audioCtx) return;
 
         const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
+        const mainOsc = audioCtx.createOscillator();
+        const overtoneOsc = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
 
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now);
+        mainOsc.type = 'sine';
+        overtoneOsc.type = 'triangle';
 
+        mainOsc.frequency.setValueAtTime(freq, now);
+        // Harmonic overtone (+1 octave higher) adds magical bell texture
+        overtoneOsc.frequency.setValueAtTime(freq * 2, now);
+
+        // Soft, smooth envelope
         gainNode.gain.setValueAtTime(0.001, now);
-        gainNode.gain.linearRampToValueAtTime(0.18, now + 0.08);
+        gainNode.gain.linearRampToValueAtTime(0.08, now + 0.12);
         gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-        osc.connect(gainNode);
+        mainOsc.connect(gainNode);
+        overtoneOsc.connect(gainNode);
         gainNode.connect(audioCtx.destination);
 
-        osc.start(now);
-        osc.stop(now + duration + 0.1);
+        mainOsc.start(now);
+        overtoneOsc.start(now);
+
+        mainOsc.stop(now + duration + 0.1);
+        overtoneOsc.stop(now + duration + 0.1);
       }
 
+      // Pentatonic lullaby notes (E Major Pentatonic: peaceful & ethereal)
       const lullabyNotes = [
-        329.63, 392.00, 440.00, 493.88, 440.00, 392.00,
-        329.63, 293.66, 329.63, 392.00, 293.66,
-        261.63, 293.66, 329.63, 392.00, 440.00, 493.88
+        329.63, // E4
+        392.00, // G4
+        440.00, // A4
+        493.88, // B4
+        659.25, // E5
+        587.33, // D5
+        493.88, // B4
+        440.00, // A4
+        392.00, // G4
+        329.63  // E4
       ];
 
       let noteIndex = 0;
-      function loopLullabySequence() {
+      function loopMagicalLullaby() {
         if (!isAudioPlaying) return;
 
         const noteFreq = lullabyNotes[noteIndex];
-        playLullabyNote(noteFreq, 2.2);
+        playMagicalChime(noteFreq, 4.0);
 
         noteIndex = (noteIndex + 1) % lullabyNotes.length;
-        const rhythmDelay = (noteIndex % 3 === 0) ? 1800 : 900;
-        melodyTimeout = setTimeout(loopLullabySequence, rhythmDelay);
+        
+        // Gentle, slow rhythmic pacing
+        const delays = [2200, 1800, 2400, 3000, 2000, 2500];
+        const nextDelay = delays[noteIndex % delays.length];
+
+        melodyTimeout = setTimeout(loopMagicalLullaby, nextDelay);
       }
 
       function startNightSoundscape() {
         initAudioContext();
         isAudioPlaying = true;
 
-        triggerCricketChirp();
-        cricketInterval = setInterval(() => {
-          if (Math.random() > 0.3) triggerCricketChirp();
-        }, 1200);
-
+        startSoftAmbientPad();
         noteIndex = 0;
-        loopLullabySequence();
+        loopMagicalLullaby();
       }
 
       function stopNightSoundscape() {
         isAudioPlaying = false;
-        if (cricketInterval) clearInterval(cricketInterval);
+        stopSoftAmbientPad();
         if (melodyTimeout) clearTimeout(melodyTimeout);
       }
 
@@ -1014,11 +1039,11 @@
           if (!isAudioPlaying) {
             startNightSoundscape();
             musicToggle.classList.add('is-playing');
-            if (musicText) musicText.innerText = "🔊 Playing Music";
+            if (musicText) musicText.innerText = "🔊 Playing Ambient";
           } else {
             stopNightSoundscape();
             musicToggle.classList.remove('is-playing');
-            if (musicText) musicText.innerText = "🎵 Night Sounds";
+            if (musicText) musicText.innerText = "✨ Magical Ambient";
           }
         });
       }
