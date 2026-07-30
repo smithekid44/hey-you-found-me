@@ -194,82 +194,105 @@
   </div>
 
   <script>
-    // DOM Elements
-    const btnFound = document.getElementById('btn-i-found');
-    const modal = document.getElementById('found-modal');
-    const btnClose = document.getElementById('close-modal');
-    
-    const ember = document.getElementById('ember-character');
-    const btnWalk = document.getElementById('btn-walk');
-    const speechBubble = document.getElementById('ember-bubble');
+    document.addEventListener("DOMContentLoaded", () => {
+      // DOM Elements
+      const btnFound = document.getElementById('btn-i-found');
+      const modal = document.getElementById('found-modal');
+      const btnClose = document.getElementById('close-modal');
+      
+      const ember = document.getElementById('ember-character');
+      const btnWalk = document.getElementById('btn-walk');
+      const speechBubble = document.getElementById('ember-bubble');
 
-    const statusToggle = document.getElementById('status-toggle');
-    const statusText = document.getElementById('status-text');
+      const statusToggle = document.getElementById('status-toggle');
+      const statusText = document.getElementById('status-text');
 
-    // Modal Controls
-    btnFound.addEventListener('click', () => modal.classList.add('active'));
-    btnClose.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+      let isHome = true;
+      let isWalking = false;
 
-    // Walking Control
-    let isWalking = false;
-    btnWalk.addEventListener('click', () => {
-      isWalking = !isWalking;
-      if (isWalking) {
-        ember.classList.remove('ember-idle');
-        ember.classList.add('ember-walking');
-        speechBubble.innerText = "Exploring the path... 🐾";
-        btnWalk.innerText = "🛑 Make Ember Sit";
-      } else {
-        ember.classList.remove('ember-walking');
-        ember.classList.add('ember-idle');
-        speechBubble.innerText = isHome ? "Thank you for being here! ♡" : "Help me find my way home! 🐾";
-        btnWalk.innerText = "🐾 Make Ember Walk";
+      // Modal Controls
+      if (btnFound && modal) {
+        btnFound.addEventListener('click', () => modal.classList.add('active'));
+      }
+      if (btnClose && modal) {
+        btnClose.addEventListener('click', () => modal.classList.remove('active'));
+      }
+      if (modal) {
+        modal.addEventListener('click', (e) => { 
+          if (e.target === modal) modal.classList.remove('active'); 
+        });
+      }
+
+      // Walking Control
+      if (btnWalk && ember && speechBubble) {
+        btnWalk.addEventListener('click', () => {
+          isWalking = !isWalking;
+          if (isWalking) {
+            ember.classList.remove('ember-idle');
+            ember.classList.add('ember-walking');
+            speechBubble.innerText = "Exploring the path... 🐾";
+            btnWalk.innerText = "🛑 Make Ember Sit";
+          } else {
+            ember.classList.remove('ember-walking');
+            ember.classList.add('ember-idle');
+            speechBubble.innerText = isHome ? "Thank you for being here! ♡" : "Help me find my way home! 🐾";
+            btnWalk.innerText = "🐾 Make Ember Walk";
+          }
+        });
+
+        ember.addEventListener('click', () => btnWalk.click());
+      }
+
+      // Status Pill Toggle (Home vs Missing)
+      if (statusToggle && statusText) {
+        statusToggle.addEventListener('click', () => {
+          isHome = !isHome;
+
+          if (isHome) {
+            statusToggle.classList.remove('is-missing');
+            statusText.innerText = "Ember is home";
+            if (!isWalking && speechBubble) {
+              speechBubble.innerText = "Thank you for being here! ♡";
+            }
+          } else {
+            statusToggle.classList.add('is-missing');
+            statusText.innerText = "Ember is missing!";
+            if (!isWalking && speechBubble) {
+              speechBubble.innerText = "Help me find my way home! 🐾";
+            }
+            if (modal) {
+              modal.classList.add('active');
+            }
+          }
+        });
+      }
+
+      // Firefly Generator
+      const firefliesContainer = document.getElementById('fireflies');
+      if (firefliesContainer) {
+        const numberOfFireflies = 25;
+
+        for (let i = 0; i < numberOfFireflies; i++) {
+          const firefly = document.createElement('div');
+          firefly.classList.add('firefly');
+          
+          const startX = Math.random() * 100;
+          const startY = Math.random() * 100;
+          
+          const delay = Math.random() * 8;
+          const duration = 6 + Math.random() * 6;
+          const scale = 0.5 + Math.random() * 0.8;
+
+          firefly.style.left = `${startX}vw`;
+          firefly.style.top = `${startY}vh`;
+          firefly.style.animationDelay = `${delay}s`;
+          firefly.style.animationDuration = `${duration}s`;
+          firefly.style.transform = `scale(${scale})`;
+
+          firefliesContainer.appendChild(firefly);
+        }
       }
     });
-
-    ember.addEventListener('click', () => btnWalk.click());
-
-    // Status Pill Toggle (Home vs Missing)
-    let isHome = true;
-    statusToggle.addEventListener('click', () => {
-      isHome = !isHome;
-
-      if (isHome) {
-        statusToggle.classList.remove('is-missing');
-        statusText.innerText = "Ember is home";
-        if (!isWalking) speechBubble.innerText = "Thank you for being here! ♡";
-      } else {
-        statusToggle.classList.add('is-missing');
-        statusText.innerText = "Ember is missing!";
-        if (!isWalking) speechBubble.innerText = "Help me find my way home! 🐾";
-        modal.classList.add('active');
-      }
-    });
-
-    // Firefly Generator
-    const firefliesContainer = document.getElementById('fireflies');
-    const numberOfFireflies = 25;
-
-    for (let i = 0; i < numberOfFireflies; i++) {
-      const firefly = document.createElement('div');
-      firefly.classList.add('firefly');
-      
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 100;
-      
-      const delay = Math.random() * 8;
-      const duration = 6 + Math.random() * 6;
-      const scale = 0.5 + Math.random() * 0.8;
-
-      firefly.style.left = `${startX}vw`;
-      firefly.style.top = `${startY}vh`;
-      firefly.style.animationDelay = `${delay}s`;
-      firefly.style.animationDuration = `${duration}s`;
-      firefly.style.transform = `scale(${scale})`;
-
-      firefliesContainer.appendChild(firefly);
-    }
   </script>
 </body>
 </html>
