@@ -23,6 +23,49 @@ body {
   overflow-y: auto;
 }
 
+/* FIREFLIES CONTAINER & STYLES */
+#fireflies {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.firefly {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff, 0 0 30px var(--moon-gold);
+  animation: floatAndGlow 8s infinite ease-in-out;
+  opacity: 0;
+}
+
+@keyframes floatAndGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.6);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-80px) translateX(40px) scale(1.2);
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px) translateX(-30px) scale(0.4);
+  }
+}
+
 /* NAVIGATION */
 .navbar {
   position: absolute;
