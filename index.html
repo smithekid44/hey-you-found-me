@@ -10,8 +10,612 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --moon-gold: #fdf3c6;
+      --night-blue: #091122;
+      --forest-dark: #050a14;
+      --wood-orange: #b85b28;
+      --wood-orange-glow: #e07a5f;
+      --wood-dark: #1b2820;
+      --text-light: #f4efe6;
+      --kodama-glow: #7df9ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--night-blue);
+      color: var(--text-light);
+    }
+
+    /* FIREFLIES */
+    #fireflies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 4;
+      overflow: hidden;
+    }
+
+    .firefly {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: var(--moon-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff, 0 0 30px var(--moon-gold);
+      animation: floatAndGlow 8s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes floatAndGlow {
+      0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.6); }
+      30% { opacity: 0.9; }
+      50% { transform: translateY(-80px) translateX(40px) scale(1.2); }
+      70% { opacity: 0.8; }
+      100% { opacity: 0; transform: translateY(-160px) translateX(-30px) scale(0.4); }
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      background: linear-gradient(to bottom, rgba(5, 10, 20, 0.9), transparent);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      font-size: 1.6rem;
+      color: var(--moon-gold);
+    }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    .nav-links a.active {
+      color: var(--moon-gold);
+      opacity: 1;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* MUSIC & STATUS PILLS */
+    .music-pill,
+    .status-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'Nunito', sans-serif;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .music-pill.is-playing {
+      background: rgba(125, 249, 255, 0.2);
+      border-color: var(--kodama-glow);
+      box-shadow: 0 0 12px rgba(125, 249, 255, 0.4);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ef081;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4ef081;
+    }
+
+    .status-pill.is-missing {
+      background: rgba(224, 75, 75, 0.25);
+      border-color: rgba(255, 99, 99, 0.6);
+      color: #ffcdd2;
+    }
+
+    .status-pill.is-missing .status-dot {
+      background: #ff4d4d;
+      box-shadow: 0 0 10px #ff4d4d;
+      animation: pulseRed 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseRed {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.6; }
+    }
+
+    .hamburger-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+    }
+
+    .hamburger-btn span {
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 110px 8% 40px;
+    }
+
+    .moon {
+      position: absolute;
+      top: 8%;
+      left: 58%;
+      width: 120px;
+      height: 120px;
+      background: var(--moon-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 50px rgba(253, 243, 198, 0.5);
+      z-index: 1;
+    }
+
+    .forest-trees {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 45%;
+      background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
+      z-index: 2;
+    }
+
+    .mist-layer {
+      position: absolute;
+      bottom: 10%;
+      left: 0;
+      width: 200%;
+      height: 25%;
+      background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
+      animation: floatMist 14s infinite linear;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    @keyframes floatMist {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      max-width: 420px;
+      margin-bottom: 20px;
+    }
+
+    .content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .content p {
+      font-size: 1.05rem;
+      line-height: 1.4;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .btn-wooden-orange,
+    .btn-wooden-dark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-wooden-orange {
+      background: linear-gradient(180deg, #d36a33 0%, #a24b1f 100%);
+      color: #fff6e8;
+      border: 2px solid #f1935c;
+    }
+
+    .btn-wooden-dark {
+      background: linear-gradient(180deg, #243529 0%, #17241c 100%);
+      color: #e2ede5;
+      border: 2px solid #3e5b46;
+    }
+
+    /* STAGE CONTAINER */
+    .ember-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .speech-bubble {
+      position: relative;
+      margin-bottom: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--moon-gold);
+      z-index: 15;
+      background: rgba(9, 17, 34, 0.85);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(253, 243, 198, 0.3);
+      text-align: center;
+    }
+
+    .character-container {
+      position: relative;
+      width: 260px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    #ember-character {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 165px;
+      z-index: 12;
+      cursor: pointer;
+    }
+
+    .stone-path {
+      position: relative;
+      z-index: 5;
+      width: 260px;
+      height: 75px;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      background: linear-gradient(180deg, #1b2e22 0%, #0c1610 100%);
+      border-top: 2px solid rgba(253, 243, 198, 0.5);
+    }
+
+    /* ANIMATIONS */
+    .ember-idle { animation: breathe 3.5s infinite ease-in-out; }
+    @keyframes breathe {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-3px); }
+    }
+
+    .ember-tail {
+      transform-origin: 110px 130px;
+      animation: tailSwish 3s infinite ease-in-out;
+    }
+    @keyframes tailSwish {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(12deg); }
+    }
+
+    .ember-walking { animation: walkOnMound 2.8s infinite ease-in-out !important; }
+    @keyframes walkOnMound {
+      0% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
+      50% { transform: translateX(0px) translateY(5px) rotate(5deg); }
+      100% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
+    }
+
+    /* EXPLORE SECTION */
+    .explore-section {
+      position: relative;
+      background: #060b14;
+      padding: 50px 5% 60px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .section-title h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+
+    .world-card {
+      background: rgba(14, 23, 38, 0.6);
+      border: 1px solid rgba(253, 243, 198, 0.12);
+      border-radius: 16px;
+      padding: 24px 15px;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .world-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .world-card p {
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+
+    .kindness-banner {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #0e1726;
+      border: 1px solid rgba(253, 243, 198, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      text-align: left;
+    }
+
+    .badge-oval {
+      border: 1px solid rgba(253, 243, 198, 0.3);
+      border-radius: 30px;
+      padding: 8px 14px;
+      font-size: 0.75rem;
+    }
+
+    footer {
+      padding: 20px;
+      background: #040810;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 10, 20, 0.85);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      position: relative;
+      background: #111c30;
+      border: 1px solid rgba(253, 243, 198, 0.2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      padding: 24px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.6rem;
+    }
+
+    .urgent-contact {
+      background: rgba(224, 122, 95, 0.15);
+      border: 1px solid var(--wood-orange-glow);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    .phone-link {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--moon-gold);
+      text-decoration: none;
+    }
+
+    #found-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #found-form input,
+    #found-form textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .submit-btn {
+      background: var(--wood-orange-glow);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    /* MOBILE MEDIA QUERIES (< 768px) */
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(5, 10, 20, 0.95);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 16px;
+        display: none;
+        border-bottom: 1px solid rgba(253, 243, 198, 0.2);
+      }
+
+      .nav-links.nav-open {
+        display: flex;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding-top: 90px;
+        padding-bottom: 30px;
+        gap: 20px;
+      }
+
+      .moon {
+        top: 4%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 90px;
+      }
+
+      .content {
+        text-align: center;
+      }
+
+      .hero-buttons {
+        margin: 0 auto;
+      }
+
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .kindness-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -201,7 +805,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Basic Elements
       const btnFound = document.getElementById('btn-i-found');
       const modal = document.getElementById('found-modal');
       const btnClose = document.getElementById('close-modal');
@@ -219,7 +822,6 @@
       let isHome = true;
       let isWalking = false;
 
-      // Mobile Menu
       if (hamburgerBtn && navLinks) {
         hamburgerBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -233,7 +835,6 @@
         });
       }
 
-      // Modal Controls
       if (btnFound && modal) {
         btnFound.addEventListener('click', () => modal.classList.add('active'));
       }
@@ -246,7 +847,6 @@
         });
       }
 
-      // Walking Toggle
       if (btnWalk && ember && speechBubble) {
         const toggleWalk = () => {
           isWalking = !isWalking;
@@ -267,7 +867,6 @@
         ember.addEventListener('click', toggleWalk);
       }
 
-      // Status Pill
       if (statusToggle && statusText) {
         statusToggle.addEventListener('click', () => {
           isHome = !isHome;
@@ -285,7 +884,6 @@
         });
       }
 
-      // Fireflies
       const firefliesContainer = document.getElementById('fireflies');
       if (firefliesContainer) {
         const count = window.innerWidth < 600 ? 12 : 25;
@@ -301,9 +899,7 @@
         }
       }
 
-      // ==========================================
-      // SYNTHESIZED WEB AUDIO (Crickets & Lullaby)
-      // ==========================================
+      // WEB AUDIO API - Built-in Crickets & Lullaby
       let audioCtx = null;
       let isAudioPlaying = false;
       let cricketInterval = null;
@@ -322,7 +918,6 @@
         }
       }
 
-      // 1. Synthesize Cricket Chirps
       function triggerCricketChirp() {
         if (!isAudioPlaying || !audioCtx) return;
 
@@ -331,13 +926,11 @@
         const osc2 = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
 
-        // High frequency cricket tone pairing
         osc1.type = 'sine';
         osc2.type = 'sine';
         osc1.frequency.setValueAtTime(4500, now);
         osc2.frequency.setValueAtTime(4650, now);
 
-        // Rapid pulses (chirp pattern)
         const pulses = 3 + Math.floor(Math.random() * 2);
         const pulseLen = 0.035;
         
@@ -358,19 +951,16 @@
         osc2.stop(now + (pulses * pulseLen * 2));
       }
 
-      // 2. Synthesize Chime Lullaby Note
-      function playLullabyNote(freq, duration = 1.8, delay = 0) {
+      function playLullabyNote(freq, duration = 1.8) {
         if (!isAudioPlaying || !audioCtx) return;
 
-        const now = audioCtx.currentTime + delay;
+        const now = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
 
-        // Warm chime sound (sine wave)
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, now);
 
-        // Soft bell envelope
         gainNode.gain.setValueAtTime(0.001, now);
         gainNode.gain.linearRampToValueAtTime(0.18, now + 0.08);
         gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
@@ -382,11 +972,10 @@
         osc.stop(now + duration + 0.1);
       }
 
-      // Gentle Lullaby Sequence (Frequencies in Hz)
       const lullabyNotes = [
-        329.63, 392.00, 440.00, 493.88, 440.00, 392.00, // E4, G4, A4, B4, A4, G4
-        329.63, 293.66, 329.63, 392.00, 293.66,        // E4, D4, E4, G4, D4
-        261.63, 293.66, 329.63, 392.00, 440.00, 493.88 // C4, D4, E4, G4, A4, B4
+        329.63, 392.00, 440.00, 493.88, 440.00, 392.00,
+        329.63, 293.66, 329.63, 392.00, 293.66,
+        261.63, 293.66, 329.63, 392.00, 440.00, 493.88
       ];
 
       let noteIndex = 0;
@@ -394,11 +983,9 @@
         if (!isAudioPlaying) return;
 
         const noteFreq = lullabyNotes[noteIndex];
-        playLullabyNote(noteFreq, 2.2, 0);
+        playLullabyNote(noteFreq, 2.2);
 
         noteIndex = (noteIndex + 1) % lullabyNotes.length;
-        
-        // Rhythm delay between notes
         const rhythmDelay = (noteIndex % 3 === 0) ? 1800 : 900;
         melodyTimeout = setTimeout(loopLullabySequence, rhythmDelay);
       }
@@ -407,13 +994,11 @@
         initAudioContext();
         isAudioPlaying = true;
 
-        // Start crickets loop
         triggerCricketChirp();
         cricketInterval = setInterval(() => {
           if (Math.random() > 0.3) triggerCricketChirp();
         }, 1200);
 
-        // Start lullaby melody loop
         noteIndex = 0;
         loopLullabySequence();
       }
@@ -424,7 +1009,6 @@
         if (melodyTimeout) clearTimeout(melodyTimeout);
       }
 
-      // Audio Toggle Click Handler
       if (musicToggle) {
         musicToggle.addEventListener('click', () => {
           if (!isAudioPlaying) {
