@@ -4,68 +4,169 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ember - The Whispering Woods</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- External Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAVIGATION -->
+  <!-- FIREFLIES OVERLAY -->
+  <div id="fireflies"></div>
+
+  <!-- NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
-      <span>🍂</span> EMBER
+      <span class="logo-icon">🍂</span>
+      <span class="logo-text">EMBER</span>
     </div>
-    <ul class="nav-links">
+
+    <ul class="nav-links" id="nav-links">
       <li><a href="#hero" class="active">Forest</a></li>
       <li><a href="#explore">Lore</a></li>
       <li><a href="#kindness">Map</a></li>
     </ul>
+
+    <div class="nav-right">
+      <button class="music-pill" id="music-btn" title="Toggle Forest Ambience">
+        <span class="music-icon">🎵</span>
+        <span class="music-label">Ambience</span>
+      </button>
+
+      <div class="status-pill" id="status-pill">
+        <span class="status-dot"></span>
+        <span class="status-text">SAFE</span>
+      </div>
+
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- HERO SECTION -->
   <section class="hero" id="hero">
+    <!-- Moon Background Element -->
+    <div class="moon"></div>
+
     <!-- BACKGROUND TREES SVG -->
     <svg class="forest-trees" viewBox="0 0 1200 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <g opacity="0.6">
-        <path d="M 120 600 L 135 320 L 150 200 L 160 600 Z" fill="#020408"/>
-        <circle cx="140" cy="180" r="95" fill="#0a1728"/>
-        <path d="M 1020 600 L 1030 350 L 1055 600 Z" fill="#020408"/>
-        <circle cx="1035" cy="130" r="120" fill="#0a1728"/>
+      <!-- Far Background Layer (Dark silhouettes) -->
+      <g opacity="0.45">
+        <!-- Far Left Tree -->
+        <path d="M 120 600 L 135 320 Q 140 280 130 200 L 150 200 Q 145 280 160 600 Z" fill="#03070d"/>
+        <circle cx="140" cy="180" r="85" fill="#0a1728"/>
+        <circle cx="90" cy="220" r="65" fill="#0a1728"/>
+        <circle cx="180" cy="210" r="70" fill="#0a1728"/>
+
+        <!-- Far Mid Tree -->
+        <path d="M 450 600 L 460 380 Q 465 290 455 220 L 475 220 Q 470 290 485 600 Z" fill="#03070d"/>
+        <circle cx="465" cy="190" r="95" fill="#0c1d33"/>
+        <circle cx="410" cy="240" r="75" fill="#0c1d33"/>
+
+        <!-- Far Right Tree -->
+        <path d="M 1020 600 L 1030 350 Q 1035 250 1025 150 L 1050 150 Q 1040 250 1055 600 Z" fill="#03070d"/>
+        <circle cx="1035" cy="130" r="110" fill="#0a1728"/>
+        <circle cx="970" cy="180" r="80" fill="#0a1728"/>
+        <circle cx="1090" cy="190" r="75" fill="#0a1728"/>
+      </g>
+
+      <!-- Mid-ground Forest Layer (Closer, detailed branches) -->
+      <g opacity="0.8">
+        <!-- Left Canopy Tree -->
+        <path d="M 280 600 Q 290 400 300 280 L 320 280 Q 310 400 320 600 Z" fill="#050a14"/>
+        <!-- Branch extending inwards -->
+        <path d="M 305 380 Q 360 350 420 360 L 420 370 Q 360 362 305 390 Z" fill="#050a14"/>
+        <circle cx="310" cy="250" r="90" fill="#0a1526"/>
+        <circle cx="370" cy="280" r="60" fill="#0a1526"/>
+
+        <!-- Right Canopy Tree -->
+        <path d="M 850 600 Q 840 380 830 240 L 855 240 Q 860 380 880 600 Z" fill="#050a14"/>
+        <!-- Branch extending towards center above Ember -->
+        <path d="M 840 340 Q 750 310 660 320 L 660 328 Q 750 320 840 350 Z" fill="#050a14"/>
+        <circle cx="840" cy="210" r="100" fill="#0d1f38"/>
+        <circle cx="770" cy="250" r="75" fill="#0d1f38"/>
       </g>
     </svg>
 
-    <!-- MAIN CONTENT COPY -->
+    <!-- Animated Mist -->
+    <div class="mist-layer"></div>
+
+    <!-- Left Content Text & Buttons -->
     <div class="content">
       <h1>Lost Spirit of the Woods</h1>
       <p>Guiding embers through the twilight canopy. Whispers say he carries the warmth of forgotten fires.</p>
+
       <div class="hero-buttons">
-        <button class="btn-orange" id="interact-btn">Speak to Ember</button>
-        <button class="btn-dark" id="report-btn">Signal Location</button>
+        <button class="btn-wooden-orange" id="interact-btn">
+          <span>🐾</span> Speak to Ember
+        </button>
+        <button class="btn-wooden-dark" id="report-btn">
+          <span>📍</span> Signal Location
+        </button>
       </div>
     </div>
 
-    <!-- EMBER STAGE WITH LANTERNS & MUSHROOMS -->
+    <!-- Right Character Stage & Glowing Elements -->
     <div class="ember-stage">
-      <div class="speech-bubble" id="speech-bubble">"The stars are bright tonight..."</div>
-      
+      <div class="speech-bubble" id="speech-bubble">
+        "The stars are bright tonight..."
+      </div>
+
       <div class="character-container">
-        <!-- LANTERNS -->
+        <!-- Floating/Hanging Lanterns -->
         <div class="glowing-lantern lantern-left">
           <div class="lantern-string"></div>
           <div class="lantern-body"><div class="lantern-glow"></div></div>
         </div>
+
         <div class="glowing-lantern lantern-right">
           <div class="lantern-string"></div>
           <div class="lantern-body"><div class="lantern-glow"></div></div>
         </div>
 
-        <!-- EMBER CHARACTER -->
-        <svg id="ember-character" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="100" cy="135" rx="42" ry="48" fill="#1b2820"/>
-          <circle cx="100" cy="80" r="32" fill="#1b2820"/>
-          <ellipse cx="88" cy="76" rx="5" ry="7" fill="#7df9ff"/>
-          <ellipse cx="112" cy="76" rx="5" ry="7" fill="#7df9ff"/>
+        <!-- Ember Character SVG -->
+        <svg id="ember-character" class="ember-idle" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Animated Tail -->
+          <path class="ember-tail" d="M 110 130 C 140 120, 160 150, 145 180 C 130 210, 90 200, 110 170" stroke="#b85b28" stroke-width="18" stroke-linecap="round" fill="none" />
+          
+          <!-- Body Base -->
+          <ellipse cx="100" cy="135" rx="42" ry="48" fill="#1b2820" />
+          
+          <!-- Chest Fur Arc -->
+          <path d="M 82 110 Q 100 135 118 110 Q 100 150 82 110" fill="#fdf3c6" opacity="0.9" />
+
+          <!-- Head -->
+          <circle cx="100" cy="80" r="32" fill="#1b2820" />
+
+          <!-- Ears -->
+          <path d="M 72 62 L 60 30 L 82 52 Z" fill="#1b2820" />
+          <path d="M 73 58 L 65 36 L 80 50 Z" fill="#b85b28" />
+
+          <path d="M 128 62 L 140 30 L 118 52 Z" fill="#1b2820" />
+          <path d="M 127 58 L 135 36 L 120 50 Z" fill="#b85b28" />
+
+          <!-- Glowing Eyes -->
+          <ellipse cx="88" cy="76" rx="5" ry="7" fill="#7df9ff" />
+          <ellipse cx="112" cy="76" rx="5" ry="7" fill="#7df9ff" />
+          <circle cx="89" cy="74" r="2" fill="#ffffff" />
+          <circle cx="113" cy="74" r="2" fill="#ffffff" />
+
+          <!-- Snout & Nose -->
+          <polygon points="97,84 103,84 100,88" fill="#fdf3c6" />
+
+          <!-- Small Paws -->
+          <ellipse cx="82" cy="176" rx="10" ry="7" fill="#1b2820" />
+          <ellipse cx="118" cy="176" rx="10" ry="7" fill="#1b2820" />
         </svg>
 
-        <!-- MUSHROOMS -->
+        <!-- Glowing Mushrooms on the mound -->
         <div class="glowing-mushroom mushroom-1">
           <div class="shroom-cap"></div>
           <div class="shroom-stem"></div>
@@ -74,30 +175,170 @@
           <div class="shroom-cap"></div>
           <div class="shroom-stem"></div>
         </div>
+        <div class="glowing-mushroom mushroom-3">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+
+        <!-- Mound Base -->
+        <div class="stone-path"></div>
       </div>
     </div>
   </section>
 
+  <!-- EXPLORE SECTION -->
+  <section class="explore-section" id="explore">
+    <div class="section-title">
+      <h2>Secrets of the Grove</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="world-card">
+        <div class="card-icon">🌲</div>
+        <h3>Ancient Pines</h3>
+        <p>Tall sentinels that keep watch over wandering spirits in the mist.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🍄</div>
+        <h3>Glowing Spores</h3>
+        <p>Bioluminescent fungi that light hidden paths for nightly travelers.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🏮</div>
+        <h3>Spirit Lanterns</h3>
+        <p>Warm lights left behind by kind wanderers seeking peace.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">✨</div>
+        <h3>Kodama Light</h3>
+        <p>Gentle forest whispers that guide lost companions back home.</p>
+      </div>
+    </div>
+
+    <!-- KINDNESS BANNER -->
+    <div class="kindness-banner" id="kindness">
+      <div class="banner-text">
+        <h3>Found a Lost Companion?</h3>
+        <p>Send word through the forest network so we can help them return home.</p>
+      </div>
+      <div class="badge-oval">
+        <span>Protected Grove</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 The Whispering Woods. All rights reserved.</p>
+    <p>Crafted with warmth & embers.</p>
+  </footer>
+
+  <!-- SIGNAL MODAL POPUP -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <button class="close-btn" id="close-modal">&times;</button>
+      <h3>Signal Forest Keepers</h3>
+      <p>Leave a message or location if you have spotted a wandering spirit.</p>
+
+      <div class="urgent-contact">
+        <p>Direct Beacon Line:</p>
+        <a href="tel:5550192" class="phone-link">(555) 019-2384</a>
+      </div>
+
+      <form id="found-form" onsubmit="event.preventDefault(); alert('Signal sent across the woods!');">
+        <input type="text" placeholder="Your Name or Ranger ID" required>
+        <input type="text" placeholder="Coordinates / Area Spotted" required>
+        <textarea rows="3" placeholder="Additional details (e.g. glowing fur, tail shape)..."></textarea>
+        <button type="submit" class="submit-btn">Send Signal</button>
+      </form>
+    </div>
+  </div>
+
   <!-- INTERACTIVE SCRIPT -->
   <script>
-    const ember = document.getElementById('ember-character');
-    const speech = document.getElementById('speech-bubble');
-    const btn = document.getElementById('interact-btn');
+    // Navigation Hamburger Toggle
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburgerBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+    });
+
+    // Ember Dialogue Interaction
+    const emberChar = document.getElementById('ember-character');
+    const speechBubble = document.getElementById('speech-bubble');
+    const interactBtn = document.getElementById('interact-btn');
 
     const phrases = [
       '"The stars are bright tonight..."',
       '"Did you bring any sweet berries?"',
-      '"Listen closely to the wind in the pines..."'
+      '"Listen closely to the wind in the pines..."',
+      '"The fireflies are dancing early!"',
+      '"I feel safe when the lanterns glow."'
     ];
 
-    function speak() {
-      if (speech) {
-        speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-      }
+    function speakNextPhrase() {
+      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      speechBubble.textContent = randomPhrase;
+
+      // Small character bounce trigger
+      emberChar.style.transform = 'translateX(-50%) translateY(-6px)';
+      setTimeout(() => {
+        emberChar.style.transform = '';
+      }, 200);
     }
 
-    if (ember) ember.addEventListener('click', speak);
-    if (btn) btn.addEventListener('click', speak);
+    emberChar.addEventListener('click', speakNextPhrase);
+    interactBtn.addEventListener('click', speakNextPhrase);
+
+    // Modal Control
+    const reportBtn = document.getElementById('report-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const closeModal = document.getElementById('close-modal');
+
+    reportBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('active');
+    });
+
+    closeModal.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+      }
+    });
+
+    // Music Pill Toggle State
+    const musicBtn = document.getElementById('music-btn');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        musicBtn.classList.add('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Playing';
+      } else {
+        musicBtn.classList.remove('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Ambience';
+      }
+    });
+
+    // Generate Dynamic Fireflies
+    const fireflyContainer = document.getElementById('fireflies');
+    for (let i = 0; i < 20; i++) {
+      const firefly = document.createElement('div');
+      firefly.className = 'firefly';
+      firefly.style.left = Math.random() * 100 + 'vw';
+      firefly.style.top = Math.random() * 80 + 10 + 'vh';
+      firefly.style.animationDelay = Math.random() * 8 + 's';
+      firefly.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      fireflyContainer.appendChild(firefly);
+    }
   </script>
 </body>
 </html>
