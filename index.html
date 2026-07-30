@@ -2,654 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hey You Found Me — Meet Ember</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember - The Whispering Woods</title>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --moon-gold: #fdf3c6;
-      --night-blue: #091122;
-      --forest-dark: #050a14;
-      --wood-orange: #b85b28;
-      --wood-orange-glow: #e07a5f;
-      --wood-dark: #1b2820;
-      --text-light: #f4efe6;
-      --kodama-glow: #7df9ff;
-    }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden;
-      font-family: 'Nunito', sans-serif;
-      background-color: var(--night-blue);
-      color: var(--text-light);
-    }
-
-    /* FIREFLIES */
-    #fireflies {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 4;
-      overflow: hidden;
-    }
-
-    .firefly {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background-color: var(--moon-gold);
-      border-radius: 50%;
-      box-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff, 0 0 30px var(--moon-gold);
-      animation: floatAndGlow 8s infinite ease-in-out;
-      opacity: 0;
-    }
-
-    @keyframes floatAndGlow {
-      0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.6); }
-      30% { opacity: 0.9; }
-      50% { transform: translateY(-80px) translateX(40px) scale(1.2); }
-      70% { opacity: 0.8; }
-      100% { opacity: 0; transform: translateY(-160px) translateX(-30px) scale(0.4); }
-    }
-
-    /* NAVBAR */
-    .navbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 50;
-      background: linear-gradient(to bottom, rgba(5, 10, 20, 0.9), transparent);
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-icon {
-      font-size: 1.6rem;
-      color: var(--moon-gold);
-    }
-
-    .logo-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 25px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-light);
-      font-size: 0.95rem;
-      opacity: 0.85;
-    }
-
-    .nav-links a.active {
-      color: var(--moon-gold);
-      opacity: 1;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* MUSIC & STATUS PILLS */
-    .music-pill,
-    .status-pill {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-family: 'Nunito', sans-serif;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      backdrop-filter: blur(5px);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .music-pill.is-playing {
-      background: rgba(125, 249, 255, 0.2);
-      border-color: var(--kodama-glow);
-      box-shadow: 0 0 12px rgba(125, 249, 255, 0.4);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background: #4ef081;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #4ef081;
-    }
-
-    .status-pill.is-missing {
-      background: rgba(224, 75, 75, 0.25);
-      border-color: rgba(255, 99, 99, 0.6);
-      color: #ffcdd2;
-    }
-
-    .status-pill.is-missing .status-dot {
-      background: #ff4d4d;
-      box-shadow: 0 0 10px #ff4d4d;
-      animation: pulseRed 1.2s infinite ease-in-out;
-    }
-
-    @keyframes pulseRed {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: 0.6; }
-    }
-
-    .hamburger-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      padding: 6px;
-    }
-
-    .hamburger-btn span {
-      width: 22px;
-      height: 2px;
-      background: #fff;
-      border-radius: 2px;
-    }
-
-    /* HERO SECTION */
-    .hero {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding: 110px 8% 40px;
-    }
-
-    .moon {
-      position: absolute;
-      top: 8%;
-      left: 58%;
-      width: 120px;
-      height: 120px;
-      background: var(--moon-gold);
-      border-radius: 50%;
-      box-shadow: 0 0 50px rgba(253, 243, 198, 0.5);
-      z-index: 1;
-    }
-
-    .forest-trees {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 45%;
-      background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
-      z-index: 2;
-    }
-
-    .mist-layer {
-      position: absolute;
-      bottom: 10%;
-      left: 0;
-      width: 200%;
-      height: 25%;
-      background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
-      animation: floatMist 14s infinite linear;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    @keyframes floatMist {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .content {
-      position: relative;
-      z-index: 10;
-      max-width: 420px;
-      margin-bottom: 20px;
-    }
-
-    .content h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      font-weight: 600;
-      line-height: 1.05;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }
-
-    .content p {
-      font-size: 1.05rem;
-      line-height: 1.4;
-      opacity: 0.9;
-      margin-bottom: 20px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 280px;
-    }
-
-    .btn-wooden-orange,
-    .btn-wooden-dark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      padding: 12px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .btn-wooden-orange {
-      background: linear-gradient(180deg, #d36a33 0%, #a24b1f 100%);
-      color: #fff6e8;
-      border: 2px solid #f1935c;
-    }
-
-    .btn-wooden-dark {
-      background: linear-gradient(180deg, #243529 0%, #17241c 100%);
-      color: #e2ede5;
-      border: 2px solid #3e5b46;
-    }
-
-    /* STAGE CONTAINER */
-    .ember-stage {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-
-    .speech-bubble {
-      position: relative;
-      margin-bottom: 10px;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--moon-gold);
-      z-index: 15;
-      background: rgba(9, 17, 34, 0.85);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(253, 243, 198, 0.3);
-      text-align: center;
-    }
-
-    .character-container {
-      position: relative;
-      width: 260px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-    }
-
-    #ember-character {
-      position: absolute;
-      bottom: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 165px;
-      z-index: 12;
-      cursor: pointer;
-    }
-
-    .stone-path {
-      position: relative;
-      z-index: 5;
-      width: 260px;
-      height: 75px;
-      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-      background: linear-gradient(180deg, #1b2e22 0%, #0c1610 100%);
-      border-top: 2px solid rgba(253, 243, 198, 0.5);
-    }
-
-    /* ANIMATIONS */
-    .ember-idle { animation: breathe 3.5s infinite ease-in-out; }
-    @keyframes breathe {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-3px); }
-    }
-
-    .ember-tail {
-      transform-origin: 110px 130px;
-      animation: tailSwish 3s infinite ease-in-out;
-    }
-    @keyframes tailSwish {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(12deg); }
-    }
-
-    .ember-walking { animation: walkOnMound 2.8s infinite ease-in-out !important; }
-    @keyframes walkOnMound {
-      0% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
-      50% { transform: translateX(0px) translateY(5px) rotate(5deg); }
-      100% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
-    }
-
-    /* EXPLORE SECTION */
-    .explore-section {
-      position: relative;
-      background: #060b14;
-      padding: 50px 5% 60px;
-      text-align: center;
-      z-index: 10;
-    }
-
-    .section-title h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      margin-bottom: 30px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 1100px;
-      margin: 0 auto 40px;
-    }
-
-    .world-card {
-      background: rgba(14, 23, 38, 0.6);
-      border: 1px solid rgba(253, 243, 198, 0.12);
-      border-radius: 16px;
-      padding: 24px 15px;
-    }
-
-    .card-icon {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    .world-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      margin-bottom: 6px;
-    }
-
-    .world-card p {
-      font-size: 0.85rem;
-      opacity: 0.75;
-    }
-
-    .kindness-banner {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #0e1726;
-      border: 1px solid rgba(253, 243, 198, 0.15);
-      border-radius: 16px;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      text-align: left;
-    }
-
-    .badge-oval {
-      border: 1px solid rgba(253, 243, 198, 0.3);
-      border-radius: 30px;
-      padding: 8px 14px;
-      font-size: 0.75rem;
-    }
-
-    footer {
-      padding: 20px;
-      background: #040810;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(5, 10, 20, 0.85);
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-card {
-      position: relative;
-      background: #111c30;
-      border: 1px solid rgba(253, 243, 198, 0.2);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 400px;
-      padding: 24px;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: none;
-      border: none;
-      color: var(--text-light);
-      font-size: 1.6rem;
-    }
-
-    .urgent-contact {
-      background: rgba(224, 122, 95, 0.15);
-      border: 1px solid var(--wood-orange-glow);
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      margin: 12px 0;
-    }
-
-    .phone-link {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--moon-gold);
-      text-decoration: none;
-    }
-
-    #found-form {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    #found-form input,
-    #found-form textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.4);
-      color: #fff;
-      font-size: 0.9rem;
-    }
-
-    .submit-btn {
-      background: var(--wood-orange-glow);
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      margin-top: 5px;
-    }
-
-    /* MOBILE MEDIA QUERIES (< 768px) */
-    @media (max-width: 768px) {
-      .hamburger-btn {
-        display: flex;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(5, 10, 20, 0.95);
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        gap: 16px;
-        display: none;
-        border-bottom: 1px solid rgba(253, 243, 198, 0.2);
-      }
-
-      .nav-links.nav-open {
-        display: flex;
-      }
-
-      .hero {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        padding-top: 90px;
-        padding-bottom: 30px;
-        gap: 20px;
-      }
-
-      .moon {
-        top: 4%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90px;
-        height: 90px;
-      }
-
-      .content {
-        text-align: center;
-      }
-
-      .hero-buttons {
-        margin: 0 auto;
-      }
-
-      .card-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .kindness-banner {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-      }
-    }
-  </style>
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Background Animated Fireflies Container -->
+  <!-- FIREFLIES OVERLAY -->
   <div id="fireflies"></div>
 
-  <!-- 1. TOP NAVIGATION BAR -->
+  <!-- NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
-      <span class="logo-icon">🐾</span>
-      <span class="logo-text">Hey You<br>Found Me</span>
+      <span class="logo-icon">🍂</span>
+      <span class="logo-text">EMBER</span>
     </div>
 
     <ul class="nav-links" id="nav-links">
-      <li><a href="#" class="active">Meet Ember 🐾</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#adventures">Adventures</a></li>
-      <li><a href="#if-im-lost">If I'm Lost</a></li>
+      <li><a href="#hero" class="active">Forest</a></li>
+      <li><a href="#explore">Lore</a></li>
+      <li><a href="#kindness">Map</a></li>
     </ul>
 
     <div class="nav-right">
-      <!-- Built-in Audio Control -->
-      <button class="music-pill" id="music-toggle" aria-label="Toggle Night Audio">
-        <span class="music-dot" id="music-dot"></span>
-        <span id="music-text">✨ Magical Ambient</span>
+      <button class="music-pill" id="music-btn" title="Toggle Forest Ambience">
+        <span class="music-icon">🎵</span>
+        <span class="music-label">Ambience</span>
       </button>
 
-      <!-- Status Pill Toggle -->
-      <button class="status-pill" id="status-toggle" aria-label="Toggle Ember Status">
-        <span class="status-dot" id="status-dot"></span>
-        <span id="status-text">Ember is home</span>
-      </button>
+      <div class="status-pill" id="status-pill">
+        <span class="status-dot"></span>
+        <span class="status-text">SAFE</span>
+      </div>
 
-      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Menu">
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
         <span></span>
         <span></span>
         <span></span>
@@ -657,397 +50,274 @@
     </div>
   </nav>
 
-  <!-- 2. HERO SECTION -->
-  <section class="hero">
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <!-- Moon Background Element -->
     <div class="moon"></div>
-    <div class="forest-trees"></div>
-    <div class="mist-layer"></div>
 
-    <!-- Hero Content -->
-    <div class="content">
-      <h1>Hey... ♡<br>You Found Me</h1>
-      <p>If you're here, you may have found someone very special.</p>
-      
-      <div class="hero-buttons">
-        <button class="btn-wooden-orange" id="btn-i-found">❤️ I Found Ember</button>
-        <button class="btn-wooden-dark" id="btn-walk">🐾 Make Ember Walk</button>
+    <!-- BACKGROUND TREES -->
+    <div class="forest-trees">
+      <div class="tree-group bg-trees">
+        <div class="tree-trunk" style="left: 10%; width: 30px; height: 180px;"></div>
+        <div class="tree-canopy" style="left: 5%; bottom: 120px; width: 110px; height: 140px;"></div>
+        
+        <div class="tree-trunk" style="right: 15%; width: 45px; height: 220px;"></div>
+        <div class="tree-canopy" style="right: 10%; bottom: 150px; width: 140px; height: 180px;"></div>
+      </div>
+
+      <div class="tree-group fg-trees">
+        <div class="tree-trunk" style="left: 32%; width: 20px; height: 140px;"></div>
+        <div class="tree-canopy" style="left: 28%; bottom: 100px; width: 80px; height: 100px;"></div>
+
+        <div class="tree-trunk" style="right: 35%; width: 25px; height: 160px;"></div>
+        <div class="tree-canopy" style="right: 30%; bottom: 110px; width: 90px; height: 110px;"></div>
       </div>
     </div>
 
-    <!-- Ember Stage -->
+    <!-- Animated Mist -->
+    <div class="mist-layer"></div>
+
+    <!-- Left Content Text & Buttons -->
+    <div class="content">
+      <h1>Lost Spirit of the Woods</h1>
+      <p>Guiding embers through the twilight canopy. Whispers say he carries the warmth of forgotten fires.</p>
+
+      <div class="hero-buttons">
+        <button class="btn-wooden-orange" id="interact-btn">
+          <span>🐾</span> Speak to Ember
+        </button>
+        <button class="btn-wooden-dark" id="report-btn">
+          <span>📍</span> Signal Location
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Character Stage & Glowing Elements -->
     <div class="ember-stage">
-      <div class="speech-bubble" id="ember-bubble">Thank you for being here! ♡</div>
-      
+      <div class="speech-bubble" id="speech-bubble">
+        "The stars are bright tonight..."
+      </div>
+
       <div class="character-container">
-        <svg id="ember-character" class="ember-idle" viewBox="0 0 200 205">
-          <!-- Tail -->
-          <path class="ember-tail" d="M 115 140 C 145 130, 165 100, 150 75 C 140 60, 125 70, 132 88 C 138 102, 122 120, 110 130" fill="#e07a5f" stroke="#a24b1f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Floating Lanterns -->
+        <div class="glowing-lantern lantern-left">
+          <div class="lantern-string"></div>
+          <div class="lantern-body"><div class="lantern-glow"></div></div>
+        </div>
+
+        <div class="glowing-lantern lantern-right">
+          <div class="lantern-string"></div>
+          <div class="lantern-body"><div class="lantern-glow"></div></div>
+        </div>
+
+        <!-- Ember Character SVG/Graphics -->
+        <svg id="ember-character" class="ember-idle" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Animated Tail -->
+          <path class="ember-tail" d="M 110 130 C 140 120, 160 150, 145 180 C 130 210, 90 200, 110 170" stroke="#b85b28" stroke-width="18" stroke-linecap="round" fill="none" />
           
-          <!-- Back Paws -->
-          <ellipse class="paw paw-back-left" cx="72" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
-          <ellipse class="paw paw-back-right" cx="128" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
-
-          <!-- Body -->
-          <path d="M 68 100 C 55 130, 58 185, 72 195 C 85 200, 115 200, 128 195 C 142 185, 145 130, 132 100 Z" fill="#e07a5f" />
-          <path d="M 85 102 C 80 130, 82 165, 100 180 C 118 165, 120 130, 115 102 Z" fill="#fff6e8" />
-
-          <!-- Front Paws -->
-          <ellipse class="paw paw-front-left" cx="86" cy="200" rx="10" ry="7" fill="#fff6e8" />
-          <ellipse class="paw paw-front-right" cx="114" cy="200" rx="10" ry="7" fill="#fff6e8" />
+          <!-- Body Base -->
+          <ellipse cx="100" cy="135" rx="42" ry="48" fill="#1b2820" />
+          
+          <!-- Chest Fur Arc -->
+          <path d="M 82 110 Q 100 135 118 110 Q 100 150 82 110" fill="#fdf3c6" opacity="0.9" />
 
           <!-- Head -->
-          <path d="M 55 75 C 45 102, 155 102, 145 75 C 145 42, 55 42, 55 75 Z" fill="#e07a5f" />
-          
+          <circle cx="100" cy="80" r="32" fill="#1b2820" />
+
           <!-- Ears -->
-          <polygon points="62,55 48,15 78,40" fill="#e07a5f" />
-          <polygon points="65,52 53,22 76,40" fill="#f1a690" />
-          <polygon points="138,55 152,15 122,40" fill="#e07a5f" />
-          <polygon points="135,52 147,22 124,40" fill="#f1a690" />
-          
-          <!-- Eyes -->
-          <ellipse cx="80" cy="70" rx="9" ry="13" fill="#7df9ff" />
-          <ellipse cx="120" cy="70" rx="9" ry="13" fill="#7df9ff" />
-          <ellipse cx="80" cy="70" rx="4" ry="9" fill="#091122" />
-          <ellipse cx="120" cy="70" rx="4" ry="9" fill="#091122" />
-          <circle cx="77" cy="65" r="3" fill="#ffffff" />
-          <circle cx="117" cy="65" r="3" fill="#ffffff" />
-          <circle cx="82" cy="73" r="1.5" fill="#ffffff" />
-          <circle cx="122" cy="73" r="1.5" fill="#ffffff" />
-          
-          <!-- Face Details -->
-          <polygon points="97,78 103,78 100,82" fill="#f1a690" />
-          <path d="M 96 85 Q 100 88 104 85" stroke="#a24b1f" stroke-width="2" fill="none" stroke-linecap="round" />
-          <path d="M 68 76 L 42 72 M 68 80 L 45 82 M 132 76 L 158 72 M 132 80 L 155 82" stroke="#fff6e8" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M 72 62 L 60 30 L 82 52 Z" fill="#1b2820" />
+          <path d="M 73 58 L 65 36 L 80 50 Z" fill="#b85b28" />
+
+          <path d="M 128 62 L 140 30 L 118 52 Z" fill="#1b2820" />
+          <path d="M 127 58 L 135 36 L 120 50 Z" fill="#b85b28" />
+
+          <!-- Glowing Eyes -->
+          <ellipse cx="88" cy="76" rx="5" ry="7" fill="#7df9ff" />
+          <ellipse cx="112" cy="76" rx="5" ry="7" fill="#7df9ff" />
+          <circle cx="89" cy="74" r="2" fill="#ffffff" />
+          <circle cx="113" cy="74" r="2" fill="#ffffff" />
+
+          <!-- Snout & Nose -->
+          <polygon points="97,84 103,84 100,88" fill="#fdf3c6" />
+
+          <!-- Small Paws -->
+          <ellipse cx="82" cy="176" rx="10" ry="7" fill="#1b2820" />
+          <ellipse cx="118" cy="176" rx="10" ry="7" fill="#1b2820" />
         </svg>
 
-        <!-- Stone Path Base -->
+        <!-- Glowing Mushrooms along the Stone Mound -->
+        <div class="glowing-mushroom mushroom-1">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-2">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-3">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+
+        <!-- Grass / Stone Mound Base -->
         <div class="stone-path"></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. EXPLORE SECTION -->
-  <section class="explore-section">
+  <!-- EXPLORE SECTION -->
+  <section class="explore-section" id="explore">
     <div class="section-title">
-      <h2>Explore Ember's World</h2>
+      <h2>Secrets of the Grove</h2>
     </div>
 
     <div class="card-grid">
       <div class="world-card">
-        <div class="card-icon">📖</div>
-        <h3>Her Story</h3>
-        <p>Learn how Ember found her forever home and family.</p>
-      </div>
-
-      <div class="world-card">
-        <div class="card-icon">📸</div>
-        <h3>Photo Gallery</h3>
-        <p>A collection of her favorite naps, sunbeams, and spots.</p>
-      </div>
-
-      <div class="world-card">
         <div class="card-icon">🌲</div>
-        <h3>Adventures</h3>
-        <p>Tales from her backyard explorations and forest walks.</p>
+        <h3>Ancient Pines</h3>
+        <p>Tall sentinels that keep watch over wandering spirits in the mist.</p>
       </div>
 
       <div class="world-card">
-        <div class="card-icon">🏷️</div>
-        <h3>If She's Lost</h3>
-        <p>Important contact details and medical info to help her.</p>
+        <div class="card-icon">🍄</div>
+        <h3>Glowing Spores</h3>
+        <p>Bioluminescent fungi that light hidden paths for nightly travelers.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🏮</div>
+        <h3>Spirit Lanterns</h3>
+        <p>Warm lights left behind by kind wanderers seeking peace.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">✨</div>
+        <h3>Kodama Light</h3>
+        <p>Gentle forest whispers that guide lost companions back home.</p>
       </div>
     </div>
 
-    <div class="kindness-banner">
-      <div class="sleeping-cat">😴</div>
+    <!-- KINDNESS BANNER -->
+    <div class="kindness-banner" id="kindness">
       <div class="banner-text">
-        <h3>Thank You for Being Kind</h3>
-        <p>Every small act of care helps keep creatures safe.</p>
+        <h3>Found a Lost Companion?</h3>
+        <p>Send word through the forest network so we can help them return home.</p>
       </div>
       <div class="badge-oval">
-        <span>Made with ♡ for Ember</span>
+        <span>Protected Grove</span>
       </div>
     </div>
   </section>
 
-  <!-- 4. FOOTER -->
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2026 Hey You Found Me. All rights reserved.</p>
-    <span class="footer-paw">🐾</span>
+    <p>&copy; 2026 The Whispering Woods. All rights reserved.</p>
+    <p>Crafted with warmth & embers.</p>
   </footer>
 
-  <!-- 5. MODAL POPUP -->
-  <div class="modal-overlay" id="found-modal">
+  <!-- SIGNAL MODAL POPUP -->
+  <div class="modal-overlay" id="modal-overlay">
     <div class="modal-card">
       <button class="close-btn" id="close-modal">&times;</button>
-      <h2>You Found Ember!</h2>
-      <p class="modal-intro">Thank you so much for reaching out. Please call or send a quick message below!</p>
-      
+      <h3>Signal Forest Keepers</h3>
+      <p>Leave a message or location if you have spotted a wandering spirit.</p>
+
       <div class="urgent-contact">
-        <div class="label">Emergency Phone</div>
-        <a href="tel:5551234567" class="phone-link">(555) 123-4567</a>
+        <p>Direct Beacon Line:</p>
+        <a href="tel:5550192" class="phone-link">(555) 019-2384</a>
       </div>
 
-      <form id="found-form">
-        <label for="finder-name">Your Name</label>
-        <input type="text" id="finder-name" placeholder="e.g. Sarah" required>
-
-        <label for="finder-location">Where is she right now?</label>
-        <input type="text" id="finder-location" placeholder="e.g. Near Oak Street Park" required>
-
-        <label for="finder-message">Additional Notes</label>
-        <textarea id="finder-message" rows="3" placeholder="Is she safe, wearing her collar, resting?"></textarea>
-
-        <button type="submit" class="submit-btn">Send Alert</button>
+      <form id="found-form" onsubmit="event.preventDefault(); alert('Signal sent across the woods!');">
+        <input type="text" placeholder="Your Name or Ranger ID" required>
+        <input type="text" placeholder="Coordinates / Area Spotted" required>
+        <textarea rows="3" placeholder="Additional details (e.g. glowing fur, tail shape)..."></textarea>
+        <button type="submit" class="submit-btn">Send Signal</button>
       </form>
     </div>
   </div>
 
+  <!-- INTERACTIVE SCRIPT -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const btnFound = document.getElementById('btn-i-found');
-      const modal = document.getElementById('found-modal');
-      const btnClose = document.getElementById('close-modal');
-      
-      const ember = document.getElementById('ember-character');
-      const btnWalk = document.getElementById('btn-walk');
-      const speechBubble = document.getElementById('ember-bubble');
+    // Navigation Hamburger Toggle
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
 
-      const statusToggle = document.getElementById('status-toggle');
-      const statusText = document.getElementById('status-text');
+    hamburgerBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+    });
 
-      const hamburgerBtn = document.getElementById('hamburger-btn');
-      const navLinks = document.getElementById('nav-links');
+    // Ember Dialogue Interaction
+    const emberChar = document.getElementById('ember-character');
+    const speechBubble = document.getElementById('speech-bubble');
+    const interactBtn = document.getElementById('interact-btn');
 
-      let isHome = true;
-      let isWalking = false;
+    const phrases = [
+      '"The stars are bright tonight..."',
+      '"Did you bring any sweet berries?"',
+      '"Listen closely to the wind in the pines..."',
+      '"The fireflies are dancing early!"',
+      '"I feel safe when the lanterns glow."'
+    ];
 
-      if (hamburgerBtn && navLinks) {
-        hamburgerBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          navLinks.classList.toggle('nav-open');
-        });
+    function speakNextPhrase() {
+      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      speechBubble.textContent = randomPhrase;
 
-        document.addEventListener('click', (e) => {
-          if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('nav-open');
-          }
-        });
-      }
+      // Small character bounce trigger
+      emberChar.style.transform = 'translateX(-50%) translateY(-6px)';
+      setTimeout(() => {
+        emberChar.style.transform = '';
+      }, 200);
+    }
 
-      if (btnFound && modal) {
-        btnFound.addEventListener('click', () => modal.classList.add('active'));
-      }
-      if (btnClose && modal) {
-        btnClose.addEventListener('click', () => modal.classList.remove('active'));
-      }
-      if (modal) {
-        modal.addEventListener('click', (e) => { 
-          if (e.target === modal) modal.classList.remove('active'); 
-        });
-      }
+    emberChar.addEventListener('click', speakNextPhrase);
+    interactBtn.addEventListener('click', speakNextPhrase);
 
-      if (btnWalk && ember && speechBubble) {
-        const toggleWalk = () => {
-          isWalking = !isWalking;
-          if (isWalking) {
-            ember.classList.remove('ember-idle');
-            ember.classList.add('ember-walking');
-            speechBubble.innerText = "Exploring the path... 🐾";
-            btnWalk.innerText = "🛑 Make Ember Sit";
-          } else {
-            ember.classList.remove('ember-walking');
-            ember.classList.add('ember-idle');
-            speechBubble.innerText = isHome ? "Thank you for being here! ♡" : "Help me find my way home! 🐾";
-            btnWalk.innerText = "🐾 Make Ember Walk";
-          }
-        };
+    // Modal Control
+    const reportBtn = document.getElementById('report-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const closeModal = document.getElementById('close-modal');
 
-        btnWalk.addEventListener('click', toggleWalk);
-        ember.addEventListener('click', toggleWalk);
-      }
+    reportBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('active');
+    });
 
-      if (statusToggle && statusText) {
-        statusToggle.addEventListener('click', () => {
-          isHome = !isHome;
+    closeModal.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+    });
 
-          if (isHome) {
-            statusToggle.classList.remove('is-missing');
-            statusText.innerText = "Ember is home";
-            if (!isWalking && speechBubble) speechBubble.innerText = "Thank you for being here! ♡";
-          } else {
-            statusToggle.classList.add('is-missing');
-            statusText.innerText = "Ember is missing!";
-            if (!isWalking && speechBubble) speechBubble.innerText = "Help me find my way home! 🐾";
-            if (modal) modal.classList.add('active');
-          }
-        });
-      }
-
-      const firefliesContainer = document.getElementById('fireflies');
-      if (firefliesContainer) {
-        const count = window.innerWidth < 600 ? 12 : 25;
-        for (let i = 0; i < count; i++) {
-          const firefly = document.createElement('div');
-          firefly.classList.add('firefly');
-          firefly.style.left = `${Math.random() * 100}vw`;
-          firefly.style.top = `${Math.random() * 100}vh`;
-          firefly.style.animationDelay = `${Math.random() * 8}s`;
-          firefly.style.animationDuration = `${6 + Math.random() * 6}s`;
-          firefly.style.transform = `scale(${0.5 + Math.random() * 0.8})`;
-          firefliesContainer.appendChild(firefly);
-        }
-      }
-
-      // NEW MAGICAL AUDIO SYSTEM (SOFT WIND HUM + DREAMY CHIMES)
-      let audioCtx = null;
-      let isAudioPlaying = false;
-      let ambientGain = null;
-      let melodyTimeout = null;
-
-      const musicToggle = document.getElementById('music-toggle');
-      const musicText = document.getElementById('music-text');
-
-      function initAudioContext() {
-        if (!audioCtx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          audioCtx = new AudioContext();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-      }
-
-      // Soft atmospheric background tone
-      function startSoftAmbientPad() {
-        if (!audioCtx) return;
-
-        const now = audioCtx.currentTime;
-        ambientGain = audioCtx.createGain();
-        ambientGain.gain.setValueAtTime(0.001, now);
-        ambientGain.gain.linearRampToValueAtTime(0.03, now + 3);
-
-        // Warm fundamental synth pads
-        [130.81, 196.00, 261.63].forEach(freq => {
-          const osc = audioCtx.createOscillator();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now);
-
-          // Subtle LFO modulation for breathing wind effect
-          const lfo = audioCtx.createOscillator();
-          const lfoGain = audioCtx.createGain();
-          lfo.frequency.setValueAtTime(0.15 + Math.random() * 0.1, now);
-          lfoGain.gain.setValueAtTime(1.5, now);
-          lfo.connect(osc.frequency);
-          lfo.start(now);
-
-          osc.connect(ambientGain);
-          osc.start(now);
-        });
-
-        ambientGain.connect(audioCtx.destination);
-      }
-
-      function stopSoftAmbientPad() {
-        if (ambientGain && audioCtx) {
-          ambientGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
-          setTimeout(() => {
-            try { ambientGain.disconnect(); } catch (e) {}
-          }, 1600);
-        }
-      }
-
-      // Soft magical bell sound with rich harmonic decay
-      function playMagicalChime(freq, duration = 3.5) {
-        if (!isAudioPlaying || !audioCtx) return;
-
-        const now = audioCtx.currentTime;
-        const mainOsc = audioCtx.createOscillator();
-        const overtoneOsc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-
-        mainOsc.type = 'sine';
-        overtoneOsc.type = 'triangle';
-
-        mainOsc.frequency.setValueAtTime(freq, now);
-        // Harmonic overtone (+1 octave higher) adds magical bell texture
-        overtoneOsc.frequency.setValueAtTime(freq * 2, now);
-
-        // Soft, smooth envelope
-        gainNode.gain.setValueAtTime(0.001, now);
-        gainNode.gain.linearRampToValueAtTime(0.08, now + 0.12);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        mainOsc.connect(gainNode);
-        overtoneOsc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        mainOsc.start(now);
-        overtoneOsc.start(now);
-
-        mainOsc.stop(now + duration + 0.1);
-        overtoneOsc.stop(now + duration + 0.1);
-      }
-
-      // Pentatonic lullaby notes (E Major Pentatonic: peaceful & ethereal)
-      const lullabyNotes = [
-        329.63, // E4
-        392.00, // G4
-        440.00, // A4
-        493.88, // B4
-        659.25, // E5
-        587.33, // D5
-        493.88, // B4
-        440.00, // A4
-        392.00, // G4
-        329.63  // E4
-      ];
-
-      let noteIndex = 0;
-      function loopMagicalLullaby() {
-        if (!isAudioPlaying) return;
-
-        const noteFreq = lullabyNotes[noteIndex];
-        playMagicalChime(noteFreq, 4.0);
-
-        noteIndex = (noteIndex + 1) % lullabyNotes.length;
-        
-        // Gentle, slow rhythmic pacing
-        const delays = [2200, 1800, 2400, 3000, 2000, 2500];
-        const nextDelay = delays[noteIndex % delays.length];
-
-        melodyTimeout = setTimeout(loopMagicalLullaby, nextDelay);
-      }
-
-      function startNightSoundscape() {
-        initAudioContext();
-        isAudioPlaying = true;
-
-        startSoftAmbientPad();
-        noteIndex = 0;
-        loopMagicalLullaby();
-      }
-
-      function stopNightSoundscape() {
-        isAudioPlaying = false;
-        stopSoftAmbientPad();
-        if (melodyTimeout) clearTimeout(melodyTimeout);
-      }
-
-      if (musicToggle) {
-        musicToggle.addEventListener('click', () => {
-          if (!isAudioPlaying) {
-            startNightSoundscape();
-            musicToggle.classList.add('is-playing');
-            if (musicText) musicText.innerText = "🔊 Playing Ambient";
-          } else {
-            stopNightSoundscape();
-            musicToggle.classList.remove('is-playing');
-            if (musicText) musicText.innerText = "✨ Magical Ambient";
-          }
-        });
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
       }
     });
+
+    // Music Pill Toggle State
+    const musicBtn = document.getElementById('music-btn');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        musicBtn.classList.add('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Playing';
+      } else {
+        musicBtn.classList.remove('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Ambience';
+      }
+    });
+
+    // Generate Dynamic Fireflies
+    const fireflyContainer = document.getElementById('fireflies');
+    for (let i = 0; i < 20; i++) {
+      const firefly = document.createElement('div');
+      firefly.className = 'firefly';
+      firefly.style.left = Math.random() * 100 + 'vw';
+      firefly.style.top = Math.random() * 80 + 10 + 'vh';
+      firefly.style.animationDelay = Math.random() * 8 + 's';
+      firefly.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      fireflyContainer.appendChild(firefly);
+    }
   </script>
 </body>
 </html>
