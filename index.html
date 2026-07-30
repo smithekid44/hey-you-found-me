@@ -1,27 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ember - The Whispering Woods</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forest of Ember</title>
+  <style>
+    /* ==========================================
+       RESET & BASE STYLES
+       ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0b131e;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+    /* ==========================================
+       NAVIGATION BAR
+       ========================================== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(11, 19, 30, 0.85);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #ffd166;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #ffd166;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Music Pill */
+    .music-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .music-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .music-pill.is-playing {
+      border-color: #06d6a0;
+      color: #06d6a0;
+      box-shadow: 0 0 10px rgba(6, 214, 160, 0.3);
+    }
+
+    /* Status Pill Toggle */
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(6, 214, 160, 0.15);
+      border: 1px solid #06d6a0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #06d6a0;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #06d6a0;
+      box-shadow: 0 0 8px #06d6a0;
+    }
+
+    /* Missing State Styling */
+    .status-pill.is-missing {
+      background: rgba(239, 71, 111, 0.15);
+      border-color: #ef476f;
+      color: #ef476f;
+    }
+
+    .status-pill.is-missing .status-dot {
+      background-color: #ef476f;
+      box-shadow: 0 0 8px #ef476f;
+    }
+
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hamburger-btn span {
+      width: 24px;
+      height: 2px;
+      background-color: #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    /* ==========================================
+       HERO / STAGE AREA
+       ========================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem 2rem 2rem 2rem;
+      background: linear-gradient(180deg, #0b131e 0%, #172a3a 100%);
+      overflow: hidden;
+    }
+
+    /* Dynamic Fireflies Container */
+    #fireflies {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .firefly {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: #ffd166;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ffd166;
+      animation: float 8s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes float {
+      0% { opacity: 0; transform: translateY(0) scale(0.8); }
+      50% { opacity: 0.8; transform: translateY(-30px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #f8fafc;
+      letter-spacing: 1px;
+    }
+
+    p.subtitle {
+      color: #94a3b8;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Dialogue Speech Bubble */
+    .speech-bubble {
+      position: relative;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+      color: #ffd166;
+      backdrop-filter: blur(5px);
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ember Character SVG Frame */
+    .character-stage {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 2rem auto;
+      cursor: pointer;
+    }
+
+    .ember-char {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.2s ease;
+    }
+
+    /* Idle SVG Animation */
+    .ember-idle {
+      animation: breathe 3s infinite ease-in-out;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.02); }
+    }
+
+    /* Walking SVG Animation */
+    .ember-walking {
+      animation: walk 0.6s infinite alternate ease-in-out;
+    }
+
+    @keyframes walk {
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    /* Hero Wooden Style Buttons */
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button.btn-wooden-orange,
+    button.btn-wooden-dark {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-wooden-orange {
+      background: #e76f51;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #b5482f;
+    }
+
+    .btn-wooden-orange:hover {
+      background: #f4a261;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #b5482f;
+    }
+
+    .btn-wooden-orange:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #b5482f;
+    }
+
+    .btn-wooden-dark {
+      background: #2a9d8f;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #1d6e64;
+    }
+
+    .btn-wooden-dark:hover {
+      background: #3eb4a5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #1d6e64;
+    }
+
+    .btn-wooden-dark:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1d6e64;
+    }
+
+    /* ==========================================
+       MODAL OVERLAY
+       ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #172a3a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-card h2 {
+      color: #ffd166;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-card p {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .close-btn {
+      background: #e76f51;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #0b131e;
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 1rem;
+        display: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-links.nav-open {
+        display: flex;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- FIREFLIES OVERLAY -->
-  <div id="fireflies"></div>
+  <!-- AUDIO ELEMENT -->
+  <audio id="forest-audio" loop>
+    <source src="https://assets.mixkit.co/active_storage/sfx/2432/2432-preview.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
-      <span class="logo-icon">🍂</span>
+      <span class="logo-icon">🌲</span>
       <span class="logo-text">EMBER</span>
     </div>
 
@@ -32,12 +427,14 @@
     </ul>
 
     <div class="nav-right">
+      <!-- Music Button -->
       <button class="music-pill" id="music-btn" title="Toggle Forest Ambience">
         <span class="music-icon">🎵</span>
         <span class="music-label">Ambience</span>
       </button>
 
-      <div class="status-pill" id="status-pill">
+      <!-- Interactive Status Pill -->
+      <div class="status-pill" id="status-pill" role="button" tabindex="0">
         <span class="status-dot"></span>
         <span class="status-text">SAFE</span>
       </div>
@@ -52,212 +449,69 @@
 
   <!-- HERO SECTION -->
   <section class="hero" id="hero">
-    <!-- Moon Background Element -->
-    <div class="moon"></div>
+    <div id="fireflies"></div>
 
-    <!-- BACKGROUND TREES SVG -->
-    <svg class="forest-trees" viewBox="0 0 1200 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Far Background Layer (Dark silhouettes) -->
-      <g opacity="0.45">
-        <!-- Far Left Tree -->
-        <path d="M 120 600 L 135 320 Q 140 280 130 200 L 150 200 Q 145 280 160 600 Z" fill="#03070d"/>
-        <circle cx="140" cy="180" r="85" fill="#0a1728"/>
-        <circle cx="90" cy="220" r="65" fill="#0a1728"/>
-        <circle cx="180" cy="210" r="70" fill="#0a1728"/>
-
-        <!-- Far Mid Tree -->
-        <path d="M 450 600 L 460 380 Q 465 290 455 220 L 475 220 Q 470 290 485 600 Z" fill="#03070d"/>
-        <circle cx="465" cy="190" r="95" fill="#0c1d33"/>
-        <circle cx="410" cy="240" r="75" fill="#0c1d33"/>
-
-        <!-- Far Right Tree -->
-        <path d="M 1020 600 L 1030 350 Q 1035 250 1025 150 L 1050 150 Q 1040 250 1055 600 Z" fill="#03070d"/>
-        <circle cx="1035" cy="130" r="110" fill="#0a1728"/>
-        <circle cx="970" cy="180" r="80" fill="#0a1728"/>
-        <circle cx="1090" cy="190" r="75" fill="#0a1728"/>
-      </g>
-
-      <!-- Mid-ground Forest Layer (Closer, detailed branches) -->
-      <g opacity="0.8">
-        <!-- Left Canopy Tree -->
-        <path d="M 280 600 Q 290 400 300 280 L 320 280 Q 310 400 320 600 Z" fill="#050a14"/>
-        <!-- Branch extending inwards -->
-        <path d="M 305 380 Q 360 350 420 360 L 420 370 Q 360 362 305 390 Z" fill="#050a14"/>
-        <circle cx="310" cy="250" r="90" fill="#0a1526"/>
-        <circle cx="370" cy="280" r="60" fill="#0a1526"/>
-
-        <!-- Right Canopy Tree -->
-        <path d="M 850 600 Q 840 380 830 240 L 855 240 Q 860 380 880 600 Z" fill="#050a14"/>
-        <!-- Branch extending towards center above Ember -->
-        <path d="M 840 340 Q 750 310 660 320 L 660 328 Q 750 320 840 350 Z" fill="#050a14"/>
-        <circle cx="840" cy="210" r="100" fill="#0d1f38"/>
-        <circle cx="770" cy="250" r="75" fill="#0d1f38"/>
-      </g>
-    </svg>
-
-    <!-- Animated Mist -->
-    <div class="mist-layer"></div>
-
-    <!-- Left Content Text & Buttons -->
     <div class="content">
-      <h1>Lost Spirit of the Woods</h1>
-      <p>Guiding embers through the twilight canopy. Whispers say he carries the warmth of forgotten fires.</p>
+      <h1>The Moonlit Canopy</h1>
+      <p class="subtitle">Ember the forest spirit is resting nearby.</p>
 
-      <div class="hero-buttons">
-        <button class="btn-wooden-orange" id="interact-btn">
-          <span>🐾</span> Speak to Ember
-        </button>
-        <button class="btn-wooden-dark" id="report-btn">
-          <span>📍</span> Signal Location
-        </button>
-      </div>
-    </div>
-
-    <!-- Right Character Stage & Glowing Elements -->
-    <div class="ember-stage">
+      <!-- Dynamic Dialogue -->
       <div class="speech-bubble" id="speech-bubble">
         "The stars are bright tonight..."
       </div>
 
-      <div class="character-container">
-        <!-- Floating/Hanging Lanterns -->
-        <div class="glowing-lantern lantern-left">
-          <div class="lantern-string"></div>
-          <div class="lantern-body"><div class="lantern-glow"></div></div>
-        </div>
-
-        <div class="glowing-lantern lantern-right">
-          <div class="lantern-string"></div>
-          <div class="lantern-body"><div class="lantern-glow"></div></div>
-        </div>
-
-        <!-- Ember Character SVG -->
-        <svg id="ember-character" class="ember-idle" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Animated Tail -->
-          <path class="ember-tail" d="M 110 130 C 140 120, 160 150, 145 180 C 130 210, 90 200, 110 170" stroke="#b85b28" stroke-width="18" stroke-linecap="round" fill="none" />
-          
-          <!-- Body Base -->
-          <ellipse cx="100" cy="135" rx="42" ry="48" fill="#1b2820" />
-          
-          <!-- Chest Fur Arc -->
-          <path d="M 82 110 Q 100 135 118 110 Q 100 150 82 110" fill="#fdf3c6" opacity="0.9" />
-
-          <!-- Head -->
-          <circle cx="100" cy="80" r="32" fill="#1b2820" />
-
+      <!-- Ember SVG Character -->
+      <div class="character-stage">
+        <svg class="ember-char ember-idle" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Ears -->
-          <path d="M 72 62 L 60 30 L 82 52 Z" fill="#1b2820" />
-          <path d="M 73 58 L 65 36 L 80 50 Z" fill="#b85b28" />
-
-          <path d="M 128 62 L 140 30 L 118 52 Z" fill="#1b2820" />
-          <path d="M 127 58 L 135 36 L 120 50 Z" fill="#b85b28" />
-
-          <!-- Glowing Eyes -->
-          <ellipse cx="88" cy="76" rx="5" ry="7" fill="#7df9ff" />
-          <ellipse cx="112" cy="76" rx="5" ry="7" fill="#7df9ff" />
-          <circle cx="89" cy="74" r="2" fill="#ffffff" />
-          <circle cx="113" cy="74" r="2" fill="#ffffff" />
-
-          <!-- Snout & Nose -->
-          <polygon points="97,84 103,84 100,88" fill="#fdf3c6" />
-
-          <!-- Small Paws -->
-          <ellipse cx="82" cy="176" rx="10" ry="7" fill="#1b2820" />
-          <ellipse cx="118" cy="176" rx="10" ry="7" fill="#1b2820" />
+          <polygon points="30,35 20,15 42,28" fill="#e76f51" />
+          <polygon points="70,35 80,15 58,28" fill="#e76f51" />
+          <polygon points="32,33 24,18 40,28" fill="#f4a261" />
+          <polygon points="68,33 76,18 60,28" fill="#f4a261" />
+          <!-- Head / Body -->
+          <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
+          <!-- Face Fur Mask -->
+          <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
+          <!-- Eyes -->
+          <circle cx="40" cy="50" r="3" fill="#0b131e" />
+          <circle cx="60" cy="50" r="3" fill="#0b131e" />
+          <circle cx="41" cy="49" r="1" fill="#ffffff" />
+          <circle cx="61" cy="49" r="1" fill="#ffffff" />
+          <!-- Nose -->
+          <polygon points="48,56 52,56 50,59" fill="#0b131e" />
+          <!-- Paws -->
+          <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
+          <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
         </svg>
+      </div>
 
-        <!-- Glowing Mushrooms on the mound -->
-        <div class="glowing-mushroom mushroom-1">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
-        </div>
-        <div class="glowing-mushroom mushroom-2">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
-        </div>
-        <div class="glowing-mushroom mushroom-3">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
-        </div>
+      <!-- Action Buttons -->
+      <div class="hero-buttons">
+        <button class="btn-wooden-orange" id="interact-btn">
+          <span>🗣️</span> Speak to Ember
+        </button>
+        
+        <button class="btn-wooden-dark" id="toggle-status-btn">
+          <span>🐾</span> Mark Ember Lost
+        </button>
 
-        <!-- Mound Base -->
-        <div class="stone-path"></div>
+        <button class="btn-wooden-dark" id="report-btn">
+          <span>📡</span> Signal Location
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- EXPLORE SECTION -->
-  <section class="explore-section" id="explore">
-    <div class="section-title">
-      <h2>Secrets of the Grove</h2>
-    </div>
-
-    <div class="card-grid">
-      <div class="world-card">
-        <div class="card-icon">🌲</div>
-        <h3>Ancient Pines</h3>
-        <p>Tall sentinels that keep watch over wandering spirits in the mist.</p>
-      </div>
-
-      <div class="world-card">
-        <div class="card-icon">🍄</div>
-        <h3>Glowing Spores</h3>
-        <p>Bioluminescent fungi that light hidden paths for nightly travelers.</p>
-      </div>
-
-      <div class="world-card">
-        <div class="card-icon">🏮</div>
-        <h3>Spirit Lanterns</h3>
-        <p>Warm lights left behind by kind wanderers seeking peace.</p>
-      </div>
-
-      <div class="world-card">
-        <div class="card-icon">✨</div>
-        <h3>Kodama Light</h3>
-        <p>Gentle forest whispers that guide lost companions back home.</p>
-      </div>
-    </div>
-
-    <!-- KINDNESS BANNER -->
-    <div class="kindness-banner" id="kindness">
-      <div class="banner-text">
-        <h3>Found a Lost Companion?</h3>
-        <p>Send word through the forest network so we can help them return home.</p>
-      </div>
-      <div class="badge-oval">
-        <span>Protected Grove</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2026 The Whispering Woods. All rights reserved.</p>
-    <p>Crafted with warmth & embers.</p>
-  </footer>
-
-  <!-- SIGNAL MODAL POPUP -->
+  <!-- MODAL DIALOG -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-card">
-      <button class="close-btn" id="close-modal">&times;</button>
-      <h3>Signal Forest Keepers</h3>
-      <p>Leave a message or location if you have spotted a wandering spirit.</p>
-
-      <div class="urgent-contact">
-        <p>Direct Beacon Line:</p>
-        <a href="tel:5550192" class="phone-link">(555) 019-2384</a>
-      </div>
-
-      <form id="found-form" onsubmit="event.preventDefault(); alert('Signal sent across the woods!');">
-        <input type="text" placeholder="Your Name or Ranger ID" required>
-        <input type="text" placeholder="Coordinates / Area Spotted" required>
-        <textarea rows="3" placeholder="Additional details (e.g. glowing fur, tail shape)..."></textarea>
-        <button type="submit" class="submit-btn">Send Signal</button>
-      </form>
+      <h2>Signal Sent!</h2>
+      <p>A lantern beacon has been illuminated over Ember's last recorded coordinates.</p>
+      <button class="close-btn" id="close-modal">Dismiss</button>
     </div>
   </div>
 
-  <!-- INTERACTIVE SCRIPT -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     // Navigation Hamburger Toggle
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -284,8 +538,8 @@
       const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
       speechBubble.textContent = randomPhrase;
 
-      // Small character bounce trigger
-      emberChar.style.transform = 'translateX(-50%) translateY(-6px)';
+      // Pulse animation trigger on character click
+      emberChar.style.transform = 'scale(1.08)';
       setTimeout(() => {
         emberChar.style.transform = '';
       }, 200);
@@ -294,7 +548,68 @@
     emberChar.addEventListener('click', speakNextPhrase);
     interactBtn.addEventListener('click', speakNextPhrase);
 
-    // Modal Control
+    // ==========================================
+    // AUDIO AMBIENCE CONTROL
+    // ==========================================
+    const musicBtn = document.getElementById('music-btn');
+    const audio = document.getElementById('forest-audio');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        audio.play().catch(err => console.log("Audio playback waiting for interaction: ", err));
+        musicBtn.classList.add('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Playing';
+      } else {
+        audio.pause();
+        musicBtn.classList.remove('is-playing');
+        musicBtn.querySelector('.music-label').textContent = 'Ambience';
+      }
+    });
+
+    // ==========================================
+    // EMBER STATUS & WALKING TOGGLE
+    // ==========================================
+    const statusPill = document.getElementById('status-pill');
+    const toggleStatusBtn = document.getElementById('toggle-status-btn');
+    const statusText = statusPill.querySelector('.status-text');
+
+    let isMissing = false;
+
+    function toggleEmberStatus() {
+      isMissing = !isMissing;
+
+      if (isMissing) {
+        // Switch to Missing state
+        statusPill.classList.add('is-missing');
+        statusText.textContent = 'MISSING';
+        toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Safe';
+        speechBubble.textContent = '"Where did everybody go...?"';
+
+        // Switch SVG animation from idle to walking loop
+        emberChar.classList.remove('ember-idle');
+        emberChar.classList.add('ember-walking');
+      } else {
+        // Return to Safe state
+        statusPill.classList.remove('is-missing');
+        statusText.textContent = 'SAFE';
+        toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Lost';
+        speechBubble.textContent = '"The stars are bright tonight..."';
+
+        // Return SVG animation to idle
+        emberChar.classList.remove('ember-walking');
+        emberChar.classList.add('ember-idle');
+      }
+    }
+
+    // Bind toggle action to both the pill and the button
+    statusPill.addEventListener('click', toggleEmberStatus);
+    toggleStatusBtn.addEventListener('click', toggleEmberStatus);
+
+    // ==========================================
+    // MODAL CONTROLS
+    // ==========================================
     const reportBtn = document.getElementById('report-btn');
     const modalOverlay = document.getElementById('modal-overlay');
     const closeModal = document.getElementById('close-modal');
@@ -313,22 +628,9 @@
       }
     });
 
-    // Music Pill Toggle State
-    const musicBtn = document.getElementById('music-btn');
-    let isPlaying = false;
-
-    musicBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        musicBtn.classList.add('is-playing');
-        musicBtn.querySelector('.music-label').textContent = 'Playing';
-      } else {
-        musicBtn.classList.remove('is-playing');
-        musicBtn.querySelector('.music-label').textContent = 'Ambience';
-      }
-    });
-
-    // Generate Dynamic Fireflies
+    // ==========================================
+    // GENERATE DYNAMIC FIREFLIES
+    // ==========================================
     const fireflyContainer = document.getElementById('fireflies');
     for (let i = 0; i < 20; i++) {
       const firefly = document.createElement('div');
