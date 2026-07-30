@@ -25,7 +25,7 @@
       <span class="logo-text">Hey You<br>Found Me</span>
     </div>
 
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#" class="active">Meet Ember 🐾</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#adventures">Adventures</a></li>
@@ -39,7 +39,7 @@
         <span id="status-text">Ember is home</span>
       </button>
 
-      <button class="hamburger-btn" aria-label="Toggle Menu">
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Menu">
         <span></span>
         <span></span>
         <span></span>
@@ -207,8 +207,18 @@
       const statusToggle = document.getElementById('status-toggle');
       const statusText = document.getElementById('status-text');
 
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const navLinks = document.getElementById('nav-links');
+
       let isHome = true;
       let isWalking = false;
+
+      // Mobile Hamburger Toggle
+      if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', () => {
+          navLinks.classList.toggle('nav-open');
+        });
+      }
 
       // Modal Controls
       if (btnFound && modal) {
@@ -270,7 +280,7 @@
       // Firefly Generator
       const firefliesContainer = document.getElementById('fireflies');
       if (firefliesContainer) {
-        const numberOfFireflies = 25;
+        const numberOfFireflies = 20;
 
         for (let i = 0; i < numberOfFireflies; i++) {
           const firefly = document.createElement('div');
