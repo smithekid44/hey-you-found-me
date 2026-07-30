@@ -194,7 +194,7 @@
   </div>
 
   <script>
-    // Elements
+    // DOM Elements
     const btnFound = document.getElementById('btn-i-found');
     const modal = document.getElementById('found-modal');
     const btnClose = document.getElementById('close-modal');
@@ -206,7 +206,7 @@
     const statusToggle = document.getElementById('status-toggle');
     const statusText = document.getElementById('status-text');
 
-    // Modal Control
+    // Modal Controls
     btnFound.addEventListener('click', () => modal.classList.add('active'));
     btnClose.addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
@@ -243,11 +243,33 @@
         statusToggle.classList.add('is-missing');
         statusText.innerText = "Ember is missing!";
         if (!isWalking) speechBubble.innerText = "Help me find my way home! 🐾";
-        
-        // Auto-open contact modal to encourage quick alerts
         modal.classList.add('active');
       }
     });
+
+    // Firefly Generator
+    const firefliesContainer = document.getElementById('fireflies');
+    const numberOfFireflies = 25;
+
+    for (let i = 0; i < numberOfFireflies; i++) {
+      const firefly = document.createElement('div');
+      firefly.classList.add('firefly');
+      
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 100;
+      
+      const delay = Math.random() * 8;
+      const duration = 6 + Math.random() * 6;
+      const scale = 0.5 + Math.random() * 0.8;
+
+      firefly.style.left = `${startX}vw`;
+      firefly.style.top = `${startY}vh`;
+      firefly.style.animationDelay = `${delay}s`;
+      firefly.style.animationDuration = `${duration}s`;
+      firefly.style.transform = `scale(${scale})`;
+
+      firefliesContainer.appendChild(firefly);
+    }
   </script>
 </body>
 </html>
