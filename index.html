@@ -253,8 +253,7 @@
       height: 140px;
       cursor: pointer;
       z-index: 5;
-      /* Smooth linear transform for continuous walking movement */
-      will-change: left, transform;
+      will-change: transform;
     }
 
     .ember-char {
@@ -274,12 +273,12 @@
 
     /* Walking Bobbing Motion (When Missing) */
     .ember-walking {
-      animation: walkBob 0.4s infinite alternate ease-in-out;
+      animation: walkBob 0.35s infinite alternate ease-in-out;
     }
 
     @keyframes walkBob {
-      0% { transform: translateY(0) rotate(-3deg); }
-      100% { transform: translateY(-8px) rotate(3deg); }
+      0% { transform: translateY(0) rotate(-4deg); }
+      100% { transform: translateY(-10px) rotate(4deg); }
     }
 
     /* Hero Wooden Style Buttons */
@@ -450,7 +449,7 @@
       <!-- Interactive Status Pill -->
       <div class="status-pill" id="status-pill" role="button" tabindex="0">
         <span class="status-dot"></span>
-        <span class="status-text">SAFE</span>
+        <span class="status-text" id="status-text">SAFE</span>
       </div>
 
       <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
@@ -504,15 +503,15 @@
       <!-- Action Buttons -->
       <div class="hero-buttons">
         <button class="btn-wooden-orange" id="interact-btn">
-          <span>🗣️</span> Speak to Ember
+          🐾 Speak to Ember
         </button>
         
         <button class="btn-wooden-dark" id="toggle-status-btn">
-          <span>🐾</span> Mark Ember Lost
+          🐾 Mark Ember Lost
         </button>
 
         <button class="btn-wooden-dark" id="report-btn">
-          <span>📡</span> Signal Location
+          📡 Signal Location
         </button>
       </div>
     </div>
@@ -589,87 +588,83 @@
     // EMBER STATUS & WALKING ANIMATION ENGINE
     // ==========================================
     const statusPill = document.getElementById('status-pill');
+    const statusText = document.getElementById('status-text');
     const toggleStatusBtn = document.getElementById('toggle-status-btn');
-    const statusText = statusPill.querySelector('.status-text');
     const stage = document.getElementById('character-stage');
 
     let isMissing = false;
     let walkAnimationId = null;
-    let positionX = 0;       // Current pixel horizontal offset from stage center
-    let direction = 1;       // 1 = moving right, -1 = moving left
-    const walkSpeed = 1.2;   // Speed in pixels per frame
+    let positionX = 0;       // Horizontal pixel offset from initial center
+    let direction = 1;       // 1 = right, -1 = left
+    const walkSpeed = 1.5;   // Pixels moved per frame
 
     function updateEmberWalk() {
-      const stageWidth = stage.clientWidth;
-      const emberWidth = emberWrapper.clientWidth;
-      // Boundaries relative to center position (0)
+      if (!isMissing) return;
+
+      const stageWidth = stage.clientWidth || 300;
+      const emberWidth = emberWrapper.clientWidth || 140;
       const maxRange = (stageWidth - emberWidth) / 2;
 
-      // Update position
       positionX += walkSpeed * direction;
 
-      // Check right boundary collision
+      // Turn around at boundaries
       if (positionX >= maxRange) {
         positionX = maxRange;
-        direction = -1; // Turn around to face left
-      } 
-      // Check left boundary collision
-      else if (positionX <= -maxRange) {
+        direction = -1;
+      } else if (positionX <= -maxRange) {
         positionX = -maxRange;
-        direction = 1;  // Turn around to face right
+        direction = 1;
       }
 
-      // Flip SVG character depending on facing direction (scaleX(-1) mirrors image)
+      // Flip SVG graphic depending on movement direction
       const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
       emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) ${flipScale}`;
 
-      if (isMissing) {
-        walkAnimationId = requestAnimationFrame(updateEmberWalk);
-      }
+      walkAnimationId = requestAnimationFrame(updateEmberWalk);
     }
 
     function toggleEmberStatus() {
       isMissing = !isMissing;
 
       if (isMissing) {
-        // Switch to Missing state
+        // Switch to MISSING state
         statusPill.classList.add('is-missing');
         statusText.textContent = 'MISSING';
-        toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Safe';
+        toggleStatusBtn.innerHTML = '🐾 Mark Ember Safe';
         speechBubble.textContent = '"Where did everybody go...?"';
 
-        // Switch to walking animation
+        // Swap SVG animation classes
         emberChar.classList.remove('ember-idle');
         emberChar.classList.add('ember-walking');
 
-        // Start walking loop
+        // Start movement loop
         cancelAnimationFrame(walkAnimationId);
         walkAnimationId = requestAnimationFrame(updateEmberWalk);
       } else {
-        // Stop walking loop & return to Safe state
+        // Switch to SAFE state
         cancelAnimationFrame(walkAnimationId);
-        
+
         statusPill.classList.remove('is-missing');
         statusText.textContent = 'SAFE';
-        toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Lost';
+        toggleStatusBtn.innerHTML = '🐾 Mark Ember Lost';
         speechBubble.textContent = '"The stars are bright tonight..."';
 
-        // Return Ember to center and facing forward
+        // Reset positions
         positionX = 0;
         direction = 1;
         emberWrapper.style.transform = 'translateX(-50%) translateX(0px) scaleX(1)';
 
-        // Return to idle animation
+        // Swap back to idle animation
         emberChar.classList.remove('ember-walking');
         emberChar.classList.add('ember-idle');
       }
     }
 
-    // Bind toggle action to both status pill and hero button
+    // Attach listeners to both status triggers
     statusPill.addEventListener('click', toggleEmberStatus);
     toggleStatusBtn.addEventListener('click', toggleEmberStatus);
 
-    // Recalculate walking bounds if window is resized while missing
+    // Reset coordinates if window size changes while safe
     window.addEventListener('resize', () => {
       if (!isMissing) {
         positionX = 0;
