@@ -1,640 +1,298 @@
-:root {
-  --moon-gold: #fdf3c6;
-  --night-blue: #091122;
-  --forest-dark: #050a14;
-  --wood-orange: #b85b28;
-  --wood-orange-glow: #e07a5f;
-  --wood-dark: #1b2820;
-  --text-light: #f4efe6;
-  --kodama-glow: #7df9ff;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Nunito', sans-serif;
-  background-color: var(--night-blue);
-  color: var(--text-light);
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* FIREFLIES CONTAINER & STYLES */
-#fireflies {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 4;
-  overflow: hidden;
-}
-
-.firefly {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: var(--moon-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff, 0 0 30px var(--moon-gold);
-  animation: floatAndGlow 8s infinite ease-in-out;
-  opacity: 0;
-}
-
-@keyframes floatAndGlow {
-  0% {
-    opacity: 0;
-    transform: translateY(0) translateX(0) scale(0.6);
-  }
-  30% {
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(-80px) translateX(40px) scale(1.2);
-  }
-  70% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-160px) translateX(-30px) scale(0.4);
-  }
-}
-
-/* NAVIGATION */
-.navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 50;
-  background: linear-gradient(to bottom, rgba(5, 10, 20, 0.8), transparent);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-icon {
-  font-size: 1.8rem;
-  color: var(--moon-gold);
-}
-
-.logo-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--text-light);
-  font-size: 0.95rem;
-  opacity: 0.85;
-  transition: opacity 0.2s, color 0.2s;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  opacity: 1;
-  color: var(--moon-gold);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* STATUS PILL BUTTON & TOGGLE STYLES */
-.status-pill {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-family: 'Nunito', sans-serif;
-  color: var(--text-light);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  backdrop-filter: blur(5px);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
-}
-
-.status-pill:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #4ef081;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #4ef081;
-  transition: all 0.3s ease;
-}
-
-/* Missing State (Red Warning) */
-.status-pill.is-missing {
-  background: rgba(224, 75, 75, 0.25);
-  border-color: rgba(255, 99, 99, 0.6);
-  color: #ffcdd2;
-}
-
-.status-pill.is-missing .status-dot {
-  background: #ff4d4d;
-  box-shadow: 0 0 10px #ff4d4d;
-  animation: pulseRed 1.2s infinite ease-in-out;
-}
-
-@keyframes pulseRed {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.6; }
-}
-
-.hamburger-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.hamburger-btn span {
-  width: 22px;
-  height: 2px;
-  background: #fff;
-  border-radius: 2px;
-}
-
-/* HERO SECTION */
-.hero {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 120px 8% 40px;
-  box-sizing: border-box;
-}
-
-.moon {
-  position: absolute;
-  top: 8%;
-  left: 58%;
-  width: 140px;
-  height: 140px;
-  background: var(--moon-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 60px rgba(253, 243, 198, 0.6), 0 0 120px rgba(253, 243, 198, 0.25);
-  z-index: 1;
-}
-
-.forest-trees {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(to top, var(--forest-dark) 20%, transparent 100%);
-  z-index: 2;
-}
-
-.mist-layer {
-  position: absolute;
-  bottom: 12%;
-  left: 0;
-  width: 200%;
-  height: 25%;
-  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
-  animation: floatMist 14s infinite linear;
-  z-index: 3;
-  pointer-events: none;
-}
-
-@keyframes floatMist {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.content {
-  position: relative;
-  z-index: 10;
-  text-align: left;
-  max-width: 420px;
-  margin-bottom: 40px;
-}
-
-.content h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 3.8rem;
-  font-weight: 600;
-  line-height: 1.05;
-  color: #ffffff;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-  margin-bottom: 12px;
-}
-
-.content p {
-  font-size: 1.1rem;
-  line-height: 1.4;
-  opacity: 0.9;
-  margin-bottom: 24px;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 260px;
-}
-
-/* WOODEN BUTTONS */
-.btn-wooden-orange,
-.btn-wooden-dark {
-  position: relative;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 14px 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.btn-wooden-orange {
-  background: 
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 8px),
-    linear-gradient(180deg, #d36a33 0%, #a24b1f 50%, #7d3511 100%);
-  color: #fff6e8;
-  border: 2px solid #f1935c;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.4);
-}
-
-.btn-wooden-dark {
-  background: 
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px),
-    linear-gradient(180deg, #243529 0%, #17241c 50%, #0d1510 100%);
-  color: #e2ede5;
-  border: 2px solid #3e5b46;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.25);
-}
-
-.btn-wooden-orange:hover,
-.btn-wooden-dark:hover {
-  transform: translateY(-4px) scale(1.02);
-  filter: brightness(1.1);
-}
-
-/* STAGE CONTAINER */
-.ember-stage {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 320px;
-}
-
-.speech-bubble {
-  position: relative;
-  margin-bottom: 15px;
-  white-space: nowrap;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--moon-gold);
-  z-index: 15;
-  background: rgba(9, 17, 34, 0.8);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(253, 243, 198, 0.3);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-.character-container {
-  position: relative;
-  width: 300px;
-  height: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-#ember-character {
-  position: absolute;
-  bottom: 34px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 12;
-  cursor: pointer;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
-}
-
-.stone-path {
-  position: relative;
-  z-index: 5;
-  width: 300px;
-  height: 85px;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  background: 
-    radial-gradient(ellipse at 50% 0%, rgba(253, 243, 198, 0.35) 0%, transparent 65%),
-    radial-gradient(circle at 30% 40%, #2f4838 0%, transparent 20%),
-    radial-gradient(circle at 70% 35%, #2a3d31 0%, transparent 25%),
-    linear-gradient(180deg, #1b2e22 0%, #0c1610 100%);
-  border-top: 2px solid rgba(253, 243, 198, 0.5);
-  box-shadow: 0 -8px 25px rgba(125, 249, 255, 0.2), 0 15px 30px rgba(0, 0, 0, 0.85);
-}
-
-.stone-path::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 110px;
-  height: 12px;
-  background: rgba(5, 10, 20, 0.8);
-  border-radius: 50%;
-  filter: blur(3px);
-  z-index: 6;
-}
-
-/* ANIMATIONS */
-.ember-idle {
-  animation: breathe 3.5s infinite ease-in-out;
-}
-
-@keyframes breathe {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-3px); }
-}
-
-.ember-tail {
-  transform-origin: 110px 130px;
-  animation: tailSwish 3s infinite ease-in-out;
-}
-
-@keyframes tailSwish {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(12deg); }
-}
-
-.ember-walking {
-  animation: walkOnMound 2.8s infinite ease-in-out !important;
-}
-
-@keyframes walkOnMound {
-  0% { transform: translateX(-95px) translateY(5px) rotate(-5deg); }
-  25% { transform: translateX(-55px) translateY(-3px) rotate(-1deg); }
-  50% { transform: translateX(-5px) translateY(5px) rotate(5deg); }
-  75% { transform: translateX(-55px) translateY(-3px) rotate(1deg); }
-  100% { transform: translateX(-95px) translateY(5px) rotate(-5deg); }
-}
-
-.ember-walking .paw-front-left,
-.ember-walking .paw-back-right {
-  animation: pawStepA 0.35s infinite alternate ease-in-out;
-}
-
-.ember-walking .paw-front-right,
-.ember-walking .paw-back-left {
-  animation: pawStepB 0.35s infinite alternate ease-in-out;
-}
-
-@keyframes pawStepA {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-5px); }
-}
-
-@keyframes pawStepB {
-  0% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
-}
-
-/* EXPLORE SECTION & FOOTER */
-.explore-section {
-  position: relative;
-  background: #060b14;
-  padding: 60px 5% 80px;
-  text-align: center;
-  z-index: 10;
-}
-
-.section-title h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  letter-spacing: 0.5px;
-  color: var(--text-light);
-  margin-bottom: 40px;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  max-width: 1100px;
-  margin: 0 auto 60px;
-}
-
-.world-card {
-  background: rgba(14, 23, 38, 0.6);
-  border: 1px solid rgba(253, 243, 198, 0.12);
-  border-radius: 16px;
-  padding: 30px 15px;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.world-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(253, 243, 198, 0.4);
-}
-
-.card-icon {
-  width: 44px;
-  height: 44px;
-  margin: 0 auto 15px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
-
-.world-card h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  margin-bottom: 8px;
-}
-
-.world-card p {
-  font-size: 0.85rem;
-  opacity: 0.75;
-}
-
-.kindness-banner {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, #131f31, #0a1220);
-  border: 1px solid rgba(253, 243, 198, 0.15);
-  border-radius: 20px;
-  padding: 25px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  text-align: left;
-}
-
-.badge-oval {
-  border: 1px solid rgba(253, 243, 198, 0.3);
-  border-radius: 30px;
-  padding: 10px 18px;
-  font-size: 0.75rem;
-}
-
-footer {
-  padding: 25px 40px;
-  background: #040810;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  opacity: 0.6;
-}
-
-/* MODAL POPUP */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(5, 10, 20, 0.8);
-  backdrop-filter: blur(8px);
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-card {
-  position: relative;
-  background: linear-gradient(135deg, #16243b, #0b1326);
-  border: 1px solid rgba(253, 243, 198, 0.2);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 440px;
-  padding: 30px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--text-light);
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-.urgent-contact {
-  background: rgba(224, 122, 95, 0.15);
-  border: 1px solid var(--wood-orange-glow);
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  margin: 15px 0;
-}
-
-.phone-link {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--moon-gold);
-  text-decoration: none;
-}
-
-#found-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#found-form input,
-#found-form textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-}
-
-.submit-btn {
-  background: var(--wood-orange-glow);
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) {
-  .hero { flex-direction: column; text-align: center; align-items: center; padding-top: 100px; }
-  .content { max-width: 100%; text-align: center; }
-  .hero-buttons { margin: 0 auto; }
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-  .kindness-banner { flex-direction: column; text-align: center; }
-}
-
-@media (max-width: 550px) {
-  .card-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey You Found Me — Meet Ember</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Animated Fireflies Container -->
+  <div id="fireflies"></div>
+
+  <!-- 1. TOP NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">🐾</span>
+      <span class="logo-text">Hey You<br>Found Me</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" class="active">Meet Ember 🐾</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#adventures">Adventures</a></li>
+      <li><a href="#if-im-lost">If I'm Lost</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <!-- Interactive Status Pill Toggle -->
+      <button class="status-pill" id="status-toggle" aria-label="Toggle Ember Status">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Ember is home</span>
+      </button>
+
+      <button class="hamburger-btn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 2. HERO SECTION -->
+  <section class="hero">
+    <div class="moon"></div>
+    <div class="forest-trees"></div>
+    <div class="mist-layer"></div>
+
+    <!-- Hero Content (Left) -->
+    <div class="content">
+      <h1>Hey... ♡<br>You Found Me</h1>
+      <p>If you're here, you may have found someone very special.</p>
+      
+      <div class="hero-buttons">
+        <button class="btn-wooden-orange" id="btn-i-found">❤️ I Found Ember</button>
+        <button class="btn-wooden-dark" id="btn-walk">🐾 Make Ember Walk</button>
+      </div>
+    </div>
+
+    <!-- Ember & Cobblestone Stage (Right) -->
+    <div class="ember-stage">
+      <div class="speech-bubble" id="ember-bubble">Thank you for being here! ♡</div>
+      
+      <div class="character-container">
+        <svg id="ember-character" class="ember-idle" width="160" height="185" viewBox="0 0 200 205">
+          <!-- Tail -->
+          <path class="ember-tail" d="M 115 140 C 145 130, 165 100, 150 75 C 140 60, 125 70, 132 88 C 138 102, 122 120, 110 130" fill="#e07a5f" stroke="#a24b1f" stroke-width="3" stroke-linecap="round"/>
+          
+          <!-- Back Paws -->
+          <ellipse class="paw paw-back-left" cx="72" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
+          <ellipse class="paw paw-back-right" cx="128" cy="198" rx="14" ry="8" fill="#fff6e8" stroke="#d36a33" stroke-width="2"/>
+
+          <!-- Body -->
+          <path d="M 68 100 C 55 130, 58 185, 72 195 C 85 200, 115 200, 128 195 C 142 185, 145 130, 132 100 Z" fill="#e07a5f" />
+          <path d="M 85 102 C 80 130, 82 165, 100 180 C 118 165, 120 130, 115 102 Z" fill="#fff6e8" />
+
+          <!-- Front Paws -->
+          <ellipse class="paw paw-front-left" cx="86" cy="200" rx="10" ry="7" fill="#fff6e8" />
+          <ellipse class="paw paw-front-right" cx="114" cy="200" rx="10" ry="7" fill="#fff6e8" />
+
+          <!-- Head -->
+          <path d="M 55 75 C 45 102, 155 102, 145 75 C 145 42, 55 42, 55 75 Z" fill="#e07a5f" />
+          
+          <!-- Ears -->
+          <polygon points="62,55 48,15 78,40" fill="#e07a5f" />
+          <polygon points="65,52 53,22 76,40" fill="#f1a690" />
+          <polygon points="138,55 152,15 122,40" fill="#e07a5f" />
+          <polygon points="135,52 147,22 124,40" fill="#f1a690" />
+          
+          <!-- Eyes -->
+          <ellipse cx="80" cy="70" rx="9" ry="13" fill="#7df9ff" />
+          <ellipse cx="120" cy="70" rx="9" ry="13" fill="#7df9ff" />
+          <ellipse cx="80" cy="70" rx="4" ry="9" fill="#091122" />
+          <ellipse cx="120" cy="70" rx="4" ry="9" fill="#091122" />
+          <circle cx="77" cy="65" r="3" fill="#ffffff" />
+          <circle cx="117" cy="65" r="3" fill="#ffffff" />
+          <circle cx="82" cy="73" r="1.5" fill="#ffffff" />
+          <circle cx="122" cy="73" r="1.5" fill="#ffffff" />
+          
+          <!-- Face Details -->
+          <polygon points="97,78 103,78 100,82" fill="#f1a690" />
+          <path d="M 96 85 Q 100 88 104 85" stroke="#a24b1f" stroke-width="2" fill="none" stroke-linecap="round" />
+          <path d="M 68 76 L 42 72 M 68 80 L 45 82 M 132 76 L 158 72 M 132 80 L 155 82" stroke="#fff6e8" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+
+        <!-- Stone Path Base -->
+        <div class="stone-path"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. EXPLORE SECTION -->
+  <section class="explore-section">
+    <div class="section-title">
+      <h2>Explore Ember's World</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="world-card">
+        <div class="card-icon">📖</div>
+        <h3>Her Story</h3>
+        <p>Learn how Ember found her forever home and family.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">📸</div>
+        <h3>Photo Gallery</h3>
+        <p>A collection of her favorite naps, sunbeams, and spots.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🌲</div>
+        <h3>Adventures</h3>
+        <p>Tales from her backyard explorations and forest walks.</p>
+      </div>
+
+      <div class="world-card">
+        <div class="card-icon">🏷️</div>
+        <h3>If She's Lost</h3>
+        <p>Important contact details and medical info to help her.</p>
+      </div>
+    </div>
+
+    <div class="kindness-banner">
+      <div class="sleeping-cat">😴</div>
+      <div class="banner-text">
+        <h3>Thank You for Being Kind</h3>
+        <p>Every small act of care helps keep creatures safe.</p>
+      </div>
+      <div class="badge-oval">
+        <span>Made with ♡ for Ember</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FOOTER -->
+  <footer>
+    <p>&copy; 2026 Hey You Found Me. All rights reserved.</p>
+    <span class="footer-paw">🐾</span>
+  </footer>
+
+  <!-- 5. MODAL POPUP -->
+  <div class="modal-overlay" id="found-modal">
+    <div class="modal-card">
+      <button class="close-btn" id="close-modal">&times;</button>
+      <h2>You Found Ember!</h2>
+      <p class="modal-intro">Thank you so much for reaching out. Please call or send a quick message below!</p>
+      
+      <div class="urgent-contact">
+        <div class="label">Emergency Phone</div>
+        <a href="tel:5551234567" class="phone-link">(555) 123-4567</a>
+      </div>
+
+      <form id="found-form">
+        <label for="finder-name">Your Name</label>
+        <input type="text" id="finder-name" placeholder="e.g. Sarah" required>
+
+        <label for="finder-location">Where is she right now?</label>
+        <input type="text" id="finder-location" placeholder="e.g. Near Oak Street Park" required>
+
+        <label for="finder-message">Additional Notes</label>
+        <textarea id="finder-message" rows="3" placeholder="Is she safe, wearing her collar, resting?"></textarea>
+
+        <button type="submit" class="submit-btn">Send Alert</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // DOM Elements
+      const btnFound = document.getElementById('btn-i-found');
+      const modal = document.getElementById('found-modal');
+      const btnClose = document.getElementById('close-modal');
+      
+      const ember = document.getElementById('ember-character');
+      const btnWalk = document.getElementById('btn-walk');
+      const speechBubble = document.getElementById('ember-bubble');
+
+      const statusToggle = document.getElementById('status-toggle');
+      const statusText = document.getElementById('status-text');
+
+      let isHome = true;
+      let isWalking = false;
+
+      // Modal Controls
+      if (btnFound && modal) {
+        btnFound.addEventListener('click', () => modal.classList.add('active'));
+      }
+      if (btnClose && modal) {
+        btnClose.addEventListener('click', () => modal.classList.remove('active'));
+      }
+      if (modal) {
+        modal.addEventListener('click', (e) => { 
+          if (e.target === modal) modal.classList.remove('active'); 
+        });
+      }
+
+      // Walking Control
+      if (btnWalk && ember && speechBubble) {
+        btnWalk.addEventListener('click', () => {
+          isWalking = !isWalking;
+          if (isWalking) {
+            ember.classList.remove('ember-idle');
+            ember.classList.add('ember-walking');
+            speechBubble.innerText = "Exploring the path... 🐾";
+            btnWalk.innerText = "🛑 Make Ember Sit";
+          } else {
+            ember.classList.remove('ember-walking');
+            ember.classList.add('ember-idle');
+            speechBubble.innerText = isHome ? "Thank you for being here! ♡" : "Help me find my way home! 🐾";
+            btnWalk.innerText = "🐾 Make Ember Walk";
+          }
+        });
+
+        ember.addEventListener('click', () => btnWalk.click());
+      }
+
+      // Status Pill Toggle (Home vs Missing)
+      if (statusToggle && statusText) {
+        statusToggle.addEventListener('click', () => {
+          isHome = !isHome;
+
+          if (isHome) {
+            statusToggle.classList.remove('is-missing');
+            statusText.innerText = "Ember is home";
+            if (!isWalking && speechBubble) {
+              speechBubble.innerText = "Thank you for being here! ♡";
+            }
+          } else {
+            statusToggle.classList.add('is-missing');
+            statusText.innerText = "Ember is missing!";
+            if (!isWalking && speechBubble) {
+              speechBubble.innerText = "Help me find my way home! 🐾";
+            }
+            if (modal) {
+              modal.classList.add('active');
+            }
+          }
+        });
+      }
+
+      // Firefly Generator
+      const firefliesContainer = document.getElementById('fireflies');
+      if (firefliesContainer) {
+        const numberOfFireflies = 25;
+
+        for (let i = 0; i < numberOfFireflies; i++) {
+          const firefly = document.createElement('div');
+          firefly.classList.add('firefly');
+          
+          const startX = Math.random() * 100;
+          const startY = Math.random() * 100;
+          
+          const delay = Math.random() * 8;
+          const duration = 6 + Math.random() * 6;
+          const scale = 0.5 + Math.random() * 0.8;
+
+          firefly.style.left = `${startX}vw`;
+          firefly.style.top = `${startY}vh`;
+          firefly.style.animationDelay = `${delay}s`;
+          firefly.style.animationDuration = `${duration}s`;
+          firefly.style.transform = `scale(${scale})`;
+
+          firefliesContainer.appendChild(firefly);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
