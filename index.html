@@ -201,6 +201,7 @@
       z-index: 10;
       text-align: center;
       max-width: 600px;
+      width: 100%;
     }
 
     h1 {
@@ -233,22 +234,35 @@
       justify-content: center;
     }
 
-    /* Ember Character SVG Frame */
+    /* ==========================================
+       EMBER STAGE & WALKING TRACK
+       ========================================== */
     .character-stage {
       position: relative;
-      width: 160px;
+      width: 100%;
       height: 160px;
       margin: 0 auto 2rem auto;
+    }
+
+    .ember-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 140px;
       cursor: pointer;
+      z-index: 5;
+      /* Smooth linear transform for continuous walking movement */
+      will-change: left, transform;
     }
 
     .ember-char {
       width: 100%;
       height: 100%;
-      transition: transform 0.2s ease;
     }
 
-    /* Idle SVG Animation */
+    /* Idle SVG Animation (When Safe) */
     .ember-idle {
       animation: breathe 3s infinite ease-in-out;
     }
@@ -258,12 +272,12 @@
       50% { transform: translateY(-4px) scale(1.02); }
     }
 
-    /* Walking SVG Animation */
+    /* Walking Bobbing Motion (When Missing) */
     .ember-walking {
-      animation: walk 0.6s infinite alternate ease-in-out;
+      animation: walkBob 0.4s infinite alternate ease-in-out;
     }
 
-    @keyframes walk {
+    @keyframes walkBob {
       0% { transform: translateY(0) rotate(-3deg); }
       100% { transform: translateY(-8px) rotate(3deg); }
     }
@@ -460,29 +474,31 @@
         "The stars are bright tonight..."
       </div>
 
-      <!-- Ember SVG Character -->
-      <div class="character-stage">
-        <svg class="ember-char ember-idle" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Ears -->
-          <polygon points="30,35 20,15 42,28" fill="#e76f51" />
-          <polygon points="70,35 80,15 58,28" fill="#e76f51" />
-          <polygon points="32,33 24,18 40,28" fill="#f4a261" />
-          <polygon points="68,33 76,18 60,28" fill="#f4a261" />
-          <!-- Head / Body -->
-          <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
-          <!-- Face Fur Mask -->
-          <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
-          <!-- Eyes -->
-          <circle cx="40" cy="50" r="3" fill="#0b131e" />
-          <circle cx="60" cy="50" r="3" fill="#0b131e" />
-          <circle cx="41" cy="49" r="1" fill="#ffffff" />
-          <circle cx="61" cy="49" r="1" fill="#ffffff" />
-          <!-- Nose -->
-          <polygon points="48,56 52,56 50,59" fill="#0b131e" />
-          <!-- Paws -->
-          <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
-          <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
-        </svg>
+      <!-- Ember Stage & Wrapper -->
+      <div class="character-stage" id="character-stage">
+        <div class="ember-wrapper" id="ember-wrapper">
+          <svg class="ember-char ember-idle" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ears -->
+            <polygon points="30,35 20,15 42,28" fill="#e76f51" />
+            <polygon points="70,35 80,15 58,28" fill="#e76f51" />
+            <polygon points="32,33 24,18 40,28" fill="#f4a261" />
+            <polygon points="68,33 76,18 60,28" fill="#f4a261" />
+            <!-- Head / Body -->
+            <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
+            <!-- Face Fur Mask -->
+            <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
+            <!-- Eyes -->
+            <circle cx="40" cy="50" r="3" fill="#0b131e" />
+            <circle cx="60" cy="50" r="3" fill="#0b131e" />
+            <circle cx="41" cy="49" r="1" fill="#ffffff" />
+            <circle cx="61" cy="49" r="1" fill="#ffffff" />
+            <!-- Nose -->
+            <polygon points="48,56 52,56 50,59" fill="#0b131e" />
+            <!-- Paws -->
+            <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
+            <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
+          </svg>
+        </div>
       </div>
 
       <!-- Action Buttons -->
@@ -522,6 +538,7 @@
     });
 
     // Ember Dialogue Interaction
+    const emberWrapper = document.getElementById('ember-wrapper');
     const emberChar = document.getElementById('ember-character');
     const speechBubble = document.getElementById('speech-bubble');
     const interactBtn = document.getElementById('interact-btn');
@@ -538,14 +555,14 @@
       const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
       speechBubble.textContent = randomPhrase;
 
-      // Pulse animation trigger on character click
-      emberChar.style.transform = 'scale(1.08)';
+      // Click reaction pulse
+      emberChar.style.transform = 'scale(1.1)';
       setTimeout(() => {
         emberChar.style.transform = '';
       }, 200);
     }
 
-    emberChar.addEventListener('click', speakNextPhrase);
+    emberWrapper.addEventListener('click', speakNextPhrase);
     interactBtn.addEventListener('click', speakNextPhrase);
 
     // ==========================================
@@ -569,13 +586,47 @@
     });
 
     // ==========================================
-    // EMBER STATUS & WALKING TOGGLE
+    // EMBER STATUS & WALKING ANIMATION ENGINE
     // ==========================================
     const statusPill = document.getElementById('status-pill');
     const toggleStatusBtn = document.getElementById('toggle-status-btn');
     const statusText = statusPill.querySelector('.status-text');
+    const stage = document.getElementById('character-stage');
 
     let isMissing = false;
+    let walkAnimationId = null;
+    let positionX = 0;       // Current pixel horizontal offset from stage center
+    let direction = 1;       // 1 = moving right, -1 = moving left
+    const walkSpeed = 1.2;   // Speed in pixels per frame
+
+    function updateEmberWalk() {
+      const stageWidth = stage.clientWidth;
+      const emberWidth = emberWrapper.clientWidth;
+      // Boundaries relative to center position (0)
+      const maxRange = (stageWidth - emberWidth) / 2;
+
+      // Update position
+      positionX += walkSpeed * direction;
+
+      // Check right boundary collision
+      if (positionX >= maxRange) {
+        positionX = maxRange;
+        direction = -1; // Turn around to face left
+      } 
+      // Check left boundary collision
+      else if (positionX <= -maxRange) {
+        positionX = -maxRange;
+        direction = 1;  // Turn around to face right
+      }
+
+      // Flip SVG character depending on facing direction (scaleX(-1) mirrors image)
+      const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
+      emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) ${flipScale}`;
+
+      if (isMissing) {
+        walkAnimationId = requestAnimationFrame(updateEmberWalk);
+      }
+    }
 
     function toggleEmberStatus() {
       isMissing = !isMissing;
@@ -587,25 +638,44 @@
         toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Safe';
         speechBubble.textContent = '"Where did everybody go...?"';
 
-        // Switch SVG animation from idle to walking loop
+        // Switch to walking animation
         emberChar.classList.remove('ember-idle');
         emberChar.classList.add('ember-walking');
+
+        // Start walking loop
+        cancelAnimationFrame(walkAnimationId);
+        walkAnimationId = requestAnimationFrame(updateEmberWalk);
       } else {
-        // Return to Safe state
+        // Stop walking loop & return to Safe state
+        cancelAnimationFrame(walkAnimationId);
+        
         statusPill.classList.remove('is-missing');
         statusText.textContent = 'SAFE';
         toggleStatusBtn.querySelector('span:nth-child(2)').textContent = ' Mark Ember Lost';
         speechBubble.textContent = '"The stars are bright tonight..."';
 
-        // Return SVG animation to idle
+        // Return Ember to center and facing forward
+        positionX = 0;
+        direction = 1;
+        emberWrapper.style.transform = 'translateX(-50%) translateX(0px) scaleX(1)';
+
+        // Return to idle animation
         emberChar.classList.remove('ember-walking');
         emberChar.classList.add('ember-idle');
       }
     }
 
-    // Bind toggle action to both the pill and the button
+    // Bind toggle action to both status pill and hero button
     statusPill.addEventListener('click', toggleEmberStatus);
     toggleStatusBtn.addEventListener('click', toggleEmberStatus);
+
+    // Recalculate walking bounds if window is resized while missing
+    window.addEventListener('resize', () => {
+      if (!isMissing) {
+        positionX = 0;
+        emberWrapper.style.transform = 'translateX(-50%) translateX(0px) scaleX(1)';
+      }
+    });
 
     // ==========================================
     // MODAL CONTROLS
