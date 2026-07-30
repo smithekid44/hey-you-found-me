@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hey You Found Me — Meet Ember</title>
   
   <!-- Google Fonts -->
@@ -33,7 +33,13 @@
     </ul>
 
     <div class="nav-right">
-      <!-- Interactive Status Pill Toggle -->
+      <!-- Built-in Audio Control -->
+      <button class="music-pill" id="music-toggle" aria-label="Toggle Night Audio">
+        <span class="music-dot" id="music-dot"></span>
+        <span id="music-text">🎵 Night Sounds</span>
+      </button>
+
+      <!-- Status Pill Toggle -->
       <button class="status-pill" id="status-toggle" aria-label="Toggle Ember Status">
         <span class="status-dot" id="status-dot"></span>
         <span id="status-text">Ember is home</span>
@@ -53,7 +59,7 @@
     <div class="forest-trees"></div>
     <div class="mist-layer"></div>
 
-    <!-- Hero Content (Left) -->
+    <!-- Hero Content -->
     <div class="content">
       <h1>Hey... ♡<br>You Found Me</h1>
       <p>If you're here, you may have found someone very special.</p>
@@ -64,12 +70,12 @@
       </div>
     </div>
 
-    <!-- Ember & Cobblestone Stage (Right) -->
+    <!-- Ember Stage -->
     <div class="ember-stage">
       <div class="speech-bubble" id="ember-bubble">Thank you for being here! ♡</div>
       
       <div class="character-container">
-        <svg id="ember-character" class="ember-idle" width="160" height="185" viewBox="0 0 200 205">
+        <svg id="ember-character" class="ember-idle" viewBox="0 0 200 205">
           <!-- Tail -->
           <path class="ember-tail" d="M 115 140 C 145 130, 165 100, 150 75 C 140 60, 125 70, 132 88 C 138 102, 122 120, 110 130" fill="#e07a5f" stroke="#a24b1f" stroke-width="3" stroke-linecap="round"/>
           
@@ -195,7 +201,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // DOM Elements
+      // Basic Elements
       const btnFound = document.getElementById('btn-i-found');
       const modal = document.getElementById('found-modal');
       const btnClose = document.getElementById('close-modal');
@@ -213,10 +219,17 @@
       let isHome = true;
       let isWalking = false;
 
-      // Mobile Hamburger Toggle
+      // Mobile Menu
       if (hamburgerBtn && navLinks) {
-        hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
           navLinks.classList.toggle('nav-open');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('nav-open');
+          }
         });
       }
 
@@ -233,9 +246,9 @@
         });
       }
 
-      // Walking Control
+      // Walking Toggle
       if (btnWalk && ember && speechBubble) {
-        btnWalk.addEventListener('click', () => {
+        const toggleWalk = () => {
           isWalking = !isWalking;
           if (isWalking) {
             ember.classList.remove('ember-idle');
@@ -248,12 +261,13 @@
             speechBubble.innerText = isHome ? "Thank you for being here! ♡" : "Help me find my way home! 🐾";
             btnWalk.innerText = "🐾 Make Ember Walk";
           }
-        });
+        };
 
-        ember.addEventListener('click', () => btnWalk.click());
+        btnWalk.addEventListener('click', toggleWalk);
+        ember.addEventListener('click', toggleWalk);
       }
 
-      // Status Pill Toggle (Home vs Missing)
+      // Status Pill
       if (statusToggle && statusText) {
         statusToggle.addEventListener('click', () => {
           isHome = !isHome;
@@ -261,46 +275,168 @@
           if (isHome) {
             statusToggle.classList.remove('is-missing');
             statusText.innerText = "Ember is home";
-            if (!isWalking && speechBubble) {
-              speechBubble.innerText = "Thank you for being here! ♡";
-            }
+            if (!isWalking && speechBubble) speechBubble.innerText = "Thank you for being here! ♡";
           } else {
             statusToggle.classList.add('is-missing');
             statusText.innerText = "Ember is missing!";
-            if (!isWalking && speechBubble) {
-              speechBubble.innerText = "Help me find my way home! 🐾";
-            }
-            if (modal) {
-              modal.classList.add('active');
-            }
+            if (!isWalking && speechBubble) speechBubble.innerText = "Help me find my way home! 🐾";
+            if (modal) modal.classList.add('active');
           }
         });
       }
 
-      // Firefly Generator
+      // Fireflies
       const firefliesContainer = document.getElementById('fireflies');
       if (firefliesContainer) {
-        const numberOfFireflies = 20;
-
-        for (let i = 0; i < numberOfFireflies; i++) {
+        const count = window.innerWidth < 600 ? 12 : 25;
+        for (let i = 0; i < count; i++) {
           const firefly = document.createElement('div');
           firefly.classList.add('firefly');
-          
-          const startX = Math.random() * 100;
-          const startY = Math.random() * 100;
-          
-          const delay = Math.random() * 8;
-          const duration = 6 + Math.random() * 6;
-          const scale = 0.5 + Math.random() * 0.8;
-
-          firefly.style.left = `${startX}vw`;
-          firefly.style.top = `${startY}vh`;
-          firefly.style.animationDelay = `${delay}s`;
-          firefly.style.animationDuration = `${duration}s`;
-          firefly.style.transform = `scale(${scale})`;
-
+          firefly.style.left = `${Math.random() * 100}vw`;
+          firefly.style.top = `${Math.random() * 100}vh`;
+          firefly.style.animationDelay = `${Math.random() * 8}s`;
+          firefly.style.animationDuration = `${6 + Math.random() * 6}s`;
+          firefly.style.transform = `scale(${0.5 + Math.random() * 0.8})`;
           firefliesContainer.appendChild(firefly);
         }
+      }
+
+      // ==========================================
+      // SYNTHESIZED WEB AUDIO (Crickets & Lullaby)
+      // ==========================================
+      let audioCtx = null;
+      let isAudioPlaying = false;
+      let cricketInterval = null;
+      let melodyTimeout = null;
+
+      const musicToggle = document.getElementById('music-toggle');
+      const musicText = document.getElementById('music-text');
+
+      function initAudioContext() {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
+
+      // 1. Synthesize Cricket Chirps
+      function triggerCricketChirp() {
+        if (!isAudioPlaying || !audioCtx) return;
+
+        const now = audioCtx.currentTime;
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        // High frequency cricket tone pairing
+        osc1.type = 'sine';
+        osc2.type = 'sine';
+        osc1.frequency.setValueAtTime(4500, now);
+        osc2.frequency.setValueAtTime(4650, now);
+
+        // Rapid pulses (chirp pattern)
+        const pulses = 3 + Math.floor(Math.random() * 2);
+        const pulseLen = 0.035;
+        
+        gainNode.gain.setValueAtTime(0, now);
+        for (let i = 0; i < pulses; i++) {
+          const t = now + (i * pulseLen * 1.8);
+          gainNode.gain.setValueAtTime(0.08, t);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, t + pulseLen);
+        }
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + (pulses * pulseLen * 2));
+        osc2.stop(now + (pulses * pulseLen * 2));
+      }
+
+      // 2. Synthesize Chime Lullaby Note
+      function playLullabyNote(freq, duration = 1.8, delay = 0) {
+        if (!isAudioPlaying || !audioCtx) return;
+
+        const now = audioCtx.currentTime + delay;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        // Warm chime sound (sine wave)
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        // Soft bell envelope
+        gainNode.gain.setValueAtTime(0.001, now);
+        gainNode.gain.linearRampToValueAtTime(0.18, now + 0.08);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + duration + 0.1);
+      }
+
+      // Gentle Lullaby Sequence (Frequencies in Hz)
+      const lullabyNotes = [
+        329.63, 392.00, 440.00, 493.88, 440.00, 392.00, // E4, G4, A4, B4, A4, G4
+        329.63, 293.66, 329.63, 392.00, 293.66,        // E4, D4, E4, G4, D4
+        261.63, 293.66, 329.63, 392.00, 440.00, 493.88 // C4, D4, E4, G4, A4, B4
+      ];
+
+      let noteIndex = 0;
+      function loopLullabySequence() {
+        if (!isAudioPlaying) return;
+
+        const noteFreq = lullabyNotes[noteIndex];
+        playLullabyNote(noteFreq, 2.2, 0);
+
+        noteIndex = (noteIndex + 1) % lullabyNotes.length;
+        
+        // Rhythm delay between notes
+        const rhythmDelay = (noteIndex % 3 === 0) ? 1800 : 900;
+        melodyTimeout = setTimeout(loopLullabySequence, rhythmDelay);
+      }
+
+      function startNightSoundscape() {
+        initAudioContext();
+        isAudioPlaying = true;
+
+        // Start crickets loop
+        triggerCricketChirp();
+        cricketInterval = setInterval(() => {
+          if (Math.random() > 0.3) triggerCricketChirp();
+        }, 1200);
+
+        // Start lullaby melody loop
+        noteIndex = 0;
+        loopLullabySequence();
+      }
+
+      function stopNightSoundscape() {
+        isAudioPlaying = false;
+        if (cricketInterval) clearInterval(cricketInterval);
+        if (melodyTimeout) clearTimeout(melodyTimeout);
+      }
+
+      // Audio Toggle Click Handler
+      if (musicToggle) {
+        musicToggle.addEventListener('click', () => {
+          if (!isAudioPlaying) {
+            startNightSoundscape();
+            musicToggle.classList.add('is-playing');
+            if (musicText) musicText.innerText = "🔊 Playing Music";
+          } else {
+            stopNightSoundscape();
+            musicToggle.classList.remove('is-playing');
+            if (musicText) musicText.innerText = "🎵 Night Sounds";
+          }
+        });
       }
     });
   </script>
