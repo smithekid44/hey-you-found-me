@@ -6,7 +6,7 @@
   <title>Forest of Ember</title>
   <style>
     /* ==========================================
-       RESET & BASE STYLES
+       GHIBLI NIGHT FOREST THEME & RESET
        ========================================== */
     * {
       box-sizing: border-box;
@@ -15,9 +15,9 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0b131e;
-      color: #e2e8f0;
+      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
+      background-color: #07111e;
+      color: #f1f5f9;
       overflow-x: hidden;
       min-height: 100vh;
       display: flex;
@@ -25,30 +25,29 @@
     }
 
     /* ==========================================
-       NAVIGATION BAR
+       COZY NAVIGATION BAR
        ========================================== */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(11, 19, 30, 0.85);
-      backdrop-filter: blur(10px);
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(180deg, rgba(7, 17, 30, 0.95) 0%, rgba(7, 17, 30, 0) 100%);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 100;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
       font-weight: bold;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       color: #ffd166;
       letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(255, 209, 102, 0.4);
     }
 
     .nav-links {
@@ -58,63 +57,68 @@
     }
 
     .nav-links a {
-      color: #cbd5e1;
+      color: #d1d5db;
       text-decoration: none;
-      transition: color 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
       color: #ffd166;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
     }
 
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.2rem;
     }
 
     /* Music Pill */
     .music-pill {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #e2e8f0;
-      padding: 0.4rem 0.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      color: #ffd166;
+      padding: 0.5rem 1rem;
       border-radius: 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
       font-size: 0.85rem;
+      font-family: inherit;
       transition: all 0.3s ease;
     }
 
     .music-pill:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 209, 102, 0.15);
+      border-color: #ffd166;
     }
 
     .music-pill.is-playing {
       border-color: #06d6a0;
       color: #06d6a0;
-      box-shadow: 0 0 10px rgba(6, 214, 160, 0.3);
+      box-shadow: 0 0 12px rgba(6, 214, 160, 0.4);
     }
 
-    /* Status Pill Toggle */
-    .status-pill {
+    /* Interactive Status Badge */
+    .status-badge {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       background: rgba(6, 214, 160, 0.15);
       border: 1px solid #06d6a0;
-      padding: 0.4rem 0.8rem;
+      padding: 0.5rem 1rem;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: bold;
       color: #06d6a0;
       cursor: pointer;
       user-select: none;
       transition: all 0.3s ease;
+      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
     }
 
     .status-dot {
@@ -126,35 +130,20 @@
     }
 
     /* Missing State Styling */
-    .status-pill.is-missing {
-      background: rgba(239, 71, 111, 0.15);
+    .status-badge.is-missing {
+      background: rgba(239, 71, 111, 0.18);
       border-color: #ef476f;
       color: #ef476f;
+      box-shadow: 0 0 12px rgba(239, 71, 111, 0.3);
     }
 
-    .status-pill.is-missing .status-dot {
+    .status-badge.is-missing .status-dot {
       background-color: #ef476f;
       box-shadow: 0 0 8px #ef476f;
     }
 
-    .hamburger-btn {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .hamburger-btn span {
-      width: 24px;
-      height: 2px;
-      background-color: #e2e8f0;
-      transition: all 0.3s ease;
-    }
-
     /* ==========================================
-       HERO / STAGE AREA
+       HERO / GHIBLI FOREST STAGE
        ========================================== */
     .hero {
       position: relative;
@@ -163,12 +152,27 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 6rem 2rem 2rem 2rem;
-      background: linear-gradient(180deg, #0b131e 0%, #172a3a 100%);
+      padding: 7rem 2rem 3rem 2rem;
+      background: radial-gradient(circle at 50% 30%, #172c4a 0%, #07111e 75%);
       overflow: hidden;
     }
 
-    /* Dynamic Fireflies Container */
+    /* Moon Glow */
+    .moon {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, #fffdf0 0%, #ffe3a8 60%, rgba(255, 227, 168, 0) 100%);
+      border-radius: 50%;
+      opacity: 0.25;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    /* Fireflies */
     #fireflies {
       position: absolute;
       top: 0;
@@ -181,57 +185,102 @@
 
     .firefly {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       background-color: #ffd166;
       border-radius: 50%;
-      box-shadow: 0 0 8px #ffd166;
-      animation: float 8s infinite ease-in-out;
+      box-shadow: 0 0 10px #ffd166, 0 0 20px #ffd166;
+      animation: float 7s infinite ease-in-out;
       opacity: 0;
     }
 
     @keyframes float {
-      0% { opacity: 0; transform: translateY(0) scale(0.8); }
-      50% { opacity: 0.8; transform: translateY(-30px) scale(1.2); }
-      100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+      0% { opacity: 0; transform: translateY(0) scale(0.6); }
+      50% { opacity: 0.9; transform: translateY(-35px) scale(1.3); }
+      100% { opacity: 0; transform: translateY(-70px) scale(0.6); }
+    }
+
+    /* TREE SILHOUETTES */
+    .forest-back-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 320px;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .tree-layer-back {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 260px;
+      opacity: 0.45;
+      fill: #0d1e33;
+    }
+
+    .tree-layer-front {
+      position: absolute;
+      bottom: -10px;
+      width: 100%;
+      height: 220px;
+      fill: #050d18;
+    }
+
+    .forest-mist {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 90px;
+      background: linear-gradient(0deg, #07111e 10%, rgba(7, 17, 30, 0) 100%);
+      z-index: 3;
+      pointer-events: none;
     }
 
     .content {
       position: relative;
       z-index: 10;
       text-align: center;
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
     }
 
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: #f8fafc;
+      font-size: 2.8rem;
+      margin-bottom: 0.4rem;
+      color: #fffdf0;
+      font-weight: normal;
       letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     p.subtitle {
-      color: #94a3b8;
+      color: #a0aec0;
       margin-bottom: 2rem;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      font-style: italic;
     }
 
-    /* Dialogue Speech Bubble */
+    /* Ghibli Dialogue Speech Bubble */
     .speech-bubble {
       position: relative;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
+      background: rgba(22, 38, 59, 0.75);
+      border: 1.5px solid rgba(255, 209, 102, 0.35);
+      padding: 1.1rem 1.8rem;
+      border-radius: 18px;
       margin-bottom: 2.5rem;
       font-style: italic;
       color: #ffd166;
-      backdrop-filter: blur(5px);
-      min-height: 3rem;
+      backdrop-filter: blur(8px);
+      min-height: 3.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 1.05rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     /* ==========================================
@@ -241,7 +290,7 @@
       position: relative;
       width: 100%;
       height: 160px;
-      margin: 0 auto 2rem auto;
+      margin: 0 auto 2.5rem auto;
     }
 
     .ember-wrapper {
@@ -259,86 +308,73 @@
     .ember-char {
       width: 100%;
       height: 100%;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
     }
 
-    /* Idle SVG Animation (When Safe) */
-    .ember-idle {
-      animation: breathe 3s infinite ease-in-out;
-    }
-
-    @keyframes breathe {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-4px) scale(1.02); }
-    }
-
-    /* Walking Bobbing Motion (When Missing) */
+    /* Continuous Walking Bobbing Motion */
     .ember-walking {
-      animation: walkBob 0.35s infinite alternate ease-in-out;
+      animation: walkBob 0.4s infinite alternate ease-in-out;
+    }
+
+    .ember-walking.fast-walk {
+      animation: walkBob 0.25s infinite alternate ease-in-out;
     }
 
     @keyframes walkBob {
-      0% { transform: translateY(0) rotate(-4deg); }
-      100% { transform: translateY(-10px) rotate(4deg); }
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-8px) rotate(3deg); }
     }
 
-    /* Hero Wooden Style Buttons */
+    /* Wooden Storybook Style Buttons */
     .hero-buttons {
       display: flex;
-      gap: 1rem;
+      gap: 1.2rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    button.btn-wooden-orange,
-    button.btn-wooden-dark {
-      padding: 0.75rem 1.25rem;
-      border-radius: 8px;
+    button.btn-story-orange,
+    button.btn-story-green {
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
       font-weight: bold;
+      font-family: inherit;
       cursor: pointer;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
       font-size: 0.95rem;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
+      letter-spacing: 0.5px;
     }
 
-    .btn-wooden-orange {
-      background: #e76f51;
+    .btn-story-orange {
+      background: linear-gradient(135deg, #e76f51 0%, #d45d42 100%);
       color: #ffffff;
-      box-shadow: 0 4px 0 #b5482f;
+      box-shadow: 0 4px 12px rgba(231, 111, 81, 0.35);
     }
 
-    .btn-wooden-orange:hover {
-      background: #f4a261;
+    .btn-story-orange:hover {
+      background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
       transform: translateY(-2px);
-      box-shadow: 0 6px 0 #b5482f;
+      box-shadow: 0 6px 16px rgba(231, 111, 81, 0.5);
     }
 
-    .btn-wooden-orange:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #b5482f;
-    }
-
-    .btn-wooden-dark {
-      background: #2a9d8f;
+    .btn-story-green {
+      background: linear-gradient(135deg, #2a9d8f 0%, #1e7167 100%);
       color: #ffffff;
-      box-shadow: 0 4px 0 #1d6e64;
+      box-shadow: 0 4px 12px rgba(42, 157, 143, 0.35);
     }
 
-    .btn-wooden-dark:hover {
-      background: #3eb4a5;
+    .btn-story-green:hover {
+      background: linear-gradient(135deg, #3eb4a5 0%, #2a9d8f 100%);
       transform: translateY(-2px);
-      box-shadow: 0 6px 0 #1d6e64;
-    }
-
-    .btn-wooden-dark:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #1d6e64;
+      box-shadow: 0 6px 16px rgba(42, 157, 143, 0.5);
     }
 
     /* ==========================================
-       MODAL OVERLAY
+       MODAL DIALOG
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -346,8 +382,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(7, 17, 30, 0.8);
+      backdrop-filter: blur(6px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -363,59 +399,38 @@
     }
 
     .modal-card {
-      background: #172a3a;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 400px;
+      background: #122236;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      border-radius: 16px;
+      padding: 2.2rem;
+      max-width: 420px;
       width: 90%;
       text-align: center;
-      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .modal-card h2 {
       color: #ffd166;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-weight: normal;
     }
 
     .modal-card p {
       color: #cbd5e1;
       font-size: 0.95rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+      line-height: 1.5;
     }
 
     .close-btn {
       background: #e76f51;
       border: none;
       color: #fff;
-      padding: 0.5rem 1.5rem;
-      border-radius: 6px;
+      padding: 0.6rem 1.8rem;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    /* Responsive Queries */
-    @media (max-width: 768px) {
-      .hamburger-btn {
-        display: flex;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: #0b131e;
-        flex-direction: column;
-        padding: 1rem 2rem;
-        gap: 1rem;
-        display: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .nav-links.nav-open {
-        display: flex;
-      }
+      font-family: inherit;
     }
   </style>
 </head>
@@ -429,54 +444,62 @@
   <!-- NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
-      <span class="logo-icon">🌲</span>
-      <span class="logo-text">EMBER</span>
+      <span>🌲</span>
+      <span>EMBER</span>
     </div>
 
-    <ul class="nav-links" id="nav-links">
+    <ul class="nav-links">
       <li><a href="#hero" class="active">Forest</a></li>
-      <li><a href="#explore">Lore</a></li>
-      <li><a href="#kindness">Map</a></li>
+      <li><a href="#lore">Lore</a></li>
+      <li><a href="#map">Map</a></li>
     </ul>
 
     <div class="nav-right">
-      <!-- Music Button -->
-      <button class="music-pill" id="music-btn" title="Toggle Forest Ambience">
-        <span class="music-icon">🎵</span>
-        <span class="music-label">Ambience</span>
+      <!-- Music Toggle -->
+      <button class="music-pill" id="music-btn">
+        <span>🎵</span>
+        <span id="music-label">Ambience</span>
       </button>
 
-      <!-- Interactive Status Pill -->
-      <div class="status-pill" id="status-pill" role="button" tabindex="0">
+      <!-- Status Badge -->
+      <div class="status-badge" id="status-badge" role="button" tabindex="0">
         <span class="status-dot"></span>
-        <span class="status-text" id="status-text">SAFE</span>
+        <span id="status-text">SAFE</span>
       </div>
-
-      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
   </nav>
 
   <!-- HERO SECTION -->
   <section class="hero" id="hero">
+    <div class="moon"></div>
     <div id="fireflies"></div>
+
+    <!-- SILHOUETTE TREES & MIST -->
+    <div class="forest-back-wrapper">
+      <!-- Far Tree Layer -->
+      <svg class="tree-layer-back" viewBox="0 0 1200 260" preserveAspectRatio="none">
+        <path d="M0,260 L0,120 L25,160 L50,110 L75,170 L100,90 L130,180 L160,100 L190,170 L220,110 L250,190 L290,80 L330,170 L370,100 L410,180 L450,110 L490,190 L530,90 L570,170 L610,100 L650,180 L690,110 L730,190 L770,80 L810,170 L850,90 L890,180 L930,110 L970,190 L1010,90 L1050,170 L1090,100 L1130,180 L1170,110 L1200,150 L1200,260 Z"/>
+      </svg>
+      <!-- Near Tree Layer -->
+      <svg class="tree-layer-front" viewBox="0 0 1200 220" preserveAspectRatio="none">
+        <path d="M0,220 L0,80 L20,130 L45,60 L70,140 L95,80 L125,150 L155,70 L185,140 L215,80 L245,160 L280,50 L320,140 L360,70 L400,150 L440,80 L480,160 L520,60 L560,140 L600,70 L640,150 L680,80 L720,160 L760,50 L800,140 L840,60 L880,150 L920,80 L960,160 L1000,70 L1040,140 L1080,80 L1120,150 L1160,90 L1200,130 L1200,220 Z"/>
+      </svg>
+    </div>
+    <div class="forest-mist"></div>
 
     <div class="content">
       <h1>The Moonlit Canopy</h1>
-      <p class="subtitle">Ember the forest spirit is resting nearby.</p>
+      <p class="subtitle">Ember the forest spirit is exploring the woods.</p>
 
-      <!-- Dynamic Dialogue -->
+      <!-- Dialogue Bubble -->
       <div class="speech-bubble" id="speech-bubble">
         "The stars are bright tonight..."
       </div>
 
-      <!-- Ember Stage & Wrapper -->
+      <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
         <div class="ember-wrapper" id="ember-wrapper">
-          <svg class="ember-char ember-idle" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ember-char ember-walking" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Ears -->
             <polygon points="30,35 20,15 42,28" fill="#e76f51" />
             <polygon points="70,35 80,15 58,28" fill="#e76f51" />
@@ -487,12 +510,12 @@
             <!-- Face Fur Mask -->
             <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
             <!-- Eyes -->
-            <circle cx="40" cy="50" r="3" fill="#0b131e" />
-            <circle cx="60" cy="50" r="3" fill="#0b131e" />
+            <circle cx="40" cy="50" r="3" fill="#07111e" />
+            <circle cx="60" cy="50" r="3" fill="#07111e" />
             <circle cx="41" cy="49" r="1" fill="#ffffff" />
             <circle cx="61" cy="49" r="1" fill="#ffffff" />
             <!-- Nose -->
-            <polygon points="48,56 52,56 50,59" fill="#0b131e" />
+            <polygon points="48,56 52,56 50,59" fill="#07111e" />
             <!-- Paws -->
             <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
             <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
@@ -500,17 +523,17 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Hero Buttons -->
       <div class="hero-buttons">
-        <button class="btn-wooden-orange" id="interact-btn">
+        <button class="btn-story-orange" id="interact-btn">
           🐾 Speak to Ember
         </button>
         
-        <button class="btn-wooden-dark" id="toggle-status-btn">
+        <button class="btn-story-green" id="toggle-status-btn">
           🐾 Mark Ember Lost
         </button>
 
-        <button class="btn-wooden-dark" id="report-btn">
+        <button class="btn-story-green" id="report-btn">
           📡 Signal Location
         </button>
       </div>
@@ -520,29 +543,16 @@
   <!-- MODAL DIALOG -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-card">
-      <h2>Signal Sent!</h2>
-      <p>A lantern beacon has been illuminated over Ember's last recorded coordinates.</p>
+      <h2>Lantern Signal Sent!</h2>
+      <p>A glowing beacon has been placed above Ember's last recorded location in the forest.</p>
       <button class="close-btn" id="close-modal">Dismiss</button>
     </div>
   </div>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Navigation Hamburger Toggle
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    const navLinks = document.getElementById('nav-links');
-
-    hamburgerBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('nav-open');
-    });
-
-    // Ember Dialogue Interaction
-    const emberWrapper = document.getElementById('ember-wrapper');
-    const emberChar = document.getElementById('ember-character');
-    const speechBubble = document.getElementById('speech-bubble');
-    const interactBtn = document.getElementById('interact-btn');
-
-    const phrases = [
+    // Dialogue Lists
+    const safePhrases = [
       '"The stars are bright tonight..."',
       '"Did you bring any sweet berries?"',
       '"Listen closely to the wind in the pines..."',
@@ -550,8 +560,23 @@
       '"I feel safe when the lanterns glow."'
     ];
 
+    const missingPhrases = [
+      '"Where did everybody go...?"',
+      '"I think I took a wrong turn at the big oak tree..."',
+      '"Is someone holding a lantern?"',
+      '"The shadows look bigger over here..."'
+    ];
+
+    // DOM Elements
+    const emberWrapper = document.getElementById('ember-wrapper');
+    const emberChar = document.getElementById('ember-character');
+    const speechBubble = document.getElementById('speech-bubble');
+    const interactBtn = document.getElementById('interact-btn');
+    const stage = document.getElementById('character-stage');
+
     function speakNextPhrase() {
-      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      const activeList = isMissing ? missingPhrases : safePhrases;
+      const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
       speechBubble.textContent = randomPhrase;
 
       // Click reaction pulse
@@ -568,46 +593,43 @@
     // AUDIO AMBIENCE CONTROL
     // ==========================================
     const musicBtn = document.getElementById('music-btn');
+    const musicLabel = document.getElementById('music-label');
     const audio = document.getElementById('forest-audio');
     let isPlaying = false;
 
     musicBtn.addEventListener('click', () => {
       isPlaying = !isPlaying;
       if (isPlaying) {
-        audio.play().catch(err => console.log("Audio playback waiting for interaction: ", err));
+        audio.play().catch(err => console.log("Audio waiting for user click", err));
         musicBtn.classList.add('is-playing');
-        musicBtn.querySelector('.music-label').textContent = 'Playing';
+        musicLabel.textContent = 'Playing';
       } else {
         audio.pause();
         musicBtn.classList.remove('is-playing');
-        musicBtn.querySelector('.music-label').textContent = 'Ambience';
+        musicLabel.textContent = 'Ambience';
       }
     });
 
     // ==========================================
-    // EMBER STATUS & WALKING ANIMATION ENGINE
+    // EMBER CONTINUOUS WALKING ENGINE
     // ==========================================
-    const statusPill = document.getElementById('status-pill');
+    const statusBadge = document.getElementById('status-badge');
     const statusText = document.getElementById('status-text');
     const toggleStatusBtn = document.getElementById('toggle-status-btn');
-    const stage = document.getElementById('character-stage');
 
     let isMissing = false;
-    let walkAnimationId = null;
-    let positionX = 0;       // Horizontal pixel offset from initial center
-    let direction = 1;       // 1 = right, -1 = left
-    const walkSpeed = 1.5;   // Pixels moved per frame
+    let positionX = 0;       
+    let direction = 1;       
+    let walkSpeed = 1.0; 
 
     function updateEmberWalk() {
-      if (!isMissing) return;
-
       const stageWidth = stage.clientWidth || 300;
       const emberWidth = emberWrapper.clientWidth || 140;
       const maxRange = (stageWidth - emberWidth) / 2;
 
       positionX += walkSpeed * direction;
 
-      // Turn around at boundaries
+      // Reverse direction at stage edges
       if (positionX >= maxRange) {
         positionX = maxRange;
         direction = -1;
@@ -616,64 +638,45 @@
         direction = 1;
       }
 
-      // Flip SVG graphic depending on movement direction
+      // Flip SVG based on movement vector
       const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
       emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) ${flipScale}`;
 
-      walkAnimationId = requestAnimationFrame(updateEmberWalk);
+      requestAnimationFrame(updateEmberWalk);
     }
 
     function toggleEmberStatus() {
       isMissing = !isMissing;
 
       if (isMissing) {
-        // Switch to MISSING state
-        statusPill.classList.add('is-missing');
+        // Missing State - Walk Faster & Faster Bobbing
+        statusBadge.classList.add('is-missing');
         statusText.textContent = 'MISSING';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Safe';
         speechBubble.textContent = '"Where did everybody go...?"';
-
-        // Swap SVG animation classes
-        emberChar.classList.remove('ember-idle');
-        emberChar.classList.add('ember-walking');
-
-        // Start movement loop
-        cancelAnimationFrame(walkAnimationId);
-        walkAnimationId = requestAnimationFrame(updateEmberWalk);
+        
+        walkSpeed = 2.2;
+        emberChar.classList.add('fast-walk');
       } else {
-        // Switch to SAFE state
-        cancelAnimationFrame(walkAnimationId);
-
-        statusPill.classList.remove('is-missing');
+        // Safe State - Calm Walk Speed
+        statusBadge.classList.remove('is-missing');
         statusText.textContent = 'SAFE';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Lost';
         speechBubble.textContent = '"The stars are bright tonight..."';
 
-        // Reset positions
-        positionX = 0;
-        direction = 1;
-        emberWrapper.style.transform = 'translateX(-50%) translateX(0px) scaleX(1)';
-
-        // Swap back to idle animation
-        emberChar.classList.remove('ember-walking');
-        emberChar.classList.add('ember-idle');
+        walkSpeed = 1.0;
+        emberChar.classList.remove('fast-walk');
       }
     }
 
-    // Attach listeners to both status triggers
-    statusPill.addEventListener('click', toggleEmberStatus);
+    statusBadge.addEventListener('click', toggleEmberStatus);
     toggleStatusBtn.addEventListener('click', toggleEmberStatus);
 
-    // Reset coordinates if window size changes while safe
-    window.addEventListener('resize', () => {
-      if (!isMissing) {
-        positionX = 0;
-        emberWrapper.style.transform = 'translateX(-50%) translateX(0px) scaleX(1)';
-      }
-    });
+    // Start walking immediately on page render
+    requestAnimationFrame(updateEmberWalk);
 
     // ==========================================
-    // MODAL CONTROLS
+    // MODAL DIALOG CONTROLS
     // ==========================================
     const reportBtn = document.getElementById('report-btn');
     const modalOverlay = document.getElementById('modal-overlay');
@@ -693,17 +696,15 @@
       }
     });
 
-    // ==========================================
-    // GENERATE DYNAMIC FIREFLIES
-    // ==========================================
+    // Fireflies Generator
     const fireflyContainer = document.getElementById('fireflies');
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 22; i++) {
       const firefly = document.createElement('div');
       firefly.className = 'firefly';
       firefly.style.left = Math.random() * 100 + 'vw';
       firefly.style.top = Math.random() * 80 + 10 + 'vh';
-      firefly.style.animationDelay = Math.random() * 8 + 's';
-      firefly.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      firefly.style.animationDelay = Math.random() * 7 + 's';
+      firefly.style.animationDuration = (Math.random() * 4 + 5) + 's';
       fireflyContainer.appendChild(firefly);
     }
   </script>
