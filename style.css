@@ -1,151 +1,469 @@
-/* RESET & CORE STYLES */
+/* ==========================================
+   1. VARIABLES & GLOBAL RESETS
+   ========================================== */
+:root {
+  --moon-gold: #fdf3c6;
+  --night-blue: #091122;
+  --forest-dark: #050a14;
+  --wood-orange: #b85b28;
+  --wood-orange-glow: #e07a5f;
+  --wood-dark: #1b2820;
+  --text-light: #f4efe6;
+  --kodama-glow: #7df9ff;
+  --shroom-teal: #4ef0d0;
+  --lantern-gold: #ffb703;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  background-color: #070d14;
-  color: #fdf3c6;
-  font-family: system-ui, -apple-system, sans-serif;
+html, body {
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--night-blue);
+  color: var(--text-light);
 }
 
-/* NAVBAR */
+/* ==========================================
+   2. BACKGROUND FIREFLIES
+   ========================================== */
+#fireflies {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.firefly {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff, 0 0 30px var(--moon-gold);
+  animation: floatAndGlow 8s infinite ease-in-out;
+  opacity: 0;
+}
+
+@keyframes floatAndGlow {
+  0% { 
+    opacity: 0; 
+    transform: translateY(0) translateX(0) scale(0.6); 
+  }
+  30% { 
+    opacity: 0.9; 
+  }
+  50% { 
+    transform: translateY(-80px) translateX(40px) scale(1.2); 
+  }
+  70% { 
+    opacity: 0.8; 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-160px) translateX(-30px) scale(0.4); 
+  }
+}
+
+/* ==========================================
+   3. NAVIGATION BAR
+   ========================================== */
 .navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
-  background: #04080d;
+  z-index: 50;
+  background: linear-gradient(to bottom, rgba(5, 10, 20, 0.9), transparent);
 }
 
 .nav-logo {
-  font-weight: bold;
-  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 1.6rem;
+  color: var(--moon-gold);
+}
+
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 25px;
 }
 
 .nav-links a {
-  color: #a3b899;
   text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
+.nav-links a:hover,
 .nav-links a.active {
-  color: #fdf3c6;
+  color: var(--moon-gold);
+  opacity: 1;
 }
 
-/* HERO SECTION */
-.hero {
-  position: relative;
-  min-height: 80vh;
+.nav-right {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 8%;
+  gap: 10px;
 }
 
+/* Pill Buttons (Audio & Status) */
+.music-pill,
+.status-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.music-pill:hover,
+.status-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.music-pill.is-playing {
+  background: rgba(125, 249, 255, 0.2);
+  border-color: var(--kodama-glow);
+  box-shadow: 0 0 12px rgba(125, 249, 255, 0.4);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ef081;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ef081;
+}
+
+.status-pill.is-missing {
+  background: rgba(224, 75, 75, 0.25);
+  border-color: rgba(255, 99, 99, 0.6);
+  color: #ffcdd2;
+}
+
+.status-pill.is-missing .status-dot {
+  background: #ff4d4d;
+  box-shadow: 0 0 10px #ff4d4d;
+  animation: pulseRed 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseRed {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+}
+
+.hamburger-btn span {
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* ==========================================
+   4. HERO SECTION & SCENERY
+   ========================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: radial-gradient(circle at 50% 25%, #182a45 0%, var(--night-blue) 85%);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 110px 8% 40px;
+}
+
+.moon {
+  position: absolute;
+  top: 8%;
+  left: 58%;
+  width: 120px;
+  height: 120px;
+  background: var(--moon-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 50px rgba(253, 243, 198, 0.5);
+  z-index: 1;
+}
+
+/* --- FOREST TREES BEHIND EMBER --- */
 .forest-trees {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 300px;
-  z-index: 1;
+  height: 55%;
+  z-index: 2;
   pointer-events: none;
 }
 
+.tree-group {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tree-group.bg-trees {
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.tree-group.fg-trees {
+  opacity: 0.8;
+}
+
+.tree-trunk {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, #09131f 0%, #03070d 100%);
+  border-radius: 8px 8px 0 0;
+}
+
+.tree-canopy {
+  position: absolute;
+  background: radial-gradient(circle, #0e1e33 0%, #040912 100%);
+  border-radius: 50%;
+}
+
+.mist-layer {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  width: 200%;
+  height: 25%;
+  background: linear-gradient(to top, rgba(125, 249, 255, 0.08), transparent);
+  animation: floatMist 14s infinite linear;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@keyframes floatMist {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .content {
-  max-width: 450px;
-  z-index: 5;
+  position: relative;
+  z-index: 10;
+  max-width: 420px;
+  margin-bottom: 20px;
 }
 
 .content h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  color: #ffffff;
+  margin-bottom: 12px;
 }
 
 .content p {
-  color: #a3b899;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  opacity: 0.9;
+  margin-bottom: 20px;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
 }
 
-.btn-orange {
-  background: #b85b28;
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  font-weight: bold;
+.btn-wooden-orange,
+.btn-wooden-dark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 12px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-dark {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+.btn-wooden-orange:hover,
+.btn-wooden-dark:hover {
+  transform: translateY(-2px);
 }
 
-/* STAGE & CHARACTER */
+.btn-wooden-orange {
+  background: linear-gradient(180deg, #d36a33 0%, #a24b1f 100%);
+  color: #fff6e8;
+  border: 2px solid #f1935c;
+  box-shadow: 0 4px 15px rgba(211, 106, 51, 0.3);
+}
+
+.btn-wooden-dark {
+  background: linear-gradient(180deg, #243529 0%, #17241c 100%);
+  color: #e2ede5;
+  border: 2px solid #3e5b46;
+  box-shadow: 0 4px 15px rgba(27, 40, 32, 0.4);
+}
+
+/* ==========================================
+   5. EMBER STAGE, MUSHROOMS & LANTERNS
+   ========================================== */
 .ember-stage {
   position: relative;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.speech-bubble {
-  background: #0a141e;
-  border: 1px solid #7df9ff;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.character-container {
-  position: relative;
-  width: 220px;
-  height: 220px;
-}
-
-#ember-character {
-  width: 160px;
-  height: 180px;
-  position: absolute;
-  left: 30px;
-  bottom: 10px;
-  cursor: pointer;
-}
-
-/* GLOWING LANTERNS */
-.glowing-lantern {
-  position: absolute;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
-.lantern-left { top: 0px; left: 10px; }
-.lantern-right { top: 10px; right: 10px; }
+.speech-bubble {
+  position: relative;
+  margin-bottom: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--moon-gold);
+  z-index: 15;
+  background: rgba(9, 17, 34, 0.85);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(253, 243, 198, 0.3);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.character-container {
+  position: relative;
+  width: 280px;
+  height: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#ember-character {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 165px;
+  z-index: 12;
+  cursor: pointer;
+}
+
+.stone-path {
+  position: relative;
+  z-index: 5;
+  width: 280px;
+  height: 75px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(180deg, #1b2e22 0%, #0c1610 100%);
+  border-top: 2px solid rgba(253, 243, 198, 0.5);
+}
+
+/* --- GLOWING MUSHROOMS --- */
+.glowing-mushroom {
+  position: absolute;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mushroom-1 { bottom: 22px; left: 18px; transform: scale(0.85); }
+.mushroom-2 { bottom: 15px; left: 45px; transform: scale(0.65) rotate(-10deg); }
+.mushroom-3 { bottom: 25px; right: 25px; transform: scale(0.9) rotate(8deg); }
+
+.shroom-cap {
+  width: 22px;
+  height: 14px;
+  background: var(--shroom-teal);
+  border-radius: 14px 14px 4px 4px;
+  box-shadow: 0 0 12px var(--shroom-teal), 0 0 25px var(--kodama-glow);
+  animation: shroomPulse 3s infinite ease-in-out;
+}
+
+.shroom-stem {
+  width: 4px;
+  height: 12px;
+  background: #c3e8e1;
+  border-radius: 2px;
+  margin-top: -2px;
+}
+
+@keyframes shroomPulse {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 8px var(--shroom-teal); }
+  50% { opacity: 1; box-shadow: 0 0 18px var(--shroom-teal), 0 0 30px var(--kodama-glow); }
+}
+
+/* --- GLOWING LANTERNS --- */
+.glowing-lantern {
+  position: absolute;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: lanternSway 4s infinite ease-in-out;
+}
+
+.lantern-left { top: -20px; left: 10px; }
+.lantern-right { top: -10px; right: 15px; animation-delay: -2s; }
 
 .lantern-string {
   width: 1px;
@@ -156,43 +474,311 @@ body {
 .lantern-body {
   width: 16px;
   height: 22px;
-  background: #1a0d03;
-  border: 1px solid #ffb703;
+  background: linear-gradient(180deg, #42260e 0%, #1a0d03 100%);
+  border: 1px solid var(--lantern-gold);
   border-radius: 4px;
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .lantern-glow {
   width: 10px;
   height: 12px;
-  background: #ffb703;
-  box-shadow: 0 0 12px #ffb703;
+  background: var(--lantern-gold);
+  border-radius: 2px;
+  box-shadow: 0 0 12px var(--lantern-gold), 0 0 25px var(--moon-gold);
+  animation: lanternFlicker 2.5s infinite ease-in-out;
 }
 
-/* GLOWING MUSHROOMS */
-.glowing-mushroom {
+@keyframes lanternSway {
+  0%, 100% { transform: rotate(-4deg); transform-origin: top center; }
+  50% { transform: rotate(4deg); transform-origin: top center; }
+}
+
+@keyframes lanternFlicker {
+  0%, 100% { opacity: 0.8; box-shadow: 0 0 10px var(--lantern-gold); }
+  50% { opacity: 1; box-shadow: 0 0 18px var(--lantern-gold), 0 0 30px var(--moon-gold); }
+}
+
+/* Character Animations */
+.ember-idle { 
+  animation: breathe 3.5s infinite ease-in-out; 
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+.ember-tail {
+  transform-origin: 110px 130px;
+  animation: tailSwish 3s infinite ease-in-out;
+}
+
+@keyframes tailSwish {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(12deg); }
+}
+
+.ember-walking { 
+  animation: walkOnMound 2.8s infinite ease-in-out !important; 
+}
+
+@keyframes walkOnMound {
+  0% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
+  50% { transform: translateX(0px) translateY(5px) rotate(5deg); }
+  100% { transform: translateX(-80px) translateY(5px) rotate(-5deg); }
+}
+
+/* ==========================================
+   6. EXPLORE SECTION & CARDS
+   ========================================== */
+.explore-section {
+  position: relative;
+  background: #060b14;
+  padding: 50px 5% 60px;
+  text-align: center;
+  z-index: 10;
+}
+
+.section-title h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto 40px;
+}
+
+.world-card {
+  background: rgba(14, 23, 38, 0.6);
+  border: 1px solid rgba(253, 243, 198, 0.12);
+  border-radius: 16px;
+  padding: 24px 15px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.world-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(253, 243, 198, 0.3);
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.world-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.world-card p {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.kindness-banner {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #0e1726;
+  border: 1px solid rgba(253, 243, 198, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+
+.badge-oval {
+  border: 1px solid rgba(253, 243, 198, 0.3);
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 0.75rem;
+}
+
+/* ==========================================
+   7. FOOTER
+   ========================================== */
+footer {
+  padding: 20px;
+  background: #040810;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* ==========================================
+   8. MODAL POPUP
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 10, 20, 0.85);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  position: relative;
+  background: #111c30;
+  border: 1px solid rgba(253, 243, 198, 0.2);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+}
+
+.close-btn {
   position: absolute;
-  z-index: 8;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.urgent-contact {
+  background: rgba(224, 122, 95, 0.15);
+  border: 1px solid var(--wood-orange-glow);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.phone-link {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--moon-gold);
+  text-decoration: none;
+}
+
+#found-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 8px;
 }
 
-.mushroom-1 { bottom: 10px; left: 10px; }
-.mushroom-2 { bottom: 5px; right: 15px; }
-
-.shroom-cap {
-  width: 20px;
-  height: 12px;
-  background: #4ef0d0;
-  border-radius: 12px 12px 2px 2px;
-  box-shadow: 0 0 10px #4ef0d0;
+#found-form input,
+#found-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 0.9rem;
 }
 
-.shroom-stem {
-  width: 4px;
-  height: 10px;
-  background: #c3e8e1;
+.submit-btn {
+  background: var(--wood-orange-glow);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* ==========================================
+   9. MEDIA QUERIES & RESPONSIVENESS
+   ========================================== */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(5, 10, 20, 0.95);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 16px;
+    display: none;
+    border-bottom: 1px solid rgba(253, 243, 198, 0.2);
+  }
+
+  .nav-links.nav-open {
+    display: flex;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding-top: 90px;
+    padding-bottom: 30px;
+    gap: 20px;
+  }
+
+  .moon {
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 90px;
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .hero-buttons {
+    margin: 0 auto;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kindness-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
 }
