@@ -23,9 +23,7 @@ body {
   overflow-y: auto;
 }
 
-/* ==========================================================================
-   1. NAVIGATION BAR
-   ========================================================================== */
+/* NAVIGATION */
 .navbar {
   position: absolute;
   top: 0;
@@ -83,16 +81,27 @@ body {
   gap: 15px;
 }
 
+/* STATUS PILL BUTTON & TOGGLE STYLES */
 .status-pill {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 0.85rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-light);
   display: flex;
   align-items: center;
   gap: 8px;
   backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.status-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .status-dot {
@@ -101,6 +110,25 @@ body {
   background: #4ef081;
   border-radius: 50%;
   box-shadow: 0 0 8px #4ef081;
+  transition: all 0.3s ease;
+}
+
+/* Missing State (Red Warning) */
+.status-pill.is-missing {
+  background: rgba(224, 75, 75, 0.25);
+  border-color: rgba(255, 99, 99, 0.6);
+  color: #ffcdd2;
+}
+
+.status-pill.is-missing .status-dot {
+  background: #ff4d4d;
+  box-shadow: 0 0 10px #ff4d4d;
+  animation: pulseRed 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseRed {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
 }
 
 .hamburger-btn {
@@ -119,9 +147,7 @@ body {
   border-radius: 2px;
 }
 
-/* ==========================================================================
-   2. HERO SECTION & BACKGROUND
-   ========================================================================== */
+/* HERO SECTION */
 .hero {
   position: relative;
   width: 100%;
@@ -206,9 +232,7 @@ body {
   width: 260px;
 }
 
-/* ==========================================================================
-   3. WOODEN BUTTONS
-   ========================================================================== */
+/* WOODEN BUTTONS */
 .btn-wooden-orange,
 .btn-wooden-dark {
   position: relative;
@@ -252,34 +276,52 @@ body {
   filter: brightness(1.1);
 }
 
-/* ==========================================================================
-   4. EMBER & STONE PATH (GROUNDED FOOTING & WALKING PHYSICS)
-   ========================================================================== */
+/* STAGE CONTAINER */
 .ember-stage {
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
   width: 320px;
-  margin-bottom: 0;
+}
+
+.speech-bubble {
+  position: relative;
+  margin-bottom: 15px;
+  white-space: nowrap;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--moon-gold);
+  z-index: 15;
+  background: rgba(9, 17, 34, 0.8);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(253, 243, 198, 0.3);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.character-container {
+  position: relative;
+  width: 300px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 #ember-character {
-  position: relative;
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 12;
   cursor: pointer;
-  
-  /* FLUSH FOOTING FIX: Pulls paws firmly DOWN into full contact with the stone */
-  display: block; 
-  margin-bottom: -48px; 
-  
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
-  transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
 }
 
-/* Mossy Stone Path Mound */
 .stone-path {
   position: relative;
   z-index: 5;
@@ -295,51 +337,30 @@ body {
   box-shadow: 0 -8px 25px rgba(125, 249, 255, 0.2), 0 15px 30px rgba(0, 0, 0, 0.85);
 }
 
-/* Contact Shadow under Ember's Paws */
 .stone-path::before {
   content: '';
   position: absolute;
-  top: 12px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   width: 110px;
-  height: 14px;
-  background: rgba(5, 10, 20, 0.75);
+  height: 12px;
+  background: rgba(5, 10, 20, 0.8);
   border-radius: 50%;
   filter: blur(3px);
   z-index: 6;
 }
 
-.speech-bubble {
-  position: relative;
-  margin-bottom: 8px;
-  white-space: nowrap;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--moon-gold);
-  z-index: 15;
-  background: rgba(9, 17, 34, 0.8);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(253, 243, 198, 0.3);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-/* --- ANIMATIONS --- */
-
-/* Idle Breathing State */
+/* ANIMATIONS */
 .ember-idle {
   animation: breathe 3.5s infinite ease-in-out;
 }
 
 @keyframes breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
 }
 
-/* Tail Swish */
 .ember-tail {
   transform-origin: 110px 130px;
   animation: tailSwish 3s infinite ease-in-out;
@@ -350,38 +371,26 @@ body {
   50% { transform: rotate(12deg); }
 }
 
-/* WALKING ANIMATION: Follows the curved shape of the stone mound */
 .ember-walking {
-  animation: walkOnGround 3s infinite ease-in-out !important;
+  animation: walkOnMound 2.8s infinite ease-in-out !important;
 }
 
-@keyframes walkOnGround {
-  0% {
-    transform: translateX(-45px) translateY(4px) rotate(-4deg);
-  }
-  25% {
-    transform: translateX(-20px) translateY(-4px) rotate(-1deg);
-  }
-  50% {
-    transform: translateX(45px) translateY(4px) rotate(4deg);
-  }
-  75% {
-    transform: translateX(20px) translateY(-4px) rotate(1deg);
-  }
-  100% {
-    transform: translateX(-45px) translateY(4px) rotate(-4deg);
-  }
+@keyframes walkOnMound {
+  0% { transform: translateX(-95px) translateY(5px) rotate(-5deg); }
+  25% { transform: translateX(-55px) translateY(-3px) rotate(-1deg); }
+  50% { transform: translateX(-5px) translateY(5px) rotate(5deg); }
+  75% { transform: translateX(-55px) translateY(-3px) rotate(1deg); }
+  100% { transform: translateX(-95px) translateY(5px) rotate(-5deg); }
 }
 
-/* Alternating paw steps */
 .ember-walking .paw-front-left,
 .ember-walking .paw-back-right {
-  animation: pawStepA 0.4s infinite alternate ease-in-out;
+  animation: pawStepA 0.35s infinite alternate ease-in-out;
 }
 
 .ember-walking .paw-front-right,
 .ember-walking .paw-back-left {
-  animation: pawStepB 0.4s infinite alternate ease-in-out;
+  animation: pawStepB 0.35s infinite alternate ease-in-out;
 }
 
 @keyframes pawStepA {
@@ -394,9 +403,7 @@ body {
   100% { transform: translateY(0); }
 }
 
-/* ==========================================================================
-   5. EXPLORE SECTION & FOOTER
-   ========================================================================== */
+/* EXPLORE SECTION & FOOTER */
 .explore-section {
   position: relative;
   background: #060b14;
@@ -490,9 +497,7 @@ footer {
   opacity: 0.6;
 }
 
-/* ==========================================================================
-   6. MODAL POPUP
-   ========================================================================== */
+/* MODAL POPUP */
 .modal-overlay {
   position: fixed;
   top: 0;
