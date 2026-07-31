@@ -289,17 +289,17 @@
     .character-stage {
       position: relative;
       width: 100%;
-      height: 160px;
-      margin: 0 auto 2.5rem auto;
+      height: 180px;
+      margin: 0 auto 2rem auto;
     }
 
     .ember-wrapper {
       position: absolute;
       left: 50%;
-      top: 0;
+      top: 10px;
       transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
+      width: 150px;
+      height: 150px;
       cursor: pointer;
       z-index: 5;
       will-change: transform;
@@ -308,44 +308,37 @@
     .ember-char {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      overflow: visible;
     }
 
-    /* Dynamic Ground Shadow */
-    .ember-shadow {
-      position: absolute;
-      bottom: -6px;
-      left: 20%;
-      width: 60%;
-      height: 12px;
-      background: radial-gradient(ellipse at center, rgba(3, 8, 16, 0.75) 0%, rgba(3, 8, 16, 0) 75%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 4;
-      animation: shadowPulse 0.4s infinite alternate ease-in-out;
-    }
-
-    .ember-shadow.fast-walk {
-      animation: shadowPulse 0.25s infinite alternate ease-in-out;
-    }
-
-    /* Continuous Walking Bobbing Motion */
-    .ember-walking {
+    /* Animated Walking Body */
+    .ember-body-group {
+      transform-origin: 50% 80%;
       animation: walkBob 0.4s infinite alternate ease-in-out;
     }
 
-    .ember-walking.fast-walk {
-      animation: walkBob 0.25s infinite alternate ease-in-out;
+    .ember-body-group.fast-walk {
+      animation: walkBob 0.22s infinite alternate ease-in-out;
+    }
+
+    /* Synchronized Dynamic Ground Shadow */
+    .ground-shadow {
+      transform-origin: 50px 85px;
+      animation: shadowPulse 0.4s infinite alternate ease-in-out;
+    }
+
+    .ground-shadow.fast-walk {
+      animation: shadowPulse 0.22s infinite alternate ease-in-out;
     }
 
     @keyframes walkBob {
-      0% { transform: translateY(0) rotate(-3deg); }
-      100% { transform: translateY(-8px) rotate(3deg); }
+      0% { transform: translateY(0px) rotate(-3deg); }
+      100% { transform: translateY(-10px) rotate(3deg); }
     }
 
     @keyframes shadowPulse {
-      0% { transform: scaleX(1) scaleY(1); opacity: 0.85; }
-      100% { transform: scaleX(0.75) scaleY(0.7); opacity: 0.45; }
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.95; }
+      100% { transform: scaleX(0.7) scaleY(0.6); opacity: 0.4; }
     }
 
     /* Wooden Storybook Style Buttons */
@@ -499,11 +492,9 @@
 
     <!-- SILHOUETTE TREES & MIST -->
     <div class="forest-back-wrapper">
-      <!-- Far Tree Layer -->
       <svg class="tree-layer-back" viewBox="0 0 1200 260" preserveAspectRatio="none">
         <path d="M0,260 L0,120 L25,160 L50,110 L75,170 L100,90 L130,180 L160,100 L190,170 L220,110 L250,190 L290,80 L330,170 L370,100 L410,180 L450,110 L490,190 L530,90 L570,170 L610,100 L650,180 L690,110 L730,190 L770,80 L810,170 L850,90 L890,180 L930,110 L970,190 L1010,90 L1050,170 L1090,100 L1130,180 L1170,110 L1200,150 L1200,260 Z"/>
       </svg>
-      <!-- Near Tree Layer -->
       <svg class="tree-layer-front" viewBox="0 0 1200 220" preserveAspectRatio="none">
         <path d="M0,220 L0,80 L20,130 L45,60 L70,140 L95,80 L125,150 L155,70 L185,140 L215,80 L245,160 L280,50 L320,140 L360,70 L400,150 L440,80 L480,160 L520,60 L560,140 L600,70 L640,150 L680,80 L720,160 L760,50 L800,140 L840,60 L880,150 L920,80 L960,160 L1000,70 L1040,140 L1080,80 L1120,150 L1160,90 L1200,130 L1200,220 Z"/>
       </svg>
@@ -522,30 +513,40 @@
       <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
         <div class="ember-wrapper" id="ember-wrapper">
-          <svg class="ember-char ember-walking" id="ember-character" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Ears -->
-            <polygon points="30,35 20,15 42,28" fill="#e76f51" />
-            <polygon points="70,35 80,15 58,28" fill="#e76f51" />
-            <polygon points="32,33 24,18 40,28" fill="#f4a261" />
-            <polygon points="68,33 76,18 60,28" fill="#f4a261" />
-            <!-- Head / Body -->
-            <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
-            <!-- Face Fur Mask -->
-            <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
-            <!-- Eyes -->
-            <circle cx="40" cy="50" r="3" fill="#07111e" />
-            <circle cx="60" cy="50" r="3" fill="#07111e" />
-            <circle cx="41" cy="49" r="1" fill="#ffffff" />
-            <circle cx="61" cy="49" r="1" fill="#ffffff" />
-            <!-- Nose -->
-            <polygon points="48,56 52,56 50,59" fill="#07111e" />
-            <!-- Paws -->
-            <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
-            <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
-          </svg>
+          <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Blur Filter for Soft Dynamic Shadow -->
+              <filter id="shadow-blur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+              </filter>
+            </defs>
 
-          <!-- Dynamic Shadow -->
-          <div class="ember-shadow" id="ember-shadow"></div>
+            <!-- Ground Shadow (Anchored under paws at y=85) -->
+            <ellipse class="ground-shadow" id="ground-shadow" cx="50" cy="85" rx="26" ry="6" fill="#000000" opacity="0.85" filter="url(#shadow-blur)" />
+
+            <!-- Animated Walking Body Group -->
+            <g class="ember-body-group" id="ember-body-group">
+              <!-- Ears -->
+              <polygon points="30,35 20,15 42,28" fill="#e76f51" />
+              <polygon points="70,35 80,15 58,28" fill="#e76f51" />
+              <polygon points="32,33 24,18 40,28" fill="#f4a261" />
+              <polygon points="68,33 76,18 60,28" fill="#f4a261" />
+              <!-- Head / Body -->
+              <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
+              <!-- Face Fur Mask -->
+              <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
+              <!-- Eyes -->
+              <circle cx="40" cy="50" r="3" fill="#07111e" />
+              <circle cx="60" cy="50" r="3" fill="#07111e" />
+              <circle cx="41" cy="49" r="1" fill="#ffffff" />
+              <circle cx="61" cy="49" r="1" fill="#ffffff" />
+              <!-- Nose -->
+              <polygon points="48,56 52,56 50,59" fill="#07111e" />
+              <!-- Paws -->
+              <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
+              <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
+            </g>
+          </svg>
         </div>
       </div>
 
@@ -595,8 +596,8 @@
 
     // DOM Elements
     const emberWrapper = document.getElementById('ember-wrapper');
-    const emberChar = document.getElementById('ember-character');
-    const emberShadow = document.getElementById('ember-shadow');
+    const emberBodyGroup = document.getElementById('ember-body-group');
+    const groundShadow = document.getElementById('ground-shadow');
     const speechBubble = document.getElementById('speech-bubble');
     const interactBtn = document.getElementById('interact-btn');
     const stage = document.getElementById('character-stage');
@@ -607,9 +608,9 @@
       speechBubble.textContent = randomPhrase;
 
       // Click reaction pulse
-      emberChar.style.transform = 'scale(1.1)';
+      emberBodyGroup.style.transform = 'scale(1.1)';
       setTimeout(() => {
-        emberChar.style.transform = '';
+        emberBodyGroup.style.transform = '';
       }, 200);
     }
 
@@ -651,7 +652,7 @@
 
     function updateEmberWalk() {
       const stageWidth = stage.clientWidth || 300;
-      const emberWidth = emberWrapper.clientWidth || 140;
+      const emberWidth = emberWrapper.clientWidth || 150;
       const maxRange = (stageWidth - emberWidth) / 2;
 
       positionX += walkSpeed * direction;
@@ -683,8 +684,8 @@
         speechBubble.textContent = '"Where did everybody go...?"';
         
         walkSpeed = 2.2;
-        emberChar.classList.add('fast-walk');
-        emberShadow.classList.add('fast-walk');
+        emberBodyGroup.classList.add('fast-walk');
+        groundShadow.classList.add('fast-walk');
       } else {
         // Safe State - Calm Walk Speed
         statusBadge.classList.remove('is-missing');
@@ -693,8 +694,8 @@
         speechBubble.textContent = '"The stars are bright tonight..."';
 
         walkSpeed = 1.0;
-        emberChar.classList.remove('fast-walk');
-        emberShadow.classList.remove('fast-walk');
+        emberBodyGroup.classList.remove('fast-walk');
+        groundShadow.classList.remove('fast-walk');
       }
     }
 
