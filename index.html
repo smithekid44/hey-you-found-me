@@ -364,7 +364,6 @@
       transform-origin: 65px 45px;
     }
 
-    /* Default Face visibility */
     .normal-face { display: block; }
     .confused-eyes-face { display: none; }
 
@@ -426,4 +425,204 @@
 
     @keyframes tailSwishLost {
       0%, 100% { transform: rotate(-12deg); }
-      50% { transform: rotate(
+      50% { transform: rotate(18deg); }
+    }
+
+    @keyframes lookAroundTurned {
+      0%, 100% { transform: rotate(0deg); }
+      30% { transform: rotate(10deg); }
+      70% { transform: rotate(-10deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-logo">
+      <span>🐾</span> EMBER'S JOURNEY
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">About Ember</a></li>
+      <li><a href="#">Gallery</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="statusBadge" class="status-badge" title="Click to toggle status">
+        <span class="status-dot"></span>
+        <span id="statusText">Checking...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="moon"></div>
+    <div id="fireflies"></div>
+
+    <div class="hero-content-wrapper">
+      <div class="hero-left-col">
+        <span class="hero-greeting">A stray tale...</span>
+        <h1>Hey, You Found Me.</h1>
+        <p class="hero-subtext">
+          Welcome to Ember's quiet corner of the forest. Watch her wander through the night under the moonlight and fireflies.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn-primary-amber" onclick="toggleStatus()">
+            <span>🔄</span> Toggle Status
+          </button>
+        </div>
+      </div>
+
+      <!-- Character Stage with SVG Cat -->
+      <div class="character-stage">
+        <div id="emberWrapper" class="ember-wrapper">
+          <div id="speechBubble" class="speech-bubble" style="display: none;">Meow?</div>
+          
+          <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ground Shadow -->
+            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+
+            <!-- Body Group -->
+            <g class="ember-body-group">
+              <!-- Back Left Leg -->
+              <g class="leg-back-left">
+                <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Back Right Leg -->
+              <g class="leg-back-right">
+                <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Tail -->
+              <g class="tail-group">
+                <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Main Torso -->
+              <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+
+              <!-- Front Left Leg -->
+              <g class="leg-front-left">
+                <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Front Right Leg -->
+              <g class="leg-front-right">
+                <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Head Group -->
+              <g id="headGroup" class="head-group">
+                <!-- Ears -->
+                <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
+                <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
+                <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
+                <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
+
+                <!-- Head Circle -->
+                <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
+
+                <!-- Normal Face -->
+                <g class="normal-face">
+                  <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
+                  <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
+                  <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
+                  <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                </g>
+
+                <!-- Confused Eyes Face -->
+                <g class="confused-eyes-face">
+                  <path d="M54 41 L60 45 M60 41 L54 45" stroke="#172c4a" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M70 41 L76 45 M76 41 L70 45" stroke="#172c4a" stroke-width="2" stroke-linecap="round"/>
+                  <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
+                  <circle cx="65" cy="51" r="2" fill="#172c4a" opacity="0.8"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript for Fireflies and Live Npoint Sync -->
+  <script>
+    // Generate atmospheric Ghibli fireflies
+    const firefliesContainer = document.getElementById('fireflies');
+    for (let i = 0; i < 25; i++) {
+      const firefly = document.createElement('div');
+      firefly.classList.add('firefly');
+      firefly.style.left = `${Math.random() * 100}%`;
+      firefly.style.top = `${Math.random() * 100}%`;
+      firefly.style.animationDelay = `${Math.random() * 5}s`;
+      firefly.style.animationDuration = `${5 + Math.random() * 5}s`;
+      firefliesContainer.appendChild(firefly);
+    }
+
+    // Npoint API configuration
+    const API_URL = 'https://api.npoint.io/9a119fd8c16058f4b2f6';
+
+    async function fetchStatus() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        updateUI(data.isMissing);
+      } catch (error) {
+        console.error('Error fetching status:', error);
+      }
+    }
+
+    function updateUI(isMissing) {
+      const badge = document.getElementById('statusBadge');
+      const text = document.getElementById('statusText');
+      const wrapper = document.getElementById('emberWrapper');
+      const bubble = document.getElementById('speechBubble');
+
+      if (isMissing) {
+        badge.classList.add('is-missing');
+        text.textContent = 'Ember is Lost';
+        wrapper.classList.add('is-lost');
+        bubble.style.display = 'block';
+        bubble.textContent = 'Where am I...?';
+      } else {
+        badge.classList.remove('is-missing');
+        text.textContent = 'Ember is Safe';
+        wrapper.classList.remove('is-lost');
+        bubble.style.display = 'none';
+      }
+    }
+
+    async function toggleStatus() {
+      try {
+        // 1. Fetch current status
+        const getRes = await fetch(API_URL);
+        const data = await getRes.json();
+        const newStatus = !data.isMissing;
+
+        // 2. Save new status to npoint
+        const postRes = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isMissing: newStatus })
+        });
+
+        if (postRes.ok) {
+          updateUI(newStatus);
+        }
+      } catch (error) {
+        console.error('Error toggling status:', error);
+      }
+    }
+
+    // Allow clicking the status badge or cat to toggle
+    document.getElementById('statusBadge').addEventListener('click', toggleStatus);
+    document.getElementById('emberWrapper').addEventListener('click', toggleStatus);
+
+    // Fetch status on load and poll every 5 seconds to keep synced across devices
+    fetchStatus();
+    setInterval(fetchStatus, 5000);
+  </script>
+</body>
+</html>
