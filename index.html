@@ -205,7 +205,7 @@
        ========================================== */
     .path-forest-background {
       position: absolute;
-      bottom: 120px; /* Positioned right behind the path edge */
+      bottom: 120px;
       left: 0;
       width: 100%;
       height: 380px;
@@ -223,7 +223,7 @@
       opacity: 0.6;
     }
 
-    /* Mid-ground Tree Layer (Taller, detailed trunks directly behind path) */
+    /* Mid-ground Tree Layer */
     .trees-mid {
       position: absolute;
       bottom: 0;
@@ -253,7 +253,7 @@
       pointer-events: none;
     }
 
-    /* FOREGROUND SIDE TREES (Framing Left & Right Viewport Edges) */
+    /* FOREGROUND SIDE TREES */
     .side-tree-left,
     .side-tree-right {
       position: absolute;
@@ -407,12 +407,12 @@
     .ember-wrapper {
       position: absolute;
       left: 50%;
-      top: 10px;
+      top: 32px; /* Shifted down to align flush on the stone path */
       transform: translateX(-50%);
       width: 150px;
       height: 150px;
       cursor: pointer;
-      z-index: 5; /* Walks right in front of the trees/path */
+      z-index: 5;
       will-change: transform;
     }
 
@@ -584,7 +584,7 @@
       </button>
     </div>
 
-    <!-- FOREGROUND SIDE SILHOUETTE TREES (Framing Left & Right Viewport) -->
+    <!-- FOREGROUND SIDE SILHOUETTE TREES -->
     <svg class="side-tree-left" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
       <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
@@ -595,19 +595,19 @@
       <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
     </svg>
 
-    <!-- DENSE BACKGROUND WOODS (Directly Behind Path) -->
+    <!-- DENSE BACKGROUND WOODS -->
     <div class="path-forest-background">
-      <!-- Far Layer: Distant Pines -->
+      <!-- Far Layer -->
       <svg class="trees-deep" viewBox="0 0 1200 380" preserveAspectRatio="none">
         <path d="M0,380 L0,180 L30,240 L60,160 L90,230 L120,130 L160,250 L200,140 L240,240 L280,150 L320,260 L370,120 L420,250 L470,140 L520,270 L570,130 L620,240 L670,150 L720,260 L770,110 L820,250 L870,130 L920,260 L970,140 L1020,270 L1070,120 L1120,240 L1170,150 L1200,210 L1200,380 Z"/>
       </svg>
 
-      <!-- Mid Layer: Tall Pine & Oak Trunks -->
+      <!-- Mid Layer -->
       <svg class="trees-mid" viewBox="0 0 1200 320" preserveAspectRatio="none">
         <path d="M0,320 L0,90 L20,160 L45,70 L75,170 L100,60 L135,180 L170,80 L205,170 L240,70 L280,200 L320,40 L365,160 L410,70 L455,180 L500,50 L545,170 L590,60 L635,190 L680,80 L725,180 L770,40 L815,160 L860,70 L905,180 L950,50 L995,170 L1040,70 L1085,190 L1130,80 L1175,160 L1200,100 L1200,320 Z"/>
       </svg>
 
-      <!-- Close Layer: Tree Trunks & Forest Canopy Floor -->
+      <!-- Close Layer -->
       <svg class="trees-close" viewBox="0 0 1200 250" preserveAspectRatio="none">
         <path d="M0,250 L0,40 L15,100 L35,20 L60,110 L85,30 L115,120 L145,20 L175,110 L210,30 L250,130 L290,10 L330,110 L370,30 L410,120 L450,15 L490,110 L530,25 L570,120 L610,35 L650,130 L690,20 L730,110 L770,10 L810,120 L850,25 L890,130 L930,30 L970,120 L1010,20 L1050,110 L1090,30 L1130,120 L1170,40 L1200,70 L1200,250 Z"/>
       </svg>
@@ -827,7 +827,7 @@
       isMissing = !isMissing;
 
       if (isMissing) {
-        // Missing State - Walk Faster & Faster Bobbing/Shadow Pulse
+        // Missing State
         statusBadge.classList.add('is-missing');
         statusText.textContent = 'MISSING';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Safe';
@@ -837,7 +837,7 @@
         emberBodyGroup.classList.add('fast-walk');
         groundShadow.classList.add('fast-walk');
       } else {
-        // Safe State - Calm Walk Speed
+        // Safe State
         statusBadge.classList.remove('is-missing');
         statusText.textContent = 'SAFE';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Lost';
@@ -884,7 +884,6 @@
       firefly.style.left = Math.random() * 100 + 'vw';
       firefly.style.top = Math.random() * 80 + 10 + 'vh';
       firefly.style.animationDelay = Math.random() * 7 + 's';
-      firefly.style.animationDuration = (Math.random() * 4 + 5) + 's';
       fireflyContainer.appendChild(firefly);
     }
   </script>
