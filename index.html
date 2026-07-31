@@ -315,29 +315,9 @@
 
     p.subtitle {
       color: #a0aec0;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
       font-size: 1.15rem;
       font-style: italic;
-    }
-
-    /* Ghibli Dialogue Speech Bubble */
-    .speech-bubble {
-      position: relative;
-      background: rgba(22, 38, 59, 0.75);
-      border: 1.5px solid rgba(255, 209, 102, 0.35);
-      padding: 1.1rem 1.8rem;
-      border-radius: 18px;
-      margin: 0 auto 2rem auto;
-      max-width: 500px;
-      font-style: italic;
-      color: #ffd166;
-      backdrop-filter: blur(8px);
-      min-height: 3.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.05rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     /* ==========================================
@@ -407,13 +387,48 @@
     .ember-wrapper {
       position: absolute;
       left: 50%;
-      top: 32px; /* Shifted down to align flush on the stone path */
+      top: 32px;
       transform: translateX(-50%);
       width: 150px;
       height: 150px;
       cursor: pointer;
       z-index: 5;
       will-change: transform;
+    }
+
+    /* Ghibli Dialogue Speech Bubble (Attached to Ember Wrapper) */
+    .speech-bubble {
+      position: absolute;
+      bottom: 155px; /* Positioned directly above Ember's head */
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(22, 38, 59, 0.85);
+      border: 1.5px solid rgba(255, 209, 102, 0.35);
+      padding: 0.7rem 1.2rem;
+      border-radius: 16px;
+      white-space: nowrap;
+      font-style: italic;
+      color: #ffd166;
+      backdrop-filter: blur(8px);
+      font-size: 0.95rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      z-index: 12;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Speech bubble little tail pointer */
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 10px;
+      height: 10px;
+      background: rgba(22, 38, 59, 0.85);
+      border-right: 1.5px solid rgba(255, 209, 102, 0.35);
+      border-bottom: 1.5px solid rgba(255, 209, 102, 0.35);
     }
 
     .ember-char {
@@ -679,14 +694,14 @@
       <h1>The Moonlit Canopy</h1>
       <p class="subtitle">Ember the forest spirit is exploring the woods.</p>
 
-      <!-- Dialogue Bubble -->
-      <div class="speech-bubble" id="speech-bubble">
-        "The stars are bright tonight..."
-      </div>
-
       <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
         <div class="ember-wrapper" id="ember-wrapper">
+          <!-- Speech Bubble nested inside ember-wrapper so it follows her movement -->
+          <div class="speech-bubble" id="speech-bubble">
+            "The stars are bright tonight..."
+          </div>
+
           <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <filter id="shadow-blur" x="-50%" y="-50%" width="200%" height="200%">
@@ -816,9 +831,12 @@
         direction = 1;
       }
 
-      // Flip SVG based on movement vector
+      // Flip SVG and counter-flip speech bubble so text stays readable when she turns
       const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
+      const bubbleFlip = direction === -1 ? 'translateX(50%) scaleX(-1)' : 'translateX(-50%) scaleX(1)';
+      
       emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) ${flipScale}`;
+      speechBubble.style.transform = bubbleFlip;
 
       requestAnimationFrame(updateEmberWalk);
     }
