@@ -396,36 +396,37 @@
       will-change: transform;
     }
 
-    /* Ghibli Dialogue Speech Bubble (Attached to Ember Wrapper) */
+    /* Speech Bubble anchored directly above Ember, hugging her body width */
     .speech-bubble {
       position: absolute;
-      bottom: 155px; /* Positioned directly above Ember's head */
+      bottom: 140px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(22, 38, 59, 0.85);
       border: 1.5px solid rgba(255, 209, 102, 0.35);
-      padding: 0.7rem 1.2rem;
-      border-radius: 16px;
-      white-space: nowrap;
+      padding: 0.5rem 0.9rem;
+      border-radius: 12px;
       font-style: italic;
       color: #ffd166;
       backdrop-filter: blur(8px);
-      font-size: 0.95rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      font-size: 0.85rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
       pointer-events: none;
       z-index: 12;
-      transition: opacity 0.2s ease;
+      text-align: center;
+      width: 150px; /* Constrained to match her size so text wraps right next to her */
+      line-height: 1.25;
     }
 
-    /* Speech bubble little tail pointer */
+    /* Speech bubble tail pointer pointing down at Ember */
     .speech-bubble::after {
       content: '';
       position: absolute;
-      bottom: -6px;
+      bottom: -5px;
       left: 50%;
       transform: translateX(-50%) rotate(45deg);
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background: rgba(22, 38, 59, 0.85);
       border-right: 1.5px solid rgba(255, 209, 102, 0.35);
       border-bottom: 1.5px solid rgba(255, 209, 102, 0.35);
@@ -697,7 +698,7 @@
       <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
         <div class="ember-wrapper" id="ember-wrapper">
-          <!-- Speech Bubble nested inside ember-wrapper so it follows her movement -->
+          <!-- Speech Bubble locked to her exact width and positioning -->
           <div class="speech-bubble" id="speech-bubble">
             "The stars are bright tonight..."
           </div>
@@ -831,7 +832,7 @@
         direction = 1;
       }
 
-      // Flip SVG and counter-flip speech bubble so text stays readable when she turns
+      // Flip SVG and counter-flip the speech bubble container so text stays upright and snug right above her
       const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
       const bubbleFlip = direction === -1 ? 'translateX(50%) scaleX(-1)' : 'translateX(-50%) scaleX(1)';
       
