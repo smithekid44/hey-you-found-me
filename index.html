@@ -17,7 +17,7 @@
 
     body {
       font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
-      background-color: #07111e;
+      background-color: #050b14;
       color: #f1f5f9;
       overflow-x: hidden;
       min-height: 100vh;
@@ -33,7 +33,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 1.5rem;
-      background: linear-gradient(180deg, rgba(7, 17, 30, 0.98) 0%, rgba(7, 17, 30, 0) 100%);
+      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
       position: fixed;
       top: 0;
       width: 100%;
@@ -77,7 +77,7 @@
       align-items: center;
     }
 
-    /* Status Badge (Display only, no manual click needed here anymore) */
+    /* Status Badge (Display only) */
     .status-badge {
       display: flex;
       align-items: center;
@@ -126,21 +126,33 @@
       justify-content: center;
       align-items: center;
       padding: 7rem 1.5rem 3rem 1.5rem;
-      background: radial-gradient(circle at 50% 25%, #172c4a 0%, #07111e 75%);
+      background: radial-gradient(circle at 50% 25%, #132743 0%, #07111e 60%, #03070c 100%);
       overflow: hidden;
+    }
+
+    /* Forest Background Layers */
+    .forest-canopy-back {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 35vh;
+      background: linear-gradient(to top, #040910, transparent);
+      z-index: 2;
+      pointer-events: none;
     }
 
     .moon {
       position: absolute;
-      top: 12%;
-      left: 50%;
+      top: 10%;
+      left: 55%;
       transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, #fffdf0 0%, #ffe3a8 60%, rgba(255, 227, 168, 0) 100%);
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, #fffdf0 0%, #ffe3a8 55%, rgba(255, 227, 168, 0) 100%);
       border-radius: 50%;
-      opacity: 0.25;
-      filter: blur(6px);
+      opacity: 0.22;
+      filter: blur(8px);
       pointer-events: none;
     }
 
@@ -151,7 +163,7 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 4;
     }
 
     .firefly {
@@ -213,17 +225,28 @@
       line-height: 1.6;
     }
 
-    /* Character Stage */
+    /* Character Stage with Forest Backdrop Elements */
     .character-stage {
       position: relative;
       width: 100%;
-      max-width: 380px;
-      height: 280px;
+      max-width: 420px;
+      height: 320px;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: visible;
       flex-shrink: 0;
+    }
+
+    /* Forest Silhouettes & Foliage around the stage */
+    .forest-bg-svg {
+      position: absolute;
+      bottom: -10px;
+      width: 100%;
+      height: 140px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.65;
     }
 
     .ember-wrapper {
@@ -232,7 +255,7 @@
       height: 240px;
       z-index: 5;
       will-change: transform;
-      pointer-events: none; /* Let clicks pass straight through the cat container */
+      pointer-events: none;
     }
 
     .speech-bubble {
@@ -260,22 +283,39 @@
     }
 
     /* ==========================================
-       SECRET DISGUISED TOGGLE SPOT (Forest Mushroom)
+       DECORATIVE & SECRET MUSHROOMS SCATTERED
        ========================================== */
+    .forest-mushrooms-group {
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
+      height: 60px;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .ambient-mushroom {
+      position: absolute;
+      bottom: 10px;
+      filter: drop-shadow(0 0 4px rgba(6, 214, 160, 0.3));
+    }
+
     .secret-mushroom {
       position: absolute;
-      bottom: 25px;
-      right: 40px;
-      width: 36px;
-      height: 32px;
+      bottom: 15px;
+      right: 55px;
+      width: 38px;
+      height: 34px;
       cursor: pointer;
       z-index: 20;
+      pointer-events: auto;
       transition: transform 0.2s ease, filter 0.2s ease;
+      filter: drop-shadow(0 0 6px rgba(239, 71, 111, 0.4));
     }
 
     .secret-mushroom:hover {
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.8));
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.9));
     }
 
     /* Normal Walking-in-Place State */
@@ -389,32 +429,13 @@
       70% { transform: rotate(-10deg); }
     }
 
-    /* ==========================================
-       MOBILE RESPONSIVE BREAKPOINT
-       ========================================== */
     @media (max-width: 768px) {
-      .navbar {
-        padding: 0.8rem 1rem;
-      }
-      .nav-links {
-        display: none;
-      }
-      .hero {
-        padding: 6rem 1.2rem 2rem 1.2rem;
-      }
-      .hero-content-wrapper {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        gap: 2rem;
-      }
-      .hero-left-col {
-        align-items: center;
-        max-width: 100%;
-      }
-      .character-stage {
-        height: 240px;
-      }
+      .navbar { padding: 0.8rem 1rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.2rem 2rem 1.2rem; }
+      .hero-content-wrapper { flex-direction: column; text-align: center; align-items: center; gap: 2rem; }
+      .hero-left-col { align-items: center; max-width: 100%; }
+      .character-stage { height: 260px; }
     }
   </style>
 </head>
@@ -441,6 +462,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="moon"></div>
+    <div class="forest-canopy-back"></div>
     <div id="fireflies"></div>
 
     <div class="hero-content-wrapper">
@@ -452,65 +474,50 @@
         </p>
       </div>
 
-      <!-- Character Stage with SVG Cat & Secret Mushroom Trigger -->
+      <!-- Character Stage -->
       <div class="character-stage">
+        <svg class="forest-bg-svg" viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M20 140 L20 80 L10 95 L25 70 L15 85 L30 55 L45 85 L35 70 L50 95 L40 80 L40 140 Z" fill="#09182c"/>
+          <path d="M340 140 L340 70 L325 90 L345 60 L330 80 L350 45 L370 80 L355 60 L375 90 L360 70 L360 140 Z" fill="#09182c"/>
+          <path d="M0 140 Q 60 110, 140 125 T 300 115 T 400 130 L 400 140 Z" fill="#0a1d35"/>
+          <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
+        </svg>
+
         <div id="emberWrapper" class="ember-wrapper">
           <div id="speechBubble" class="speech-bubble" style="display: none;">Where am I...?</div>
           
           <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-            <!-- Ground Shadow -->
             <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
 
-            <!-- Body Group -->
             <g class="ember-body-group">
-              <!-- Back Left Leg -->
               <g class="leg-back-left">
                 <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
               </g>
-
-              <!-- Back Right Leg -->
               <g class="leg-back-right">
                 <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
               </g>
-
-              <!-- Tail -->
               <g class="tail-group">
                 <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
               </g>
-
-              <!-- Main Torso -->
               <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
-
-              <!-- Front Left Leg -->
               <g class="leg-front-left">
                 <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
               </g>
-
-              <!-- Front Right Leg -->
               <g class="leg-front-right">
                 <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
               </g>
-
-              <!-- Head Group -->
               <g id="headGroup" class="head-group">
-                <!-- Ears -->
                 <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
                 <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
                 <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
                 <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
-
-                <!-- Head Circle -->
                 <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
-
-                <!-- Normal Face -->
                 <g class="normal-face">
                   <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
                   <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
                   <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
                   <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
                 </g>
-
-                <!-- Confused Eyes Face -->
                 <g class="confused-eyes-face">
                   <path d="M54 41 L60 45 M60 41 L54 45" stroke="#172c4a" stroke-width="2" stroke-linecap="round"/>
                   <path d="M70 41 L76 45 M76 41 L70 45" stroke="#172c4a" stroke-width="2" stroke-linecap="round"/>
@@ -522,28 +529,42 @@
           </svg>
         </div>
 
-        <!-- Disguised Secret Trigger: A Ghibli-styled glowing forest mushroom right along the floor/path -->
+        <div class="forest-mushrooms-group">
+          <svg class="ambient-mushroom" style="left: 45px; width: 26px; height: 22px;" viewBox="0 0 36 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 18 L14 28 C14 29.5 22 29.5 22 28 L22 18 Z" fill="#cbd5e1" opacity="0.8"/>
+            <path d="M6 18 C6 8 30 8 30 18 C30 20 6 20 6 18 Z" fill="#06d6a0"/>
+            <circle cx="14" cy="13" r="2" fill="#fffdf0"/>
+            <circle cx="22" cy="14" r="1.8" fill="#fffdf0"/>
+          </svg>
+          <svg class="ambient-mushroom" style="left: 20px; width: 18px; height: 16px; bottom: 5px;" viewBox="0 0 36 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 18 L14 28 C14 29.5 22 29.5 22 28 L22 18 Z" fill="#cbd5e1" opacity="0.8"/>
+            <path d="M6 18 C6 8 30 8 30 18 C30 20 6 20 6 18 Z" fill="#118ab2"/>
+            <circle cx="18" cy="13" r="2" fill="#fffdf0"/>
+          </svg>
+          <svg class="ambient-mushroom" style="left: 105px; width: 22px; height: 20px; bottom: 8px;" viewBox="0 0 36 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 18 L14 28 C14 29.5 22 29.5 22 28 L22 18 Z" fill="#cbd5e1" opacity="0.8"/>
+            <path d="M6 18 C6 8 30 8 30 18 C30 20 6 20 6 18 Z" fill="#118ab2"/>
+            <circle cx="16" cy="13" r="2.2" fill="#ffd166"/>
+          </svg>
+        </div>
+
+        <!-- The Secret Clickable Toggle Mushroom -->
         <svg id="secretTrigger" class="secret-mushroom" viewBox="0 0 36 32" xmlns="http://www.w3.org/2000/svg" title="A curious forest mushroom...">
-          <!-- Mushroom stem -->
           <path d="M14 18 L14 28 C14 29.5 22 29.5 22 28 L22 18 Z" fill="#e2e8f0" opacity="0.85"/>
-          <!-- Mushroom cap -->
           <path d="M6 18 C6 8 30 8 30 18 C30 20 6 20 6 18 Z" fill="#ef476f"/>
-          <!-- Cap spots -->
           <circle cx="12" cy="13" r="2" fill="#fffdf0"/>
           <circle cx="22" cy="12" r="2.5" fill="#fffdf0"/>
           <circle cx="18" cy="16" r="1.5" fill="#fffdf0"/>
-          <!-- Magical soft glow outline -->
-          <path d="M5 18 C5 7 31 7 31 18 Z" fill="none" stroke="#ffd166" stroke-width="1" opacity="0.6"/>
+          <path d="M5 18 C5 7 31 7 31 18 Z" fill="none" stroke="#ffd166" stroke-width="1.2" opacity="0.75"/>
         </svg>
       </div>
     </div>
   </section>
 
-  <!-- JavaScript for Fireflies and Live Npoint Sync -->
+  <!-- JavaScript for Fireflies and JSONbin.io Live Sync -->
   <script>
-    // Generate atmospheric Ghibli fireflies
     const firefliesContainer = document.getElementById('fireflies');
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 28; i++) {
       const firefly = document.createElement('div');
       firefly.classList.add('firefly');
       firefly.style.left = `${Math.random() * 100}%`;
@@ -553,14 +574,18 @@
       firefliesContainer.appendChild(firefly);
     }
 
-    // Npoint API configuration
-    const API_URL = 'https://api.npoint.io/9a119fd8c16058f4b2f6';
+    // Configured with your provided JSONbin.io credentials
+    const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
+    const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
+    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
     async function fetchStatus() {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(BIN_URL, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
         const data = await response.json();
-        updateUI(data.isMissing);
+        updateUI(data.record.isMissing);
       } catch (error) {
         console.error('Error fetching status:', error);
       }
@@ -587,19 +612,22 @@
 
     async function toggleStatus() {
       try {
-        // 1. Fetch current status
-        const getRes = await fetch(API_URL);
-        const data = await getRes.json();
-        const newStatus = !data.isMissing;
+        const getRes = await fetch(BIN_URL, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const getData = await getRes.json();
+        const newStatus = !getData.record.isMissing;
 
-        // 2. Save new status to npoint
-        const postRes = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const putRes = await fetch(BIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
           body: JSON.stringify({ isMissing: newStatus })
         });
 
-        if (postRes.ok) {
+        if (putRes.ok) {
           updateUI(newStatus);
         }
       } catch (error) {
@@ -607,12 +635,10 @@
       }
     }
 
-    // Bind click ONLY to the secret mushroom element
     document.getElementById('secretTrigger').addEventListener('click', toggleStatus);
 
-    // Fetch status on load and poll every 5 seconds to keep synced across devices
     fetchStatus();
-    setInterval(fetchStatus, 5000);
+    setInterval(fetchStatus, 4000);
   </script>
 </body>
 </html>
