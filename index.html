@@ -213,7 +213,6 @@
       z-index: 3;
     }
 
-    /* Far Background Tree Layer */
     .trees-deep {
       position: absolute;
       bottom: 0;
@@ -223,7 +222,6 @@
       opacity: 0.6;
     }
 
-    /* Mid-ground Tree Layer */
     .trees-mid {
       position: absolute;
       bottom: 0;
@@ -232,7 +230,6 @@
       fill: #06111d;
     }
 
-    /* Fore-background Tree Trunks & Foliage */
     .trees-close {
       position: absolute;
       bottom: -10px;
@@ -241,7 +238,6 @@
       fill: #030a12;
     }
 
-    /* Soft Atmospheric Fog between Path and Trees */
     .tree-mist-layer {
       position: absolute;
       bottom: 120px;
@@ -253,7 +249,6 @@
       pointer-events: none;
     }
 
-    /* FOREGROUND SIDE TREES */
     .side-tree-left,
     .side-tree-right {
       position: absolute;
@@ -274,7 +269,6 @@
       transform: scaleX(-1);
     }
 
-    /* FULL-WIDTH STONE PATH */
     .stone-path {
       position: absolute;
       bottom: 125px;
@@ -396,10 +390,10 @@
       will-change: transform;
     }
 
-    /* Speech Bubble anchored directly above Ember, hugging her body width */
+    /* Speech Bubble locked relative to the wrapper container */
     .speech-bubble {
       position: absolute;
-      bottom: 140px;
+      bottom: 135px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(22, 38, 59, 0.85);
@@ -414,11 +408,11 @@
       pointer-events: none;
       z-index: 12;
       text-align: center;
-      width: 150px; /* Constrained to match her size so text wraps right next to her */
+      width: 160px;
       line-height: 1.25;
     }
 
-    /* Speech bubble tail pointer pointing down at Ember */
+    /* Speech bubble tail pointer pointing down */
     .speech-bubble::after {
       content: '';
       position: absolute;
@@ -528,7 +522,6 @@
       font-family: inherit;
     }
 
-    /* Responsive adjustment for small screens */
     @media (max-width: 850px) {
       .hero-buttons-stacked {
         position: relative;
@@ -566,13 +559,11 @@
     </ul>
 
     <div class="nav-right">
-      <!-- Music Toggle -->
       <button class="music-pill" id="music-btn">
         <span>🎵</span>
         <span id="music-label">Ambience</span>
       </button>
 
-      <!-- Status Badge -->
       <div class="status-badge" id="status-badge" role="button" tabindex="0">
         <span class="status-dot"></span>
         <span id="status-text">SAFE</span>
@@ -585,7 +576,6 @@
     <div class="moon"></div>
     <div id="fireflies"></div>
 
-    <!-- STACKED BUTTONS - PINNED TO FAR LEFT EDGE -->
     <div class="hero-buttons-stacked">
       <button class="btn-story-orange" id="interact-btn">
         🐾 Speak to Ember
@@ -600,7 +590,6 @@
       </button>
     </div>
 
-    <!-- FOREGROUND SIDE SILHOUETTE TREES -->
     <svg class="side-tree-left" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
       <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
@@ -611,19 +600,13 @@
       <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
     </svg>
 
-    <!-- DENSE BACKGROUND WOODS -->
     <div class="path-forest-background">
-      <!-- Far Layer -->
       <svg class="trees-deep" viewBox="0 0 1200 380" preserveAspectRatio="none">
         <path d="M0,380 L0,180 L30,240 L60,160 L90,230 L120,130 L160,250 L200,140 L240,240 L280,150 L320,260 L370,120 L420,250 L470,140 L520,270 L570,130 L620,240 L670,150 L720,260 L770,110 L820,250 L870,130 L920,260 L970,140 L1020,270 L1070,120 L1120,240 L1170,150 L1200,210 L1200,380 Z"/>
       </svg>
-
-      <!-- Mid Layer -->
       <svg class="trees-mid" viewBox="0 0 1200 320" preserveAspectRatio="none">
         <path d="M0,320 L0,90 L20,160 L45,70 L75,170 L100,60 L135,180 L170,80 L205,170 L240,70 L280,200 L320,40 L365,160 L410,70 L455,180 L500,50 L545,170 L590,60 L635,190 L680,80 L725,180 L770,40 L815,160 L860,70 L905,180 L950,50 L995,170 L1040,70 L1085,190 L1130,80 L1175,160 L1200,100 L1200,320 Z"/>
       </svg>
-
-      <!-- Close Layer -->
       <svg class="trees-close" viewBox="0 0 1200 250" preserveAspectRatio="none">
         <path d="M0,250 L0,40 L15,100 L35,20 L60,110 L85,30 L115,120 L145,20 L175,110 L210,30 L250,130 L290,10 L330,110 L370,30 L410,120 L450,15 L490,110 L530,25 L570,120 L610,35 L650,130 L690,20 L730,110 L770,10 L810,120 L850,25 L890,130 L930,30 L970,120 L1010,20 L1050,110 L1090,30 L1130,120 L1170,40 L1200,70 L1200,250 Z"/>
       </svg>
@@ -631,7 +614,6 @@
 
     <div class="tree-mist-layer"></div>
 
-    <!-- FULL-WIDTH STONE PATH -->
     <svg class="stone-path" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,20 Q300,15 600,22 T1200,18 L1200,50 L0,50 Z" fill="#0d1b2a" opacity="0.9" />
       <g fill="#1d2e3d" stroke="#0a131d" stroke-width="1.5">
@@ -669,24 +651,6 @@
         <ellipse cx="1155" cy="36" rx="19" ry="8" />
         <ellipse cx="1190" cy="30" rx="16" ry="7" />
       </g>
-      <g fill="#25384b">
-        <ellipse cx="38" cy="33" rx="10" ry="4" />
-        <ellipse cx="110" cy="33" rx="12" ry="5" />
-        <ellipse cx="182" cy="34" rx="11" ry="4" />
-        <ellipse cx="258" cy="34" rx="10" ry="4" />
-        <ellipse cx="332" cy="32" rx="12" ry="5" />
-        <ellipse cx="405" cy="34" rx="11" ry="4" />
-        <ellipse cx="478" cy="34" rx="10" ry="4" />
-        <ellipse cx="552" cy="32" rx="12" ry="5" />
-        <ellipse cx="625" cy="34" rx="11" ry="4" />
-        <ellipse cx="698" cy="34" rx="10" ry="4" />
-        <ellipse cx="772" cy="32" rx="12" ry="5" />
-        <ellipse cx="845" cy="34" rx="11" ry="4" />
-        <ellipse cx="918" cy="34" rx="10" ry="4" />
-        <ellipse cx="992" cy="32" rx="12" ry="5" />
-        <ellipse cx="1065" cy="34" rx="11" ry="4" />
-        <ellipse cx="1138" cy="34" rx="10" ry="4" />
-      </g>
     </svg>
 
     <div class="forest-mist"></div>
@@ -695,10 +659,9 @@
       <h1>The Moonlit Canopy</h1>
       <p class="subtitle">Ember the forest spirit is exploring the woods.</p>
 
-      <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
+        <!-- Both speech bubble and Ember live inside this wrapper so they move together -->
         <div class="ember-wrapper" id="ember-wrapper">
-          <!-- Speech Bubble locked to her exact width and positioning -->
           <div class="speech-bubble" id="speech-bubble">
             "The stars are bright tonight..."
           </div>
@@ -744,7 +707,6 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Dialogue Lists
     const safePhrases = [
       '"The stars are bright tonight..."',
       '"Did you bring any sweet berries?"',
@@ -760,7 +722,6 @@
       '"The shadows look bigger over here..."'
     ];
 
-    // DOM Elements
     const emberWrapper = document.getElementById('ember-wrapper');
     const emberBodyGroup = document.getElementById('ember-body-group');
     const groundShadow = document.getElementById('ground-shadow');
@@ -773,7 +734,6 @@
       const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
       speechBubble.textContent = randomPhrase;
 
-      // Click reaction pulse
       emberBodyGroup.style.transform = 'scale(1.1)';
       setTimeout(() => {
         emberBodyGroup.style.transform = '';
@@ -783,9 +743,6 @@
     emberWrapper.addEventListener('click', speakNextPhrase);
     interactBtn.addEventListener('click', speakNextPhrase);
 
-    // ==========================================
-    // AUDIO AMBIENCE CONTROL
-    // ==========================================
     const musicBtn = document.getElementById('music-btn');
     const musicLabel = document.getElementById('music-label');
     const audio = document.getElementById('forest-audio');
@@ -804,9 +761,6 @@
       }
     });
 
-    // ==========================================
-    // EMBER CONTINUOUS WALKING ENGINE
-    // ==========================================
     const statusBadge = document.getElementById('status-badge');
     const statusText = document.getElementById('status-text');
     const toggleStatusBtn = document.getElementById('toggle-status-btn');
@@ -823,7 +777,6 @@
 
       positionX += walkSpeed * direction;
 
-      // Reverse direction at stage edges
       if (positionX >= maxRange) {
         positionX = maxRange;
         direction = -1;
@@ -832,12 +785,16 @@
         direction = 1;
       }
 
-      // Flip SVG and counter-flip the speech bubble container so text stays upright and snug right above her
-      const flipScale = direction === -1 ? 'scaleX(-1)' : 'scaleX(1)';
-      const bubbleFlip = direction === -1 ? 'translateX(50%) scaleX(-1)' : 'translateX(-50%) scaleX(1)';
-      
-      emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) ${flipScale}`;
-      speechBubble.style.transform = bubbleFlip;
+      // Move the container across the stage. 
+      // When turning left (direction === -1), we flip the wrapper horizontally.
+      // We also counter-flip the speech bubble text back so it remains completely upright and legible.
+      if (direction === -1) {
+        emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) scaleX(-1)`;
+        speechBubble.style.transform = `translateX(50%) scaleX(-1)`;
+      } else {
+        emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) scaleX(1)`;
+        speechBubble.style.transform = `translateX(-50%) scaleX(1)`;
+      }
 
       requestAnimationFrame(updateEmberWalk);
     }
@@ -846,7 +803,6 @@
       isMissing = !isMissing;
 
       if (isMissing) {
-        // Missing State
         statusBadge.classList.add('is-missing');
         statusText.textContent = 'MISSING';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Safe';
@@ -856,7 +812,6 @@
         emberBodyGroup.classList.add('fast-walk');
         groundShadow.classList.add('fast-walk');
       } else {
-        // Safe State
         statusBadge.classList.remove('is-missing');
         statusText.textContent = 'SAFE';
         toggleStatusBtn.innerHTML = '🐾 Mark Ember Lost';
@@ -871,12 +826,8 @@
     statusBadge.addEventListener('click', toggleEmberStatus);
     toggleStatusBtn.addEventListener('click', toggleEmberStatus);
 
-    // Start walking immediately on page render
     requestAnimationFrame(updateEmberWalk);
 
-    // ==========================================
-    // MODAL DIALOG CONTROLS
-    // ==========================================
     const reportBtn = document.getElementById('report-btn');
     const modalOverlay = document.getElementById('modal-overlay');
     const closeModal = document.getElementById('close-modal');
@@ -895,7 +846,6 @@
       }
     });
 
-    // Fireflies Generator
     const fireflyContainer = document.getElementById('fireflies');
     for (let i = 0; i < 22; i++) {
       const firefly = document.createElement('div');
