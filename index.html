@@ -77,7 +77,7 @@
       align-items: center;
     }
 
-    /* Interactive Status Badge */
+    /* Status Badge (Display only, no manual click needed here anymore) */
     .status-badge {
       display: flex;
       align-items: center;
@@ -89,9 +89,7 @@
       font-size: 0.75rem;
       font-weight: bold;
       color: #06d6a0;
-      cursor: pointer;
       user-select: none;
-      transition: all 0.3s ease;
       box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
       white-space: nowrap;
     }
@@ -232,9 +230,9 @@
       position: absolute;
       width: 240px;
       height: 240px;
-      cursor: pointer;
       z-index: 5;
       will-change: transform;
+      pointer-events: none; /* Let clicks pass straight through the cat container */
     }
 
     .speech-bubble {
@@ -259,6 +257,25 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+    }
+
+    /* ==========================================
+       SECRET DISGUISED TOGGLE SPOT (Forest Mushroom)
+       ========================================== */
+    .secret-mushroom {
+      position: absolute;
+      bottom: 25px;
+      right: 40px;
+      width: 36px;
+      height: 32px;
+      cursor: pointer;
+      z-index: 20;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .secret-mushroom:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.8));
     }
 
     /* Normal Walking-in-Place State */
@@ -380,7 +397,7 @@
         padding: 0.8rem 1rem;
       }
       .nav-links {
-        display: none; /* Hides desktop links on mobile to prevent crowding */
+        display: none;
       }
       .hero {
         padding: 6rem 1.2rem 2rem 1.2rem;
@@ -414,7 +431,7 @@
       <li><a href="#">Gallery</a></li>
     </ul>
     <div class="nav-right">
-      <div id="statusBadge" class="status-badge" title="Click to toggle status">
+      <div id="statusBadge" class="status-badge">
         <span class="status-dot"></span>
         <span id="statusText">Checking...</span>
       </div>
@@ -431,11 +448,11 @@
         <span class="hero-greeting">A stray tale...</span>
         <h1>Hey, You Found Me.</h1>
         <p class="hero-subtext">
-          Welcome to Ember's quiet corner of the forest. Click on Ember or the status badge at any time to toggle her status across all devices instantly.
+          Welcome to Ember's quiet corner of the forest. Watch her wander through the night under the moonlight and fireflies.
         </p>
       </div>
 
-      <!-- Character Stage with SVG Cat -->
+      <!-- Character Stage with SVG Cat & Secret Mushroom Trigger -->
       <div class="character-stage">
         <div id="emberWrapper" class="ember-wrapper">
           <div id="speechBubble" class="speech-bubble" style="display: none;">Where am I...?</div>
@@ -504,6 +521,20 @@
             </g>
           </svg>
         </div>
+
+        <!-- Disguised Secret Trigger: A Ghibli-styled glowing forest mushroom right along the floor/path -->
+        <svg id="secretTrigger" class="secret-mushroom" viewBox="0 0 36 32" xmlns="http://www.w3.org/2000/svg" title="A curious forest mushroom...">
+          <!-- Mushroom stem -->
+          <path d="M14 18 L14 28 C14 29.5 22 29.5 22 28 L22 18 Z" fill="#e2e8f0" opacity="0.85"/>
+          <!-- Mushroom cap -->
+          <path d="M6 18 C6 8 30 8 30 18 C30 20 6 20 6 18 Z" fill="#ef476f"/>
+          <!-- Cap spots -->
+          <circle cx="12" cy="13" r="2" fill="#fffdf0"/>
+          <circle cx="22" cy="12" r="2.5" fill="#fffdf0"/>
+          <circle cx="18" cy="16" r="1.5" fill="#fffdf0"/>
+          <!-- Magical soft glow outline -->
+          <path d="M5 18 C5 7 31 7 31 18 Z" fill="none" stroke="#ffd166" stroke-width="1" opacity="0.6"/>
+        </svg>
       </div>
     </div>
   </section>
@@ -576,9 +607,8 @@
       }
     }
 
-    // Allow clicking either the top-right status badge or Ember herself to toggle globally
-    document.getElementById('statusBadge').addEventListener('click', toggleStatus);
-    document.getElementById('emberWrapper').addEventListener('click', toggleStatus);
+    // Bind click ONLY to the secret mushroom element
+    document.getElementById('secretTrigger').addEventListener('click', toggleStatus);
 
     // Fetch status on load and poll every 5 seconds to keep synced across devices
     fetchStatus();
