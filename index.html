@@ -93,6 +93,13 @@
       white-space: nowrap;
     }
 
+    .status-badge.lost {
+      background: rgba(239, 71, 111, 0.15);
+      border-color: #ef476f;
+      color: #ef476f;
+      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
+    }
+
     .status-dot {
       width: 7px;
       height: 7px;
@@ -100,6 +107,11 @@
       background-color: #06d6a0;
       box-shadow: 0 0 8px #06d6a0;
       flex-shrink: 0;
+    }
+
+    .status-badge.lost .status-dot {
+      background-color: #ef476f;
+      box-shadow: 0 0 8px #ef476f;
     }
 
     /* ==========================================
@@ -212,7 +224,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* I Found Ember Trigger Button */
     .found-ember-btn {
       display: inline-flex;
       align-items: center;
@@ -259,6 +270,24 @@
       opacity: 0.65;
     }
 
+    /* Interactive Secret Mushroom Toggle */
+    .secret-mushroom {
+      position: absolute;
+      bottom: 25px;
+      right: 35px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      z-index: 6;
+      transition: transform 0.2s ease;
+      background: transparent;
+      border: none;
+    }
+
+    .secret-mushroom:hover {
+      transform: scale(1.15);
+    }
+
     .ember-wrapper {
       position: absolute;
       width: 240px;
@@ -290,11 +319,6 @@
       animation: legMoveBack 0.24s infinite alternate ease-in-out;
     }
 
-    .leg-front-right {
-      transform-origin: 72px 84px;
-      animation: legMoveFront 0.24s infinite alternate ease-in-out;
-    }
-
     .leg-back-right {
       transform-origin: 80px 82px;
       animation: legMoveFront 0.24s infinite alternate ease-in-out;
@@ -303,6 +327,11 @@
     .leg-front-left {
       transform-origin: 54px 84px;
       animation: legMoveBack 0.24s infinite alternate ease-in-out;
+    }
+
+    .leg-front-right {
+      transform-origin: 72px 84px;
+      animation: legMoveFront 0.24s infinite alternate ease-in-out;
     }
 
     .tail-group {
@@ -454,9 +483,9 @@
       <li><a href="#">Gallery</a></li>
     </ul>
     <div class="nav-right">
-      <div class="status-badge">
+      <div id="statusBadge" class="status-badge">
         <span class="status-dot"></span>
-        <span>Ember is home</span>
+        <span id="statusText">Ember is home</span>
       </div>
     </div>
   </header>
@@ -474,7 +503,6 @@
         <p class="hero-subtext">
           If you're here, you may have found someone very special. Let her family know right away.
         </p>
-        <!-- Button that triggers the contact modal -->
         <button id="openModalBtn" class="found-ember-btn">
           <span>❤️</span> I Found Ember
         </button>
@@ -488,6 +516,13 @@
           <path d="M0 140 Q 60 110, 140 125 T 300 115 T 400 130 L 400 140 Z" fill="#0a1d35"/>
           <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
         </svg>
+
+        <!-- Secret Clickable Mushroom on the stage that toggles the status -->
+        <button id="secretMushroom" class="secret-mushroom" title="???" aria-label="Toggle status mushroom">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 2C9.5 2 7.5 4 7.5 6.5C7.5 7.2 7.7 7.9 8.1 8.5H4C2.9 8.5 2 9.4 2 10.5C2 11.3 2.5 12 3.2 12.3C3.1 12.5 3 12.7 3 13C3 14.7 4.3 16 6 16H8V21H10V16H14V21H16V16H18C19.7 16 21 14.7 21 13C21 12.7 20.9 12.5 20.8 12.3C21.5 12 22 11.3 22 10.5C22 9.4 21.1 8.5 20 8.5H15.9C16.3 7.9 16.5 7.2 16.5 6.5C16.5 4 14.5 2 12 2Z" fill="#e08a47" opacity="0.8"/>
+          </svg>
+        </button>
 
         <div class="ember-wrapper">
           <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
@@ -549,7 +584,7 @@
     </div>
   </div>
 
-  <!-- JavaScript for Fireflies and Modal Actions -->
+  <!-- JavaScript -->
   <script>
     // Fireflies generator
     const firefliesContainer = document.getElementById('fireflies');
@@ -560,10 +595,26 @@
         firefly.style.left = `${Math.random() * 100}%`;
         firefly.style.top = `${Math.random() * 100}%`;
         firefly.style.animationDelay = `${Math.random() * 5}s`;
-        firefly.style.animationDuration = `${5 + Math.random() * 5}s`;
         firefliesContainer.appendChild(firefly);
       }
     }
+
+    // Secret Mushroom Status Toggle Logic
+    const secretMushroom = document.getElementById('secretMushroom');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    let isLost = false;
+
+    secretMushroom.addEventListener('click', () => {
+      isLost = !isLost;
+      if (isLost) {
+        statusBadge.classList.add('lost');
+        statusText.textContent = 'Ember is lost';
+      } else {
+        statusBadge.classList.remove('lost');
+        statusText.textContent = 'Ember is home';
+      }
+    });
 
     // Modal Popup Logic
     const modal = document.getElementById('contactModal');
