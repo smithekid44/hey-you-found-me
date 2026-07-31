@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hey You Found Me - Ember</title>
+  
+  <!-- Firebase App (Core) & Database SDKs for Realtime Live Sync -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     /* ==========================================
        GHIBLI NIGHT FOREST THEME & RESET
@@ -363,7 +368,15 @@
       transform-origin: 65px 45px;
     }
 
-    /* When Status is Lost: Freeze, Look Around, Swishing Tail, Turned Head & Confused Eyes */
+    /* Default Face visibility */
+    .normal-face {
+      display: block;
+    }
+    .confused-eyes-face {
+      display: none;
+    }
+
+    /* When Status is Lost: Freeze, Head Turned, Confused Eyes & Tail Swish */
     .ember-wrapper.is-lost .ember-body-group {
       animation: none !important;
       transform: scaleX(-1) translateY(0px) rotate(0deg);
@@ -390,6 +403,14 @@
     /* Head turned and looking around curiously */
     .ember-wrapper.is-lost .head-group {
       animation: lookAroundTurned 3s infinite ease-in-out !important;
+    }
+
+    /* Switch faces when lost */
+    .ember-wrapper.is-lost .normal-face {
+      display: none;
+    }
+    .ember-wrapper.is-lost .confused-eyes-face {
+      display: block;
     }
 
     @keyframes legMoveBack {
@@ -674,7 +695,7 @@
                   <path d="M 61,53 Q 65,57 69,53" fill="none" stroke="#4a2618" stroke-width="1.5" stroke-linecap="round" />
                 </g>
 
-                <!-- Confused Inquisitive Eyes (Shown when lost) -->
+                <!-- Confused Inquisitive Eyes & Head Turned Face (Shown when lost) -->
                 <g class="confused-eyes-face">
                   <!-- Asymmetric wide confused eyes looking sideways/around -->
                   <circle cx="53" cy="42" r="4.2" fill="#1a110d" />
@@ -738,8 +759,24 @@
     </div>
   </section>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT & FIREBASE REALTIME SYNC LOGIC -->
   <script>
+    // TODO: Replace with your own free Firebase project config credentials from console.firebase.google.com
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const statusRef = db.ref('emberStatus/isMissing');
+
     const safePhrases = [
       '"Thank you for being here! ♡"',
       '"The stars are bright tonight..."',
@@ -757,24 +794,15 @@
     const emberWrapper = document.getElementById('ember-wrapper');
     const speechBubble = document.getElementById('speech-bubble');
     const interactBtn = document.getElementById('interact-btn');
-
-    function speakNextPhrase() {
-      const activeList = isMissing ? missingPhrases : safePhrases;
-      const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
-      speechBubble.textContent = randomPhrase;
-    }
-
-    emberWrapper.addEventListener('click', speakNextPhrase);
-    interactBtn.addEventListener('click', speakNextPhrase);
-
     const statusBadge = document.getElementById('status-badge');
     const statusText = document.getElementById('status-text');
     const toggleStatusCard = document.getElementById('toggle-status-card');
 
     let isMissing = false;
 
-    function toggleEmberStatus() {
-      isMissing = !isMissing;
+    // Function to update visual UI state cleanly
+    function updateUIState(missingState) {
+      isMissing = missingState;
 
       if (isMissing) {
         statusBadge.classList.add('is-missing');
@@ -789,8 +817,29 @@
       }
     }
 
+    // Listen for real-time changes from the Firebase server (updates live for everyone)
+    statusRef.on('value', (snapshot) => {
+      const serverState = snapshot.val() || false;
+      updateUIState(serverState);
+    });
+
+    // When someone clicks to toggle, push the new state to Firebase globally
+    function toggleEmberStatus() {
+      const newState = !isMissing;
+      statusRef.set(newState);
+    }
+
     statusBadge.addEventListener('click', toggleEmberStatus);
     toggleStatusCard.addEventListener('click', toggleEmberStatus);
+
+    function speakNextPhrase() {
+      const activeList = isMissing ? missingPhrases : safePhrases;
+      const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
+      speechBubble.textContent = randomPhrase;
+    }
+
+    emberWrapper.addEventListener('click', speakNextPhrase);
+    interactBtn.addEventListener('click', speakNextPhrase);
 
     // Fireflies generator
     const fireflyContainer = document.getElementById('fireflies');
