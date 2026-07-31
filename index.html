@@ -212,37 +212,6 @@
       line-height: 1.5;
     }
 
-    .hero-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 240px;
-    }
-
-    .btn-primary-amber {
-      background: linear-gradient(135deg, #d47a3d 0%, #b85d22 100%);
-      color: #ffffff;
-      border: 1px solid rgba(255, 209, 102, 0.4);
-      padding: 0.85rem 1.2rem;
-      border-radius: 12px;
-      font-weight: bold;
-      font-family: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 15px rgba(212, 122, 61, 0.4);
-      transition: all 0.25s ease;
-    }
-
-    .btn-primary-amber:hover {
-      background: linear-gradient(135deg, #e58b4b 0%, #c96b2e 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(212, 122, 61, 0.6);
-    }
-
     /* Character Stage */
     .character-stage {
       position: relative;
@@ -429,19 +398,14 @@
         <span class="hero-greeting">A stray tale...</span>
         <h1>Hey, You Found Me.</h1>
         <p class="hero-subtext">
-          Welcome to Ember's quiet corner of the forest. Watch her wander through the night under the moonlight and fireflies.
+          Welcome to Ember's quiet corner of the forest. Click on Ember or the status badge at any time to toggle her status across all devices instantly.
         </p>
-        <div class="hero-buttons">
-          <button class="btn-primary-amber" onclick="toggleStatus()">
-            <span>🔄</span> Toggle Status
-          </button>
-        </div>
       </div>
 
       <!-- Character Stage with SVG Cat -->
       <div class="character-stage">
         <div id="emberWrapper" class="ember-wrapper">
-          <div id="speechBubble" class="speech-bubble" style="display: none;">Meow?</div>
+          <div id="speechBubble" class="speech-bubble" style="display: none;">Where am I...?</div>
           
           <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
             <!-- Ground Shadow -->
@@ -549,7 +513,6 @@
         text.textContent = 'Ember is Lost';
         wrapper.classList.add('is-lost');
         bubble.style.display = 'block';
-        bubble.textContent = 'Where am I...?';
       } else {
         badge.classList.remove('is-missing');
         text.textContent = 'Ember is Safe';
@@ -580,7 +543,7 @@
       }
     }
 
-    // Allow clicking the status badge or cat to toggle
+    // Allow clicking either the top-right status badge or Ember herself to toggle globally
     document.getElementById('statusBadge').addEventListener('click', toggleStatus);
     document.getElementById('emberWrapper').addEventListener('click', toggleStatus);
 
