@@ -599,14 +599,13 @@
       }
     }
 
-    // Secret Mushroom Status Toggle Logic
+    // Npoint API integration for live status sync
+    const NPOINT_URL = 'https://api.npoint.io/9a119fd8c16058f4b2f6';
     const secretMushroom = document.getElementById('secretMushroom');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
-    let isLost = false;
 
-    secretMushroom.addEventListener('click', () => {
-      isLost = !isLost;
+    function updateStatusUI(isLost) {
       if (isLost) {
         statusBadge.classList.add('lost');
         statusText.textContent = 'Ember is lost';
@@ -614,6 +613,41 @@
         statusBadge.classList.remove('lost');
         statusText.textContent = 'Ember is home';
       }
+    }
+
+    async function fetchStatus() {
+      try {
+        const response = await fetch(NPOINT_URL);
+        const data = await response.json();
+        if (typeof data.isLost !== 'undefined') {
+          updateStatusUI(data.isLost);
+        }
+      } catch (err) {
+        console.error('Failed to fetch status', err);
+      }
+    }
+
+    async function saveStatus(isLost) {
+      try {
+        await fetch(NPOINT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isLost: isLost })
+        });
+      } catch (err) {
+        console.error('Failed to save status', err);
+      }
+    }
+
+    // Check status on load and poll every few seconds
+    fetchStatus();
+    setInterval(fetchStatus, 5000);
+
+    secretMushroom.addEventListener('click', async () => {
+      const currentLost = statusBadge.classList.contains('lost');
+      const newLost = !currentLost;
+      updateStatusUI(newLost);
+      await saveStatus(newLost);
     });
 
     // Modal Popup Logic
