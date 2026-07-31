@@ -200,7 +200,7 @@
       100% { opacity: 0; transform: translateY(-70px) scale(0.6); }
     }
 
-    /* TREE SILHOUETTES */
+    /* TREE SILHOUETTES & STONE PATH */
     .forest-back-wrapper {
       position: absolute;
       bottom: 0;
@@ -229,6 +229,17 @@
       fill: #050d18;
     }
 
+    /* Full-Width Stone Cobblestone Path */
+    .stone-path {
+      position: absolute;
+      bottom: 22px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
     .forest-mist {
       position: absolute;
       bottom: 0;
@@ -236,7 +247,7 @@
       width: 100%;
       height: 90px;
       background: linear-gradient(0deg, #07111e 10%, rgba(7, 17, 30, 0) 100%);
-      z-index: 3;
+      z-index: 4;
       pointer-events: none;
     }
 
@@ -490,7 +501,7 @@
     <div class="moon"></div>
     <div id="fireflies"></div>
 
-    <!-- SILHOUETTE TREES & MIST -->
+    <!-- SILHOUETTE TREES -->
     <div class="forest-back-wrapper">
       <svg class="tree-layer-back" viewBox="0 0 1200 260" preserveAspectRatio="none">
         <path d="M0,260 L0,120 L25,160 L50,110 L75,170 L100,90 L130,180 L160,100 L190,170 L220,110 L250,190 L290,80 L330,170 L370,100 L410,180 L450,110 L490,190 L530,90 L570,170 L610,100 L650,180 L690,110 L730,190 L770,80 L810,170 L850,90 L890,180 L930,110 L970,190 L1010,90 L1050,170 L1090,100 L1130,180 L1170,110 L1200,150 L1200,260 Z"/>
@@ -499,6 +510,70 @@
         <path d="M0,220 L0,80 L20,130 L45,60 L70,140 L95,80 L125,150 L155,70 L185,140 L215,80 L245,160 L280,50 L320,140 L360,70 L400,150 L440,80 L480,160 L520,60 L560,140 L600,70 L640,150 L680,80 L720,160 L760,50 L800,140 L840,60 L880,150 L920,80 L960,160 L1000,70 L1040,140 L1080,80 L1120,150 L1160,90 L1200,130 L1200,220 Z"/>
       </svg>
     </div>
+
+    <!-- FULL-WIDTH STONE PATH -->
+    <svg class="stone-path" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Path Foundation/Dirt Bed -->
+      <path d="M0,20 Q300,15 600,22 T1200,18 L1200,50 L0,50 Z" fill="#0d1b2a" opacity="0.9" />
+      
+      <!-- Seamless Repeating Cobblestones -->
+      <g fill="#1d2e3d" stroke="#0a131d" stroke-width="1.5">
+        <ellipse cx="20" cy="32" rx="18" ry="8" />
+        <ellipse cx="55" cy="36" rx="15" ry="7" />
+        <ellipse cx="90" cy="30" rx="20" ry="9" />
+        <ellipse cx="130" cy="35" rx="17" ry="8" />
+        <ellipse cx="165" cy="31" rx="16" ry="7" />
+        <ellipse cx="200" cy="37" rx="22" ry="9" />
+        <ellipse cx="240" cy="32" rx="15" ry="7" />
+        <ellipse cx="275" cy="36" rx="19" ry="8" />
+        <ellipse cx="315" cy="30" rx="18" ry="8" />
+        <ellipse cx="350" cy="35" rx="16" ry="7" />
+        <ellipse cx="385" cy="31" rx="21" ry="9" />
+        <ellipse cx="425" cy="37" rx="17" ry="8" />
+        <ellipse cx="460" cy="32" rx="15" ry="7" />
+        <ellipse cx="495" cy="36" rx="19" ry="8" />
+        <ellipse cx="535" cy="30" rx="18" ry="8" />
+        <ellipse cx="570" cy="35" rx="16" ry="7" />
+        <ellipse cx="605" cy="31" rx="21" ry="9" />
+        <ellipse cx="645" cy="37" rx="17" ry="8" />
+        <ellipse cx="680" cy="32" rx="15" ry="7" />
+        <ellipse cx="715" cy="36" rx="19" ry="8" />
+        <ellipse cx="755" cy="30" rx="18" ry="8" />
+        <ellipse cx="790" cy="35" rx="16" ry="7" />
+        <ellipse cx="825" cy="31" rx="21" ry="9" />
+        <ellipse cx="865" cy="37" rx="17" ry="8" />
+        <ellipse cx="900" cy="32" rx="15" ry="7" />
+        <ellipse cx="935" cy="36" rx="19" ry="8" />
+        <ellipse cx="975" cy="30" rx="18" ry="8" />
+        <ellipse cx="1010" cy="35" rx="16" ry="7" />
+        <ellipse cx="1045" cy="31" rx="21" ry="9" />
+        <ellipse cx="1085" cy="37" rx="17" ry="8" />
+        <ellipse cx="1120" cy="32" rx="15" ry="7" />
+        <ellipse cx="1155" cy="36" rx="19" ry="8" />
+        <ellipse cx="1190" cy="30" rx="16" ry="7" />
+      </g>
+
+      <!-- Moss & Highlight Accents -->
+      <g fill="#25384b">
+        <ellipse cx="38" cy="33" rx="10" ry="4" />
+        <ellipse cx="110" cy="33" rx="12" ry="5" />
+        <ellipse cx="182" cy="34" rx="11" ry="4" />
+        <ellipse cx="258" cy="34" rx="10" ry="4" />
+        <ellipse cx="332" cy="32" rx="12" ry="5" />
+        <ellipse cx="405" cy="34" rx="11" ry="4" />
+        <ellipse cx="478" cy="34" rx="10" ry="4" />
+        <ellipse cx="552" cy="32" rx="12" ry="5" />
+        <ellipse cx="625" cy="34" rx="11" ry="4" />
+        <ellipse cx="698" cy="34" rx="10" ry="4" />
+        <ellipse cx="772" cy="32" rx="12" ry="5" />
+        <ellipse cx="845" cy="34" rx="11" ry="4" />
+        <ellipse cx="918" cy="34" rx="10" ry="4" />
+        <ellipse cx="992" cy="32" rx="12" ry="5" />
+        <ellipse cx="1065" cy="34" rx="11" ry="4" />
+        <ellipse cx="1138" cy="34" rx="10" ry="4" />
+      </g>
+    </svg>
+
     <div class="forest-mist"></div>
 
     <div class="content">
