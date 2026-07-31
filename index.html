@@ -761,6 +761,18 @@
 
   <!-- JAVASCRIPT & FIREBASE REALTIME SYNC LOGIC -->
   <script>
+    /* 
+      IMPORTANT: Ensure your Firebase Realtime Database rules (in the Firebase Console -> Realtime Database -> Rules) 
+      are configured to allow unauthenticated mobile reads/writes so buttons update instantly for everyone:
+      
+      {
+        "rules": {
+          ".read": true,
+          ".write": true
+        }
+      }
+    */
+
     // TODO: Replace with your own free Firebase project config credentials from console.firebase.google.com
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
@@ -772,8 +784,13 @@
       appId: "YOUR_APP_ID"
     };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase safely with error catch handling for mobile connections
+    try {
+      firebase.initializeApp(firebaseConfig);
+    } catch (e) {
+      console.error("Firebase initialization error:", e);
+    }
+
     const db = firebase.database();
     const statusRef = db.ref('emberStatus/isMissing');
 
@@ -817,16 +834,20 @@
       }
     }
 
-    // Listen for real-time changes from the Firebase server (updates live for everyone)
+    // Listen for real-time changes from the Firebase server (updates live for everyone on mobile & desktop)
     statusRef.on('value', (snapshot) => {
       const serverState = snapshot.val() || false;
       updateUIState(serverState);
+    }, (error) => {
+      console.error("Firebase read failed:", error);
     });
 
     // When someone clicks to toggle, push the new state to Firebase globally
     function toggleEmberStatus() {
       const newState = !isMissing;
-      statusRef.set(newState);
+      statusRef.set(newState).catch((error) => {
+        console.error("Firebase write failed (Check database security rules):", error);
+      });
     }
 
     statusBadge.addEventListener('click', toggleEmberStatus);
