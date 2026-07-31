@@ -152,7 +152,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 7rem 1.5rem 3rem 1.5rem;
+      padding: 7rem 2rem 3rem 2rem;
       background: radial-gradient(circle at 50% 30%, #172c4a 0%, #07111e 75%);
       overflow: hidden;
     }
@@ -229,7 +229,7 @@
       fill: #050d18;
     }
 
-    /* FULL-WIDTH STONE PATH - ALIGNED WITH EMBER */
+    /* FULL-WIDTH STONE PATH */
     .stone-path {
       position: absolute;
       bottom: 125px;
@@ -255,7 +255,7 @@
       position: relative;
       z-index: 10;
       text-align: center;
-      max-width: 950px;
+      max-width: 900px;
       width: 100%;
     }
 
@@ -296,25 +296,27 @@
     }
 
     /* ==========================================
-       MAIN INTERACTION GRID (LEFT STACK & EMBER)
+       MAIN INTERACTION CONTAINER & FIXED LEFT BUTTONS
        ========================================== */
     .interactive-container {
+      position: relative;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
+      justify-content: center;
       width: 100%;
     }
 
-    /* STACKED BUTTONS - MOVED FURTHER LEFT */
+    /* STACKED BUTTONS - PINNED TO THE FAR LEFT OF THE SCREEN */
     .hero-buttons-stacked {
+      position: absolute;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      width: 220px;
-      flex-shrink: 0;
+      width: 210px;
       z-index: 15;
-      margin-left: -2.5rem; /* Offsets buttons toward the far left screen boundary */
     }
 
     button.btn-story-orange,
@@ -362,7 +364,7 @@
     /* EMBER STAGE & WALKING TRACK */
     .character-stage {
       position: relative;
-      flex-grow: 1;
+      width: 100%;
       height: 180px;
     }
 
@@ -475,14 +477,18 @@
     }
 
     /* Responsive adjustment for small screens */
-    @media (max-width: 768px) {
-      .interactive-container {
-        flex-direction: column-reverse;
-      }
+    @media (max-width: 850px) {
       .hero-buttons-stacked {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
         width: 100%;
         max-width: 300px;
-        margin-left: 0;
+        margin: 0 auto 1.5rem auto;
+      }
+      .interactive-container {
+        flex-direction: column;
       }
     }
   </style>
@@ -608,7 +614,7 @@
 
       <!-- INTERACTIVE CONTAINER -->
       <div class="interactive-container">
-        <!-- Stacked Buttons on Far Left -->
+        <!-- Stacked Buttons Pinned to Far Left -->
         <div class="hero-buttons-stacked">
           <button class="btn-story-orange" id="interact-btn">
             🐾 Speak to Ember
