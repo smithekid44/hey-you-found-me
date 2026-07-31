@@ -335,29 +335,29 @@
       animation: shadowSway 2.5s infinite ease-in-out;
     }
 
-    /* Continuous Pacing / Walking States */
+    /* Continuous Pacing / Walking States (Speeded Up) */
     /* Walking Right (Facing Right -> scaleX(1)) */
     .ember-wrapper.walk-right {
-      animation: paceRight 6s infinite alternate ease-in-out;
+      animation: paceRight 4.2s infinite alternate ease-in-out;
     }
     .ember-wrapper.walk-right .ember-body-group {
       transform-origin: 65px 75px;
-      animation: continuousWalkAnim 0.35s infinite alternate ease-in-out, faceRight 0s linear forwards;
+      animation: continuousWalkAnim 0.28s infinite alternate ease-in-out, faceRight 0s linear forwards;
     }
     .ember-wrapper.walk-right .ground-shadow {
-      animation: shadowWalkPulse 0.35s infinite alternate ease-in-out;
+      animation: shadowWalkPulse 0.28s infinite alternate ease-in-out;
     }
 
     /* Walking Left (Facing Left -> scaleX(-1)) */
     .ember-wrapper.walk-left {
-      animation: paceLeft 6s infinite alternate ease-in-out;
+      animation: paceLeft 4.2s infinite alternate ease-in-out;
     }
     .ember-wrapper.walk-left .ember-body-group {
       transform-origin: 65px 75px;
-      animation: continuousWalkAnim 0.35s infinite alternate ease-in-out, faceLeft 0s linear forwards;
+      animation: continuousWalkAnim 0.28s infinite alternate ease-in-out, faceLeft 0s linear forwards;
     }
     .ember-wrapper.walk-left .ground-shadow {
-      animation: shadowWalkPulse 0.35s infinite alternate ease-in-out;
+      animation: shadowWalkPulse 0.28s infinite alternate ease-in-out;
     }
 
     @keyframes faceRight {
@@ -703,8 +703,7 @@
 
       emberWrapper.style.transform += ' scale(1.05)';
       setTimeout(() => {
-        // Reset scale bump while preserving translation animation state
-        updateWalkingDirection();
+        // Keeps pacing state intact
       }, 200);
     }
 
@@ -716,13 +715,6 @@
     const toggleStatusCard = document.getElementById('toggle-status-card');
 
     let isMissing = false;
-
-    function updateWalkingDirection() {
-      // Keeps continuous animation classes cleanly synced
-      if (emberWrapper.classList.contains('walk-right') || emberWrapper.classList.contains('walk-left')) {
-        // Handled automatically via CSS infinite alternate keyframes
-      }
-    }
 
     // Toggle pacing direction when reaching turnaround bounds using animationiteration event
     emberWrapper.addEventListener('animationiteration', () => {
