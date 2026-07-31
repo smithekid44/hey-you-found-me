@@ -296,19 +296,10 @@
     }
 
     /* ==========================================
-       MAIN INTERACTION CONTAINER & FIXED LEFT BUTTONS
+       BUTTONS FIXED DIRECTLY TO VIEWPORT EDGE
        ========================================== */
-    .interactive-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    /* STACKED BUTTONS - PINNED TO THE FAR LEFT OF THE SCREEN */
     .hero-buttons-stacked {
-      position: absolute;
+      position: fixed;
       left: 2rem;
       top: 50%;
       transform: translateY(-50%);
@@ -316,7 +307,7 @@
       flex-direction: column;
       gap: 1rem;
       width: 210px;
-      z-index: 15;
+      z-index: 90; /* Keep accessible above forest layers */
     }
 
     button.btn-story-orange,
@@ -487,9 +478,6 @@
         max-width: 300px;
         margin: 0 auto 1.5rem auto;
       }
-      .interactive-container {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
@@ -532,6 +520,21 @@
   <section class="hero" id="hero">
     <div class="moon"></div>
     <div id="fireflies"></div>
+
+    <!-- STACKED BUTTONS - PINNED TO FAR LEFT EDGE -->
+    <div class="hero-buttons-stacked">
+      <button class="btn-story-orange" id="interact-btn">
+        🐾 Speak to Ember
+      </button>
+      
+      <button class="btn-story-green" id="toggle-status-btn">
+        🐾 Mark Ember Lost
+      </button>
+
+      <button class="btn-story-green" id="report-btn">
+        📡 Signal Location
+      </button>
+    </div>
 
     <!-- SILHOUETTE TREES -->
     <div class="forest-back-wrapper">
@@ -612,52 +615,34 @@
         "The stars are bright tonight..."
       </div>
 
-      <!-- INTERACTIVE CONTAINER -->
-      <div class="interactive-container">
-        <!-- Stacked Buttons Pinned to Far Left -->
-        <div class="hero-buttons-stacked">
-          <button class="btn-story-orange" id="interact-btn">
-            🐾 Speak to Ember
-          </button>
-          
-          <button class="btn-story-green" id="toggle-status-btn">
-            🐾 Mark Ember Lost
-          </button>
+      <!-- Character Stage -->
+      <div class="character-stage" id="character-stage">
+        <div class="ember-wrapper" id="ember-wrapper">
+          <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="shadow-blur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+              </filter>
+            </defs>
 
-          <button class="btn-story-green" id="report-btn">
-            📡 Signal Location
-          </button>
-        </div>
+            <ellipse class="ground-shadow" id="ground-shadow" cx="50" cy="85" rx="26" ry="6" fill="#000000" opacity="0.85" filter="url(#shadow-blur)" />
 
-        <!-- Character Stage -->
-        <div class="character-stage" id="character-stage">
-          <div class="ember-wrapper" id="ember-wrapper">
-            <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="shadow-blur" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
-                </filter>
-              </defs>
-
-              <ellipse class="ground-shadow" id="ground-shadow" cx="50" cy="85" rx="26" ry="6" fill="#000000" opacity="0.85" filter="url(#shadow-blur)" />
-
-              <g class="ember-body-group" id="ember-body-group">
-                <polygon points="30,35 20,15 42,28" fill="#e76f51" />
-                <polygon points="70,35 80,15 58,28" fill="#e76f51" />
-                <polygon points="32,33 24,18 40,28" fill="#f4a261" />
-                <polygon points="68,33 76,18 60,28" fill="#f4a261" />
-                <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
-                <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
-                <circle cx="40" cy="50" r="3" fill="#07111e" />
-                <circle cx="60" cy="50" r="3" fill="#07111e" />
-                <circle cx="41" cy="49" r="1" fill="#ffffff" />
-                <circle cx="61" cy="49" r="1" fill="#ffffff" />
-                <polygon points="48,56 52,56 50,59" fill="#07111e" />
-                <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
-                <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
-              </g>
-            </svg>
-          </div>
+            <g class="ember-body-group" id="ember-body-group">
+              <polygon points="30,35 20,15 42,28" fill="#e76f51" />
+              <polygon points="70,35 80,15 58,28" fill="#e76f51" />
+              <polygon points="32,33 24,18 40,28" fill="#f4a261" />
+              <polygon points="68,33 76,18 60,28" fill="#f4a261" />
+              <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
+              <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
+              <circle cx="40" cy="50" r="3" fill="#07111e" />
+              <circle cx="60" cy="50" r="3" fill="#07111e" />
+              <circle cx="41" cy="49" r="1" fill="#ffffff" />
+              <circle cx="61" cy="49" r="1" fill="#ffffff" />
+              <polygon points="48,56 52,56 50,59" fill="#07111e" />
+              <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
+              <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
+            </g>
+          </svg>
         </div>
       </div>
     </div>
