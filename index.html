@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forest of Ember</title>
+  <title>Hey You Found Me - Ember</title>
   <style>
     /* ==========================================
        GHIBLI NIGHT FOREST THEME & RESET
@@ -44,9 +44,9 @@
       align-items: center;
       gap: 0.6rem;
       font-weight: bold;
-      font-size: 1.3rem;
+      font-size: 1rem;
       color: #ffd166;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       text-shadow: 0 0 10px rgba(255, 209, 102, 0.4);
     }
 
@@ -59,9 +59,8 @@
     .nav-links a {
       color: #d1d5db;
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 0.95rem;
       transition: all 0.3s ease;
-      letter-spacing: 0.5px;
     }
 
     .nav-links a:hover,
@@ -76,33 +75,6 @@
       gap: 1.2rem;
     }
 
-    /* Music Pill */
-    .music-pill {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      color: #ffd166;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-
-    .music-pill:hover {
-      background: rgba(255, 209, 102, 0.15);
-      border-color: #ffd166;
-    }
-
-    .music-pill.is-playing {
-      border-color: #06d6a0;
-      color: #06d6a0;
-      box-shadow: 0 0 12px rgba(6, 214, 160, 0.4);
-    }
-
     /* Interactive Status Badge */
     .status-badge {
       display: flex;
@@ -110,7 +82,7 @@
       gap: 0.5rem;
       background: rgba(6, 214, 160, 0.15);
       border: 1px solid #06d6a0;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: bold;
@@ -129,7 +101,6 @@
       box-shadow: 0 0 8px #06d6a0;
     }
 
-    /* Missing State Styling */
     .status-badge.is-missing {
       background: rgba(239, 71, 111, 0.18);
       border-color: #ef476f;
@@ -142,6 +113,18 @@
       box-shadow: 0 0 8px #ef476f;
     }
 
+    .menu-icon-btn {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 0.4rem 0.6rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* ==========================================
        HERO / GHIBLI FOREST STAGE
        ========================================== */
@@ -150,29 +133,27 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      padding: 7rem 2rem 3rem 2rem;
-      background: radial-gradient(circle at 50% 30%, #172c4a 0%, #07111e 75%);
+      padding: 8rem 2rem 4rem 2rem;
+      background: radial-gradient(circle at 50% 25%, #172c4a 0%, #07111e 75%);
       overflow: hidden;
     }
 
-    /* Moon Glow */
     .moon {
       position: absolute;
-      top: 8%;
-      left: 50%;
+      top: 6%;
+      left: 58%;
       transform: translateX(-50%);
-      width: 220px;
-      height: 220px;
+      width: 180px;
+      height: 180px;
       background: radial-gradient(circle, #fffdf0 0%, #ffe3a8 60%, rgba(255, 227, 168, 0) 100%);
       border-radius: 50%;
-      opacity: 0.25;
-      filter: blur(8px);
+      opacity: 0.3;
+      filter: blur(6px);
       pointer-events: none;
     }
 
-    /* Fireflies */
     #fireflies {
       position: absolute;
       top: 0;
@@ -185,245 +166,153 @@
 
     .firefly {
       position: absolute;
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       background-color: #ffd166;
       border-radius: 50%;
-      box-shadow: 0 0 10px #ffd166, 0 0 20px #ffd166;
+      box-shadow: 0 0 8px #ffd166;
       animation: float 7s infinite ease-in-out;
       opacity: 0;
     }
 
     @keyframes float {
       0% { opacity: 0; transform: translateY(0) scale(0.6); }
-      50% { opacity: 0.9; transform: translateY(-35px) scale(1.3); }
-      100% { opacity: 0; transform: translateY(-70px) scale(0.6); }
+      50% { opacity: 0.9; transform: translateY(-30px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-60px) scale(0.6); }
     }
 
-    /* ==========================================
-       DENSE SILHOUETTE WOODS (Behind Path)
-       ========================================== */
-    .path-forest-background {
-      position: absolute;
-      bottom: 120px;
-      left: 0;
-      width: 100%;
-      height: 380px;
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    .trees-deep {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 380px;
-      fill: #0a1828;
-      opacity: 0.6;
-    }
-
-    .trees-mid {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 320px;
-      fill: #06111d;
-    }
-
-    .trees-close {
-      position: absolute;
-      bottom: -10px;
-      width: 100%;
-      height: 250px;
-      fill: #030a12;
-    }
-
-    .tree-mist-layer {
-      position: absolute;
-      bottom: 120px;
-      left: 0;
-      width: 100%;
-      height: 80px;
-      background: linear-gradient(0deg, rgba(7, 17, 30, 0.85) 0%, rgba(7, 17, 30, 0) 100%);
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .side-tree-left,
-    .side-tree-right {
-      position: absolute;
-      bottom: 0;
-      width: 280px;
-      height: 100%;
-      pointer-events: none;
-      z-index: 7;
-      fill: #02060c;
-    }
-
-    .side-tree-left {
-      left: 0;
-    }
-
-    .side-tree-right {
-      right: 0;
-      transform: scaleX(-1);
-    }
-
-    .stone-path {
-      position: absolute;
-      bottom: 125px;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      z-index: 4;
-      pointer-events: none;
-    }
-
-    .forest-mist {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 130px;
-      background: linear-gradient(0deg, #07111e 20%, rgba(7, 17, 30, 0) 100%);
-      z-index: 6;
-      pointer-events: none;
-    }
-
-    .content {
+    /* Layout grid for Hero Section */
+    .hero-content-wrapper {
       position: relative;
       z-index: 10;
-      text-align: center;
-      max-width: 900px;
+      max-width: 1100px;
       width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 1rem;
+    }
+
+    .hero-left-col {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+    }
+
+    .hero-greeting {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: #f3c68f;
+      margin-bottom: -0.5rem;
     }
 
     h1 {
-      font-size: 2.8rem;
-      margin-bottom: 0.4rem;
-      color: #fffdf0;
+      font-size: 3.5rem;
       font-weight: normal;
+      color: #fffdf0;
       letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+      line-height: 1.1;
     }
 
-    p.subtitle {
-      color: #a0aec0;
-      margin-bottom: 2.5rem;
-      font-size: 1.15rem;
-      font-style: italic;
+    .hero-subtext {
+      color: #b2bec3;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
     }
 
-    /* ==========================================
-       BUTTONS FIXED DIRECTLY TO VIEWPORT EDGE
-       ========================================== */
-    .hero-buttons-stacked {
-      position: fixed;
-      left: 2rem;
-      top: 50%;
-      transform: translateY(-50%);
+    /* Action Buttons Stacked on Left */
+    .hero-buttons {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      width: 210px;
-      z-index: 90;
+      width: 240px;
     }
 
-    button.btn-story-orange,
-    button.btn-story-green {
+    .btn-primary-amber {
+      background: linear-gradient(135deg, #d47a3d 0%, #b85d22 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 209, 102, 0.4);
       padding: 0.85rem 1.2rem;
       border-radius: 12px;
       font-weight: bold;
       font-family: inherit;
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       gap: 0.6rem;
       font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(212, 122, 61, 0.4);
       transition: all 0.25s ease;
-      letter-spacing: 0.5px;
-      width: 100%;
     }
 
-    .btn-story-orange {
-      background: linear-gradient(135deg, #e76f51 0%, #d45d42 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(231, 111, 81, 0.35);
+    .btn-primary-amber:hover {
+      background: linear-gradient(135deg, #e58b4b 0%, #c96b2e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(212, 122, 61, 0.6);
     }
 
-    .btn-story-orange:hover {
-      background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
-      transform: translateX(4px);
-      box-shadow: 0 6px 16px rgba(231, 111, 81, 0.5);
+    .btn-secondary-dark {
+      background: rgba(18, 34, 54, 0.7);
+      color: #d1d5db;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.75rem 1.2rem;
+      border-radius: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      backdrop-filter: blur(4px);
+      transition: all 0.25s ease;
     }
 
-    .btn-story-green {
-      background: linear-gradient(135deg, #2a9d8f 0%, #1e7167 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(42, 157, 143, 0.35);
+    .btn-secondary-dark:hover {
+      background: rgba(28, 50, 78, 0.9);
+      color: #ffd166;
+      border-color: rgba(255, 209, 102, 0.3);
+      transform: translateY(-2px);
     }
 
-    .btn-story-green:hover {
-      background: linear-gradient(135deg, #3eb4a5 0%, #2a9d8f 100%);
-      transform: translateX(4px);
-      box-shadow: 0 6px 16px rgba(42, 157, 143, 0.5);
-    }
-
-    /* EMBER STAGE & WALKING TRACK */
+    /* Character Stage Center/Right */
     .character-stage {
       position: relative;
-      width: 100%;
-      height: 180px;
+      width: 450px;
+      height: 350px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .ember-wrapper {
-      position: absolute;
-      left: 50%;
-      top: 32px;
-      transform: translateX(-50%);
-      width: 150px;
-      height: 150px;
+      position: relative;
+      width: 220px;
+      height: 220px;
       cursor: pointer;
       z-index: 5;
-      will-change: transform;
     }
 
-    /* Speech Bubble locked relative to the wrapper container */
     .speech-bubble {
       position: absolute;
-      bottom: 135px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(22, 38, 59, 0.85);
-      border: 1.5px solid rgba(255, 209, 102, 0.35);
+      top: -25px;
+      right: -20px;
+      background: rgba(15, 28, 45, 0.9);
+      border: 1px solid rgba(255, 209, 102, 0.3);
       padding: 0.5rem 0.9rem;
       border-radius: 12px;
       font-style: italic;
       color: #ffd166;
-      backdrop-filter: blur(8px);
-      font-size: 0.85rem;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      font-size: 0.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       pointer-events: none;
       z-index: 12;
-      text-align: center;
-      width: 160px;
-      line-height: 1.25;
-    }
-
-    /* Speech bubble tail pointer pointing down */
-    .speech-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%) rotate(45deg);
-      width: 8px;
-      height: 8px;
-      background: rgba(22, 38, 59, 0.85);
-      border-right: 1.5px solid rgba(255, 209, 102, 0.35);
-      border-bottom: 1.5px solid rgba(255, 209, 102, 0.35);
+      white-space: nowrap;
     }
 
     .ember-char {
@@ -432,7 +321,6 @@
       overflow: visible;
     }
 
-    /* Animated Walking Body */
     .ember-body-group {
       transform-origin: 50% 80%;
       animation: walkBob 0.4s infinite alternate ease-in-out;
@@ -442,7 +330,6 @@
       animation: walkBob 0.22s infinite alternate ease-in-out;
     }
 
-    /* Synchronized Dynamic Ground Shadow */
     .ground-shadow {
       transform-origin: 50px 85px;
       animation: shadowPulse 0.4s infinite alternate ease-in-out;
@@ -453,86 +340,125 @@
     }
 
     @keyframes walkBob {
-      0% { transform: translateY(0px) rotate(-3deg); }
-      100% { transform: translateY(-10px) rotate(3deg); }
+      0% { transform: translateY(0px) rotate(-2deg); }
+      100% { transform: translateY(-8px) rotate(2deg); }
     }
 
     @keyframes shadowPulse {
-      0% { transform: scaleX(1) scaleY(1); opacity: 0.95; }
-      100% { transform: scaleX(0.7) scaleY(0.6); opacity: 0.4; }
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.8; }
+      100% { transform: scaleX(0.7) scaleY(0.5); opacity: 0.3; }
     }
 
     /* ==========================================
-       MODAL DIALOG
+       SECTION: EXPLORE EMBER'S WORLD
        ========================================== */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(7, 17, 30, 0.8);
-      backdrop-filter: blur(6px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 200;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-card {
-      background: #122236;
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      border-radius: 16px;
-      padding: 2.2rem;
-      max-width: 420px;
-      width: 90%;
+    .explore-section {
+      position: relative;
+      padding: 4rem 2rem 5rem 2rem;
+      background: linear-gradient(180deg, #07111e 0%, #040910 100%);
+      z-index: 10;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    .modal-card h2 {
-      color: #ffd166;
-      margin-bottom: 0.6rem;
-      font-weight: normal;
+    .explore-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
     }
 
-    .modal-card p {
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      margin-bottom: 1.8rem;
-      line-height: 1.5;
+    .explore-title-wrapper::before,
+    .explore-title-wrapper::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      max-width: 150px;
+      background: linear-gradient(90deg, transparent, rgba(255, 209, 102, 0.3), transparent);
     }
 
-    .close-btn {
-      background: #e76f51;
-      border: none;
-      color: #fff;
-      padding: 0.6rem 1.8rem;
-      border-radius: 8px;
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(14, 26, 42, 0.6);
+      border: 1px solid rgba(255, 209, 102, 0.15);
+      border-radius: 16px;
+      padding: 2rem 1.2rem;
+      text-align: center;
+      transition: all 0.3s ease;
       cursor: pointer;
-      font-weight: bold;
-      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @media (max-width: 850px) {
-      .hero-buttons-stacked {
-        position: relative;
-        left: 0;
-        top: 0;
-        transform: none;
+    .feature-card:hover {
+      background: rgba(20, 38, 60, 0.8);
+      border-color: rgba(255, 209, 102, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 209, 102, 0.1);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 209, 102, 0.2);
+    }
+
+    .feature-card h3 {
+      color: #ffd166;
+      font-size: 1.1rem;
+      font-weight: normal;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 950px) {
+      .hero-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-left-col {
+        align-items: center;
+        max-width: 100%;
+      }
+      .hero-buttons {
         width: 100%;
         max-width: 300px;
-        margin: 0 auto 1.5rem auto;
       }
-      .side-tree-left, .side-tree-right {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
         display: none;
       }
     }
@@ -548,26 +474,25 @@
   <!-- NAVIGATION BAR -->
   <nav class="navbar">
     <div class="nav-logo">
-      <span>🌲</span>
-      <span>EMBER</span>
+      <span>🐾</span>
+      <span>Hey You Found Me</span>
     </div>
 
     <ul class="nav-links">
-      <li><a href="#hero" class="active">Forest</a></li>
-      <li><a href="#lore">Lore</a></li>
-      <li><a href="#map">Map</a></li>
+      <li><a href="#hero" class="active">Meet Ember</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#adventures">Adventures</a></li>
+      <li><a href="#lost">If I'm Lost</a></li>
     </ul>
 
     <div class="nav-right">
-      <button class="music-pill" id="music-btn">
-        <span>🎵</span>
-        <span id="music-label">Ambience</span>
-      </button>
-
       <div class="status-badge" id="status-badge" role="button" tabindex="0">
         <span class="status-dot"></span>
-        <span id="status-text">SAFE</span>
+        <span id="status-text">Ember is home</span>
       </div>
+      <button class="menu-icon-btn" aria-label="Menu">
+        <span>☰</span>
+      </button>
     </div>
   </nav>
 
@@ -576,94 +501,28 @@
     <div class="moon"></div>
     <div id="fireflies"></div>
 
-    <div class="hero-buttons-stacked">
-      <button class="btn-story-orange" id="interact-btn">
-        🐾 Speak to Ember
-      </button>
-      
-      <button class="btn-story-green" id="toggle-status-btn">
-        🐾 Mark Ember Lost
-      </button>
+    <div class="hero-content-wrapper">
+      <div class="hero-left-col">
+        <span class="hero-greeting">Hey... ♡</span>
+        <h1>You Found Me</h1>
+        <p class="hero-subtext">If you're here, you may have found someone very special.</p>
 
-      <button class="btn-story-green" id="report-btn">
-        📡 Signal Location
-      </button>
-    </div>
+        <div class="hero-buttons">
+          <button class="btn-primary-amber" id="interact-btn">
+            <span>♥</span> I Found Ember
+          </button>
+          
+          <button class="btn-secondary-dark" id="meet-ember-nav-btn">
+            <span>📖</span> Meet Ember
+          </button>
+        </div>
+      </div>
 
-    <svg class="side-tree-left" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
-      <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
-    </svg>
-
-    <svg class="side-tree-right" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
-      <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
-    </svg>
-
-    <div class="path-forest-background">
-      <svg class="trees-deep" viewBox="0 0 1200 380" preserveAspectRatio="none">
-        <path d="M0,380 L0,180 L30,240 L60,160 L90,230 L120,130 L160,250 L200,140 L240,240 L280,150 L320,260 L370,120 L420,250 L470,140 L520,270 L570,130 L620,240 L670,150 L720,260 L770,110 L820,250 L870,130 L920,260 L970,140 L1020,270 L1070,120 L1120,240 L1170,150 L1200,210 L1200,380 Z"/>
-      </svg>
-      <svg class="trees-mid" viewBox="0 0 1200 320" preserveAspectRatio="none">
-        <path d="M0,320 L0,90 L20,160 L45,70 L75,170 L100,60 L135,180 L170,80 L205,170 L240,70 L280,200 L320,40 L365,160 L410,70 L455,180 L500,50 L545,170 L590,60 L635,190 L680,80 L725,180 L770,40 L815,160 L860,70 L905,180 L950,50 L995,170 L1040,70 L1085,190 L1130,80 L1175,160 L1200,100 L1200,320 Z"/>
-      </svg>
-      <svg class="trees-close" viewBox="0 0 1200 250" preserveAspectRatio="none">
-        <path d="M0,250 L0,40 L15,100 L35,20 L60,110 L85,30 L115,120 L145,20 L175,110 L210,30 L250,130 L290,10 L330,110 L370,30 L410,120 L450,15 L490,110 L530,25 L570,120 L610,35 L650,130 L690,20 L730,110 L770,10 L810,120 L850,25 L890,130 L930,30 L970,120 L1010,20 L1050,110 L1090,30 L1130,120 L1170,40 L1200,70 L1200,250 Z"/>
-      </svg>
-    </div>
-
-    <div class="tree-mist-layer"></div>
-
-    <svg class="stone-path" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,20 Q300,15 600,22 T1200,18 L1200,50 L0,50 Z" fill="#0d1b2a" opacity="0.9" />
-      <g fill="#1d2e3d" stroke="#0a131d" stroke-width="1.5">
-        <ellipse cx="20" cy="32" rx="18" ry="8" />
-        <ellipse cx="55" cy="36" rx="15" ry="7" />
-        <ellipse cx="90" cy="30" rx="20" ry="9" />
-        <ellipse cx="130" cy="35" rx="17" ry="8" />
-        <ellipse cx="165" cy="31" rx="16" ry="7" />
-        <ellipse cx="200" cy="37" rx="22" ry="9" />
-        <ellipse cx="240" cy="32" rx="15" ry="7" />
-        <ellipse cx="275" cy="36" rx="19" ry="8" />
-        <ellipse cx="315" cy="30" rx="18" ry="8" />
-        <ellipse cx="350" cy="35" rx="16" ry="7" />
-        <ellipse cx="385" cy="31" rx="21" ry="9" />
-        <ellipse cx="425" cy="37" rx="17" ry="8" />
-        <ellipse cx="460" cy="32" rx="15" ry="7" />
-        <ellipse cx="495" cy="36" rx="19" ry="8" />
-        <ellipse cx="535" cy="30" rx="18" ry="8" />
-        <ellipse cx="570" cy="35" rx="16" ry="7" />
-        <ellipse cx="605" cy="31" rx="21" ry="9" />
-        <ellipse cx="645" cy="37" rx="17" ry="8" />
-        <ellipse cx="680" cy="32" rx="15" ry="7" />
-        <ellipse cx="715" cy="36" rx="19" ry="8" />
-        <ellipse cx="755" cy="30" rx="18" ry="8" />
-        <ellipse cx="790" cy="35" rx="16" ry="7" />
-        <ellipse cx="825" cy="31" rx="21" ry="9" />
-        <ellipse cx="865" cy="37" rx="17" ry="8" />
-        <ellipse cx="900" cy="32" rx="15" ry="7" />
-        <ellipse cx="935" cy="36" rx="19" ry="8" />
-        <ellipse cx="975" cy="30" rx="18" ry="8" />
-        <ellipse cx="1010" cy="35" rx="16" ry="7" />
-        <ellipse cx="1045" cy="31" rx="21" ry="9" />
-        <ellipse cx="1085" cy="37" rx="17" ry="8" />
-        <ellipse cx="1120" cy="32" rx="15" ry="7" />
-        <ellipse cx="1155" cy="36" rx="19" ry="8" />
-        <ellipse cx="1190" cy="30" rx="16" ry="7" />
-      </g>
-    </svg>
-
-    <div class="forest-mist"></div>
-
-    <div class="content">
-      <h1>The Moonlit Canopy</h1>
-      <p class="subtitle">Ember the forest spirit is exploring the woods.</p>
-
+      <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
-        <!-- Both speech bubble and Ember live inside this wrapper so they move together -->
         <div class="ember-wrapper" id="ember-wrapper">
           <div class="speech-bubble" id="speech-bubble">
-            "The stars are bright tonight..."
+            "Thank you for being here! ♡"
           </div>
 
           <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -696,28 +555,51 @@
     </div>
   </section>
 
-  <!-- MODAL DIALOG -->
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal-card">
-      <h2>Lantern Signal Sent!</h2>
-      <p>A glowing beacon has been placed above Ember's last recorded location in the forest.</p>
-      <button class="close-btn" id="close-modal">Dismiss</button>
+  <!-- EXPLORE EMBER'S WORLD SECTION -->
+  <section class="explore-section">
+    <div class="explore-title-wrapper">
+      <span>Explore Ember's World</span>
     </div>
-  </div>
+
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="card-icon">🏠</div>
+        <h3>Meet Ember</h3>
+        <p>Learn more about me and my story.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-icon">📷</div>
+        <h3>Gallery</h3>
+        <p>Photos of my adventures big and small.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-icon">📖</div>
+        <h3>Adventures</h3>
+        <p>Stories from my journeys and daily life.</p>
+      </div>
+
+      <div class="feature-card" id="toggle-status-card">
+        <div class="card-icon">✉️</div>
+        <h3>If I'm Lost</h3>
+        <p>Information to help get me safely home.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const safePhrases = [
+      '"Thank you for being here! ♡"',
       '"The stars are bright tonight..."',
       '"Did you bring any sweet berries?"',
-      '"Listen closely to the wind in the pines..."',
-      '"The fireflies are dancing early!"',
       '"I feel safe when the lanterns glow."'
     ];
 
     const missingPhrases = [
       '"Where did everybody go...?"',
-      '"I think I took a wrong turn at the big oak tree..."',
+      '"I think I took a wrong turn..."',
       '"Is someone holding a lantern?"',
       '"The shadows look bigger over here..."'
     ];
@@ -727,7 +609,6 @@
     const groundShadow = document.getElementById('ground-shadow');
     const speechBubble = document.getElementById('speech-bubble');
     const interactBtn = document.getElementById('interact-btn');
-    const stage = document.getElementById('character-stage');
 
     function speakNextPhrase() {
       const activeList = isMissing ? missingPhrases : safePhrases;
@@ -743,111 +624,36 @@
     emberWrapper.addEventListener('click', speakNextPhrase);
     interactBtn.addEventListener('click', speakNextPhrase);
 
-    const musicBtn = document.getElementById('music-btn');
-    const musicLabel = document.getElementById('music-label');
-    const audio = document.getElementById('forest-audio');
-    let isPlaying = false;
-
-    musicBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        audio.play().catch(err => console.log("Audio waiting for user click", err));
-        musicBtn.classList.add('is-playing');
-        musicLabel.textContent = 'Playing';
-      } else {
-        audio.pause();
-        musicBtn.classList.remove('is-playing');
-        musicLabel.textContent = 'Ambience';
-      }
-    });
-
     const statusBadge = document.getElementById('status-badge');
     const statusText = document.getElementById('status-text');
-    const toggleStatusBtn = document.getElementById('toggle-status-btn');
+    const toggleStatusCard = document.getElementById('toggle-status-card');
 
     let isMissing = false;
-    let positionX = 0;       
-    let direction = 1;       
-    let walkSpeed = 1.0; 
-
-    function updateEmberWalk() {
-      const stageWidth = stage.clientWidth || 300;
-      const emberWidth = emberWrapper.clientWidth || 150;
-      const maxRange = (stageWidth - emberWidth) / 2;
-
-      positionX += walkSpeed * direction;
-
-      if (positionX >= maxRange) {
-        positionX = maxRange;
-        direction = -1;
-      } else if (positionX <= -maxRange) {
-        positionX = -maxRange;
-        direction = 1;
-      }
-
-      // Move the container across the stage. 
-      // When turning left (direction === -1), we flip the wrapper horizontally.
-      // We also counter-flip the speech bubble text back so it remains completely upright and legible.
-      if (direction === -1) {
-        emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) scaleX(-1)`;
-        speechBubble.style.transform = `translateX(50%) scaleX(-1)`;
-      } else {
-        emberWrapper.style.transform = `translateX(-50%) translateX(${positionX}px) scaleX(1)`;
-        speechBubble.style.transform = `translateX(-50%) scaleX(1)`;
-      }
-
-      requestAnimationFrame(updateEmberWalk);
-    }
 
     function toggleEmberStatus() {
       isMissing = !isMissing;
 
       if (isMissing) {
         statusBadge.classList.add('is-missing');
-        statusText.textContent = 'MISSING';
-        toggleStatusBtn.innerHTML = '🐾 Mark Ember Safe';
+        statusText.textContent = 'Ember is lost';
         speechBubble.textContent = '"Where did everybody go...?"';
-        
-        walkSpeed = 2.2;
         emberBodyGroup.classList.add('fast-walk');
         groundShadow.classList.add('fast-walk');
       } else {
         statusBadge.classList.remove('is-missing');
-        statusText.textContent = 'SAFE';
-        toggleStatusBtn.innerHTML = '🐾 Mark Ember Lost';
-        speechBubble.textContent = '"The stars are bright tonight..."';
-
-        walkSpeed = 1.0;
+        statusText.textContent = 'Ember is home';
+        speechBubble.textContent = '"Thank you for being here! ♡"';
         emberBodyGroup.classList.remove('fast-walk');
         groundShadow.classList.remove('fast-walk');
       }
     }
 
     statusBadge.addEventListener('click', toggleEmberStatus);
-    toggleStatusBtn.addEventListener('click', toggleEmberStatus);
+    toggleStatusCard.addEventListener('click', toggleEmberStatus);
 
-    requestAnimationFrame(updateEmberWalk);
-
-    const reportBtn = document.getElementById('report-btn');
-    const modalOverlay = document.getElementById('modal-overlay');
-    const closeModal = document.getElementById('close-modal');
-
-    reportBtn.addEventListener('click', () => {
-      modalOverlay.classList.add('active');
-    });
-
-    closeModal.addEventListener('click', () => {
-      modalOverlay.classList.remove('active');
-    });
-
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) {
-        modalOverlay.classList.remove('active');
-      }
-    });
-
+    // Fireflies generator
     const fireflyContainer = document.getElementById('fireflies');
-    for (let i = 0; i < 22; i++) {
+    for (let i = 0; i < 20; i++) {
       const firefly = document.createElement('div');
       firefly.className = 'firefly';
       firefly.style.left = Math.random() * 100 + 'vw';
