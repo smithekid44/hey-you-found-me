@@ -181,7 +181,6 @@
       100% { opacity: 0; transform: translateY(-60px) scale(0.6); }
     }
 
-    /* Layout grid for Hero Section */
     .hero-content-wrapper {
       position: relative;
       z-index: 10;
@@ -224,7 +223,6 @@
       line-height: 1.5;
     }
 
-    /* Action Buttons Stacked on Left */
     .hero-buttons {
       display: flex;
       flex-direction: column;
@@ -280,7 +278,7 @@
       transform: translateY(-2px);
     }
 
-    /* Character Stage Center/Right */
+    /* Character Stage */
     .character-stage {
       position: relative;
       width: 450px;
@@ -292,8 +290,8 @@
 
     .ember-wrapper {
       position: relative;
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
       cursor: pointer;
       z-index: 5;
     }
@@ -301,7 +299,7 @@
     .speech-bubble {
       position: absolute;
       top: -25px;
-      right: -20px;
+      left: -20px;
       background: rgba(15, 28, 45, 0.9);
       border: 1px solid rgba(255, 209, 102, 0.3);
       padding: 0.5rem 0.9rem;
@@ -323,6 +321,7 @@
 
     .ember-body-group {
       transform-origin: 50% 80%;
+      transform: scaleX(-1); /* Flips Ember to face left */
       animation: walkBob 0.4s infinite alternate ease-in-out;
     }
 
@@ -331,7 +330,7 @@
     }
 
     .ground-shadow {
-      transform-origin: 50px 85px;
+      transform-origin: 60px 105px;
       animation: shadowPulse 0.4s infinite alternate ease-in-out;
     }
 
@@ -340,12 +339,12 @@
     }
 
     @keyframes walkBob {
-      0% { transform: translateY(0px) rotate(-2deg); }
-      100% { transform: translateY(-8px) rotate(2deg); }
+      0% { transform: scaleX(-1) translateY(0px) rotate(-2deg); }
+      100% { transform: scaleX(-1) translateY(-8px) rotate(2deg); }
     }
 
     @keyframes shadowPulse {
-      0% { transform: scaleX(1) scaleY(1); opacity: 0.8; }
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
       100% { transform: scaleX(0.7) scaleY(0.5); opacity: 0.3; }
     }
 
@@ -434,7 +433,6 @@
       line-height: 1.4;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 950px) {
       .hero-content-wrapper {
         flex-direction: column;
@@ -465,11 +463,6 @@
   </style>
 </head>
 <body>
-
-  <!-- AUDIO ELEMENT -->
-  <audio id="forest-audio" loop>
-    <source src="https://assets.mixkit.co/active_storage/sfx/2432/2432-preview.mp3" type="audio/mpeg">
-  </audio>
 
   <!-- NAVIGATION BAR -->
   <nav class="navbar">
@@ -525,29 +518,66 @@
             "Thank you for being here! ♡"
           </div>
 
-          <svg class="ember-char" id="ember-character" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ember-char" id="ember-character" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <filter id="shadow-blur" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
               </filter>
             </defs>
 
-            <ellipse class="ground-shadow" id="ground-shadow" cx="50" cy="85" rx="26" ry="6" fill="#000000" opacity="0.85" filter="url(#shadow-blur)" />
+            <!-- Ground Shadow -->
+            <ellipse class="ground-shadow" id="ground-shadow" cx="60" cy="105" rx="32" ry="7" fill="#000000" opacity="0.75" filter="url(#shadow-blur)" />
 
+            <!-- Walking / Bouncing Group (Facing Left via scaleX(-1)) -->
             <g class="ember-body-group" id="ember-body-group">
-              <polygon points="30,35 20,15 42,28" fill="#e76f51" />
-              <polygon points="70,35 80,15 58,28" fill="#e76f51" />
-              <polygon points="32,33 24,18 40,28" fill="#f4a261" />
-              <polygon points="68,33 76,18 60,28" fill="#f4a261" />
-              <ellipse cx="50" cy="55" rx="30" ry="25" fill="#e76f51" />
-              <path d="M 30,55 Q 50,75 70,55 Q 50,45 30,55 Z" fill="#f4a261" />
-              <circle cx="40" cy="50" r="3" fill="#07111e" />
-              <circle cx="60" cy="50" r="3" fill="#07111e" />
-              <circle cx="41" cy="49" r="1" fill="#ffffff" />
-              <circle cx="61" cy="49" r="1" fill="#ffffff" />
-              <polygon points="48,56 52,56 50,59" fill="#07111e" />
-              <ellipse cx="38" cy="78" rx="6" ry="4" fill="#d45d42" />
-              <ellipse cx="62" cy="78" rx="6" ry="4" fill="#d45d42" />
+              
+              <!-- Back / Tail -->
+              <path d="M 85,75 Q 105,60 100,35 Q 98,25 105,20" fill="none" stroke="#b86333" stroke-width="7" stroke-linecap="round" />
+              <path d="M 85,75 Q 105,60 100,35 Q 98,25 105,20" fill="none" stroke="#d4915d" stroke-width="3" stroke-linecap="round" />
+
+              <!-- Back Legs -->
+              <ellipse cx="42" cy="92" rx="7" ry="10" fill="#8c4923" />
+              <ellipse cx="78" cy="92" rx="7" ry="10" fill="#8c4923" />
+
+              <!-- Main Fluffy Body -->
+              <ellipse cx="60" cy="72" rx="32" ry="26" fill="#b86333" />
+              <ellipse cx="60" cy="75" rx="24" ry="18" fill="#e2b083" />
+
+              <!-- Front Legs -->
+              <ellipse cx="48" cy="95" rx="6" ry="11" fill="#d4915d" />
+              <ellipse cx="72" cy="95" rx="6" ry="11" fill="#d4915d" />
+
+              <!-- Head Base -->
+              <circle cx="60" cy="48" r="26" fill="#b86333" />
+
+              <!-- Calico / Tabby Head Markings -->
+              <path d="M 42,38 Q 60,26 78,38 Q 72,55 60,58 Q 48,55 42,38 Z" fill="#d4915d" />
+              <ellipse cx="60" cy="38" rx="8" ry="10" fill="#f0d1b1" />
+
+              <!-- Ears -->
+              <polygon points="38,32 26,10 48,26" fill="#8c4923" />
+              <polygon points="40,30 30,14 46,25" fill="#f29b77" />
+
+              <polygon points="82,32 94,10 72,26" fill="#8c4923" />
+              <polygon points="80,30 90,14 74,25" fill="#f29b77" />
+
+              <!-- Expressive Eyes -->
+              <circle cx="50" cy="46" r="4.5" fill="#1a110d" />
+              <circle cx="70" cy="46" r="4.5" fill="#1a110d" />
+              <circle cx="51.5" cy="44.5" r="1.5" fill="#ffffff" />
+              <circle cx="71.5" cy="44.5" r="1.5" fill="#ffffff" />
+
+              <!-- Gentle Nose & Mouth -->
+              <polygon points="58,52 62,52 60,54.5" fill="#4a2618" />
+              <path d="M 60,54.5 Q 56,58 54,56" fill="none" stroke="#4a2618" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M 60,54.5 Q 64,58 66,56" fill="none" stroke="#4a2618" stroke-width="1.2" stroke-linecap="round" />
+
+              <!-- Whiskers -->
+              <line x1="32" y1="52" x2="45" y2="54" stroke="#f0d1b1" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+              <line x1="31" y1="56" x2="44" y2="56" stroke="#f0d1b1" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+              <line x1="88" y1="52" x2="75" y2="54" stroke="#f0d1b1" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+              <line x1="89" y1="56" x2="76" y2="56" stroke="#f0d1b1" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+
             </g>
           </svg>
         </div>
@@ -615,9 +645,9 @@
       const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
       speechBubble.textContent = randomPhrase;
 
-      emberBodyGroup.style.transform = 'scale(1.1)';
+      emberBodyGroup.style.transform = 'scaleX(-1) scale(1.08)';
       setTimeout(() => {
-        emberBodyGroup.style.transform = '';
+        emberBodyGroup.style.transform = 'scaleX(-1)';
       }, 200);
     }
 
