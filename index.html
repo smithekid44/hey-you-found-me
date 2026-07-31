@@ -200,7 +200,7 @@
       100% { opacity: 0; transform: translateY(-70px) scale(0.6); }
     }
 
-    /* TREE SILHOUETTES */
+    /* FOREST CANOPY & SIDE SILHOUETTES */
     .forest-back-wrapper {
       position: absolute;
       bottom: 0;
@@ -227,6 +227,27 @@
       width: 100%;
       height: 220px;
       fill: #050d18;
+    }
+
+    /* FOREGROUND SIDE TREES (Framing Left & Right Edges) */
+    .side-tree-left,
+    .side-tree-right {
+      position: absolute;
+      bottom: 0;
+      width: 280px;
+      height: 100%;
+      pointer-events: none;
+      z-index: 6;
+      fill: #030810;
+    }
+
+    .side-tree-left {
+      left: 0;
+    }
+
+    .side-tree-right {
+      right: 0;
+      transform: scaleX(-1);
     }
 
     /* FULL-WIDTH STONE PATH */
@@ -307,7 +328,7 @@
       flex-direction: column;
       gap: 1rem;
       width: 210px;
-      z-index: 90; /* Keep accessible above forest layers */
+      z-index: 90;
     }
 
     button.btn-story-orange,
@@ -478,6 +499,9 @@
         max-width: 300px;
         margin: 0 auto 1.5rem auto;
       }
+      .side-tree-left, .side-tree-right {
+        display: none; /* Hide side framing trees on mobile viewports */
+      }
     }
   </style>
 </head>
@@ -536,7 +560,18 @@
       </button>
     </div>
 
-    <!-- SILHOUETTE TREES -->
+    <!-- FOREGROUND SIDE SILHOUETTE TREES (Framing Left & Right) -->
+    <svg class="side-tree-left" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
+      <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
+    </svg>
+
+    <svg class="side-tree-right" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,800 L120,800 C90,650 140,520 80,380 C130,280 90,150 40,0 Z" />
+      <path d="M0,150 C50,180 70,250 30,320 C80,380 60,480 0,550 Z" opacity="0.7" />
+    </svg>
+
+    <!-- BACK HORIZON SILHOUETTE TREES -->
     <div class="forest-back-wrapper">
       <svg class="tree-layer-back" viewBox="0 0 1200 260" preserveAspectRatio="none">
         <path d="M0,260 L0,120 L25,160 L50,110 L75,170 L100,90 L130,180 L160,100 L190,170 L220,110 L250,190 L290,80 L330,170 L370,100 L410,180 L450,110 L490,190 L530,90 L570,170 L610,100 L650,180 L690,110 L730,190 L770,80 L810,170 L850,90 L890,180 L930,110 L970,190 L1010,90 L1050,170 L1090,100 L1130,180 L1170,110 L1200,150 L1200,260 Z"/>
