@@ -278,22 +278,26 @@
       transform: translateY(-2px);
     }
 
-    /* Character Stage */
+    /* Character Stage with Pacing Track Bounds */
     .character-stage {
       position: relative;
-      width: 450px;
+      width: 480px;
       height: 350px;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
     .ember-wrapper {
-      position: relative;
+      position: absolute;
+      left: 120px;
       width: 260px;
       height: 260px;
       cursor: pointer;
       z-index: 5;
+      will-change: transform;
+      transition: transform 0.6s ease;
     }
 
     .speech-bubble {
@@ -319,23 +323,61 @@
       overflow: visible;
     }
 
+    /* Idle / Standing Pose */
     .ember-body-group {
-      transform-origin: 60% 75%;
-      transform: scaleX(-1); /* Faces left */
+      transform-origin: 65px 75px;
+      transform: scaleX(-1);
       animation: standSway 2.5s infinite ease-in-out;
     }
 
-    .ember-body-group.fast-walk {
-      animation: walkBounce 0.25s infinite alternate ease-in-out;
-    }
-
     .ground-shadow {
-      transform-origin: 60px 102px;
+      transform-origin: 65px 102px;
       animation: shadowSway 2.5s infinite ease-in-out;
     }
 
-    .ground-shadow.fast-walk {
-      animation: shadowPulse 0.25s infinite alternate ease-in-out;
+    /* Continuous Pacing / Walking States */
+    /* Walking Right (Facing Right -> scaleX(1)) */
+    .ember-wrapper.walk-right {
+      animation: paceRight 6s infinite alternate ease-in-out;
+    }
+    .ember-wrapper.walk-right .ember-body-group {
+      transform-origin: 65px 75px;
+      animation: continuousWalkAnim 0.35s infinite alternate ease-in-out, faceRight 0s linear forwards;
+    }
+    .ember-wrapper.walk-right .ground-shadow {
+      animation: shadowWalkPulse 0.35s infinite alternate ease-in-out;
+    }
+
+    /* Walking Left (Facing Left -> scaleX(-1)) */
+    .ember-wrapper.walk-left {
+      animation: paceLeft 6s infinite alternate ease-in-out;
+    }
+    .ember-wrapper.walk-left .ember-body-group {
+      transform-origin: 65px 75px;
+      animation: continuousWalkAnim 0.35s infinite alternate ease-in-out, faceLeft 0s linear forwards;
+    }
+    .ember-wrapper.walk-left .ground-shadow {
+      animation: shadowWalkPulse 0.35s infinite alternate ease-in-out;
+    }
+
+    @keyframes faceRight {
+      0% { transform: scaleX(1); }
+      100% { transform: scaleX(1); }
+    }
+
+    @keyframes faceLeft {
+      0% { transform: scaleX(-1); }
+      100% { transform: scaleX(-1); }
+    }
+
+    @keyframes paceRight {
+      0% { transform: translateX(-100px); }
+      100% { transform: translateX(100px); }
+    }
+
+    @keyframes paceLeft {
+      0% { transform: translateX(100px); }
+      100% { transform: translateX(-100px); }
     }
 
     @keyframes standSway {
@@ -343,19 +385,24 @@
       50% { transform: scaleX(-1) translateY(-3px) rotate(1deg); }
     }
 
-    @keyframes walkBounce {
-      0% { transform: scaleX(-1) translateY(0px) rotate(-2deg); }
-      100% { transform: scaleX(-1) translateY(-6px) rotate(2deg); }
-    }
-
     @keyframes shadowSway {
       0%, 100% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
       50% { transform: scaleX(0.95) scaleY(0.95); opacity: 0.65; }
     }
 
-    @keyframes shadowPulse {
+    /* Fluid Continuous Quadruped Limb Alternation */
+    @keyframes continuousWalkAnim {
+      0% { 
+        transform: translateY(0px) rotate(-1.5deg); 
+      }
+      100% { 
+        transform: translateY(-5px) rotate(1.5deg); 
+      }
+    }
+
+    @keyframes shadowWalkPulse {
       0% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
-      100% { transform: scaleX(0.75) scaleY(0.5); opacity: 0.3; }
+      100% { transform: scaleX(0.78) scaleY(0.5); opacity: 0.35; }
     }
 
     /* ==========================================
@@ -521,9 +568,9 @@
         </div>
       </div>
 
-      <!-- Character Stage (Standing Upright Pose) -->
+      <!-- Character Stage -->
       <div class="character-stage" id="character-stage">
-        <div class="ember-wrapper" id="ember-wrapper">
+        <div class="ember-wrapper walk-left" id="ember-wrapper">
           <div class="speech-bubble" id="speech-bubble">
             "Thank you for being here! ♡"
           </div>
@@ -541,26 +588,26 @@
             <!-- Standing Body Group -->
             <g class="ember-body-group" id="ember-body-group">
               
-              <!-- Tail (Curling Upwards) -->
+              <!-- Tail -->
               <path d="M 92,85 Q 115,70 110,40 Q 108,30 116,22" fill="none" stroke="#b86333" stroke-width="7" stroke-linecap="round" />
               <path d="M 92,85 Q 115,70 110,40 Q 108,30 116,22" fill="none" stroke="#d4915d" stroke-width="3" stroke-linecap="round" />
 
-              <!-- Back Legs (Standing Straight) -->
+              <!-- Back Legs -->
               <rect x="42" y="82" width="9" height="22" rx="4.5" fill="#8c4923" />
               <rect x="76" y="82" width="9" height="22" rx="4.5" fill="#8c4923" />
 
-              <!-- Main Torso (Standing Stature) -->
+              <!-- Main Torso -->
               <ellipse cx="65" cy="74" rx="28" ry="22" fill="#b86333" />
               <ellipse cx="65" cy="76" rx="20" ry="15" fill="#e2b083" />
 
-              <!-- Front Legs (Standing Straight) -->
+              <!-- Front Legs -->
               <rect x="50" y="84" width="8" height="21" rx="4" fill="#d4915d" />
               <rect x="68" y="84" width="8" height="21" rx="4" fill="#d4915d" />
 
-              <!-- Neck & Head (Positioned Higher Up) -->
+              <!-- Neck & Head -->
               <circle cx="65" cy="45" r="25" fill="#b86333" />
 
-              <!-- Calico / Tabby Head Markings -->
+              <!-- Calico Head Markings -->
               <path d="M 48,36 Q 65,24 82,36 Q 76,52 65,55 Q 54,52 48,36 Z" fill="#d4915d" />
               <ellipse cx="65" cy="36" rx="8" ry="9" fill="#f0d1b1" />
 
@@ -646,7 +693,6 @@
 
     const emberWrapper = document.getElementById('ember-wrapper');
     const emberBodyGroup = document.getElementById('ember-body-group');
-    const groundShadow = document.getElementById('ground-shadow');
     const speechBubble = document.getElementById('speech-bubble');
     const interactBtn = document.getElementById('interact-btn');
 
@@ -655,9 +701,10 @@
       const randomPhrase = activeList[Math.floor(Math.random() * activeList.length)];
       speechBubble.textContent = randomPhrase;
 
-      emberBodyGroup.style.transform = 'scaleX(-1) scale(1.05)';
+      emberWrapper.style.transform += ' scale(1.05)';
       setTimeout(() => {
-        emberBodyGroup.style.transform = 'scaleX(-1)';
+        // Reset scale bump while preserving translation animation state
+        updateWalkingDirection();
       }, 200);
     }
 
@@ -670,6 +717,24 @@
 
     let isMissing = false;
 
+    function updateWalkingDirection() {
+      // Keeps continuous animation classes cleanly synced
+      if (emberWrapper.classList.contains('walk-right') || emberWrapper.classList.contains('walk-left')) {
+        // Handled automatically via CSS infinite alternate keyframes
+      }
+    }
+
+    // Toggle pacing direction when reaching turnaround bounds using animationiteration event
+    emberWrapper.addEventListener('animationiteration', () => {
+      if (emberWrapper.classList.contains('walk-left')) {
+        emberWrapper.classList.remove('walk-left');
+        emberWrapper.classList.add('walk-right');
+      } else if (emberWrapper.classList.contains('walk-right')) {
+        emberWrapper.classList.remove('walk-right');
+        emberWrapper.classList.add('walk-left');
+      }
+    });
+
     function toggleEmberStatus() {
       isMissing = !isMissing;
 
@@ -677,14 +742,10 @@
         statusBadge.classList.add('is-missing');
         statusText.textContent = 'Ember is lost';
         speechBubble.textContent = '"Where did everybody go...?"';
-        emberBodyGroup.classList.add('fast-walk');
-        groundShadow.classList.add('fast-walk');
       } else {
         statusBadge.classList.remove('is-missing');
         statusText.textContent = 'Ember is home';
         speechBubble.textContent = '"Thank you for being here! ♡"';
-        emberBodyGroup.classList.remove('fast-walk');
-        groundShadow.classList.remove('fast-walk');
       }
     }
 
