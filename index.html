@@ -152,7 +152,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 7rem 2rem 3rem 2rem;
+      padding: 7rem 1.5rem 3rem 1.5rem;
       background: radial-gradient(circle at 50% 30%, #172c4a 0%, #07111e 75%);
       overflow: hidden;
     }
@@ -255,7 +255,7 @@
       position: relative;
       z-index: 10;
       text-align: center;
-      max-width: 850px;
+      max-width: 950px;
       width: 100%;
     }
 
@@ -302,11 +302,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 2rem;
+      gap: 1.5rem;
       width: 100%;
     }
 
-    /* STACKED BUTTONS ON THE LEFT */
+    /* STACKED BUTTONS - MOVED FURTHER LEFT */
     .hero-buttons-stacked {
       display: flex;
       flex-direction: column;
@@ -314,6 +314,7 @@
       width: 220px;
       flex-shrink: 0;
       z-index: 15;
+      margin-left: -2.5rem; /* Offsets buttons toward the far left screen boundary */
     }
 
     button.btn-story-orange,
@@ -481,6 +482,7 @@
       .hero-buttons-stacked {
         width: 100%;
         max-width: 300px;
+        margin-left: 0;
       }
     }
   </style>
@@ -535,7 +537,7 @@
       </svg>
     </div>
 
-    <!-- FULL-WIDTH STONE PATH (Positioned directly under Ember) -->
+    <!-- FULL-WIDTH STONE PATH -->
     <svg class="stone-path" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,20 Q300,15 600,22 T1200,18 L1200,50 L0,50 Z" fill="#0d1b2a" opacity="0.9" />
       <g fill="#1d2e3d" stroke="#0a131d" stroke-width="1.5">
@@ -604,9 +606,9 @@
         "The stars are bright tonight..."
       </div>
 
-      <!-- INTERACTIVE CONTAINER (BUTTONS LEFT + EMBER RIGHT) -->
+      <!-- INTERACTIVE CONTAINER -->
       <div class="interactive-container">
-        <!-- Stacked Buttons on the Left -->
+        <!-- Stacked Buttons on Far Left -->
         <div class="hero-buttons-stacked">
           <button class="btn-story-orange" id="interact-btn">
             🐾 Speak to Ember
