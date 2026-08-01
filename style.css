@@ -424,6 +424,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.4s ease;
 }
 
 .mushroom-1 { bottom: 22px; left: 18px; transform: scale(0.85); }
@@ -437,6 +438,7 @@ html, body {
   border-radius: 14px 14px 4px 4px;
   box-shadow: 0 0 12px var(--shroom-teal), 0 0 25px var(--kodama-glow);
   animation: shroomPulse 3s infinite ease-in-out;
+  transition: all 0.4s ease;
 }
 
 .shroom-stem {
@@ -445,11 +447,26 @@ html, body {
   background: #c3e8e1;
   border-radius: 2px;
   margin-top: -2px;
+  transition: all 0.4s ease;
 }
 
 @keyframes shroomPulse {
   0%, 100% { opacity: 0.7; box-shadow: 0 0 8px var(--shroom-teal); }
   50% { opacity: 1; box-shadow: 0 0 18px var(--shroom-teal), 0 0 30px var(--kodama-glow); }
+}
+
+/* Mushroom Glow & Color Change Effect when Missing */
+#mushroom.mushroom-glowing .shroom-cap,
+.glowing-mushroom.mushroom-glowing .shroom-cap {
+  filter: hue-rotate(90deg) saturate(220%);
+  box-shadow: 0 0 20px #ff7de1, 0 0 40px #ff7de1, 0 0 60px #ff33cc;
+}
+
+#mushroom.mushroom-glowing .shroom-stem,
+.glowing-mushroom.mushroom-glowing .shroom-stem {
+  filter: hue-rotate(90deg);
+  background: #ffd6f7;
+  box-shadow: 0 0 10px #ff7de1;
 }
 
 /* --- GLOWING LANTERNS --- */
