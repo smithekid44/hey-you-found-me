@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const ember = document.getElementById('ember-character');
   const emberStage = document.getElementById('ember-container');
   const pawContainer = document.getElementById('paw-container');
+  const statusElement = document.getElementById('status-message');
+
+  // Your actual npoint endpoint URL
+  const API_ENDPOINT = 'https://api.npoint.io/0031e99bdae3e4b148dc';
 
   // 1. Generate Floating Fireflies
   if (fireflyContainer) {
@@ -78,22 +82,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Live Updating Polling Mechanism
-  async function checkUpdates() {
-    try {
-      const response = await fetch('YOUR_API_ENDPOINT_HERE');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      
-      // TODO: Handle your incoming live data here (e.g., update UI elements based on 'data')
-      console.log('Live update fetched:', data);
-      
-    } catch (error) {
-      console.error('Failed to fetch live updates:', error);
+  // 3. Apply Visual State based on JSON Data
+  function updateEmberUI(status) {
+    if (status === 'missing') {
+      if (ember) ember.classList.add('ember-missing');
+      if (statusElement) statusElement.textContent = "Ember is currently missing! Keep looking!";
+    } else {
+      if (ember) ember.classList.remove('ember-missing');
+      if (statusElement) statusElement.textContent = "Ember is safe at home!";
     }
   }
 
-  // Run an initial check on load, then poll every 1 second (1000ms)
-  checkUpdates();
-  setInterval(checkUpdates, 1000);
+  // 4. Live Polling Function (Checks every 1 second)
+  async function checkEmberStatus() {
+    try {
+      // Adding a timestamp query parameter prevents the browser from caching the old API response
+      const response = await fetch(`${API_ENDPOINT}?t=${Date.now()}`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      
+      updateEmberUI(data.status);
+    } catch (error) {
+      console.error('Failed to fetch status:', error);
+    }
+  }
+
+  // Start polling immediately, then check every 1 second
+  checkEmberStatus();
+  setInterval(checkEmberStatus, 1000);
 });
