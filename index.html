@@ -599,7 +599,7 @@
       }
     }
 
-    // Npoint API integration for live status sync
+    // Npoint API integration with cache-busting for reliable syncing
     const NPOINT_URL = 'https://api.npoint.io/9a119fd8c16058f4b2f6';
     const secretMushroom = document.getElementById('secretMushroom');
     const statusBadge = document.getElementById('statusBadge');
@@ -617,7 +617,7 @@
 
     async function fetchStatus() {
       try {
-        const response = await fetch(NPOINT_URL);
+        const response = await fetch(`${NPOINT_URL}?t=${new Date().getTime()}`);
         const data = await response.json();
         if (typeof data.isLost !== 'undefined') {
           updateStatusUI(data.isLost);
@@ -639,9 +639,9 @@
       }
     }
 
-    // Check status on load and poll every few seconds
+    // Initial fetch and polling setup
     fetchStatus();
-    setInterval(fetchStatus, 5000);
+    setInterval(fetchStatus, 4000);
 
     secretMushroom.addEventListener('click', async () => {
       const currentLost = statusBadge.classList.contains('lost');
