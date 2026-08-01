@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Live Polling Function (Checks every 1 second)
   async function checkEmberStatus() {
     try {
-      // Adding a timestamp query parameter prevents the browser from caching the old API response
       const response = await fetch(`${API_ENDPOINT}?t=${Date.now()}`);
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
