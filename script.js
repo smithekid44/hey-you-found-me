@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const pawContainer = document.getElementById('paw-container');
 
   // 1. Generate Floating Fireflies
-  for (let i = 0; i < 30; i++) {
-    const fly = document.createElement('div');
-    fly.className = 'firefly';
-    fly.style.left = Math.random() * 100 + 'vw';
-    fly.style.top = Math.random() * 100 + 'vh';
-    fly.style.animationDelay = Math.random() * 5 + 's';
-    fly.style.animationDuration = (3 + Math.random() * 4) + 's';
-    fireflyContainer.appendChild(fly);
+  if (fireflyContainer) {
+    for (let i = 0; i < 30; i++) {
+      const fly = document.createElement('div');
+      fly.className = 'firefly';
+      fly.style.left = Math.random() * 100 + 'vw';
+      fly.style.top = Math.random() * 100 + 'vh';
+      fly.style.animationDelay = Math.random() * 5 + 's';
+      fly.style.animationDuration = (3 + Math.random() * 4) + 's';
+      fireflyContainer.appendChild(fly);
+    }
   }
 
   // Helper Function: Spawn Paw Prints
@@ -75,4 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 3. Live Updating Polling Mechanism
+  async function checkUpdates() {
+    try {
+      const response = await fetch('YOUR_API_ENDPOINT_HERE');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      
+      // TODO: Handle your incoming live data here (e.g., update UI elements based on 'data')
+      console.log('Live update fetched:', data);
+      
+    } catch (error) {
+      console.error('Failed to fetch live updates:', error);
+    }
+  }
+
+  // Run an initial check on load, then poll every 1 second (1000ms)
+  checkUpdates();
+  setInterval(checkUpdates, 1000);
 });
