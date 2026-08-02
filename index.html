@@ -595,18 +595,24 @@
       }
     }
 
-    // Instant Telegram Alert Trigger with configured credentials
+    // Instant Telegram Alert Trigger using Fetch
     function triggerEmberAlertSMS() {
-      const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
+      const alertMessage = "⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!";
       
       const botToken = "8871570759:AAExKf0aAW82D3YQYjJns1GRm4aIYxosBR4";
       const chatId = "8937754737";
       
-      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${alertMessage}`;
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(alertMessage)}`;
       
-      const ping = new Image();
-      ping.src = telegramUrl;
-      console.log("Instant Telegram alert dispatched!");
+      fetch(telegramUrl)
+        .then(response => {
+          if (response.ok) {
+            console.log("Instant Telegram alert dispatched successfully!");
+          } else {
+            console.error("Telegram API error:", response.status);
+          }
+        })
+        .catch(err => console.error("Failed to send Telegram alert:", err));
     }
 
     fetchStatus();
@@ -621,7 +627,6 @@
         updateStatusUI(newLost);
         await saveStatus(newLost);
 
-        // If toggled to lost, automatically fire the instant Telegram alert!
         if (newLost) {
           triggerEmberAlertSMS();
         }
