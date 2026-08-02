@@ -595,17 +595,14 @@
       }
     }
 
-    // Automated Alert Trigger configured with API key 7732618
-    async function triggerEmberAlertSMS() {
+    // High-speed Instant Alert Trigger using Image preload technique (bypasses fetch latency)
+    function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
       const webhookUrl = `https://api.callmebot.com/whatsapp.php?phone=16163090059&text=${alertMessage}&apikey=7732618`;
       
-      try {
-        await fetch(webhookUrl);
-        console.log("Alert message dispatched!");
-      } catch (err) {
-        console.error("SMS notification trigger failed", err);
-      }
+      const ping = new Image();
+      ping.src = webhookUrl;
+      console.log("Instant alert ping dispatched!");
     }
 
     fetchStatus();
@@ -620,7 +617,7 @@
         updateStatusUI(newLost);
         await saveStatus(newLost);
 
-        // If toggled to lost, automatically fire the text alert!
+        // If toggled to lost, automatically fire the instant text alert!
         if (newLost) {
           triggerEmberAlertSMS();
         }
