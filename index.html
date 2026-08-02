@@ -281,18 +281,22 @@
       align-items: flex-end;
       gap: 3px;
       z-index: 6;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
     }
 
     .glowing-mushroom {
       background: transparent;
       border: none;
       padding: 0;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      pointer-events: none;
       position: relative;
+      transition: transform 0.2s ease;
     }
 
-    .glowing-mushroom:hover {
+    .mushroom-cluster:hover {
       transform: scale(1.15);
     }
 
@@ -606,21 +610,21 @@
           <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
         </svg>
 
-        <!-- Mushroom Cluster (Main Toggle Mushroom + 2 smaller side mushrooms) -->
-        <div id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
-          <button class="glowing-mushroom mushroom-side-2" tabindex="-1">
+        <!-- Mushroom Cluster (Clickable Toggle + 2 Side Mushrooms) -->
+        <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+          <div class="glowing-mushroom mushroom-side-2">
             <div class="shroom-cap"></div>
             <div class="shroom-stem"></div>
-          </button>
-          <button class="glowing-mushroom mushroom-side-1" tabindex="-1">
+          </div>
+          <div class="glowing-mushroom mushroom-side-1">
             <div class="shroom-cap"></div>
             <div class="shroom-stem"></div>
-          </button>
-          <button class="glowing-mushroom mushroom-main">
+          </div>
+          <div class="glowing-mushroom mushroom-main">
             <div class="shroom-cap"></div>
             <div class="shroom-stem"></div>
-          </button>
-        </div>
+          </div>
+        </button>
 
         <div class="ember-wrapper">
           <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
@@ -697,9 +701,9 @@
       }
     }
 
-    // JSONBin.io Configuration (Replace with your Bin ID and Master Key)
-    const BIN_ID = 'YOUR_BIN_ID_HERE';
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    // JSONBin.io Configuration with your credentials
+    const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
+    const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
     const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
     const mushroomCluster = document.getElementById('secretMushroomCluster');
@@ -748,9 +752,9 @@
       }
     }
 
-    // Initial load and live polling every 4 seconds
+    // Initial load and live polling every 1 second (1000ms)
     fetchStatus();
-    setInterval(fetchStatus, 4000);
+    setInterval(fetchStatus, 1000);
 
     // Toggle status on mushroom cluster click
     if (mushroomCluster) {
