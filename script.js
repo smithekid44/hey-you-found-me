@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const emberStage = document.getElementById('ember-container');
   const pawContainer = document.getElementById('paw-container');
   const statusElement = document.getElementById('status-message');
+  const mushrooms = document.querySelectorAll('.glowing-mushroom'); // Targets all your mushrooms
 
   // Your actual npoint endpoint URL
   const API_ENDPOINT = 'https://api.npoint.io/0031e99bdae3e4b148dc';
@@ -82,14 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Apply Visual State based on JSON Data
+  // 3. Apply Visual State based on JSON Data (Updates Ember and ALL mushrooms)
   function updateEmberUI(status) {
     if (status === 'missing') {
       if (ember) ember.classList.add('ember-missing');
       if (statusElement) statusElement.textContent = "Ember is currently missing! Keep looking!";
+      mushrooms.forEach(m => m.classList.add('mushroom-glowing'));
     } else {
       if (ember) ember.classList.remove('ember-missing');
       if (statusElement) statusElement.textContent = "Ember is safe at home!";
+      mushrooms.forEach(m => m.classList.remove('mushroom-glowing'));
     }
   }
 
