@@ -115,12 +115,12 @@
     }
 
     /* ==========================================
-        MAIN COMPACT LAYOUT CONTAINER
+        MAIN EXPANDED TREASURE MAP LAYOUT
         ========================================== */
     .main-stage-container {
       position: relative;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1350px;
       margin: 4.8rem auto 2rem auto;
       padding: 0 1rem;
       display: flex;
@@ -159,16 +159,16 @@
     }
 
     /* ==========================================
-        INTERACTIVE FOREST MAP STAGE
+        TREASURE MAP CIRCULAR FOREST STAGE
         ========================================== */
     .world-panorama-container {
       position: relative;
       width: 100%;
-      height: 480px;
-      border-radius: 16px;
+      height: 600px;
+      border-radius: 50% / 35%;
       overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.25);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 209, 102, 0.1);
+      border: 3px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
       background: #07111e;
       cursor: pointer;
     }
@@ -177,7 +177,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.85) contrast(1.05);
+      filter: brightness(0.8) contrast(1.1) sepia(0.15);
       display: block;
     }
 
@@ -187,15 +187,29 @@
       left: 0;
       width: 100%;
       height: 100%;
-      box-shadow: inset 0 0 80px rgba(3, 7, 12, 0.7);
+      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
       pointer-events: none;
+      border-radius: 50% / 35%;
+    }
+
+    /* ==========================================
+        VECTOR ART STONE PATH & TALL GRASS
+        ========================================== */
+    .map-vector-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
     }
 
     .destination-hotspot {
       position: absolute;
       transform: translate(-50%, -50%);
-      background: rgba(15, 28, 45, 0.85);
-      border: 1px solid rgba(255, 209, 102, 0.5);
+      background: rgba(15, 28, 45, 0.88);
+      border: 1px solid rgba(255, 209, 102, 0.6);
       color: #fffdf0;
       padding: 0.5rem 1rem;
       border-radius: 30px;
@@ -205,7 +219,7 @@
       cursor: pointer;
       text-decoration: none;
       backdrop-filter: blur(4px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 10px rgba(255, 209, 102, 0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 12px rgba(255, 209, 102, 0.25);
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 15;
       white-space: nowrap;
@@ -215,24 +229,24 @@
       transform: translate(-50%, -50%) scale(1.1);
       background: #d47a3d;
       border-color: #ffd166;
-      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.6), 0 0 15px rgba(255, 209, 102, 0.5);
+      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.7), 0 0 18px rgba(255, 209, 102, 0.6);
     }
 
     .hotspot-icon { font-size: 1rem; }
     .hotspot-text { font-size: 0.85rem; font-family: 'Georgia', serif; letter-spacing: 0.5px; }
 
-    .hotspot-cabin { top: 52%; left: 18%; }
-    .hotspot-gallery { top: 58%; left: 38%; }
-    .hotspot-adventures { top: 55%; left: 62%; }
-    .hotspot-lost { top: 48%; left: 82%; }
+    .hotspot-cabin { top: 56%; left: 22%; }
+    .hotspot-gallery { top: 64%; left: 42%; }
+    .hotspot-adventures { top: 60%; left: 63%; }
+    .hotspot-lost { top: 50%; left: 81%; }
 
     /* ==========================================
         MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
         ========================================== */
     .mushroom-cluster {
       position: absolute;
-      bottom: 20px;
-      right: 25px;
+      bottom: 35px;
+      right: 45px;
       display: flex;
       align-items: flex-end;
       gap: 3px;
@@ -405,7 +419,7 @@
       .navbar { padding: 0.7rem 1rem; }
       .nav-links { display: none; }
       .main-stage-container { margin-top: 4.2rem; }
-      .world-panorama-container { height: 360px; }
+      .world-panorama-container { height: 420px; border-radius: 20px; }
       .destination-hotspot { padding: 0.35rem 0.7rem; }
       .hotspot-text { font-size: 0.75rem; }
     }
@@ -431,20 +445,62 @@
     </div>
   </header>
 
-  <!-- Main Compact Layout Container -->
+  <!-- Main Expanded Treasure Map Container -->
   <div class="main-stage-container">
     <div class="top-intro-wrapper">
       <span class="hero-greeting">Hey... ♡</span>
       <h1>You Found Me</h1>
       <p class="hero-subtext">
-        Click anywhere along the forest path or click destination buttons to watch Ember walk smoothly right to it!
+        Explore the treasure map forest stage. Click anywhere along the stone path to guide Ember home!
       </p>
     </div>
 
-    <!-- Interactive Forest Map Stage -->
+    <!-- Treasure Map Circular Forest Stage -->
     <div id="worldPanorama" class="world-panorama-container">
-      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1200&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
+      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1400&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
       <div class="world-vignette-overlay"></div>
+
+      <!-- Vector Art Stone Path & Tall Grass Overlay -->
+      <svg class="map-vector-overlay" viewBox="0 0 1200 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Winding Stone Path -->
+        <path d="M 80,480 Q 220,490 300,420 T 520,380 T 750,430 T 980,350 T 1120,300" fill="none" stroke="#231f20" stroke-width="52" stroke-linecap="round" opacity="0.45"/>
+        <path d="M 80,480 Q 220,490 300,420 T 520,380 T 750,430 T 980,350 T 1120,300" fill="none" stroke="#d5c3aa" stroke-width="44" stroke-linecap="round" opacity="0.9"/>
+        <!-- Individual Stone Pavers -->
+        <g fill="#a8957e" opacity="0.85">
+          <ellipse cx="120" cy="480" rx="22" ry="12" transform="rotate(-5, 120, 480)"/>
+          <ellipse cx="200" cy="495" rx="25" ry="14" transform="rotate(10, 200, 495)"/>
+          <ellipse cx="280" cy="455" rx="20" ry="11" transform="rotate(-15, 280, 455)"/>
+          <ellipse cx="360" cy="405" rx="24" ry="13" transform="rotate(5, 360, 405)"/>
+          <ellipse cx="440" cy="385" rx="21" ry="12" transform="rotate(-8, 440, 385)"/>
+          <ellipse cx="520" cy="380" rx="26" ry="14" transform="rotate(2, 520, 380)"/>
+          <ellipse cx="600" cy="400" rx="22" ry="12" transform="rotate(12, 600, 400)"/>
+          <ellipse cx="680" cy="425" rx="24" ry="13" transform="rotate(-10, 680, 425)"/>
+          <ellipse cx="760" cy="430" rx="23" ry="13" transform="rotate(6, 760, 430)"/>
+          <ellipse cx="840" cy="400" rx="25" ry="14" transform="rotate(-5, 840, 400)"/>
+          <ellipse cx="920" cy="365" rx="21" ry="12" transform="rotate(15, 920, 365)"/>
+          <ellipse cx="1000" cy="335" rx="24" ry="13" transform="rotate(-2, 1000, 335)"/>
+          <ellipse cx="1080" cy="310" rx="20" ry="11" transform="rotate(8, 1080, 310)"/>
+        </g>
+
+        <!-- Vector Art Tall Forest Grass along borders -->
+        <g fill="#133824" stroke="#1d5c38" stroke-width="1.5">
+          <!-- Left cluster -->
+          <path d="M 10,600 Q 15,550 25,520 Q 30,560 40,600 Z"/>
+          <path d="M 30,600 Q 40,530 55,505 Q 60,550 75,600 Z"/>
+          <path d="M 60,600 Q 75,540 90,515 Q 95,555 115,600 Z"/>
+          <path d="M 95,600 Q 110,535 125,510 Q 135,555 155,600 Z"/>
+          
+          <!-- Right cluster -->
+          <path d="M 1050,600 Q 1070,540 1090,510 Q 1100,550 1120,600 Z"/>
+          <path d="M 1090,600 Q 1115,530 1135,500 Q 1145,545 1170,600 Z"/>
+          <path d="M 1140,600 Q 1165,545 1185,520 Q 1195,560 1200,600 Z"/>
+
+          <!-- Top rim grass tufts -->
+          <path d="M 250,55 Q 260,20 275,5 Q 280,30 295,55 Z"/>
+          <path d="M 270,45 Q 285,15 300,0 Q 310,25 325,45 Z"/>
+          <path d="M 850,50 Q 865,15 885,0 Q 895,30 910,50 Z"/>
+        </g>
+      </svg>
 
       <!-- Interactive Mushroom Cluster Toggle -->
       <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
@@ -500,22 +556,22 @@
       </div>
 
       <!-- Interactive Path Hotspot Buttons -->
-      <button class="destination-hotspot hotspot-cabin" data-target-x="18" data-target-y="52">
+      <button class="destination-hotspot hotspot-cabin" data-target-x="22" data-target-y="56">
         <span class="hotspot-icon">🏠</span>
         <span class="hotspot-text">Meet Ember</span>
       </button>
 
-      <button class="destination-hotspot hotspot-gallery" data-target-x="38" data-target-y="58">
+      <button class="destination-hotspot hotspot-gallery" data-target-x="42" data-target-y="64">
         <span class="hotspot-icon">📷</span>
         <span class="hotspot-text">Gallery</span>
       </button>
 
-      <button class="destination-hotspot hotspot-adventures" data-target-x="62" data-target-y="55">
+      <button class="destination-hotspot hotspot-adventures" data-target-x="63" data-target-y="60">
         <span class="hotspot-icon">📖</span>
         <span class="hotspot-text">Adventures</span>
       </button>
 
-      <button class="destination-hotspot hotspot-lost" id="openLostModalFromPath" data-target-x="82" data-target-y="48">
+      <button class="destination-hotspot hotspot-lost" id="openLostModalFromPath" data-target-x="81" data-target-y="50">
         <span class="hotspot-icon">✉️</span>
         <span class="hotspot-text">If I'm Lost</span>
       </button>
@@ -618,7 +674,7 @@
       mushroomCluster.addEventListener('click', async (e) => {
         e.stopPropagation();
 
-        if (isToggling) return; // Ignore clicks if a toggle is already processing
+        if (isToggling) return;
         isToggling = true;
 
         const currentLost = statusBadge.classList.contains('lost');
@@ -631,7 +687,6 @@
           triggerEmberAlertSMS();
         }
 
-        // Reset the cooldown after 1.5 seconds
         setTimeout(() => {
           isToggling = false;
         }, 1500);
