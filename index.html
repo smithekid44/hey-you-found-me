@@ -230,7 +230,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Hotspot coordinate placements matching the forest inspiration image */
     .hotspot-cabin { top: 52%; left: 18%; }
     .hotspot-gallery { top: 58%; left: 38%; }
     .hotspot-adventures { top: 55%; left: 62%; }
@@ -329,7 +328,6 @@
       overflow: visible;
     }
 
-    /* Active walking animations applied when moving */
     .ember-wrapper.is-walking .ember-body-group {
       animation: continuousWalkAnim 0.22s infinite alternate ease-in-out;
     }
@@ -544,7 +542,6 @@
 
     <!-- Interactive Forest Map Stage -->
     <div id="worldPanorama" class="world-panorama-container">
-      <!-- Forest Path Inspiration Background Image -->
       <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1200&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
       <div class="world-vignette-overlay"></div>
 
@@ -647,7 +644,6 @@
 
   <!-- JavaScript -->
   <script>
-    // JSONBin.io Configuration
     const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
     const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
     const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
@@ -698,11 +694,9 @@
       }
     }
 
-    // Initial load and live polling every 1 second
     fetchStatus();
     setInterval(fetchStatus, 1000);
 
-    // Toggle status on mushroom cluster click
     if (mushroomCluster) {
       mushroomCluster.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -713,13 +707,12 @@
       });
     }
 
-    // Smooth Animated Walking Ember Mechanics
     const worldPanorama = document.getElementById('worldPanorama');
     const emberWalker = document.getElementById('emberWalker');
     const emberBodyGroup = document.getElementById('emberBodyG');
 
-    let currentX = 50; // percentage
-    let currentY = 75; // percentage
+    let currentX = 50;
+    let currentY = 75;
     let isMoving = false;
     let animFrameId = null;
 
@@ -728,22 +721,18 @@
         cancelAnimationFrame(animFrameId);
       }
 
-      // Face correct direction
       if (targetX < currentX) {
         emberBodyGroup.style.transform = 'scaleX(-1)';
       } else if (targetX > currentX) {
         emberBodyGroup.style.transform = 'scaleX(1)';
       }
 
-      // Activate walking step animations
       emberWalker.classList.add('is-walking');
       isMoving = true;
 
       const startX = currentX;
       const startY = currentY;
       const distance = Math.hypot(targetX - startX, targetY - startY);
-      
-      // Duration scaled by distance (speed is smooth and natural)
       const duration = Math.max(600, distance * 22); 
       const startTime = performance.now();
 
@@ -751,7 +740,6 @@
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Smooth easing curve (easeInOutQuad)
         const easeProgress = progress < 0.5 
           ? 2 * progress * progress 
           : 1 - Math.pow(-2 * progress + 2, 2) / 2;
@@ -765,7 +753,6 @@
         if (progress < 1) {
           animFrameId = requestAnimationFrame(animateStep);
         } else {
-          // Reached destination, stop walking animation
           emberWalker.classList.remove('is-walking');
           isMoving = false;
           animFrameId = null;
@@ -776,7 +763,6 @@
       animFrameId = requestAnimationFrame(animateStep);
     }
 
-    // Click anywhere on the forest panorama to walk there
     if (worldPanorama && emberWalker) {
       worldPanorama.addEventListener('click', (e) => {
         if (e.target.closest('.destination-hotspot') || e.target.closest('.mushroom-cluster')) return;
@@ -789,7 +775,6 @@
       });
     }
 
-    // Clicking destination buttons walks Ember smoothly to them and triggers action upon arrival
     const hotspots = document.querySelectorAll('.destination-hotspot');
     const modal = document.getElementById('contactModal');
 
@@ -809,7 +794,6 @@
       });
     });
 
-    // General Modal Controls
     const closeModalBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
 
@@ -825,7 +809,6 @@
       }
     });
 
-    // Handle Form Submit -> Fires native SMS link to 616-309-0059
     if (smsForm) {
       smsForm.addEventListener('submit', (e) => {
         e.preventDefault();
