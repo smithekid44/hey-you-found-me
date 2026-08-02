@@ -462,7 +462,7 @@
     }
 
     /* ==========================================
-        EXPLORE EMBER'S WORLD SECTION (NEW WIDGET)
+        EXPLORE EMBER'S WORLD PANORAMA SECTION
         ========================================== */
     .explore-world-section {
       position: relative;
@@ -497,7 +497,6 @@
       font-size: 1rem;
     }
 
-    /* Interactive Forest Panorama Container */
     .world-panorama-container {
       position: relative;
       width: 100%;
@@ -528,7 +527,6 @@
       pointer-events: none;
     }
 
-    /* Interactive Destination Hotspot Buttons */
     .destination-hotspot {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -566,14 +564,371 @@
       letter-spacing: 0.5px;
     }
 
-    /* Positioning respective destinations along paths in the panorama image */
-    .hotspot-cabin { top: 48% = document.getElementById('contactModal');
+    /* Hotspot coordinate placement along the paths */
+    .hotspot-cabin { top: 48%; left: 18%; }
+    .hotspot-gallery { top: 58%; left: 38%; }
+    .hotspot-adventures { top: 52%; left: 62%; }
+    .hotspot-lost { top: 44%; left: 82%; }
+
+    /* ==========================================
+        CONTACT MODAL STYLES
+        ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 7, 12, 0.85);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #0f1c2d;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      color: #f1f5f9;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ffd166;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-content h3 {
+      color: #ffd166;
+      font-family: 'Georgia', serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-content p {
+      font-size: 0.9rem;
+      color: #b2bec3;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: #ffd166;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem;
+      background: #050b14;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .submit-sms-btn {
+      width: 100%;
+      background: #d47a3d;
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .submit-sms-btn:hover {
+      background: #e08a47;
+    }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 0.8rem 1rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.2rem 2rem 1.2rem; }
+      .hero-content-wrapper { flex-direction: column; text-align: center; align-items: center; gap: 2rem; }
+      .hero-left-col { align-items: center; max-width: 100%; text-align: center; }
+      .found-ember-btn { align-self: center; }
+      .character-stage { height: 260px; }
+      .world-panorama-container { height: 320px; }
+      .destination-hotspot { padding: 0.35rem 0.7rem; }
+      .hotspot-text { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-logo">
+      <span>🐾</span> EMBER'S JOURNEY
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">About Ember</a></li>
+      <li><a href="#">Gallery</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="statusBadge" class="status-badge">
+        <span class="status-dot"></span>
+        <span id="statusText">Ember is home</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="moon"></div>
+    <div class="forest-canopy-back"></div>
+    <div id="fireflies"></div>
+
+    <div class="hero-content-wrapper">
+      <div class="hero-left-col">
+        <span class="hero-greeting">Hey... ♡</span>
+        <h1>You Found Me</h1>
+        <p class="hero-subtext">
+          If you're here, you may have found someone very special.
+        </p>
+        <button id="openModalBtn" class="found-ember-btn">
+          <span>❤️</span> I Found Ember
+        </button>
+      </div>
+
+      <!-- Character Stage -->
+      <div class="character-stage">
+        <svg class="forest-bg-svg" viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M20 140 L20 80 L10 95 L25 70 L15 85 L30 55 L45 85 L35 70 L50 95 L40 80 L40 140 Z" fill="#09182c"/>
+          <path d="M340 140 L340 70 L325 90 L345 60 L330 80 L350 45 L370 80 L355 60 L375 90 L360 70 L360 140 Z" fill="#09182c"/>
+          <path d="M0 140 Q 60 110, 140 125 T 300 115 T 400 130 L 400 140 Z" fill="#0a1d35"/>
+          <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
+        </svg>
+
+        <!-- Mushroom Cluster Toggle -->
+        <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+          <div class="glowing-mushroom mushroom-side-2">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </div>
+          <div class="glowing-mushroom mushroom-side-1">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </div>
+          <div class="glowing-mushroom mushroom-main">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </div>
+        </button>
+
+        <div class="ember-wrapper">
+          <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+
+            <g class="ember-body-group">
+              <g class="leg-back-left">
+                <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="leg-back-right">
+                <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="tail-group">
+                <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+              </g>
+              <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+              <g class="leg-front-left">
+                <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="leg-front-right">
+                <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="head-group">
+                <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
+                <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
+                <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
+                <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
+                <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
+                <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
+                <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
+                <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
+                <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore Ember's World Panorama Section -->
+  <section class="explore-world-section">
+    <div class="explore-title-wrapper">
+      <h2>Explore Ember's World</h2>
+    </div>
+
+    <div class="world-panorama-container">
+      <!-- Replace src with your generated forest path image URL when ready -->
+      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1200&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
+      <div class="world-vignette-overlay"></div>
+
+      <!-- Interactive Path Hotspot Buttons -->
+      <a href="#" class="destination-hotspot hotspot-cabin">
+        <span class="hotspot-icon">🏠</span>
+        <span class="hotspot-text">Meet Ember</span>
+      </a>
+
+      <a href="#" class="destination-hotspot hotspot-gallery">
+        <span class="hotspot-icon">📷</span>
+        <span class="hotspot-text">Gallery</span>
+      </a>
+
+      <a href="#" class="destination-hotspot hotspot-adventures">
+        <span class="hotspot-icon">📖</span>
+        <span class="hotspot-text">Adventures</span>
+      </a>
+
+      <a href="#" class="destination-hotspot hotspot-lost" id="openLostModalFromPath">
+        <span class="hotspot-icon">✉️</span>
+        <span class="hotspot-text">If I'm Lost</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Modal Popup -->
+  <div id="contactModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <button id="closeModal" class="close-btn">&times;</button>
+      <h3>Contact Ember's Family</h3>
+      <p>Thank you so much for finding Ember! Send a direct message or text alert to <strong>616-309-0059</strong>.</p>
+      
+      <form id="smsForm">
+        <div class="form-group">
+          <label for="finderPhone">Your Phone Number:</label>
+          <input type="tel" id="finderPhone" placeholder="e.g., (616) 555-0199" required />
+        </div>
+        <div class="form-group">
+          <label for="finderMessage">Message / Where is she:</label>
+          <textarea id="finderMessage" rows="3" placeholder="e.g., Spotted near the pine trees..."></textarea>
+        </div>
+        <button type="submit" class="submit-sms-btn">Send Text to 616-309-0059</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Fireflies generator
+    const firefliesContainer = document.getElementById('fireflies');
+    if (firefliesContainer) {
+      for (let i = 0; i < 28; i++) {
+        const firefly = document.createElement('div');
+        firefly.classList.add('firefly');
+        firefly.style.left = `${Math.random() * 100}%`;
+        firefly.style.top = `${Math.random() * 100}%`;
+        firefly.style.animationDelay = `${Math.random() * 5}s`;
+        firefliesContainer.appendChild(firefly);
+      }
+    }
+
+    // JSONBin.io Configuration
+    const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
+    const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
+    const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+    const mushroomCluster = document.getElementById('secretMushroomCluster');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
+
+    function updateStatusUI(isLost) {
+      if (isLost) {
+        statusBadge.classList.add('lost');
+        statusText.textContent = 'Ember is lost';
+        glowingMushrooms.forEach(m => m.classList.add('mushroom-glowing'));
+      } else {
+        statusBadge.classList.remove('lost');
+        statusText.textContent = 'Ember is home';
+        glowingMushrooms.forEach(m => m.classList.remove('mushroom-glowing'));
+      }
+    }
+
+    async function fetchStatus() {
+      try {
+        const response = await fetch(`${JSONBIN_URL}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const result = await response.json();
+        if (result && result.record && typeof result.record.isLost !== 'undefined') {
+          updateStatusUI(result.record.isLost);
+        }
+      } catch (err) {
+        console.error('Failed to sync live status', err);
+      }
+    }
+
+    async function saveStatus(isLost) {
+      try {
+        await fetch(JSONBIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
+          body: JSON.stringify({ isLost: isLost })
+        });
+      } catch (err) {
+        console.error('Failed to update live status', err);
+      }
+    }
+
+    // Initial load and live polling every 1 second
+    fetchStatus();
+    setInterval(fetchStatus, 1000);
+
+    // Toggle status on mushroom cluster click
+    if (mushroomCluster) {
+      mushroomCluster.addEventListener('click', async () => {
+        const currentLost = statusBadge.classList.contains('lost');
+        const newLost = !currentLost;
+        updateStatusUI(newLost);
+        await saveStatus(newLost);
+      });
+    }
+
+    // Modal Popup Logic
+    const modal = document.getElementById('contactModal');
     const openBtn = document.getElementById('openModalBtn');
+    const openLostModalFromPath = document.getElementById('openLostModalFromPath');
     const closeBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
 
     if (openBtn) {
       openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.style.display = 'flex';
+      });
+    }
+
+    if (openLostModalFromPath) {
+      openLostModalFromPath.addEventListener('click', (e) => {
         e.preventDefault();
         modal.style.display = 'flex';
       });
