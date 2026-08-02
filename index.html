@@ -125,22 +125,15 @@
       padding: 0 1rem;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
     /* Top Left Intro Info */
     .top-intro-wrapper {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 1.5rem;
-      padding: 0 0.5rem;
-    }
-
-    .intro-left-group {
-      display: flex;
       flex-direction: column;
       gap: 0.2rem;
+      padding: 0 0.5rem;
     }
 
     .hero-greeting {
@@ -163,32 +156,7 @@
       color: #b2bec3;
       font-size: 0.85rem;
       line-height: 1.4;
-      max-width: 450px;
-    }
-
-    .found-ember-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, #d47a3d, #b85d22);
-      color: #fffdf0;
-      padding: 0.65rem 1.4rem;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 0.85rem;
-      box-shadow: 0 4px 15px rgba(212, 122, 61, 0.4);
-      transition: all 0.2s ease;
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      cursor: pointer;
-      white-space: nowrap;
-      height: fit-content;
-    }
-
-    .found-ember-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.6);
-      background: linear-gradient(135deg, #e08a47, #c96b2e);
+      max-width: 550px;
     }
 
     /* ==========================================
@@ -518,7 +486,6 @@
       .navbar { padding: 0.7rem 1rem; }
       .nav-links { display: none; }
       .main-stage-container { margin-top: 4.2rem; }
-      .top-intro-wrapper { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
       .world-panorama-container { height: 360px; }
       .destination-hotspot { padding: 0.35rem 0.7rem; }
       .hotspot-text { font-size: 0.75rem; }
@@ -548,18 +515,13 @@
   <!-- Main Compact Layout Container (No Scrolling Needed) -->
   <div class="main-stage-container">
     
-    <!-- Top Left Intro Info & Found Button -->
+    <!-- Top Left Intro Info -->
     <div class="top-intro-wrapper">
-      <div class="intro-left-group">
-        <span class="hero-greeting">Hey... ♡</span>
-        <h1>You Found Me</h1>
-        <p class="hero-subtext">
-          Click anywhere along the forest path or click destination buttons to watch Ember walk right to it!
-        </p>
-      </div>
-      <button id="openModalBtn" class="found-ember-btn">
-        <span>❤️</span> I Found Ember
-      </button>
+      <span class="hero-greeting">Hey... ♡</span>
+      <h1>You Found Me</h1>
+      <p class="hero-subtext">
+        Click anywhere along the forest path or click destination buttons to watch Ember walk right to it!
+      </p>
     </div>
 
     <!-- Interactive Forest Map Stage -->
@@ -791,16 +753,8 @@
     });
 
     // General Modal Controls
-    const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
-
-    if (openModalBtn) {
-      openModalBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal.style.display = 'flex';
-      });
-    }
 
     if (closeModalBtn) {
       closeModalBtn.addEventListener('click', () => {
