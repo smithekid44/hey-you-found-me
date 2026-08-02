@@ -7,8 +7,8 @@
   
   <style>
     /* ==========================================
-       GHIBLI NIGHT FOREST THEME & RESET
-       ========================================== */
+        GHIBLI NIGHT FOREST THEME & RESET
+        ========================================== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -26,8 +26,8 @@
     }
 
     /* ==========================================
-       COZY NAVIGATION BAR
-       ========================================== */
+        COZY NAVIGATION BAR
+        ========================================== */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -115,8 +115,8 @@
     }
 
     /* ==========================================
-       HERO / GHIBLI FOREST STAGE
-       ========================================== */
+        HERO / GHIBLI FOREST STAGE
+        ========================================== */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -270,22 +270,69 @@
       opacity: 0.65;
     }
 
-    /* Interactive Secret Mushroom Toggle */
-    .secret-mushroom {
+    /* ==========================================
+        MUSHROOM STYLES & GLOW ANIMATIONS
+        ========================================== */
+    .glowing-mushroom {
       position: absolute;
       bottom: 25px;
-      right: 35px;
       width: 24px;
       height: 24px;
-      cursor: pointer;
       z-index: 6;
-      transition: transform 0.2s ease;
       background: transparent;
       border: none;
+      padding: 0;
+      transition: transform 0.2s ease;
     }
 
-    .secret-mushroom:hover {
+    .mushroom-1 {
+      left: 40px;
+    }
+
+    .mushroom-2 {
+      left: 90px;
+    }
+
+    .mushroom-3 {
+      right: 35px;
+      cursor: pointer;
+    }
+
+    .mushroom-3:hover {
       transform: scale(1.15);
+    }
+
+    .shroom-cap {
+      width: 22px;
+      height: 14px;
+      background-color: #e08a47;
+      border-radius: 12px 12px 4px 4px;
+      position: absolute;
+      top: 0;
+      left: 1px;
+      transition: all 0.4s ease;
+    }
+
+    .shroom-stem {
+      width: 8px;
+      height: 12px;
+      background-color: #f3c68f;
+      position: absolute;
+      bottom: 0;
+      left: 8px;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
+
+    /* Active Glowing State when Lost/Missing */
+    .glowing-mushroom.mushroom-glowing .shroom-cap {
+      background-color: #06d6a0;
+      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
+    }
+
+    .glowing-mushroom.mushroom-glowing .shroom-stem {
+      background-color: #a9def9;
+      box-shadow: 0 0 10px #06d6a0;
     }
 
     .ember-wrapper {
@@ -369,8 +416,8 @@
     }
 
     /* ==========================================
-       CONTACT MODAL STYLES
-       ========================================== */
+        CONTACT MODAL STYLES
+        ========================================== */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -517,11 +564,21 @@
           <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
         </svg>
 
-        <!-- Secret Clickable Mushroom on the stage that toggles the status -->
-        <button id="secretMushroom" class="secret-mushroom" title="???" aria-label="Toggle status mushroom">
-          <svg viewBox="0 0 24 24" width="24" height="24">
-            <path d="M12 2C9.5 2 7.5 4 7.5 6.5C7.5 7.2 7.7 7.9 8.1 8.5H4C2.9 8.5 2 9.4 2 10.5C2 11.3 2.5 12 3.2 12.3C3.1 12.5 3 12.7 3 13C3 14.7 4.3 16 6 16H8V21H10V16H14V21H16V16H18C19.7 16 21 14.7 21 13C21 12.7 20.9 12.5 20.8 12.3C21.5 12 22 11.3 22 10.5C22 9.4 21.1 8.5 20 8.5H15.9C16.3 7.9 16.5 7.2 16.5 6.5C16.5 4 14.5 2 12 2Z" fill="#e08a47" opacity="0.8"/>
-          </svg>
+        <!-- Multiple Generated Mushrooms -->
+        <div class="glowing-mushroom mushroom-1">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+
+        <div class="glowing-mushroom mushroom-2">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+
+        <!-- Rightmost Toggle Mushroom -->
+        <button id="secretMushroom" class="glowing-mushroom mushroom-3" title="???" aria-label="Toggle status mushroom">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
         </button>
 
         <div class="ember-wrapper">
@@ -604,14 +661,17 @@
     const secretMushroom = document.getElementById('secretMushroom');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
+    const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
 
     function updateStatusUI(isLost) {
       if (isLost) {
         statusBadge.classList.add('lost');
         statusText.textContent = 'Ember is lost';
+        glowingMushrooms.forEach(m => m.classList.add('mushroom-glowing'));
       } else {
         statusBadge.classList.remove('lost');
         statusText.textContent = 'Ember is home';
+        glowingMushrooms.forEach(m => m.classList.remove('mushroom-glowing'));
       }
     }
 
