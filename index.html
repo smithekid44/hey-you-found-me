@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -595,18 +595,14 @@
       }
     }
 
-    // Function to dispatch the SMS alert text to 616-309-0059 via an automated gateway service
+    // Automated Alert Trigger configured with API key 7732618
     async function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
-      
-      // Using CallMeBot Free API (or alternative webhook proxy) to ping phone 616-309-0059 automatically
-      // Note: For instant automated web requests without manual intervention, you can also wire this 
-      // to a free Zapier / Make.com webhook URL that forwards to your carrier or Twilio.
-      const targetPhone = "6163090059";
+      const webhookUrl = `https://api.callmebot.com/whatsapp.php?phone=16163090059&text=${alertMessage}&apikey=7732618`;
       
       try {
-        // Safe background fetch trigger to a messaging service hook
-        console.log("Triggering automated SMS alert to " + targetPhone);
+        await fetch(webhookUrl);
+        console.log("Alert message dispatched!");
       } catch (err) {
         console.error("SMS notification trigger failed", err);
       }
