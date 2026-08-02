@@ -595,14 +595,18 @@
       }
     }
 
-    // High-speed Instant Alert Trigger using Image preload technique (bypasses fetch latency)
+    // Instant Telegram Alert Trigger with configured credentials
     function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
-      const webhookUrl = `https://api.callmebot.com/whatsapp.php?phone=16163090059&text=${alertMessage}&apikey=7732618`;
+      
+      const botToken = "8871570759:AAExKf0aAW82D3YQYjJns1GRm4aIYxosBR4";
+      const chatId = "8937754737";
+      
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${alertMessage}`;
       
       const ping = new Image();
-      ping.src = webhookUrl;
-      console.log("Instant alert ping dispatched!");
+      ping.src = telegramUrl;
+      console.log("Instant Telegram alert dispatched!");
     }
 
     fetchStatus();
@@ -617,7 +621,7 @@
         updateStatusUI(newLost);
         await saveStatus(newLost);
 
-        // If toggled to lost, automatically fire the instant text alert!
+        // If toggled to lost, automatically fire the instant Telegram alert!
         if (newLost) {
           triggerEmberAlertSMS();
         }
