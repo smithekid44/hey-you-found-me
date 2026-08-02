@@ -271,67 +271,109 @@
     }
 
     /* ==========================================
-        MUSHROOM STYLES & GLOW ANIMATIONS
+        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
         ========================================== */
-    .glowing-mushroom {
+    .mushroom-cluster {
       position: absolute;
       bottom: 25px;
-      width: 24px;
-      height: 24px;
+      right: 30px;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
       z-index: 6;
+    }
+
+    .glowing-mushroom {
       background: transparent;
       border: none;
       padding: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .mushroom-1 {
-      left: 40px;
-    }
-
-    .mushroom-2 {
-      left: 90px;
-    }
-
-    .mushroom-3 {
-      right: 35px;
       cursor: pointer;
+      transition: transform 0.2s ease;
+      position: relative;
     }
 
-    .mushroom-3:hover {
+    .glowing-mushroom:hover {
       transform: scale(1.15);
     }
 
+    /* Individual mushroom sizes and offsets */
+    .mushroom-main {
+      width: 26px;
+      height: 26px;
+    }
+
+    .mushroom-side-1 {
+      width: 20px;
+      height: 20px;
+      margin-bottom: -2px;
+    }
+
+    .mushroom-side-2 {
+      width: 16px;
+      height: 16px;
+      margin-bottom: -4px;
+    }
+
     .shroom-cap {
-      width: 22px;
-      height: 14px;
       background-color: #e08a47;
       border-radius: 12px 12px 4px 4px;
       position: absolute;
       top: 0;
-      left: 1px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
       transition: all 0.4s ease;
     }
 
-    .shroom-stem {
-      width: 8px;
+    .mushroom-main .shroom-cap {
+      width: 24px;
+      height: 15px;
+    }
+
+    .mushroom-side-1 .shroom-cap {
+      width: 18px;
       height: 12px;
+    }
+
+    .mushroom-side-2 .shroom-cap {
+      width: 15px;
+      height: 10px;
+    }
+
+    .shroom-stem {
       background-color: #f3c68f;
       position: absolute;
       bottom: 0;
-      left: 8px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
       border-radius: 2px;
       transition: all 0.4s ease;
     }
 
+    .mushroom-main .shroom-stem {
+      width: 8px;
+      height: 13px;
+    }
+
+    .mushroom-side-1 .shroom-stem {
+      width: 6px;
+      height: 10px;
+    }
+
+    .mushroom-side-2 .shroom-stem {
+      width: 5px;
+      height: 8px;
+    }
+
     /* Active Glowing State when Lost/Missing */
     .glowing-mushroom.mushroom-glowing .shroom-cap {
-      background-color: #06d6a0;
+      background-color: #06d6a0 !important;
       box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
     }
 
     .glowing-mushroom.mushroom-glowing .shroom-stem {
-      background-color: #a9def9;
+      background-color: #a9def9 !important;
       box-shadow: 0 0 10px #06d6a0;
     }
 
@@ -564,22 +606,21 @@
           <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
         </svg>
 
-        <!-- Multiple Generated Mushrooms -->
-        <div class="glowing-mushroom mushroom-1">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
+        <!-- Mushroom Cluster (Main Toggle Mushroom + 2 smaller side mushrooms) -->
+        <div id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+          <button class="glowing-mushroom mushroom-side-2" tabindex="-1">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </button>
+          <button class="glowing-mushroom mushroom-side-1" tabindex="-1">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </button>
+          <button class="glowing-mushroom mushroom-main">
+            <div class="shroom-cap"></div>
+            <div class="shroom-stem"></div>
+          </button>
         </div>
-
-        <div class="glowing-mushroom mushroom-2">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
-        </div>
-
-        <!-- Rightmost Toggle Mushroom -->
-        <button id="secretMushroom" class="glowing-mushroom mushroom-3" title="???" aria-label="Toggle status mushroom">
-          <div class="shroom-cap"></div>
-          <div class="shroom-stem"></div>
-        </button>
 
         <div class="ember-wrapper">
           <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
@@ -656,9 +697,12 @@
       }
     }
 
-    // Npoint API integration with cache-busting for reliable syncing
-    const NPOINT_URL = 'https://api.npoint.io/9a119fd8c16058f4b2f6';
-    const secretMushroom = document.getElementById('secretMushroom');
+    // JSONBin.io Configuration (Replace with your Bin ID and Master Key)
+    const BIN_ID = 'YOUR_BIN_ID_HERE';
+    const API_KEY = 'YOUR_API_KEY_HERE';
+    const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+    const mushroomCluster = document.getElementById('secretMushroomCluster');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
     const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
@@ -677,34 +721,40 @@
 
     async function fetchStatus() {
       try {
-        const response = await fetch(`${NPOINT_URL}?t=${new Date().getTime()}`);
-        const data = await response.json();
-        if (typeof data.isLost !== 'undefined') {
-          updateStatusUI(data.isLost);
+        const response = await fetch(`${JSONBIN_URL}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const result = await response.json();
+        if (result && result.record && typeof result.record.isLost !== 'undefined') {
+          updateStatusUI(result.record.isLost);
         }
       } catch (err) {
-        console.error('Failed to fetch status', err);
+        console.error('Failed to sync live status', err);
       }
     }
 
     async function saveStatus(isLost) {
       try {
-        await fetch(NPOINT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        await fetch(JSONBIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
           body: JSON.stringify({ isLost: isLost })
         });
       } catch (err) {
-        console.error('Failed to save status', err);
+        console.error('Failed to update live status', err);
       }
     }
 
-    // Initial fetch and polling setup
+    // Initial load and live polling every 4 seconds
     fetchStatus();
     setInterval(fetchStatus, 4000);
 
-    if (secretMushroom) {
-      secretMushroom.addEventListener('click', async () => {
+    // Toggle status on mushroom cluster click
+    if (mushroomCluster) {
+      mushroomCluster.addEventListener('click', async () => {
         const currentLost = statusBadge.classList.contains('lost');
         const newLost = !currentLost;
         updateStatusUI(newLost);
