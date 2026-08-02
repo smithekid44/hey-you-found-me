@@ -32,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
       position: fixed;
       top: 0;
@@ -115,94 +115,55 @@
     }
 
     /* ==========================================
-        HERO / TOP INTRO STAGE
+        MAIN COMPACT LAYOUT CONTAINER
         ========================================== */
-    .hero {
+    .main-stage-container {
       position: relative;
-      min-height: 85vh;
+      width: 100%;
+      max-width: 1200px;
+      margin: 4.8rem auto 2rem auto;
+      padding: 0 1rem;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 7rem 2rem 3rem 2rem;
-      background: radial-gradient(circle at 50% 25%, #132743 0%, #07111e 60%, #03070c 100%);
-      overflow: hidden;
-    }
-
-    .moon {
-      position: absolute;
-      top: 15%;
-      left: 55%;
-      transform: translateX(-50%);
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, #fffdf0 0%, #ffe3a8 55%, rgba(255, 227, 168, 0) 100%);
-      border-radius: 50%;
-      opacity: 0.22;
-      filter: blur(8px);
-      pointer-events: none;
-    }
-
-    #fireflies {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 4;
-    }
-
-    .firefly {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background-color: #ffd166;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #ffd166;
-      animation: float 7s infinite ease-in-out;
-      opacity: 0;
-    }
-
-    @keyframes float {
-      0% { opacity: 0; transform: translateY(0) scale(0.6); }
-      50% { opacity: 0.9; transform: translateY(-30px) scale(1.2); }
-      100% { opacity: 0; transform: translateY(-60px) scale(0.6); }
-    }
-
-    .hero-content-wrapper {
-      position: relative;
-      z-index: 10;
-      max-width: 800px;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       gap: 1.2rem;
+    }
+
+    /* Top Left Intro Info */
+    .top-intro-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .intro-left-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
     }
 
     .hero-greeting {
       font-family: 'Georgia', serif;
       font-style: italic;
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       color: #f3c68f;
     }
 
     h1 {
-      font-size: clamp(2.3rem, 5vw, 3.5rem);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
       font-weight: normal;
       color: #fffdf0;
       letter-spacing: 1px;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
       line-height: 1.1;
     }
 
     .hero-subtext {
       color: #b2bec3;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      max-width: 500px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 450px;
     }
 
     .found-ember-btn {
@@ -211,15 +172,17 @@
       gap: 0.5rem;
       background: linear-gradient(135deg, #d47a3d, #b85d22);
       color: #fffdf0;
-      padding: 0.8rem 1.6rem;
+      padding: 0.65rem 1.4rem;
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       box-shadow: 0 4px 15px rgba(212, 122, 61, 0.4);
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 209, 102, 0.3);
       cursor: pointer;
+      white-space: nowrap;
+      height: fit-content;
     }
 
     .found-ember-btn:hover {
@@ -229,46 +192,12 @@
     }
 
     /* ==========================================
-        EXPLORE EMBER'S WORLD INTERACTIVE FOREST STAGE
+        INTERACTIVE FOREST MAP STAGE
         ========================================== */
-    .explore-world-section {
-      position: relative;
-      width: 100%;
-      padding: 2rem 1rem 6rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #03070c;
-    }
-
-    .explore-title-wrapper {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .explore-title-wrapper h2 {
-      font-family: 'Georgia', serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      color: #fffdf0;
-      font-weight: normal;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .explore-title-wrapper h2::before,
-    .explore-title-wrapper h2::after {
-      content: '🌿';
-      font-size: 1rem;
-    }
-
     .world-panorama-container {
       position: relative;
       width: 100%;
-      max-width: 1200px;
-      height: 520px;
+      height: 480px;
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(255, 209, 102, 0.25);
@@ -586,9 +515,10 @@
     }
 
     @media (max-width: 768px) {
-      .navbar { padding: 0.8rem 1rem; }
+      .navbar { padding: 0.7rem 1rem; }
       .nav-links { display: none; }
-      .hero { padding: 6rem 1.2rem 2rem 1.2rem; }
+      .main-stage-container { margin-top: 4.2rem; }
+      .top-intro-wrapper { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
       .world-panorama-container { height: 360px; }
       .destination-hotspot { padding: 0.35rem 0.7rem; }
       .hotspot-text { font-size: 0.75rem; }
@@ -615,29 +545,24 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="moon"></div>
-    <div id="fireflies"></div>
-
-    <div class="hero-content-wrapper">
-      <span class="hero-greeting">Hey... ♡</span>
-      <h1>You Found Me</h1>
-      <p class="hero-subtext">
-        Click anywhere along the forest path below or click any destination button to watch Ember walk right to it!
-      </p>
+  <!-- Main Compact Layout Container (No Scrolling Needed) -->
+  <div class="main-stage-container">
+    
+    <!-- Top Left Intro Info & Found Button -->
+    <div class="top-intro-wrapper">
+      <div class="intro-left-group">
+        <span class="hero-greeting">Hey... ♡</span>
+        <h1>You Found Me</h1>
+        <p class="hero-subtext">
+          Click anywhere along the forest path or click destination buttons to watch Ember walk right to it!
+        </p>
+      </div>
       <button id="openModalBtn" class="found-ember-btn">
         <span>❤️</span> I Found Ember
       </button>
     </div>
-  </section>
 
-  <!-- Explore Ember's World Interactive Forest Stage -->
-  <section class="explore-world-section">
-    <div class="explore-title-wrapper">
-      <h2>Explore Ember's World</h2>
-    </div>
-
+    <!-- Interactive Forest Map Stage -->
     <div id="worldPanorama" class="world-panorama-container">
       <!-- Forest Path Inspiration Background Image -->
       <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1200&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
@@ -717,7 +642,7 @@
         <span class="hotspot-text">If I'm Lost</span>
       </button>
     </div>
-  </section>
+  </div>
 
   <!-- Contact Modal Popup -->
   <div id="contactModal" class="modal-overlay" style="display: none;">
@@ -742,19 +667,6 @@
 
   <!-- JavaScript -->
   <script>
-    // Fireflies generator
-    const firefliesContainer = document.getElementById('fireflies');
-    if (firefliesContainer) {
-      for (let i = 0; i < 28; i++) {
-        const firefly = document.createElement('div');
-        firefly.classList.add('firefly');
-        firefly.style.left = `${Math.random() * 100}%`;
-        firefly.style.top = `${Math.random() * 100}%`;
-        firefly.style.animationDelay = `${Math.random() * 5}s`;
-        firefliesContainer.appendChild(firefly);
-      }
-    }
-
     // JSONBin.io Configuration
     const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
     const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
@@ -830,7 +742,6 @@
     let currentY = 75; // percentage
 
     function moveEmberTo(targetX, targetY) {
-      // Determine walking direction (flip horizontally if moving left)
       if (targetX < currentX) {
         emberBodyGroup.style.transform = 'scaleX(-1)';
       } else if (targetX > currentX) {
@@ -871,7 +782,6 @@
 
         moveEmberTo(tx, ty);
 
-        // If it's the "If I'm Lost" button, open the text message modal
         if (hotspot.id === 'openLostModalFromPath' || hotspot.classList.contains('hotspot-lost')) {
           setTimeout(() => {
             modal.style.display = 'flex';
