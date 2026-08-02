@@ -703,12 +703,14 @@
     fetchStatus();
     setInterval(fetchStatus, 4000);
 
-    secretMushroom.addEventListener('click', async () => {
-      const currentLost = statusBadge.classList.contains('lost');
-      const newLost = !currentLost;
-      updateStatusUI(newLost);
-      await saveStatus(newLost);
-    });
+    if (secretMushroom) {
+      secretMushroom.addEventListener('click', async () => {
+        const currentLost = statusBadge.classList.contains('lost');
+        const newLost = !currentLost;
+        updateStatusUI(newLost);
+        await saveStatus(newLost);
+      });
+    }
 
     // Modal Popup Logic
     const modal = document.getElementById('contactModal');
@@ -716,14 +718,18 @@
     const closeBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
 
-    openBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.style.display = 'flex';
-    });
+    if (openBtn) {
+      openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.style.display = 'flex';
+      });
+    }
 
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
 
     window.addEventListener('click', (e) => {
       if (e.target === modal) {
@@ -732,16 +738,18 @@
     });
 
     // Handle Form Submit -> Fires native SMS link to 616-309-0059
-    smsForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const phone = document.getElementById('finderPhone').value;
-      const msg = document.getElementById('finderMessage').value;
-      
-      const smsBody = encodeURIComponent(`I found Ember! My phone is ${phone}. Message: ${msg}`);
-      window.location.href = `sms:6163090059?body=${smsBody}`;
-      
-      modal.style.display = 'none';
-    });
+    if (smsForm) {
+      smsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const phone = document.getElementById('finderPhone').value;
+        const msg = document.getElementById('finderMessage').value;
+        
+        const smsBody = encodeURIComponent(`I found Ember! My phone is ${phone}. Message: ${msg}`);
+        window.location.href = `sms:6163090059?body=${smsBody}`;
+        
+        modal.style.display = 'none';
+      });
+    }
   </script>
 </body>
 </html>
