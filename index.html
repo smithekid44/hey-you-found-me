@@ -115,11 +115,11 @@
     }
 
     /* ==========================================
-        HERO / GHIBLI FOREST STAGE
+        HERO / TOP INTRO STAGE
         ========================================== */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -129,20 +129,9 @@
       overflow: hidden;
     }
 
-    .forest-canopy-back {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 35vh;
-      background: linear-gradient(to top, #040910, transparent);
-      z-index: 2;
-      pointer-events: none;
-    }
-
     .moon {
       position: absolute;
-      top: 10%;
+      top: 15%;
       left: 55%;
       transform: translateX(-50%);
       width: 160px;
@@ -184,20 +173,13 @@
     .hero-content-wrapper {
       position: relative;
       z-index: 10;
-      max-width: 1250px;
+      max-width: 800px;
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 4rem;
-    }
-
-    .hero-left-col {
+      text-align: center;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      max-width: 440px;
-      text-align: left;
+      align-items: center;
+      gap: 1.2rem;
     }
 
     .hero-greeting {
@@ -205,7 +187,6 @@
       font-style: italic;
       font-size: 1.4rem;
       color: #f3c68f;
-      margin-bottom: -0.3rem;
     }
 
     h1 {
@@ -213,7 +194,6 @@
       font-weight: normal;
       color: #fffdf0;
       letter-spacing: 1px;
-      margin-bottom: 1rem;
       text-shadow: 0 2px 12px rgba(0,0,0,0.6);
       line-height: 1.1;
     }
@@ -222,7 +202,7 @@
       color: #b2bec3;
       font-size: 0.95rem;
       line-height: 1.6;
-      margin-bottom: 1.5rem;
+      max-width: 500px;
     }
 
     .found-ember-btn {
@@ -231,7 +211,7 @@
       gap: 0.5rem;
       background: linear-gradient(135deg, #d47a3d, #b85d22);
       color: #fffdf0;
-      padding: 0.8rem 1.5rem;
+      padding: 0.8rem 1.6rem;
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
@@ -240,8 +220,6 @@
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 209, 102, 0.3);
       cursor: pointer;
-      width: fit-content;
-      align-self: flex-start;
     }
 
     .found-ember-btn:hover {
@@ -250,39 +228,128 @@
       background: linear-gradient(135deg, #e08a47, #c96b2e);
     }
 
-    .character-stage {
+    /* ==========================================
+        EXPLORE EMBER'S WORLD INTERACTIVE FOREST STAGE
+        ========================================== */
+    .explore-world-section {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      height: 320px;
+      padding: 2rem 1rem 6rem 1rem;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      overflow: visible;
-      flex-shrink: 0;
+      background: #03070c;
     }
 
-    .forest-bg-svg {
-      position: absolute;
-      bottom: -10px;
-      width: 100%;
-      height: 140px;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0.65;
+    .explore-title-wrapper {
+      text-align: center;
+      margin-bottom: 2rem;
     }
+
+    .explore-title-wrapper h2 {
+      font-family: 'Georgia', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: #fffdf0;
+      font-weight: normal;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .explore-title-wrapper h2::before,
+    .explore-title-wrapper h2::after {
+      content: '🌿';
+      font-size: 1rem;
+    }
+
+    .world-panorama-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      height: 520px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 209, 102, 0.1);
+      background: #07111e;
+      cursor: pointer;
+    }
+
+    .world-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.85) contrast(1.05);
+      display: block;
+    }
+
+    .world-vignette-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 80px rgba(3, 7, 12, 0.7);
+      pointer-events: none;
+    }
+
+    /* Interactive Destination Hotspot Buttons */
+    .destination-hotspot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: rgba(15, 28, 45, 0.85);
+      border: 1px solid rgba(255, 209, 102, 0.5);
+      color: #fffdf0;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 10px rgba(255, 209, 102, 0.2);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 15;
+      white-space: nowrap;
+    }
+
+    .destination-hotspot:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: #d47a3d;
+      border-color: #ffd166;
+      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.6), 0 0 15px rgba(255, 209, 102, 0.5);
+    }
+
+    .hotspot-icon {
+      font-size: 1rem;
+    }
+
+    .hotspot-text {
+      font-size: 0.85rem;
+      font-family: 'Georgia', serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hotspot coordinate placements matching the forest inspiration image */
+    .hotspot-cabin { top: 52%; left: 18%; }
+    .hotspot-gallery { top: 58%; left: 38%; }
+    .hotspot-adventures { top: 55%; left: 62%; }
+    .hotspot-lost { top: 48%; left: 82%; }
 
     /* ==========================================
         MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
         ========================================== */
     .mushroom-cluster {
       position: absolute;
-      bottom: 25px;
-      right: 30px;
+      bottom: 20px;
+      right: 25px;
       display: flex;
       align-items: flex-end;
       gap: 3px;
-      z-index: 6;
+      z-index: 20;
       background: transparent;
       border: none;
       padding: 0;
@@ -302,22 +369,9 @@
       transform: scale(1.15);
     }
 
-    .mushroom-main {
-      width: 26px;
-      height: 26px;
-    }
-
-    .mushroom-side-1 {
-      width: 20px;
-      height: 20px;
-      margin-bottom: -2px;
-    }
-
-    .mushroom-side-2 {
-      width: 16px;
-      height: 16px;
-      margin-bottom: -4px;
-    }
+    .mushroom-main { width: 26px; height: 26px; }
+    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
+    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
 
     .shroom-cap {
       background-color: #e08a47;
@@ -330,20 +384,9 @@
       transition: all 0.4s ease;
     }
 
-    .mushroom-main .shroom-cap {
-      width: 24px;
-      height: 15px;
-    }
-
-    .mushroom-side-1 .shroom-cap {
-      width: 18px;
-      height: 12px;
-    }
-
-    .mushroom-side-2 .shroom-cap {
-      width: 15px;
-      height: 10px;
-    }
+    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
+    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
+    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
 
     .shroom-stem {
       background-color: #f3c68f;
@@ -356,20 +399,9 @@
       transition: all 0.4s ease;
     }
 
-    .mushroom-main .shroom-stem {
-      width: 8px;
-      height: 13px;
-    }
-
-    .mushroom-side-1 .shroom-stem {
-      width: 6px;
-      height: 10px;
-    }
-
-    .mushroom-side-2 .shroom-stem {
-      width: 5px;
-      height: 8px;
-    }
+    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
+    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
+    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
 
     .glowing-mushroom.mushroom-glowing .shroom-cap {
       background-color: #06d6a0 !important;
@@ -381,13 +413,18 @@
       box-shadow: 0 0 10px #06d6a0;
     }
 
+    /* ==========================================
+        WALKING EMBER CHARACTER ANIMATIONS
+        ========================================== */
     .ember-wrapper {
       position: absolute;
-      width: 240px;
-      height: 240px;
-      z-index: 5;
-      will-change: transform;
+      width: 140px;
+      height: 140px;
+      z-index: 18;
       pointer-events: none;
+      transform: translate(-50%, -85%);
+      transition: transform 0.08s linear;
+      will-change: left, top, transform;
     }
 
     .ember-char {
@@ -398,7 +435,6 @@
 
     .ember-body-group {
       transform-origin: 65px 75px;
-      transform: scaleX(-1);
       animation: continuousWalkAnim 0.24s infinite alternate ease-in-out;
     }
 
@@ -432,10 +468,6 @@
       animation: tailSwishNormal 1.2s infinite ease-in-out;
     }
 
-    .head-group {
-      transform-origin: 65px 45px;
-    }
-
     @keyframes legMoveBack {
       0% { transform: translateY(0px) rotate(-12deg); }
       100% { transform: translateY(-3px) rotate(12deg); }
@@ -447,8 +479,8 @@
     }
 
     @keyframes continuousWalkAnim {
-      0% { transform: scaleX(-1) translateY(0px) rotate(-1.5deg); }
-      100% { transform: scaleX(-1) translateY(-6px) rotate(1.5deg); }
+      0% { transform: translateY(0px) rotate(-1.5deg); }
+      100% { transform: translateY(-4px) rotate(1.5deg); }
     }
 
     @keyframes shadowWalkPulse {
@@ -460,115 +492,6 @@
       0%, 100% { transform: rotate(0deg); }
       50% { transform: rotate(8deg); }
     }
-
-    /* ==========================================
-        EXPLORE EMBER'S WORLD PANORAMA SECTION
-        ========================================== */
-    .explore-world-section {
-      position: relative;
-      width: 100%;
-      padding: 5rem 1rem 6rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #03070c;
-    }
-
-    .explore-title-wrapper {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .explore-title-wrapper h2 {
-      font-family: 'Georgia', serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      color: #fffdf0;
-      font-weight: normal;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .explore-title-wrapper h2::before,
-    .explore-title-wrapper h2::after {
-      content: '🌿';
-      font-size: 1rem;
-    }
-
-    .world-panorama-container {
-      position: relative;
-      width: 100%;
-      max-width: 1200px;
-      height: 480px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.25);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 209, 102, 0.1);
-      background: #07111e;
-    }
-
-    .world-bg-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.85) contrast(1.05);
-      display: block;
-    }
-
-    .world-vignette-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0 0 80px rgba(3, 7, 12, 0.7);
-      pointer-events: none;
-    }
-
-    .destination-hotspot {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      background: rgba(15, 28, 45, 0.85);
-      border: 1px solid rgba(255, 209, 102, 0.5);
-      color: #fffdf0;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      text-decoration: none;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 10px rgba(255, 209, 102, 0.2);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 10;
-      white-space: nowrap;
-    }
-
-    .destination-hotspot:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      background: #d47a3d;
-      border-color: #ffd166;
-      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.6), 0 0 15px rgba(255, 209, 102, 0.5);
-    }
-
-    .hotspot-icon {
-      font-size: 1rem;
-    }
-
-    .hotspot-text {
-      font-size: 0.85rem;
-      font-family: 'Georgia', serif;
-      letter-spacing: 0.5px;
-    }
-
-    /* Hotspot coordinate placement along the paths */
-    .hotspot-cabin { top: 48%; left: 18%; }
-    .hotspot-gallery { top: 58%; left: 38%; }
-    .hotspot-adventures { top: 52%; left: 62%; }
-    .hotspot-lost { top: 44%; left: 82%; }
 
     /* ==========================================
         CONTACT MODAL STYLES
@@ -666,11 +589,7 @@
       .navbar { padding: 0.8rem 1rem; }
       .nav-links { display: none; }
       .hero { padding: 6rem 1.2rem 2rem 1.2rem; }
-      .hero-content-wrapper { flex-direction: column; text-align: center; align-items: center; gap: 2rem; }
-      .hero-left-col { align-items: center; max-width: 100%; text-align: center; }
-      .found-ember-btn { align-self: center; }
-      .character-stage { height: 260px; }
-      .world-panorama-container { height: 320px; }
+      .world-panorama-container { height: 360px; }
       .destination-hotspot { padding: 0.35rem 0.7rem; }
       .hotspot-text { font-size: 0.75rem; }
     }
@@ -699,116 +618,104 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="moon"></div>
-    <div class="forest-canopy-back"></div>
     <div id="fireflies"></div>
 
     <div class="hero-content-wrapper">
-      <div class="hero-left-col">
-        <span class="hero-greeting">Hey... ♡</span>
-        <h1>You Found Me</h1>
-        <p class="hero-subtext">
-          If you're here, you may have found someone very special.
-        </p>
-        <button id="openModalBtn" class="found-ember-btn">
-          <span>❤️</span> I Found Ember
-        </button>
-      </div>
-
-      <!-- Character Stage -->
-      <div class="character-stage">
-        <svg class="forest-bg-svg" viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <path d="M20 140 L20 80 L10 95 L25 70 L15 85 L30 55 L45 85 L35 70 L50 95 L40 80 L40 140 Z" fill="#09182c"/>
-          <path d="M340 140 L340 70 L325 90 L345 60 L330 80 L350 45 L370 80 L355 60 L375 90 L360 70 L360 140 Z" fill="#09182c"/>
-          <path d="M0 140 Q 60 110, 140 125 T 300 115 T 400 130 L 400 140 Z" fill="#0a1d35"/>
-          <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
-        </svg>
-
-        <!-- Mushroom Cluster Toggle -->
-        <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
-          <div class="glowing-mushroom mushroom-side-2">
-            <div class="shroom-cap"></div>
-            <div class="shroom-stem"></div>
-          </div>
-          <div class="glowing-mushroom mushroom-side-1">
-            <div class="shroom-cap"></div>
-            <div class="shroom-stem"></div>
-          </div>
-          <div class="glowing-mushroom mushroom-main">
-            <div class="shroom-cap"></div>
-            <div class="shroom-stem"></div>
-          </div>
-        </button>
-
-        <div class="ember-wrapper">
-          <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
-
-            <g class="ember-body-group">
-              <g class="leg-back-left">
-                <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
-              </g>
-              <g class="leg-back-right">
-                <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
-              </g>
-              <g class="tail-group">
-                <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
-              </g>
-              <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
-              <g class="leg-front-left">
-                <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
-              </g>
-              <g class="leg-front-right">
-                <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
-              </g>
-              <g class="head-group">
-                <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
-                <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
-                <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
-                <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
-                <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
-                <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
-                <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
-                <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
-                <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
+      <span class="hero-greeting">Hey... ♡</span>
+      <h1>You Found Me</h1>
+      <p class="hero-subtext">
+        Click anywhere along the forest path below or click any destination button to watch Ember walk right to it!
+      </p>
+      <button id="openModalBtn" class="found-ember-btn">
+        <span>❤️</span> I Found Ember
+      </button>
     </div>
   </section>
 
-  <!-- Explore Ember's World Panorama Section -->
+  <!-- Explore Ember's World Interactive Forest Stage -->
   <section class="explore-world-section">
     <div class="explore-title-wrapper">
       <h2>Explore Ember's World</h2>
     </div>
 
-    <div class="world-panorama-container">
-      <!-- Replace src with your generated forest path image URL when ready -->
+    <div id="worldPanorama" class="world-panorama-container">
+      <!-- Forest Path Inspiration Background Image -->
       <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1200&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
       <div class="world-vignette-overlay"></div>
 
+      <!-- Interactive Mushroom Cluster Toggle -->
+      <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+        <div class="glowing-mushroom mushroom-side-2">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-side-1">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-main">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+      </button>
+
+      <!-- Walking Ember Character Element -->
+      <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 75%;">
+        <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+
+          <g id="emberBodyG" class="ember-body-group">
+            <g class="leg-back-left">
+              <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="leg-back-right">
+              <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="tail-group">
+              <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </g>
+            <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+            <g class="leg-front-left">
+              <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="leg-front-right">
+              <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="head-group">
+              <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
+              <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
+              <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
+              <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
+              <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
+              <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
+              <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
+              <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
+              <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
       <!-- Interactive Path Hotspot Buttons -->
-      <a href="#" class="destination-hotspot hotspot-cabin">
+      <button class="destination-hotspot hotspot-cabin" data-target-x="18" data-target-y="52">
         <span class="hotspot-icon">🏠</span>
         <span class="hotspot-text">Meet Ember</span>
-      </a>
+      </button>
 
-      <a href="#" class="destination-hotspot hotspot-gallery">
+      <button class="destination-hotspot hotspot-gallery" data-target-x="38" data-target-y="58">
         <span class="hotspot-icon">📷</span>
         <span class="hotspot-text">Gallery</span>
-      </a>
+      </button>
 
-      <a href="#" class="destination-hotspot hotspot-adventures">
+      <button class="destination-hotspot hotspot-adventures" data-target-x="62" data-target-y="55">
         <span class="hotspot-icon">📖</span>
         <span class="hotspot-text">Adventures</span>
-      </a>
+      </button>
 
-      <a href="#" class="destination-hotspot hotspot-lost" id="openLostModalFromPath">
+      <button class="destination-hotspot hotspot-lost" id="openLostModalFromPath" data-target-x="82" data-target-y="48">
         <span class="hotspot-icon">✉️</span>
         <span class="hotspot-text">If I'm Lost</span>
-      </a>
+      </button>
     </div>
   </section>
 
@@ -826,7 +733,7 @@
         </div>
         <div class="form-group">
           <label for="finderMessage">Message / Where is she:</label>
-          <textarea id="finderMessage" rows="3" placeholder="e.g., Spotted near the pine trees..."></textarea>
+          <textarea id="finderMessage" rows="3" placeholder="e.g., Spotted near the cabin..."></textarea>
         </div>
         <button type="submit" class="submit-sms-btn">Send Text to 616-309-0059</button>
       </form>
@@ -905,7 +812,8 @@
 
     // Toggle status on mushroom cluster click
     if (mushroomCluster) {
-      mushroomCluster.addEventListener('click', async () => {
+      mushroomCluster.addEventListener('click', async (e) => {
+        e.stopPropagation();
         const currentLost = statusBadge.classList.contains('lost');
         const newLost = !currentLost;
         updateStatusUI(newLost);
@@ -913,29 +821,79 @@
       });
     }
 
-    // Modal Popup Logic
+    // Walking Ember Mechanics
+    const worldPanorama = document.getElementById('worldPanorama');
+    const emberWalker = document.getElementById('emberWalker');
+    const emberBodyGroup = document.getElementById('emberBodyG');
+
+    let currentX = 50; // percentage
+    let currentY = 75; // percentage
+
+    function moveEmberTo(targetX, targetY) {
+      // Determine walking direction (flip horizontally if moving left)
+      if (targetX < currentX) {
+        emberBodyGroup.style.transform = 'scaleX(-1)';
+      } else if (targetX > currentX) {
+        emberBodyGroup.style.transform = 'scaleX(1)';
+      }
+
+      currentX = targetX;
+      currentY = targetY;
+
+      emberWalker.style.left = `${currentX}%`;
+      emberWalker.style.top = `${currentY}%`;
+    }
+
+    // Click anywhere on the forest panorama to walk there
+    if (worldPanorama && emberWalker) {
+      worldPanorama.addEventListener('click', (e) => {
+        if (e.target.closest('.destination-hotspot') || e.target.closest('.mushroom-cluster')) return;
+
+        const rect = worldPanorama.getBoundingClientRect();
+        const clickX = ((e.clientX - rect.left) / rect.width) * 100;
+        const clickY = ((e.clientY - rect.top) / rect.height) * 100;
+
+        moveEmberTo(clickX, clickY);
+      });
+    }
+
+    // Clicking destination buttons walks Ember to them and triggers their action
+    const hotspots = document.querySelectorAll('.destination-hotspot');
     const modal = document.getElementById('contactModal');
-    const openBtn = document.getElementById('openModalBtn');
-    const openLostModalFromPath = document.getElementById('openLostModalFromPath');
-    const closeBtn = document.getElementById('closeModal');
+
+    hotspots.forEach(hotspot => {
+      hotspot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const tx = parseFloat(hotspot.getAttribute('data-target-x'));
+        const ty = parseFloat(hotspot.getAttribute('data-target-y'));
+
+        moveEmberTo(tx, ty);
+
+        // If it's the "If I'm Lost" button, open the text message modal
+        if (hotspot.id === 'openLostModalFromPath' || hotspot.classList.contains('hotspot-lost')) {
+          setTimeout(() => {
+            modal.style.display = 'flex';
+          }, 400);
+        }
+      });
+    });
+
+    // General Modal Controls
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
 
-    if (openBtn) {
-      openBtn.addEventListener('click', (e) => {
+    if (openModalBtn) {
+      openModalBtn.addEventListener('click', (e) => {
         e.preventDefault();
         modal.style.display = 'flex';
       });
     }
 
-    if (openLostModalFromPath) {
-      openLostModalFromPath.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal.style.display = 'flex';
-      });
-    }
-
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', () => {
         modal.style.display = 'none';
       });
     }
