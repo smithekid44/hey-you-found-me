@@ -124,7 +124,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 7rem 1.5rem 3rem 1.5rem;
+      padding: 7rem 2rem 3rem 2rem;
       background: radial-gradient(circle at 50% 25%, #132743 0%, #07111e 60%, #03070c 100%);
       overflow: hidden;
     }
@@ -184,19 +184,20 @@
     .hero-content-wrapper {
       position: relative;
       z-index: 10;
-      max-width: 1100px;
+      max-width: 1250px;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 2rem;
+      gap: 4rem;
     }
 
     .hero-left-col {
       display: flex;
       flex-direction: column;
       flex: 1;
-      max-width: 480px;
+      max-width: 440px;
+      text-align: left; /* Shifted firmly to the left */
     }
 
     .hero-greeting {
@@ -240,6 +241,7 @@
       border: 1px solid rgba(255, 209, 102, 0.3);
       cursor: pointer;
       width: fit-content;
+      align-self: flex-start; /* Aligns button to the left */
     }
 
     .found-ember-btn:hover {
@@ -251,7 +253,7 @@
     .character-stage {
       position: relative;
       width: 100%;
-      max-width: 420px;
+      max-width: 500px;
       height: 320px;
       display: flex;
       justify-content: center;
@@ -300,7 +302,6 @@
       transform: scale(1.15);
     }
 
-    /* Individual mushroom sizes and offsets */
     .mushroom-main {
       width: 26px;
       height: 26px;
@@ -370,7 +371,6 @@
       height: 8px;
     }
 
-    /* Active Glowing State when Lost/Missing */
     .glowing-mushroom.mushroom-glowing .shroom-cap {
       background-color: #06d6a0 !important;
       box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
@@ -558,7 +558,8 @@
       .nav-links { display: none; }
       .hero { padding: 6rem 1.2rem 2rem 1.2rem; }
       .hero-content-wrapper { flex-direction: column; text-align: center; align-items: center; gap: 2rem; }
-      .hero-left-col { align-items: center; max-width: 100%; }
+      .hero-left-col { align-items: center; max-width: 100%; text-align: center; }
+      .found-ember-btn { align-self: center; }
       .character-stage { height: 260px; }
     }
   </style>
@@ -590,6 +591,7 @@
     <div id="fireflies"></div>
 
     <div class="hero-content-wrapper">
+      <!-- Text moved completely to the left side -->
       <div class="hero-left-col">
         <span class="hero-greeting">A stray tale...</span>
         <h1>Hey, You Found Me.</h1>
@@ -601,7 +603,7 @@
         </button>
       </div>
 
-      <!-- Character Stage -->
+      <!-- Character Stage given wide open space -->
       <div class="character-stage">
         <svg class="forest-bg-svg" viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M20 140 L20 80 L10 95 L25 70 L15 85 L30 55 L45 85 L35 70 L50 95 L40 80 L40 140 Z" fill="#09182c"/>
@@ -610,7 +612,7 @@
           <path d="M0 140 Q 90 120, 200 132 T 400 125 L 400 140 Z" fill="#040b14"/>
         </svg>
 
-        <!-- Mushroom Cluster (Clickable Toggle + 2 Side Mushrooms) -->
+        <!-- Mushroom Cluster -->
         <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
           <div class="glowing-mushroom mushroom-side-2">
             <div class="shroom-cap"></div>
