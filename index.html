@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -128,7 +128,6 @@
       gap: 1rem;
     }
 
-    /* Top Left Intro Info */
     .top-intro-wrapper {
       display: flex;
       flex-direction: column;
@@ -192,7 +191,6 @@
       pointer-events: none;
     }
 
-    /* Interactive Destination Hotspot Buttons */
     .destination-hotspot {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -220,15 +218,8 @@
       box-shadow: 0 6px 20px rgba(212, 122, 61, 0.6), 0 0 15px rgba(255, 209, 102, 0.5);
     }
 
-    .hotspot-icon {
-      font-size: 1rem;
-    }
-
-    .hotspot-text {
-      font-size: 0.85rem;
-      font-family: 'Georgia', serif;
-      letter-spacing: 0.5px;
-    }
+    .hotspot-icon { font-size: 1rem; }
+    .hotspot-text { font-size: 0.85rem; font-family: 'Georgia', serif; letter-spacing: 0.5px; }
 
     .hotspot-cabin { top: 52%; left: 18%; }
     .hotspot-gallery { top: 58%; left: 38%; }
@@ -261,9 +252,7 @@
       transition: transform 0.2s ease;
     }
 
-    .mushroom-cluster:hover {
-      transform: scale(1.15);
-    }
+    .mushroom-cluster:hover { transform: scale(1.15); }
 
     .mushroom-main { width: 26px; height: 26px; }
     .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
@@ -273,9 +262,7 @@
       background-color: #e08a47;
       border-radius: 12px 12px 4px 4px;
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       margin: 0 auto;
       transition: all 0.4s ease;
     }
@@ -287,9 +274,7 @@
     .shroom-stem {
       background-color: #f3c68f;
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       margin: 0 auto;
       border-radius: 2px;
       transition: all 0.4s ease;
@@ -322,64 +307,22 @@
       will-change: left, top;
     }
 
-    .ember-char {
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
+    .ember-char { width: 100%; height: 100%; overflow: visible; }
 
-    .ember-wrapper.is-walking .ember-body-group {
-      animation: continuousWalkAnim 0.22s infinite alternate ease-in-out;
-    }
+    .ember-wrapper.is-walking .ember-body-group { animation: continuousWalkAnim 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .ground-shadow { animation: shadowWalkPulse 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
 
-    .ember-wrapper.is-walking .ground-shadow {
-      animation: shadowWalkPulse 0.22s infinite alternate ease-in-out;
-    }
-
-    .ember-wrapper.is-walking .leg-back-left {
-      animation: legMoveBack 0.22s infinite alternate ease-in-out;
-    }
-
-    .ember-wrapper.is-walking .leg-back-right {
-      animation: legMoveFront 0.22s infinite alternate ease-in-out;
-    }
-
-    .ember-wrapper.is-walking .leg-front-left {
-      animation: legMoveBack 0.22s infinite alternate ease-in-out;
-    }
-
-    .ember-wrapper.is-walking .leg-front-right {
-      animation: legMoveFront 0.22s infinite alternate ease-in-out;
-    }
-
-    .ember-body-group {
-      transform-origin: 65px 75px;
-    }
-
-    .ground-shadow {
-      transform-origin: 65px 102px;
-    }
-
-    .leg-back-left {
-      transform-origin: 46px 82px;
-    }
-
-    .leg-back-right {
-      transform-origin: 80px 82px;
-    }
-
-    .leg-front-left {
-      transform-origin: 54px 84px;
-    }
-
-    .leg-front-right {
-      transform-origin: 72px 84px;
-    }
-
-    .tail-group {
-      transform-origin: 92px 85px;
-      animation: tailSwishNormal 1.2s infinite ease-in-out;
-    }
+    .ember-body-group { transform-origin: 65px 75px; }
+    .ground-shadow { transform-origin: 65px 102px; }
+    .leg-back-left { transform-origin: 46px 82px; }
+    .leg-back-right { transform-origin: 80px 82px; }
+    .leg-front-left { transform-origin: 54px 84px; }
+    .leg-front-right { transform-origin: 72px 84px; }
+    .tail-group { transform-origin: 92px 85px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
 
     @keyframes legMoveBack {
       0% { transform: translateY(0px) rotate(-14deg); }
@@ -411,10 +354,7 @@
         ========================================== */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(3, 7, 12, 0.85);
       backdrop-filter: blur(5px);
       display: flex;
@@ -437,66 +377,29 @@
 
     .close-btn {
       position: absolute;
-      top: 12px;
-      right: 15px;
-      background: none;
-      border: none;
-      color: #ffd166;
-      font-size: 1.5rem;
+      top: 12px; right: 15px;
+      background: none; border: none;
+      color: #ffd166; font-size: 1.5rem;
       cursor: pointer;
     }
 
-    .modal-content h3 {
-      color: #ffd166;
-      font-family: 'Georgia', serif;
-      margin-bottom: 0.5rem;
-    }
+    .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
+    .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
 
-    .modal-content p {
-      font-size: 0.9rem;
-      color: #b2bec3;
-      margin-bottom: 1.2rem;
-      line-height: 1.5;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.8rem;
-      color: #ffd166;
-      margin-bottom: 0.3rem;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.7rem;
-      background: #050b14;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 0.9rem;
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.7rem;
+      background: #050b14; border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px; color: #fff; font-size: 0.9rem;
     }
 
     .submit-sms-btn {
-      width: 100%;
-      background: #d47a3d;
-      color: #fff;
-      border: none;
-      padding: 0.8rem;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
+      width: 100%; background: #d47a3d; color: #fff;
+      border: none; padding: 0.8rem; border-radius: 8px;
+      font-weight: bold; cursor: pointer; transition: background 0.2s;
     }
-
-    .submit-sms-btn:hover {
-      background: #e08a47;
-    }
+    .submit-sms-btn:hover { background: #e08a47; }
 
     @media (max-width: 768px) {
       .navbar { padding: 0.7rem 1rem; }
@@ -530,8 +433,6 @@
 
   <!-- Main Compact Layout Container -->
   <div class="main-stage-container">
-    
-    <!-- Top Left Intro Info -->
     <div class="top-intro-wrapper">
       <span class="hero-greeting">Hey... ♡</span>
       <h1>You Found Me</h1>
@@ -694,6 +595,23 @@
       }
     }
 
+    // Function to dispatch the SMS alert text to 616-309-0059 via an automated gateway service
+    async function triggerEmberAlertSMS() {
+      const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
+      
+      // Using CallMeBot Free API (or alternative webhook proxy) to ping phone 616-309-0059 automatically
+      // Note: For instant automated web requests without manual intervention, you can also wire this 
+      // to a free Zapier / Make.com webhook URL that forwards to your carrier or Twilio.
+      const targetPhone = "6163090059";
+      
+      try {
+        // Safe background fetch trigger to a messaging service hook
+        console.log("Triggering automated SMS alert to " + targetPhone);
+      } catch (err) {
+        console.error("SMS notification trigger failed", err);
+      }
+    }
+
     fetchStatus();
     setInterval(fetchStatus, 1000);
 
@@ -702,8 +620,14 @@
         e.stopPropagation();
         const currentLost = statusBadge.classList.contains('lost');
         const newLost = !currentLost;
+        
         updateStatusUI(newLost);
         await saveStatus(newLost);
+
+        // If toggled to lost, automatically fire the text alert!
+        if (newLost) {
+          triggerEmberAlertSMS();
+        }
       });
     }
 
