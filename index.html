@@ -595,32 +595,32 @@
       }
     }
 
-    // Instant Telegram Alert Trigger using Fetch
+    // Instant WhatsApp Alert Trigger using CallMeBot Webhook
     function triggerEmberAlertSMS() {
-      const alertMessage = "⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!";
+      const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
+      const phone = "16163090059"; 
+      const apikey = "2265287"; 
       
-      const botToken = "8871570759:AAExKf0aAW82D3YQYjJns1GRm4aIYxosBR4";
-      const chatId = "8937754737";
+      const whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${alertMessage}&apikey=${apikey}`;
       
-      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(alertMessage)}`;
-      
-      fetch(telegramUrl)
-        .then(response => {
-          if (response.ok) {
-            console.log("Instant Telegram alert dispatched successfully!");
-          } else {
-            console.error("Telegram API error:", response.status);
-          }
-        })
-        .catch(err => console.error("Failed to send Telegram alert:", err));
+      const ping = new Image();
+      ping.src = whatsappUrl;
+      console.log("Instant WhatsApp alert dispatched!");
     }
 
     fetchStatus();
     setInterval(fetchStatus, 1000);
 
+    // Cooldown guard to prevent accidental ghost clicks or rapid double triggers
+    let isToggling = false;
+
     if (mushroomCluster) {
       mushroomCluster.addEventListener('click', async (e) => {
         e.stopPropagation();
+
+        if (isToggling) return; // Ignore clicks if a toggle is already processing
+        isToggling = true;
+
         const currentLost = statusBadge.classList.contains('lost');
         const newLost = !currentLost;
         
@@ -630,6 +630,11 @@
         if (newLost) {
           triggerEmberAlertSMS();
         }
+
+        // Reset the cooldown after 1.5 seconds
+        setTimeout(() => {
+          isToggling = false;
+        }, 1500);
       });
     }
 
