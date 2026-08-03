@@ -247,31 +247,6 @@
       transform: translate(-50%, -50%) scale(1.1);
     }
 
-    .stage-interactive-element:hover .element-tooltip {
-      opacity: 1;
-      transform: translate(-50%, -5px);
-    }
-
-    .element-tooltip {
-      position: absolute;
-      bottom: 105%;
-      left: 50%;
-      transform: translate(-50%, 5px);
-      background: rgba(15, 28, 45, 0.92);
-      border: 1px solid rgba(255, 209, 102, 0.6);
-      color: #fffdf0;
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-family: 'Georgia', serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 10px rgba(255, 209, 102, 0.2);
-    }
-
     /* Coordinates for the 4 interactive vector props */
     .prop-cabin { top: 58%; left: 22%; width: 90px; height: 85px; }
     .prop-gallery { top: 67%; left: 42%; width: 75px; height: 75px; }
@@ -767,22 +742,11 @@
         </svg>
       </div>
 
-      <!-- Integrated Vector Landmark Interactive Buttons (Buttons hidden, artwork acts as the interactive target) -->
-      <button class="stage-interactive-element prop-cabin" data-target-x="22" data-target-y="60" data-nav="cabin" aria-label="Meet Ember">
-        <span class="element-tooltip">Meet Ember</span>
-      </button>
-
-      <button class="stage-interactive-element prop-gallery" data-target-x="42" data-target-y="68" data-nav="gallery" aria-label="Gallery">
-        <span class="element-tooltip">Gallery</span>
-      </button>
-
-      <button class="stage-interactive-element prop-adventures" data-target-x="63" data-target-y="64" data-nav="adventures" aria-label="Adventures">
-        <span class="element-tooltip">Adventures</span>
-      </button>
-
-      <button class="stage-interactive-element prop-lost" data-target-x="81" data-target-y="54" data-nav="lost" aria-label="If I'm Lost">
-        <span class="element-tooltip">If I'm Lost</span>
-      </button>
+      <!-- Integrated Vector Landmark Interactive Buttons (Tooltips removed) -->
+      <button class="stage-interactive-element prop-cabin" data-target-x="22" data-target-y="60" data-nav="cabin" aria-label="Meet Ember"></button>
+      <button class="stage-interactive-element prop-gallery" data-target-x="42" data-target-y="68" data-nav="gallery" aria-label="Gallery"></button>
+      <button class="stage-interactive-element prop-adventures" data-target-x="63" data-target-y="64" data-nav="adventures" aria-label="Adventures"></button>
+      <button class="stage-interactive-element prop-lost" data-target-x="81" data-target-y="54" data-nav="lost" aria-label="If I'm Lost"></button>
     </div>
   </div>
 
