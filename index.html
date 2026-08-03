@@ -220,7 +220,7 @@
     }
 
     /* ==========================================
-        VECTOR ART STONE PATH & TALL GRASS
+        VECTOR ART STAGE OBJECTS & HOTSPOTS
         ========================================== */
     .map-vector-overlay {
       position: absolute;
@@ -232,40 +232,51 @@
       z-index: 5;
     }
 
-    .destination-hotspot {
+    .stage-interactive-element {
       position: absolute;
       transform: translate(-50%, -50%);
-      background: rgba(15, 28, 45, 0.88);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 15;
+      padding: 0;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stage-interactive-element:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .stage-interactive-element:hover .element-tooltip {
+      opacity: 1;
+      transform: translate(-50%, -5px);
+    }
+
+    .element-tooltip {
+      position: absolute;
+      bottom: 105%;
+      left: 50%;
+      transform: translate(-50%, 5px);
+      background: rgba(15, 28, 45, 0.92);
       border: 1px solid rgba(255, 209, 102, 0.6);
       color: #fffdf0;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      text-decoration: none;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 12px rgba(255, 209, 102, 0.25);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 15;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
       white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 10px rgba(255, 209, 102, 0.2);
     }
 
-    .destination-hotspot:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      background: #d47a3d;
-      border-color: #ffd166;
-      box-shadow: 0 6px 20px rgba(212, 122, 61, 0.7), 0 0 18px rgba(255, 209, 102, 0.6);
-    }
-
-    .hotspot-icon { font-size: 1rem; }
-    .hotspot-text { font-size: 0.85rem; font-family: 'Georgia', serif; letter-spacing: 0.5px; }
-
-    .hotspot-cabin { top: 60%; left: 22%; }
-    .hotspot-gallery { top: 68%; left: 42%; }
-    .hotspot-adventures { top: 64%; left: 63%; }
-    .hotspot-lost { top: 54%; left: 81%; }
+    /* Coordinates for the 4 interactive vector props */
+    .prop-cabin { top: 58%; left: 22%; width: 90px; height: 85px; }
+    .prop-gallery { top: 67%; left: 42%; width: 75px; height: 75px; }
+    .prop-adventures { top: 62%; left: 63%; width: 80px; height: 70px; }
+    .prop-lost { top: 52%; left: 81%; width: 65px; height: 75px; }
 
     /* ==========================================
         GLOWING PAWPRINT EFFECT
@@ -303,7 +314,7 @@
     .mushroom-cluster {
       position: absolute;
       top: 55%;
-      left: 35%;
+      left: 33%;
       transform: translate(-50%, -50%);
       display: flex;
       align-items: flex-end;
@@ -421,6 +432,13 @@
       50% { transform: rotate(8deg); }
     }
 
+    /* Lantern glow flicker animation */
+    @keyframes lanternFlicker {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px #ffd166); }
+      50% { opacity: 1; filter: drop-shadow(0 0 12px #ffd166); }
+    }
+    .string-lantern { animation: lanternFlicker 2s infinite ease-in-out; }
+
     /* ==========================================
         CONTACT MODAL STYLES
         ========================================== */
@@ -512,15 +530,6 @@
         height: 480px; 
         border-radius: 20px; 
       }
-      .destination-hotspot { 
-        padding: 0.3rem 0.5rem; 
-      }
-      .hotspot-icon {
-        font-size: 0.8rem;
-      }
-      .hotspot-text { 
-        font-size: 0.7rem; 
-      }
       .ember-wrapper {
         width: 95px;
         height: 95px;
@@ -593,7 +602,7 @@
       <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1400&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
       <div class="world-vignette-overlay"></div>
 
-      <!-- Vector Art Stone Path & Tall Grass Overlay -->
+      <!-- Vector Art Stone Path, Tall Grass & Stage Landmarks Overlay -->
       <svg class="map-vector-overlay" viewBox="0 0 1200 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Winding Stone Path -->
         <path d="M 80,480 Q 220,490 300,420 T 520,380 T 750,430 T 980,350 T 1120,300" fill="none" stroke="#231f20" stroke-width="52" stroke-linecap="round" opacity="0.45"/>
@@ -613,6 +622,76 @@
           <ellipse cx="920" cy="365" rx="21" ry="12" transform="rotate(15, 920, 365)"/>
           <ellipse cx="1000" cy="335" rx="24" ry="13" transform="rotate(-2, 1000, 335)"/>
           <ellipse cx="1080" cy="310" rx="20" ry="11" transform="rotate(8, 1080, 310)"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 1: THE COZY CABIN (Left ~22%) -->
+        <g transform="translate(205, 305)">
+          <!-- Cabin shadow -->
+          <ellipse cx="60" cy="75" rx="55" ry="15" fill="#03070c" opacity="0.6"/>
+          <!-- Log walls -->
+          <rect x="25" y="30" width="70" height="45" rx="4" fill="#654321" stroke="#3d2812" stroke-width="2"/>
+          <path d="M 25,42 Q 60,45 95,42 M 25,54 Q 60,57 95,54 M 25,66 Q 60,69 95,66" stroke="#4a311c" stroke-width="1.5" fill="none"/>
+          <!-- Warm glowing window -->
+          <rect x="42" y="40" width="16" height="20" rx="2" fill="#ffd166" stroke="#3d2812" stroke-width="1.5"/>
+          <line x1="50" y1="40" x2="50" y2="60" stroke="#3d2812" stroke-width="1"/>
+          <line x1="42" y1="50" x2="58" y2="50" stroke="#3d2812" stroke-width="1"/>
+          <!-- Ghibli mossy thatched roof -->
+          <polygon points="60,2 10,32 110,32" fill="#2d4a3e" stroke="#1b2e26" stroke-width="2"/>
+          <path d="M 15,30 Q 30,22 45,30 T 75,30 T 105,30" fill="#385e4f"/>
+          <!-- Stone Chimney & smoke -->
+          <rect x="75" y="10" width="14" height="24" fill="#555" stroke="#333" stroke-width="1.5"/>
+          <circle cx="82" cy="4" r="3" fill="#ffffff" opacity="0.4"/>
+          <circle cx="86" cy="-2" r="4.5" fill="#ffffff" opacity="0.3"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 2: STRING OF LANTERNS & ANTIQUE CAMERA GALLERY (~42%) -->
+        <g transform="translate(455, 330)">
+          <!-- Wooden tripod stand -->
+          <line x1="30" y1="45" x2="15" y2="78" stroke="#4a311c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="30" y1="45" x2="45" y2="78" stroke="#4a311c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="30" y1="45" x2="30" y2="82" stroke="#382212" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Antique Camera body -->
+          <rect x="18" y="32" width="24" height="16" rx="3" fill="#8c7853" stroke="#3d2812" stroke-width="1.5"/>
+          <circle cx="30" cy="40" r="7" fill="#222" stroke="#ffd166" stroke-width="1.5"/>
+          <circle cx="30" cy="40" r="3" fill="#4aa0ff" opacity="0.8"/>
+          <rect x="24" y="26" width="12" height="6" rx="1" fill="#6d5c3f" stroke="#3d2812" stroke-width="1"/>
+          <!-- Overhead magical string of glowing lanterns -->
+          <path d="M -40,-20 Q -10,-45 20,-20 T 70,-15" fill="none" stroke="#222" stroke-width="1.5"/>
+          <!-- Lantern 1 -->
+          <line x1="-25" y1="-33" x2="-25" y2="-26" stroke="#333" stroke-width="1.5"/>
+          <ellipse class="string-lantern" cx="-25" cy="-21" rx="6" ry="8" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>
+          <!-- Lantern 2 -->
+          <line x1="5" y1="-26" x2="5" y2="-19" stroke="#333" stroke-width="1.5"/>
+          <ellipse class="string-lantern" cx="5" cy="-14" rx="6" ry="8" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.5s;"/>
+          <!-- Lantern 3 -->
+          <line x1="40" y1="-17" x2="40" y2="-10" stroke="#333" stroke-width="1.5"/>
+          <ellipse class="string-lantern" cx="40" cy="-5" rx="6" ry="8" fill="#ffd166" stroke="#b8860b" stroke-width="1" style="animation-delay: 1s;"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 3: COZY WOODEN TABLE & OPEN BOOK (~63%) -->
+        <g transform="translate(710, 340)">
+          <!-- Table shadow -->
+          <ellipse cx="35" cy="52" rx="32" ry="10" fill="#03070c" opacity="0.5"/>
+          <!-- Table legs -->
+          <line x1="15" y1="42" x2="10" y2="58" stroke="#4a311c" stroke-width="3"/>
+          <line x1="55" y1="42" x2="60" y2="58" stroke="#4a311c" stroke-width="3"/>
+          <!-- Tabletop -->
+          <ellipse cx="35" cy="42" rx="34" ry="12" fill="#654321" stroke="#3d2812" stroke-width="2"/>
+          <!-- Open Book on Table -->
+          <path d="M 20,40 Q 35,32 50,40 Q 35,48 20,40 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1.5"/>
+          <path d="M 35,35 L 35,44" stroke="#888" stroke-width="1"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 4: FOREST MAILBOX (~81%) -->
+        <g transform="translate(930, 310)">
+          <!-- Mailbox post -->
+          <rect x="24" y="32" width="6" height="48" fill="#5a3d28" stroke="#332114" stroke-width="1.5"/>
+          <!-- Mailbox box (Arched top) -->
+          <path d="M 12,22 L 42,22 A 12,12 0 0,1 54,34 L 54,40 L 12,40 Z" fill="#2d5a43" stroke="#183627" stroke-width="2"/>
+          <!-- Little red flag -->
+          <rect x="52" y="24" width="3" height="10" rx="1.5" fill="#ef476f"/>
+          <!-- Mail slot line -->
+          <line x1="24" y1="31" x2="42" y2="31" stroke="#11251c" stroke-width="1.5"/>
         </g>
 
         <!-- Vector Art Tall Forest Grass along borders -->
@@ -688,25 +767,21 @@
         </svg>
       </div>
 
-      <!-- Interactive Path Hotspot Buttons -->
-      <button class="destination-hotspot hotspot-cabin" data-target-x="22" data-target-y="60" data-nav="cabin">
-        <span class="hotspot-icon">🏠</span>
-        <span class="hotspot-text">Meet Ember</span>
+      <!-- Integrated Vector Landmark Interactive Buttons (Buttons hidden, artwork acts as the interactive target) -->
+      <button class="stage-interactive-element prop-cabin" data-target-x="22" data-target-y="60" data-nav="cabin" aria-label="Meet Ember">
+        <span class="element-tooltip">Meet Ember</span>
       </button>
 
-      <button class="destination-hotspot hotspot-gallery" data-target-x="42" data-target-y="68" data-nav="gallery">
-        <span class="hotspot-icon">📷</span>
-        <span class="hotspot-text">Gallery</span>
+      <button class="stage-interactive-element prop-gallery" data-target-x="42" data-target-y="68" data-nav="gallery" aria-label="Gallery">
+        <span class="element-tooltip">Gallery</span>
       </button>
 
-      <button class="destination-hotspot hotspot-adventures" data-target-x="63" data-target-y="64" data-nav="adventures">
-        <span class="hotspot-icon">📖</span>
-        <span class="hotspot-text">Adventures</span>
+      <button class="stage-interactive-element prop-adventures" data-target-x="63" data-target-y="64" data-nav="adventures" aria-label="Adventures">
+        <span class="element-tooltip">Adventures</span>
       </button>
 
-      <button class="destination-hotspot hotspot-lost" id="openLostModalFromPath" data-target-x="81" data-target-y="54" data-nav="lost">
-        <span class="hotspot-icon">✉️</span>
-        <span class="hotspot-text">If I'm Lost</span>
+      <button class="stage-interactive-element prop-lost" data-target-x="81" data-target-y="54" data-nav="lost" aria-label="If I'm Lost">
+        <span class="element-tooltip">If I'm Lost</span>
       </button>
     </div>
   </div>
@@ -901,7 +976,7 @@
 
     if (worldPanorama && emberWalker) {
       worldPanorama.addEventListener('click', (e) => {
-        if (e.target.closest('.destination-hotspot') || e.target.closest('.mushroom-cluster')) return;
+        if (e.target.closest('.stage-interactive-element') || e.target.closest('.mushroom-cluster')) return;
 
         const rect = worldPanorama.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
@@ -916,7 +991,7 @@
       });
     }
 
-    const hotspots = document.querySelectorAll('.destination-hotspot');
+    const stageElements = document.querySelectorAll('.stage-interactive-element');
     const modal = document.getElementById('contactModal');
 
     function handleDestinationAction(navType) {
@@ -925,20 +1000,20 @@
       }
     }
 
-    hotspots.forEach(hotspot => {
-      hotspot.addEventListener('click', (e) => {
+    stageElements.forEach(element => {
+      element.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const hotspotRect = hotspot.getBoundingClientRect();
-        const centerX = hotspotRect.left + hotspotRect.width / 2;
-        const centerY = hotspotRect.bottom + 12;
+        const elemRect = element.getBoundingClientRect();
+        const centerX = elemRect.left + elemRect.width / 2;
+        const centerY = elemRect.bottom + 8;
 
         spawnPawprint(centerX, centerY);
 
-        const tx = parseFloat(hotspot.getAttribute('data-target-x'));
-        const ty = parseFloat(hotspot.getAttribute('data-target-y'));
-        const navType = hotspot.getAttribute('data-nav');
+        const tx = parseFloat(element.getAttribute('data-target-x'));
+        const ty = parseFloat(element.getAttribute('data-target-y'));
+        const navType = element.getAttribute('data-nav');
 
         moveEmberTo(tx, ty, () => {
           handleDestinationAction(navType);
@@ -956,17 +1031,17 @@
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetNav = link.getAttribute('data-target');
-        const correspondingHotspot = document.querySelector(`.destination-hotspot[data-nav="${targetNav}"]`);
+        const correspondingElement = document.querySelector(`.stage-interactive-element[data-nav="${targetNav}"]`);
         
-        if (correspondingHotspot) {
-          const hotspotRect = correspondingHotspot.getBoundingClientRect();
-          const centerX = hotspotRect.left + hotspotRect.width / 2;
-          const centerY = hotspotRect.bottom + 12;
+        if (correspondingElement) {
+          const elemRect = correspondingElement.getBoundingClientRect();
+          const centerX = elemRect.left + elemRect.width / 2;
+          const centerY = elemRect.bottom + 8;
 
           spawnPawprint(centerX, centerY);
 
-          const tx = parseFloat(correspondingHotspot.getAttribute('data-target-x'));
-          const ty = parseFloat(correspondingHotspot.getAttribute('data-target-y'));
+          const tx = parseFloat(correspondingElement.getAttribute('data-target-x'));
+          const ty = parseFloat(correspondingElement.getAttribute('data-target-y'));
 
           moveEmberTo(tx, ty, () => {
             handleDestinationAction(targetNav);
