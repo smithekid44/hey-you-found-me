@@ -652,17 +652,20 @@
       }
     }
 
-    // Instant WhatsApp Alert Trigger using updated CallMeBot Webhook
-    function triggerEmberAlertSMS() {
+    // Instant WhatsApp Alert Trigger using robust fetch call instead of Image
+    async function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
       const phone = "16163090059"; 
       const apikey = "7732618"; 
       
       const whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${alertMessage}&apikey=${apikey}`;
       
-      const ping = new Image();
-      ping.src = whatsappUrl;
-      console.log("Instant WhatsApp alert dispatched!");
+      try {
+        await fetch(whatsappUrl, { mode: 'no-cors' });
+        console.log("Instant WhatsApp alert dispatched via fetch!");
+      } catch (err) {
+        console.error("WhatsApp trigger error:", err);
+      }
     }
 
     fetchStatus();
