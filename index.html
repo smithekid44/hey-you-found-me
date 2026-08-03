@@ -245,8 +245,9 @@
         ========================================== */
     .mushroom-cluster {
       position: absolute;
-      bottom: 85px;
-      right: 95px;
+      top: 67%;
+      left: 33%;
+      transform: translate(-50%, -50%);
       display: flex;
       align-items: flex-end;
       gap: 3px;
@@ -266,7 +267,7 @@
       transition: transform 0.2s ease;
     }
 
-    .mushroom-cluster:hover { transform: scale(1.15); }
+    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
 
     .mushroom-main { width: 26px; height: 26px; }
     .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
@@ -422,7 +423,6 @@
       .world-panorama-container { height: 480px; border-radius: 20px; }
       .destination-hotspot { padding: 0.35rem 0.7rem; }
       .hotspot-text { font-size: 0.75rem; }
-      .mushroom-cluster { bottom: 45px; right: 50px; }
     }
   </style>
 </head>
@@ -503,7 +503,7 @@
         </g>
       </svg>
 
-      <!-- Interactive Mushroom Cluster Toggle -->
+      <!-- Interactive Mushroom Cluster Toggle (Positioned directly along the stone path) -->
       <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
         <div class="glowing-mushroom mushroom-side-2">
           <div class="shroom-cap"></div>
