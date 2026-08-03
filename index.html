@@ -495,7 +495,9 @@
         font-size: 0.75rem;
       }
       .nav-right {
-        display: flex; /* Restored status badge on mobile view */
+        position: absolute;
+        top: 0.6rem;
+        right: 0.8rem;
       }
       .status-badge {
         padding: 0.25rem 0.6rem;
@@ -551,10 +553,10 @@
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#" class="nav-link-item" data-target="cabin">Cabin</a></li>
-      <li><a href="#" class="nav-link-item" data-target="camera">Camera</a></li>
-      <li><a href="#" class="nav-link-item" data-target="table">Table</a></li>
-      <li><a href="#" class="nav-link-item" data-target="mailbox">Mailbox</a></li>
+      <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
+      <li><a href="#" class="nav-link-item" data-target="camera">Gallery</a></li>
+      <li><a href="#" class="nav-link-item" data-target="table">Adventures</a></li>
+      <li><a href="#" class="nav-link-item" data-target="mailbox">If I'm Lost</a></li>
     </ul>
     <div class="nav-right">
       <div id="statusBadge" class="status-badge">
@@ -677,10 +679,10 @@
       </div>
 
       <!-- Interactive Landmark Buttons -->
-      <button class="stage-interactive-element prop-cabin" data-target-x="50" data-target-y="24" data-nav="cabin" aria-label="Cabin"></button>
-      <button class="stage-interactive-element prop-camera" data-target-x="76" data-target-y="50" data-nav="camera" aria-label="Camera"></button>
-      <button class="stage-interactive-element prop-table" data-target-x="50" data-target-y="76" data-nav="table" aria-label="Table with a book"></button>
-      <button class="stage-interactive-element prop-mailbox" data-target-x="24" data-target-y="50" data-nav="mailbox" aria-label="Mailbox"></button>
+      <button class="stage-interactive-element prop-cabin" data-target-x="50" data-target-y="24" data-nav="cabin" aria-label="Meet Ember"></button>
+      <button class="stage-interactive-element prop-camera" data-target-x="76" data-target-y="50" data-nav="camera" aria-label="Gallery"></button>
+      <button class="stage-interactive-element prop-table" data-target-x="50" data-target-y="76" data-nav="table" aria-label="Adventures"></button>
+      <button class="stage-interactive-element prop-mailbox" data-target-x="24" data-target-y="50" data-nav="mailbox" aria-label="If I'm Lost"></button>
     </div>
   </div>
 
