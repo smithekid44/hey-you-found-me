@@ -44,12 +44,36 @@
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      font-weight: bold;
-      font-size: 0.85rem;
-      color: #ffd166;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-logo-icon {
+      width: 28px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #f3c68f;
+      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      color: #fffdf0;
       letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(255, 209, 102, 0.4);
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
       white-space: nowrap;
     }
 
@@ -65,6 +89,7 @@
       font-size: 0.9rem;
       transition: all 0.3s ease;
       cursor: pointer;
+      position: relative;
     }
 
     .nav-links a:hover,
@@ -245,10 +270,10 @@
         GLOWING PAWPRINT EFFECT
         ========================================== */
     .click-pawprint {
-      position: absolute;
+      position: fixed;
       transform: translate(-50%, -50%) scale(0.3);
       pointer-events: none;
-      z-index: 30;
+      z-index: 1000;
       font-size: 1.8rem;
       color: #ffd166;
       text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
@@ -460,8 +485,8 @@
         justify-content: center;
         gap: 0.5rem;
       }
-      .nav-logo {
-        font-size: 0.8rem;
+      .nav-logo-text {
+        font-size: 0.75rem;
       }
       .nav-links { 
         display: flex;
@@ -515,9 +540,29 @@
 
   <!-- Navigation Bar -->
   <header class="navbar">
-    <div class="nav-logo">
-      <span>🐾</span> EMBER'S JOURNEY
-    </div>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+          <!-- Pawprint at top -->
+          <circle cx="12" cy="5" r="1.8"/>
+          <circle cx="8" cy="8" r="1.2"/>
+          <circle cx="16" cy="8" r="1.2"/>
+          <circle cx="6" cy="11" r="1.1"/>
+          <circle cx="18" cy="11" r="1.1"/>
+          <path d="M12 9.5 C9.5 9.5 8 11.5 8 13.5 C8 15.5 10 17 12 17 C14 17 16 15.5 16 13.5 C16 11.5 14.5 9.5 12 9.5 Z"/>
+          <!-- Stems & botanical leaves below -->
+          <path d="M12 17 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M12 24 Q7 22 5 19 Q9 20 12 24 Z" fill="#f3c68f"/>
+          <path d="M12 22 Q17 20 19 17 Q15 18 12 22 Z" fill="#f3c68f"/>
+          <path d="M12 28 Q8 27 7 24 Q10 25 12 28 Z" fill="#f3c68f"/>
+          <path d="M12 26 Q16 25 17 22 Q14 23 12 26 Z" fill="#f3c68f"/>
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>Hey You</span>
+        <span>Found Me</span>
+      </div>
+    </a>
     <ul class="nav-links">
       <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
       <li><a href="#" class="nav-link-item" data-target="gallery">Gallery</a></li>
@@ -793,16 +838,14 @@
     let isMoving = false;
     let animFrameId = null;
 
-    // Helper function to spawn a glowing pawprint animation where clicked
     function spawnPawprint(x, y) {
       const paw = document.createElement('div');
       paw.className = 'click-pawprint';
       paw.innerHTML = '🐾';
       paw.style.left = `${x}px`;
       paw.style.top = `${y}px`;
-      worldPanorama.appendChild(paw);
+      document.body.appendChild(paw);
 
-      // Clean up DOM element after animation completes
       setTimeout(() => {
         paw.remove();
       }, 800);
@@ -863,8 +906,7 @@
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
 
-        // Spawn glowing pawprint at click position relative to panorama container
-        spawnPawprint(clickX, clickY);
+        spawnPawprint(e.clientX, e.clientY);
 
         const clickPctX = (clickX / rect.width) * 100;
         const clickPctY = (clickY / rect.height) * 100;
@@ -887,10 +929,9 @@
         e.preventDefault();
         e.stopPropagation();
 
-        const rect = worldPanorama.getBoundingClientRect();
         const hotspotRect = hotspot.getBoundingClientRect();
-        const centerX = (hotspotRect.left + hotspotRect.width / 2) - rect.left;
-        const centerY = (hotspotRect.top + hotspotRect.height / 2) - rect.top;
+        const centerX = hotspotRect.left + hotspotRect.width / 2;
+        const centerY = hotspotRect.top + hotspotRect.height / 2;
 
         spawnPawprint(centerX, centerY);
 
@@ -906,16 +947,20 @@
 
     const navLinksItems = document.querySelectorAll('.nav-link-item');
     navLinksItems.forEach(link => {
+      link.addEventListener('mouseenter', (e) => {
+        const linkRect = link.getBoundingClientRect();
+        spawnPawprint(linkRect.left + linkRect.width / 2, linkRect.top + linkRect.height / 2);
+      });
+
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetNav = link.getAttribute('data-target');
         const correspondingHotspot = document.querySelector(`.destination-hotspot[data-nav="${targetNav}"]`);
         
         if (correspondingHotspot) {
-          const rect = worldPanorama.getBoundingClientRect();
           const hotspotRect = correspondingHotspot.getBoundingClientRect();
-          const centerX = (hotspotRect.left + hotspotRect.width / 2) - rect.left;
-          const centerY = (hotspotRect.top + hotspotRect.height / 2) - rect.top;
+          const centerX = hotspotRect.left + hotspotRect.width / 2;
+          const centerY = hotspotRect.top + hotspotRect.height / 2;
 
           spawnPawprint(centerX, centerY);
 
@@ -928,6 +973,14 @@
         }
       });
     });
+
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+      navLogo.addEventListener('mouseenter', (e) => {
+        const logoRect = navLogo.getBoundingClientRect();
+        spawnPawprint(logoRect.left + logoRect.width / 2, logoRect.top + logoRect.height / 2);
+      });
+    }
 
     const closeModalBtn = document.getElementById('closeModal');
     const smsForm = document.getElementById('smsForm');
