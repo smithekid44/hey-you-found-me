@@ -290,8 +290,8 @@
         ========================================== */
     .mushroom-cluster {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 76%;
+      left: 76%;
       transform: translate(-50%, -50%);
       display: flex;
       align-items: flex-end;
@@ -477,7 +477,7 @@
       .navbar { 
         padding: 0.6rem 0.8rem;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-between;
         gap: 0.5rem;
       }
       .nav-logo-text {
@@ -495,10 +495,14 @@
         font-size: 0.75rem;
       }
       .nav-right {
-        display: none;
+        display: flex; /* Restored status badge on mobile view */
+      }
+      .status-badge {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
       }
       .main-stage-container { 
-        margin-top: 5.8rem; 
+        margin-top: 6.4rem; 
         padding: 0 0.75rem;
         gap: 0.75rem;
       }
@@ -534,7 +538,7 @@
           <circle cx="6" cy="11" r="1.1"/>
           <circle cx="18" cy="11" r="1.1"/>
           <path d="M12 9.5 C9.5 9.5 8 11.5 8 13.5 C8 15.5 10 17 12 17 C14 17 16 15.5 16 13.5 C16 11.5 14.5 9.5 12 9.5 Z"/>
-          <path d="M12 17 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M12 9.5 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
           <path d="M12 24 Q7 22 5 19 Q9 20 12 24 Z" fill="#f3c68f"/>
           <path d="M12 22 Q17 20 19 17 Q15 18 12 22 Z" fill="#f3c68f"/>
           <path d="M12 28 Q8 27 7 24 Q10 25 12 28 Z" fill="#f3c68f"/>
@@ -619,7 +623,7 @@
         </g>
       </svg>
 
-      <!-- Interactive Mushroom Cluster Toggle (Center) -->
+      <!-- Interactive Mushroom Cluster Toggle (Bottom Right of Circle) -->
       <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
         <div class="glowing-mushroom mushroom-side-2">
           <div class="shroom-cap"></div>
