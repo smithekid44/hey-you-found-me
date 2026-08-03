@@ -47,6 +47,7 @@
       gap: 0.6rem;
       text-decoration: none;
       cursor: pointer;
+      position: relative;
     }
 
     .nav-logo-icon {
@@ -278,20 +279,20 @@
       color: #ffd166;
       text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
       opacity: 0;
-      animation: pawprintPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    @keyframes pawprintPop {
+    @keyframes pawprintPopBelow {
       0% {
-        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
         opacity: 1;
       }
       50% {
-        transform: translate(-50%, -65%) scale(1.2) rotate(-10deg);
+        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
         opacity: 1;
       }
       100% {
-        transform: translate(-50%, -85%) scale(1) rotate(-5deg);
+        transform: translate(-50%, 35%) scale(1) rotate(0deg);
         opacity: 0;
       }
     }
@@ -931,7 +932,7 @@
 
         const hotspotRect = hotspot.getBoundingClientRect();
         const centerX = hotspotRect.left + hotspotRect.width / 2;
-        const centerY = hotspotRect.top + hotspotRect.height / 2;
+        const centerY = hotspotRect.bottom + 12;
 
         spawnPawprint(centerX, centerY);
 
@@ -949,7 +950,7 @@
     navLinksItems.forEach(link => {
       link.addEventListener('mouseenter', (e) => {
         const linkRect = link.getBoundingClientRect();
-        spawnPawprint(linkRect.left + linkRect.width / 2, linkRect.top + linkRect.height / 2);
+        spawnPawprint(linkRect.left + linkRect.width / 2, linkRect.bottom + 8);
       });
 
       link.addEventListener('click', (e) => {
@@ -960,7 +961,7 @@
         if (correspondingHotspot) {
           const hotspotRect = correspondingHotspot.getBoundingClientRect();
           const centerX = hotspotRect.left + hotspotRect.width / 2;
-          const centerY = hotspotRect.top + hotspotRect.height / 2;
+          const centerY = hotspotRect.bottom + 12;
 
           spawnPawprint(centerX, centerY);
 
@@ -978,7 +979,7 @@
     if (navLogo) {
       navLogo.addEventListener('mouseenter', (e) => {
         const logoRect = navLogo.getBoundingClientRect();
-        spawnPawprint(logoRect.left + logoRect.width / 2, logoRect.top + logoRect.height / 2);
+        spawnPawprint(logoRect.left + logoRect.width / 2, logoRect.bottom + 8);
       });
     }
 
