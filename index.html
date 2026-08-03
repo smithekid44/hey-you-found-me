@@ -611,7 +611,10 @@
     const statusText = document.getElementById('statusText');
     const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
 
+    let currentLostState = false; // Tracks true local state to avoid rapid re-toggling conflicts
+
     function updateStatusUI(isLost) {
+      currentLostState = isLost;
       if (isLost) {
         statusBadge.classList.add('lost');
         statusText.textContent = 'Ember is lost';
@@ -624,13 +627,18 @@
     }
 
     async function fetchStatus() {
+      // Skip background polling if user is currently interacting to prevent race conditions
+      if (isToggling) return;
+      
       try {
         const response = await fetch(`${JSONBIN_URL}/latest`, {
           headers: { 'X-Master-Key': API_KEY }
         });
         const result = await response.json();
         if (result && result.record && typeof result.record.isLost !== 'undefined') {
-          updateStatusUI(result.record.isLost);
+          if (result.record.isLost !== currentLostState) {
+            updateStatusUI(result.record.isLost);
+          }
         }
       } catch (err) {
         console.error('Failed to sync live status', err);
@@ -652,7 +660,6 @@
       }
     }
 
-    // Instant WhatsApp Alert Trigger using an immediate Image beacon (fastest method)
     function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
       const phone = "16163090059"; 
@@ -665,8 +672,7 @@
     }
 
     fetchStatus();
-    // Polling interval reduced from 1000ms to 500ms for faster sync across devices
-    setInterval(fetchStatus, 500);
+    setInterval(fetchStatus, 2000); // Polling frequency balanced to prevent unnecessary overhead
 
     let isToggling = false;
 
@@ -677,22 +683,20 @@
         if (isToggling) return;
         isToggling = true;
 
-        const currentLost = statusBadge.classList.contains('lost');
-        const newLost = !currentLost;
+        const newLost = !currentLostState;
         
         updateStatusUI(newLost);
         
-        // Fire the WhatsApp message instantly first
         if (newLost) {
           triggerEmberAlertSMS();
         }
 
-        // Save status to cloud concurrently without blocking the text dispatch
-        saveStatus(newLost);
+        await saveStatus(newLost);
 
+        // Cooldown period increased to 1.5 seconds to ensure smooth clicking and prevent over-pressing
         setTimeout(() => {
           isToggling = false;
-        }, 800);
+        }, 1500);
       });
     }
 
