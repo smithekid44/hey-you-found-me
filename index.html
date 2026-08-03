@@ -652,24 +652,21 @@
       }
     }
 
-    // Instant WhatsApp Alert Trigger using robust fetch call instead of Image
-    async function triggerEmberAlertSMS() {
+    // Instant WhatsApp Alert Trigger using an immediate Image beacon (fastest method)
+    function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
       const phone = "16163090059"; 
       const apikey = "7732618"; 
       
       const whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${alertMessage}&apikey=${apikey}`;
       
-      try {
-        await fetch(whatsappUrl, { mode: 'no-cors' });
-        console.log("Instant WhatsApp alert dispatched via fetch!");
-      } catch (err) {
-        console.error("WhatsApp trigger error:", err);
-      }
+      const ping = new Image();
+      ping.src = whatsappUrl;
     }
 
     fetchStatus();
-    setInterval(fetchStatus, 1000);
+    // Polling interval reduced from 1000ms to 500ms for faster sync across devices
+    setInterval(fetchStatus, 500);
 
     let isToggling = false;
 
@@ -684,15 +681,18 @@
         const newLost = !currentLost;
         
         updateStatusUI(newLost);
-        await saveStatus(newLost);
-
+        
+        // Fire the WhatsApp message instantly first
         if (newLost) {
           triggerEmberAlertSMS();
         }
 
+        // Save status to cloud concurrently without blocking the text dispatch
+        saveStatus(newLost);
+
         setTimeout(() => {
           isToggling = false;
-        }, 1500);
+        }, 800);
       });
     }
 
