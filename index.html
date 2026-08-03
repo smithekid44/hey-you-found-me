@@ -503,7 +503,7 @@
         </g>
       </svg>
 
-      <!-- Interactive Mushroom Cluster Toggle (Positioned directly along the stone path) -->
+      <!-- Interactive Mushroom Cluster Toggle -->
       <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
         <div class="glowing-mushroom mushroom-side-2">
           <div class="shroom-cap"></div>
@@ -652,11 +652,11 @@
       }
     }
 
-    // Instant WhatsApp Alert Trigger using CallMeBot Webhook
+    // Instant WhatsApp Alert Trigger using updated CallMeBot Webhook
     function triggerEmberAlertSMS() {
       const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
       const phone = "16163090059"; 
-      const apikey = "2265287"; 
+      const apikey = "7732618"; 
       
       const whatsappUrl = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${alertMessage}&apikey=${apikey}`;
       
@@ -668,7 +668,6 @@
     fetchStatus();
     setInterval(fetchStatus, 1000);
 
-    // Cooldown guard to prevent accidental ghost clicks or rapid double triggers
     let isToggling = false;
 
     if (mushroomCluster) {
