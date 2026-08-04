@@ -255,14 +255,14 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
-    /* Cabin Door Swing-Open Animation mapped precisely to the new SVG door coordinates */
+    /* Cabin Door Gentle Open Animation */
     #cabinDoorNode {
       transform-origin: 288px 148px;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     }
     #cabinDoorNode.door-open {
-      transform: scaleX(0.08) skewY(15deg);
-      opacity: 0.4;
+      transform: scaleX(0.25) skewY(5deg);
+      opacity: 0.6;
     }
 
     /* Dropped letter on map stage style */
@@ -1081,7 +1081,7 @@
             }, 400);
           });
         } else if (navType === 'cabin') {
-          // Walk to cabin, swing door open, shrink/fade Ember directly into the doorway, then open modal
+          // Walk to cabin, swing door open gently, shrink/fade Ember directly into the doorway, then open modal
           moveEmberTo(tx, ty, () => {
             cabinDoorNode.classList.add('door-open');
 
