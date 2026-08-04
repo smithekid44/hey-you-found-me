@@ -222,7 +222,7 @@
     }
 
     /* ==========================================
-        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
+        VECTOR ART STAGE ITEMS & HOTSPOTS (RADIAL)
         ========================================== */
     .map-vector-overlay {
       position: absolute;
@@ -249,7 +249,7 @@
       transform: translate(-50%, -50%) scale(1.15);
     }
 
-    /* Well-spaced circular coordinates for the 4 Props */
+    /* Well-spaced circular coordinates for the 4 Items */
     .prop-cabin { top: 24%; left: 50%; width: 105px; height: 95px; }
     .prop-camera { top: 50%; left: 76%; width: 75px; height: 75px; }
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
@@ -629,7 +629,7 @@
     .slide-item img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .slide-caption {
@@ -787,7 +787,7 @@
       <span class="hero-greeting">Hey... ♡</span>
       <h1>You Found Me</h1>
       <p class="hero-subtext">
-        Explore the circular forest trail map. Click anywhere along the path or landmarks to guide Ember!
+        Explore the circular forest trail map. Click anywhere along the path or items to guide Ember!
       </p>
     </div>
 
@@ -797,13 +797,13 @@
       <div class="world-vignette-overlay"></div>
       <div id="cameraFlashOverlay" class="camera-flash-overlay"></div>
 
-      <!-- Vector Art Circular Stone Path & Landmarks Overlay -->
+      <!-- Vector Art Circular Stone Path & Items Overlay -->
       <svg class="map-vector-overlay" viewBox="0 0 600 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Circular Winding Stone Path -->
         <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
         <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
 
-        <!-- VECTOR LANDMARK 1: THE CABIN WITH AN OPEN DOORWAY -->
+        <!-- VECTOR ITEM 1: THE CABIN WITH AN OPEN DOORWAY -->
         <g transform="translate(300, 110)">
           <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
           <!-- Cabin Main Wall Structure -->
@@ -822,7 +822,7 @@
           <rect x="16" y="-5" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
         </g>
 
-        <!-- VECTOR LANDMARK 2: THE CAMERA (Right ~76%, 50%) -->
+        <!-- VECTOR ITEM 2: THE CAMERA (Right ~76%, 50%) -->
         <g transform="translate(456, 300)">
           <line x1="-10" y1="5" x2="-22" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
           <line x1="-10" y1="5" x2="4" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
@@ -834,7 +834,7 @@
           <ellipse class="string-lantern" cx="10" cy="-36" rx="4.5" ry="6" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.6s;"/>
         </g>
 
-        <!-- VECTOR LANDMARK 3: TABLE WITH A BOOK (Bottom ~50%, 76%) -->
+        <!-- VECTOR ITEM 3: TABLE WITH A BOOK (Bottom ~50%, 76%) -->
         <g transform="translate(300, 470)">
           <ellipse cx="0" cy="15" rx="26" ry="9" fill="#03070c" opacity="0.5"/>
           <line x1="-15" y1="8" x2="-18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
@@ -843,7 +843,7 @@
           <path d="M -9,7 Q 0,2 9,7 Q 0,12 -9,7 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1"/>
         </g>
 
-        <!-- VECTOR LANDMARK 4: THE MAILBOX (Left ~24%, 50%) -->
+        <!-- VECTOR ITEM 4: THE MAILBOX (Left ~24%, 50%) -->
         <g transform="translate(144, 300)">
           <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
           <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
@@ -909,7 +909,7 @@
         </svg>
       </div>
 
-      <!-- Interactive Landmark Buttons -->
+      <!-- Interactive Item Buttons -->
       <button class="stage-interactive-element prop-cabin" data-target-x="50" data-target-y="24" data-nav="cabin" aria-label="Meet Ember"></button>
       <button class="stage-interactive-element prop-camera" data-target-x="76" data-target-y="50" data-nav="camera" aria-label="Gallery"></button>
       <button class="stage-interactive-element prop-table" data-target-x="50" data-target-y="76" data-nav="table" aria-label="Adventures"></button>
@@ -1001,12 +1001,12 @@
       <div class="slideshow-container">
         <!-- Slide 1 -->
         <div class="slide-item active">
-          <img src="image.png" alt="Ember resting cozily" />
+          <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80" alt="Ember resting cozily" />
           <div class="slide-caption">Resting by the quiet morning sunlight</div>
         </div>
         <!-- Slide 2 -->
         <div class="slide-item">
-          <img src="image_2.png" alt="Ember exploring outdoors" />
+          <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=800&q=80" alt="Ember exploring outdoors" />
           <div class="slide-caption">Exploring the backyard trail</div>
         </div>
 
