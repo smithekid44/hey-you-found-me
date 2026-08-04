@@ -255,6 +255,16 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
+    /* Cabin Door SVG specific styling & animation */
+    #cabinDoorGroup {
+      transform-origin: 10px 30px;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #cabinDoorGroup.door-open {
+      transform: scaleX(0.15) skewY(10deg);
+      opacity: 0.8;
+    }
+
     /* Dropped letter on map stage style */
     .dropped-letter-node {
       position: absolute;
@@ -398,7 +408,8 @@
       z-index: 18;
       pointer-events: none;
       transform: translate(-50%, -85%);
-      will-change: left, top;
+      will-change: left, top, transform, opacity;
+      transition: transform 0.6s ease, opacity 0.6s ease;
     }
 
     .ember-char { width: 100%; height: 100%; overflow: visible; }
@@ -666,6 +677,11 @@
         <g transform="translate(300, 110)">
           <ellipse cx="0" cy="35" rx="38" ry="12" fill="#03070c" opacity="0.6"/>
           <rect x="-30" y="5" width="60" height="35" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <!-- Cabin Door with Door Group for Open Animation -->
+          <g id="cabinDoorGroup" transform="translate(0, 13)">
+            <rect x="-7" y="0" width="14" height="27" rx="2" fill="#3d2812" stroke="#221408" stroke-width="1"/>
+            <circle cx="4" cy="14" r="1.5" fill="#ffd166"/>
+          </g>
           <rect x="-17" y="13" width="12" height="15" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
           <polygon points="0,-15 -40,7 40,7" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
           <rect x="13" y="-8" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
@@ -926,6 +942,7 @@
     const emberWalker = document.getElementById('emberWalker');
     const emberBodyGroup = document.getElementById('emberBodyG');
     const emberLetterInMouth = document.getElementById('emberLetterInMouth');
+    const cabinDoorGroup = document.getElementById('cabinDoorGroup');
 
     let currentX = 50;
     let currentY = 78;
@@ -1032,15 +1049,12 @@
         if (navType === 'mailbox') {
           // Custom Mailbox interaction sequence
           moveEmberTo(tx, ty, () => {
-            // Reached mailbox, pause briefly to grab letter
             setTimeout(() => {
               emberLetterInMouth.style.display = 'block';
               
-              // Walk over towards center/slightly offset spot to drop letter (e.g., x: 38, y: 55)
               moveEmberTo(38, 55, () => {
                 emberLetterInMouth.style.display = 'none';
 
-                // Spawn clickable dropped letter node on world panorama
                 if (activeDroppedLetter) activeDroppedLetter.remove();
                 
                 const letterNode = document.createElement('div');
@@ -1059,11 +1073,33 @@
               });
             }, 400);
           });
+        } else if (navType === 'cabin') {
+          // Custom Cabin interaction sequence: Walk to door, open door, shrink & disappear inside, then open modal
+          moveEmberTo(tx, ty, () => {
+            // 1. Open the door
+            cabinDoorGroup.classList.add('door-open');
+
+            // 2. Pause briefly, then shrink and fade Ember into the door
+            setTimeout(() => {
+              emberWalker.style.transform = 'translate(-50%, -85%) scale(0.1) translateY(-20px)';
+              emberWalker.style.opacity = '0';
+
+              // 3. Once fully inside, reset door & Ember styling, then pop up cabin modal
+              setTimeout(() => {
+                cabinModal.style.display = 'flex';
+                
+                // Reset styling for future replays
+                setTimeout(() => {
+                  cabinDoorGroup.classList.remove('door-open');
+                  emberWalker.style.transform = 'translate(-50%, -85%) scale(1)';
+                  emberWalker.style.opacity = '1';
+                }, 300);
+              }, 600);
+            }, 400);
+          });
         } else {
           moveEmberTo(tx, ty, () => {
-            if (navType === 'cabin') {
-              cabinModal.style.display = 'flex';
-            }
+            // Other elements if any
           });
         }
       });
