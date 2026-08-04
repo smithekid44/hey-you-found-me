@@ -255,22 +255,29 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
-    /* Dropped letter on map stage style */
+    /* Dropped letter on map stage style with fade out transition */
     .dropped-letter-node {
       position: absolute;
       transform: translate(-50%, -50%);
-      width: 32px;
-      height: 24px;
+      width: 44px;
+      height: 34px;
       background: #fdf6e2;
-      border: 1px solid #d4af37;
-      border-radius: 3px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
+      border: 2px solid #d4af37;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 15px rgba(255,209,102,0.8);
       cursor: pointer;
       z-index: 19;
       display: flex;
       align-items: center;
       justify-content: center;
       animation: letterPulse 1.5s infinite alternate ease-in-out;
+      opacity: 1;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .dropped-letter-node.fade-out {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .dropped-letter-node::after {
@@ -278,15 +285,15 @@
       position: absolute;
       width: 0;
       height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 10px solid #e6d5b8;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 14px solid #e6d5b8;
       top: 0;
     }
 
     @keyframes letterPulse {
       0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
-      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
+      100% { transform: translate(-50%, -50%) scale(1.15) translateY(-5px); filter: drop-shadow(0 0 12px rgba(255,209,102,0.95)); }
     }
 
     /* ==========================================
@@ -1307,11 +1314,8 @@
         const navType = element.getAttribute('data-nav');
 
         if (navType === 'mailbox') {
-          // If a letter is already dropped on the stage, clicking the mailbox again triggers Ember to bring a fresh one
-          if (activeDroppedLetter) {
-            activeDroppedLetter.remove();
-            activeDroppedLetter = null;
-          }
+          // Only allow getting a new letter if one isn't currently active on the map
+          if (activeDroppedLetter) return;
 
           moveEmberTo(tx, ty, () => {
             setTimeout(() => {
@@ -1326,14 +1330,10 @@
                 letterNode.style.top = `${55}%`;
                 letterNode.title = "Click to open letter / contact owner";
                 
+                // Clicking the dropped envelope opens the contact form
                 letterNode.addEventListener('click', (ev) => {
                   ev.stopPropagation();
                   contactModal.style.display = 'flex';
-                  // Remove the envelope immediately when the contact form modal opens
-                  if (activeDroppedLetter) {
-                    activeDroppedLetter.remove();
-                    activeDroppedLetter = null;
-                  }
                 });
 
                 worldPanorama.appendChild(letterNode);
@@ -1438,9 +1438,22 @@
     const closeGalleryModalBtn = document.getElementById('closeGalleryModal');
     const smsForm = document.getElementById('smsForm');
 
+    function closeContactModal() {
+      contactModal.style.display = 'none';
+      if (activeDroppedLetter) {
+        activeDroppedLetter.classList.add('fade-out');
+        setTimeout(() => {
+          if (activeDroppedLetter) {
+            activeDroppedLetter.remove();
+            activeDroppedLetter = null;
+          }
+        }, 1500); // Matches the 1.5s CSS transition duration
+      }
+    }
+
     if (closeModalBtn) {
       closeModalBtn.addEventListener('click', () => {
-        contactModal.style.display = 'none';
+        closeContactModal();
       });
     }
 
@@ -1458,7 +1471,7 @@
 
     window.addEventListener('click', (e) => {
       if (e.target === contactModal) {
-        contactModal.style.display = 'none';
+        closeContactModal();
       }
       if (e.target === cabinModal) {
         cabinModal.style.display = 'none';
@@ -1477,7 +1490,7 @@
         const smsBody = encodeURIComponent(`I found Ember! My phone is ${phone}. Message: ${msg}`);
         window.location.href = `sms:6163090059?body=${smsBody}`;
         
-        contactModal.style.display = 'none';
+        closeContactModal();
       });
     }
   </script>
