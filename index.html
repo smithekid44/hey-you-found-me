@@ -1307,6 +1307,12 @@
         const navType = element.getAttribute('data-nav');
 
         if (navType === 'mailbox') {
+          // If a letter is already dropped on the stage, clicking the mailbox again triggers Ember to bring a fresh one
+          if (activeDroppedLetter) {
+            activeDroppedLetter.remove();
+            activeDroppedLetter = null;
+          }
+
           moveEmberTo(tx, ty, () => {
             setTimeout(() => {
               emberLetterInMouth.style.display = 'block';
@@ -1314,8 +1320,6 @@
               moveEmberTo(38, 55, () => {
                 emberLetterInMouth.style.display = 'none';
 
-                if (activeDroppedLetter) activeDroppedLetter.remove();
-                
                 const letterNode = document.createElement('div');
                 letterNode.className = 'dropped-letter-node';
                 letterNode.style.left = `${38}%`;
@@ -1325,6 +1329,11 @@
                 letterNode.addEventListener('click', (ev) => {
                   ev.stopPropagation();
                   contactModal.style.display = 'flex';
+                  // Remove the envelope immediately when the contact form modal opens
+                  if (activeDroppedLetter) {
+                    activeDroppedLetter.remove();
+                    activeDroppedLetter = null;
+                  }
                 });
 
                 worldPanorama.appendChild(letterNode);
@@ -1351,20 +1360,16 @@
         } else if (navType === 'camera') {
           moveEmberTo(tx, ty, () => {
             setTimeout(() => {
-              // Strike several poses for the camera
               emberBodyGroup.style.transform = 'scaleX(1) rotate(-8deg) translateY(-4px)';
               setTimeout(() => {
                 emberBodyGroup.style.transform = 'scaleX(1) rotate(10deg) translateY(-2px)';
                 setTimeout(() => {
                   emberBodyGroup.style.transform = 'scaleX(1) rotate(-5deg) translateY(-6px)';
                   setTimeout(() => {
-                    // Camera flash effect!
                     cameraFlashOverlay.style.opacity = '0.9';
                     setTimeout(() => {
                       cameraFlashOverlay.style.opacity = '0';
                       emberBodyGroup.style.transform = 'scaleX(1) rotate(0deg) translateY(0px)';
-                      
-                      // Open gallery slideshow modal
                       galleryModal.style.display = 'flex';
                     }, 200);
                   }, 400);
