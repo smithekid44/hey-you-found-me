@@ -255,6 +255,40 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
+    /* Dropped letter on map stage style */
+    .dropped-letter-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 24px;
+      background: #fdf6e2;
+      border: 1px solid #d4af37;
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
+      cursor: pointer;
+      z-index: 19;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: letterPulse 1.5s infinite alternate ease-in-out;
+    }
+
+    .dropped-letter-node::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 10px solid #e6d5b8;
+      top: 0;
+    }
+
+    @keyframes letterPulse {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
+      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
+    }
+
     /* ==========================================
         GLOWING PAWPRINT EFFECT
         ========================================== */
@@ -470,7 +504,6 @@
       position: relative;
     }
 
-    /* Fireplace flame & sleeping ember animations */
     @keyframes roaringFire {
       0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
       50% { transform: scale(1.08) translateY(-3px); opacity: 1; }
@@ -479,14 +512,9 @@
       0%, 100% { opacity: 0.6; }
       50% { opacity: 0.9; }
     }
-    @keyframes sleepingBreathing {
-      0%, 100% { transform: translateY(0) scaleY(1); }
-      50% { transform: translateY(-1px) scaleY(0.97); }
-    }
 
     .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
     .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
-    .sleeping-ember { animation: sleepingBreathing 3s infinite ease-in-out; transform-origin: bottom center; }
 
     .ember-lore-text {
       text-align: left;
@@ -710,6 +738,11 @@
             <g class="leg-front-right">
               <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
             </g>
+            <!-- Letter in Mouth (hidden by default) -->
+            <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
+              <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
+              <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </g>
             <g class="head-group">
               <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
               <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
@@ -740,52 +773,25 @@
       <h3>Meet Ember</h3>
       <p>Inside the cozy forest cabin, warmth fills the room...</p>
 
-      <!-- Vector Art: Cabin Interior, Fireplace & Sleeping Ember -->
+      <!-- Vector Art: Cabin Interior & Fireplace -->
       <div class="cabin-interior-stage">
         <svg viewBox="0 0 400 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <!-- Room Background Walls & Floor -->
           <rect x="0" y="0" width="400" height="200" fill="#18110b"/>
           <path d="M0,135 L400,135 L400,200 L0,200 Z" fill="#2b170b"/>
-          <!-- Wooden Planks Detail -->
           <line x1="0" y1="152" x2="400" y2="152" stroke="#1e1007" stroke-width="2"/>
           <line x1="0" y1="176" x2="400" y2="176" stroke="#1e1007" stroke-width="2"/>
 
-          <!-- Fireplace Stone Hearth -->
           <path d="M250,35 L350,35 L370,145 L230,145 Z" fill="#3a3027" stroke="#251e19" stroke-width="3"/>
-          <!-- Fireplace Opening -->
           <path d="M270,70 L330,70 L330,140 L270,140 Z" fill="#090503"/>
           
-          <!-- Fireplace Glow Background -->
           <circle class="fireplace-glow" cx="300" cy="110" r="35" fill="#ff7043" opacity="0.5"/>
 
-          <!-- Logs -->
           <rect x="285" y="120" width="30" height="8" rx="3" fill="#4a2e18"/>
           <rect x="280" y="126" width="40" height="8" rx="3" fill="#382110"/>
 
-          <!-- Roaring Fire Flames -->
           <g class="roaring-flame">
             <path d="M300,125 Q290,100 300,75 Q310,100 300,125 Z" fill="#ffd166"/>
             <path d="M300,125 Q295,107 300,90 Q305,107 300,125 Z" fill="#ff7043"/>
-          </g>
-
-          <!-- Sleeping Ember positioned lower down to rest nicely on the floorboards -->
-          <g class="sleeping-ember" transform="translate(135, 230)">
-            <!-- Ground shadow -->
-            <ellipse cx="45" cy="22" rx="32" ry="9" fill="#090503" opacity="0.6"/>
-            <!-- Curled Body -->
-            <ellipse cx="45" cy="9" rx="24" ry="17" fill="#d47a3d"/>
-            <!-- Curled Tail -->
-            <path d="M22,12 Q5,7 10,-5 Q15,-10 22,-1" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
-            <!-- Sleeping Head -->
-            <circle cx="62" cy="5" r="15" fill="#d47a3d"/>
-            <!-- Pointy Ears Down / Relaxed -->
-            <polygon points="56,-7 48,-19 58,-11" fill="#d47a3d"/>
-            <polygon points="70,-7 78,-18 68,-11" fill="#d47a3d"/>
-            <!-- Peaceful Closed Eyes (Arcs) -->
-            <path d="M57,4 Q60,7 63,4" stroke="#172c4a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-            <!-- Zzz Indicator Animation -->
-            <text x="68" y="-11" font-family="Georgia, serif" font-size="12" fill="#ffd166" opacity="0.8">z</text>
-            <text x="76" y="-21" font-family="Georgia, serif" font-size="14" fill="#ffd166" opacity="0.6">Z</text>
           </g>
         </svg>
       </div>
@@ -919,11 +925,13 @@
     const worldPanorama = document.getElementById('worldPanorama');
     const emberWalker = document.getElementById('emberWalker');
     const emberBodyGroup = document.getElementById('emberBodyG');
+    const emberLetterInMouth = document.getElementById('emberLetterInMouth');
 
     let currentX = 50;
     let currentY = 78;
     let isMoving = false;
     let animFrameId = null;
+    let activeDroppedLetter = null;
 
     function spawnPawprint(x, y) {
       const paw = document.createElement('div');
@@ -987,7 +995,7 @@
 
     if (worldPanorama && emberWalker) {
       worldPanorama.addEventListener('click', (e) => {
-        if (e.target.closest('.stage-interactive-element') || e.target.closest('.mushroom-cluster')) return;
+        if (e.target.closest('.stage-interactive-element') || e.target.closest('.mushroom-cluster') || e.target.closest('.dropped-letter-node')) return;
 
         const rect = worldPanorama.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
@@ -1006,14 +1014,6 @@
     const contactModal = document.getElementById('contactModal');
     const cabinModal = document.getElementById('cabinModal');
 
-    function handleDestinationAction(navType) {
-      if (navType === 'mailbox') {
-        contactModal.style.display = 'flex';
-      } else if (navType === 'cabin') {
-        cabinModal.style.display = 'flex';
-      }
-    }
-
     stageElements.forEach(element => {
       element.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1029,9 +1029,43 @@
         const ty = parseFloat(element.getAttribute('data-target-y'));
         const navType = element.getAttribute('data-nav');
 
-        moveEmberTo(tx, ty, () => {
-          handleDestinationAction(navType);
-        });
+        if (navType === 'mailbox') {
+          // Custom Mailbox interaction sequence
+          moveEmberTo(tx, ty, () => {
+            // Reached mailbox, pause briefly to grab letter
+            setTimeout(() => {
+              emberLetterInMouth.style.display = 'block';
+              
+              // Walk over towards center/slightly offset spot to drop letter (e.g., x: 38, y: 55)
+              moveEmberTo(38, 55, () => {
+                emberLetterInMouth.style.display = 'none';
+
+                // Spawn clickable dropped letter node on world panorama
+                if (activeDroppedLetter) activeDroppedLetter.remove();
+                
+                const letterNode = document.createElement('div');
+                letterNode.className = 'dropped-letter-node';
+                letterNode.style.left = `${38}%`;
+                letterNode.style.top = `${55}%`;
+                letterNode.title = "Click to open letter / contact owner";
+                
+                letterNode.addEventListener('click', (ev) => {
+                  ev.stopPropagation();
+                  contactModal.style.display = 'flex';
+                });
+
+                worldPanorama.appendChild(letterNode);
+                activeDroppedLetter = letterNode;
+              });
+            }, 400);
+          });
+        } else {
+          moveEmberTo(tx, ty, () => {
+            if (navType === 'cabin') {
+              cabinModal.style.display = 'flex';
+            }
+          });
+        }
       });
     });
 
@@ -1048,18 +1082,7 @@
         const correspondingElement = document.querySelector(`.stage-interactive-element[data-nav="${targetNav}"]`);
         
         if (correspondingElement) {
-          const elemRect = correspondingElement.getBoundingClientRect();
-          const centerX = elemRect.left + elemRect.width / 2;
-          const centerY = elemRect.bottom + 8;
-
-          spawnPawprint(centerX, centerY);
-
-          const tx = parseFloat(correspondingElement.getAttribute('data-target-x'));
-          const ty = parseFloat(correspondingElement.getAttribute('data-target-y'));
-
-          moveEmberTo(tx, ty, () => {
-            handleDestinationAction(targetNav);
-          });
+          correspondingElement.click();
         }
       });
     });
