@@ -481,7 +481,7 @@
     }
     @keyframes sleepingBreathing {
       0%, 100% { transform: translateY(0) scaleY(1); }
-      50% { transform: translateY(-2px) scaleY(0.97); }
+      50% { transform: translateY(-1px) scaleY(0.97); }
     }
 
     .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
@@ -745,47 +745,47 @@
         <svg viewBox="0 0 400 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <!-- Room Background Walls & Floor -->
           <rect x="0" y="0" width="400" height="200" fill="#18110b"/>
-          <path d="M0,150 L400,150 L400,200 L0,200 Z" fill="#2b170b"/>
+          <path d="M0,135 L400,135 L400,200 L0,200 Z" fill="#2b170b"/>
           <!-- Wooden Planks Detail -->
-          <line x1="0" y1="165" x2="400" y2="165" stroke="#1e1007" stroke-width="2"/>
-          <line x1="0" y1="182" x2="400" y2="182" stroke="#1e1007" stroke-width="2"/>
+          <line x1="0" y1="152" x2="400" y2="152" stroke="#1e1007" stroke-width="2"/>
+          <line x1="0" y1="176" x2="400" y2="176" stroke="#1e1007" stroke-width="2"/>
 
           <!-- Fireplace Stone Hearth -->
-          <path d="M250,50 L350,50 L370,160 L230,160 Z" fill="#3a3027" stroke="#251e19" stroke-width="3"/>
+          <path d="M250,35 L350,35 L370,145 L230,145 Z" fill="#3a3027" stroke="#251e19" stroke-width="3"/>
           <!-- Fireplace Opening -->
-          <path d="M270,85 L330,85 L330,155 L270,155 Z" fill="#090503"/>
+          <path d="M270,70 L330,70 L330,140 L270,140 Z" fill="#090503"/>
           
           <!-- Fireplace Glow Background -->
-          <circle class="fireplace-glow" cx="300" cy="125" r="35" fill="#ff7043" opacity="0.5"/>
+          <circle class="fireplace-glow" cx="300" cy="110" r="35" fill="#ff7043" opacity="0.5"/>
 
           <!-- Logs -->
-          <rect x="285" y="135" width="30" height="8" rx="3" fill="#4a2e18"/>
-          <rect x="280" y="141" width="40" height="8" rx="3" fill="#382110"/>
+          <rect x="285" y="120" width="30" height="8" rx="3" fill="#4a2e18"/>
+          <rect x="280" y="126" width="40" height="8" rx="3" fill="#382110"/>
 
           <!-- Roaring Fire Flames -->
           <g class="roaring-flame">
-            <path d="M300,140 Q290,115 300,90 Q310,115 300,140 Z" fill="#ffd166"/>
-            <path d="M300,140 Q295,122 300,105 Q305,122 300,140 Z" fill="#ff7043"/>
+            <path d="M300,125 Q290,100 300,75 Q310,100 300,125 Z" fill="#ffd166"/>
+            <path d="M300,125 Q295,107 300,90 Q305,107 300,125 Z" fill="#ff7043"/>
           </g>
 
-          <!-- Sleeping Ember next to fireplace -->
-          <g class="sleeping-ember" transform="translate(140, 115)">
+          <!-- Sleeping Ember next to fireplace, placed firmly on the wooden floor -->
+          <g class="sleeping-ember" transform="translate(130, 130)">
             <!-- Ground shadow -->
-            <ellipse cx="45" cy="35" rx="32" ry="9" fill="#090503" opacity="0.6"/>
+            <ellipse cx="45" cy="22" rx="32" ry="9" fill="#090503" opacity="0.6"/>
             <!-- Curled Body -->
-            <ellipse cx="45" cy="22" rx="24" ry="17" fill="#d47a3d"/>
+            <ellipse cx="45" cy="9" rx="24" ry="17" fill="#d47a3d"/>
             <!-- Curled Tail -->
-            <path d="M22,25 Q5,20 10,8 Q15,3 22,12" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M22,12 Q5,7 10,-5 Q15,-10 22,-1" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
             <!-- Sleeping Head -->
-            <circle cx="62" cy="18" r="15" fill="#d47a3d"/>
+            <circle cx="62" cy="5" r="15" fill="#d47a3d"/>
             <!-- Pointy Ears Down / Relaxed -->
-            <polygon points="56,6 48,-6 58,2" fill="#d47a3d"/>
-            <polygon points="70,6 78,-5 68,2" fill="#d47a3d"/>
+            <polygon points="56,-7 48,-19 58,-11" fill="#d47a3d"/>
+            <polygon points="70,-7 78,-18 68,-11" fill="#d47a3d"/>
             <!-- Peaceful Closed Eyes (Arcs) -->
-            <path d="M57,17 Q60,20 63,17" stroke="#172c4a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M57,4 Q60,7 63,4" stroke="#172c4a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
             <!-- Zzz Indicator Animation -->
-            <text x="68" y="2" font-family="Georgia, serif" font-size="12" fill="#ffd166" opacity="0.8">z</text>
-            <text x="76" y="-8" font-family="Georgia, serif" font-size="14" fill="#ffd166" opacity="0.6">Z</text>
+            <text x="68" y="-11" font-family="Georgia, serif" font-size="12" fill="#ffd166" opacity="0.8">z</text>
+            <text x="76" y="-21" font-family="Georgia, serif" font-size="14" fill="#ffd166" opacity="0.6">Z</text>
           </g>
         </svg>
       </div>
