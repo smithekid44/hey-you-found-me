@@ -660,6 +660,124 @@
     }
     .submit-sms-btn:hover { background: #e08a47; }
 
+    /* ==========================================
+        POV BOOK READER MODAL STYLES
+        ========================================== */
+    .pov-book-modal {
+      max-width: 650px;
+      width: 95%;
+      background: #120904;
+      border: 2px solid #5a3d28;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 50px rgba(0,0,0,0.8);
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      position: relative;
+      cursor: none; /* Hide default cursor so custom paw pointer stands out */
+    }
+
+    .pov-book-spread {
+      position: relative;
+      width: 100%;
+      min-height: 340px;
+      background: #fdf6e2;
+      border-radius: 6px;
+      border: 1px solid #d4af37;
+      box-shadow: inset 0 0 35px rgba(180, 140, 90, 0.25), 0 5px 20px rgba(0,0,0,0.5);
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* Book Center Binding Crease */
+    .pov-book-spread::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; left: 50%;
+      width: 30px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.12), rgba(0,0,0,0.02));
+      pointer-events: none;
+    }
+
+    .pov-page-content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pov-page-title {
+      font-family: 'Georgia', serif;
+      font-size: 1.3rem;
+      color: #654321;
+      margin-bottom: 0.8rem;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .pov-page-text {
+      font-family: 'Georgia', serif;
+      font-size: 0.95rem;
+      color: #2c1d0c;
+      line-height: 1.65;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .pov-page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(180, 140, 90, 0.3);
+      font-size: 0.8rem;
+      color: #8c6d46;
+      font-family: 'Georgia', serif;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pov-corner-hint {
+      font-style: italic;
+      color: #a07850;
+    }
+
+    /* Clickable Corner Zones for Page Turning */
+    .page-turn-corner {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.25) 50%);
+      cursor: pointer;
+      z-index: 10;
+      border-bottom-right-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .page-turn-corner:hover {
+      background: linear-gradient(135deg, transparent 40%, rgba(212, 175, 55, 0.5) 40%);
+    }
+
+    /* Custom Tabby Cat Paw Pointer */
+    .custom-cat-paw {
+      position: fixed;
+      width: 65px;
+      height: 65px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-20%, -20%);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      display: none;
+    }
+
     @media (max-width: 768px) {
       body { overflow-y: auto; }
       .navbar { padding: 0.6rem 0.8rem; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
@@ -674,6 +792,8 @@
       h1 { font-size: 1.4rem; }
       .hero-greeting { font-size: 0.9rem; }
       .hero-subtext { font-size: 0.75rem; }
+      .pov-book-modal { padding: 1.2rem; }
+      .pov-book-spread { padding: 1.2rem; min-height: 280px; }
     }
   </style>
 </head>
@@ -970,16 +1090,47 @@
     </div>
   </div>
 
-  <!-- Adventures Modal Popup -->
+  <!-- Adventures / POV Book Modal Popup -->
   <div id="adventuresModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
+    <div class="modal-content pov-book-modal">
       <button id="closeAdventuresModal" class="close-btn">&times;</button>
-      <h3>Ember's Adventures & Chronicles</h3>
-      <p>Wearing her scholarly glasses, Ember reads through the ancient forest ledger of maps and nocturnal discoveries.</p>
-      <div class="ember-lore-text">
-        <p>She logs every secret forest path, every friendly firefly gathering, and every starry night constellation she witnesses during her watch.</p>
+      
+      <div class="pov-book-spread">
+        <div class="pov-page-content">
+          <div id="povPageTitle" class="pov-page-title">Ember's Backstory</div>
+          <div id="povPageText" class="pov-page-text">
+            Hello, friend. My name is Ember, but the people who love me most call me Mama.
+          </div>
+        </div>
+        
+        <div class="pov-page-footer">
+          <span id="povPageIndicator">Page 1 of 5</span>
+          <span class="pov-corner-hint">Click bottom-right corner to turn page</span>
+        </div>
+
+        <!-- Clickable page turn corner -->
+        <div id="pageTurnCorner" class="page-turn-corner" title="Turn Page"></div>
       </div>
     </div>
+  </div>
+
+  <!-- Custom Tabby Cat Paw Pointer -->
+  <div id="customCatPaw" class="custom-cat-paw">
+    <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tabby cat forearm / paw graphic -->
+      <path d="M 40,0 Q 55,20 60,45 Q 65,70 55,95 L 30,95 Q 20,70 28,45 Q 35,20 40,0 Z" fill="#7a7a7a" stroke="#4a4a4a" stroke-width="3"/>
+      <!-- Tabby stripes -->
+      <path d="M 35,15 Q 48,18 52,22" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M 32,30 Q 46,33 55,38" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M 30,50 Q 42,54 52,60" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- Main toe pad -->
+      <ellipse cx="42" cy="84" rx="11" ry="8" fill="#ffb6c1" stroke="#d48a98" stroke-width="2"/>
+      <!-- Little toe beans -->
+      <circle cx="27" cy="74" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="37" cy="70" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="49" cy="70" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="58" cy="74" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+    </svg>
   </div>
 
   <!-- Contact Modal Popup -->
@@ -1283,13 +1434,16 @@
             }, 300);
           });
         } else if (navType === 'table') {
-          // Adventures: Ember walks to table and puts on glasses with paws
+          // Adventures / POV Book: Ember walks to table and puts on glasses, opening POV book reader modal
           moveEmberTo(tx, ty, () => {
             setTimeout(() => {
               emberGlasses.style.opacity = '1';
               emberGlasses.style.transform = 'translateY(0px)';
               setTimeout(() => {
+                currentBookPage = 0;
+                renderBookPage();
                 adventuresModal.style.display = 'flex';
+                customCatPaw.style.display = 'block';
               }, 500);
             }, 300);
           });
@@ -1298,6 +1452,81 @@
         }
       });
     });
+
+    // POV Book Reader Pagination Logic
+    const bookPages = [
+      {
+        title: "Ember's Backstory",
+        text: "Hello, friend. My name is Ember, but the people who love me most call me Mama.\n\nI wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still. Every rustling leaf, dancing butterfly, and winding trail whispered another adventure waiting to be discovered."
+      },
+      {
+        title: "The Journey Ahead",
+        text: "As I grew, I became known for carrying my little traveler stick with a handkerchief tied to the end, convinced that every great explorer needed supplies for the journey ahead.\n\nWhether I was marching through moonlit forests, hopping across old stone paths, or inspecting every flower I could find, I believed the world was full of hidden treasures and friendly faces."
+      },
+      {
+        title: "The Heart of Home",
+        text: "But no matter how exciting the adventure became, there was always one place that mattered more than any forest, field, or mountain.\n\nHome.\n\nMy family loves me more than all the stars in the night sky. They worry when I wander too far because, while I think I'm on the greatest expedition ever, they only see an empty spot where I should be sleeping."
+      },
+      {
+        title: "Found by You",
+        text: "If you've found me, then you've become part of my story. Thank you for stopping, for caring, and for helping a little adventurer find her way back to the people waiting with open arms."
+      },
+      {
+        title: "Always Heading Home",
+        text: "I may be brave enough to chase the horizon, but my favorite destination has always been home.\n\nThank you for helping me get there. ❤️"
+      }
+    ];
+
+    let currentBookPage = 0;
+    const povPageTitle = document.getElementById('povPageTitle');
+    const povPageText = document.getElementById('povPageText');
+    const povPageIndicator = document.getElementById('povPageIndicator');
+    const pageTurnCorner = document.getElementById('pageTurnCorner');
+    const customCatPaw = document.getElementById('customCatPaw');
+    const adventuresModalEl = document.getElementById('adventuresModal');
+
+    function renderBookPage() {
+      const pageData = bookPages[currentBookPage];
+      povPageTitle.textContent = pageData.title;
+      // Preserve line breaks
+      povPageText.innerHTML = pageData.text.replace(/\n/g, '<br>');
+      povPageIndicator.textContent = `Page ${currentBookPage + 1} of ${bookPages.length}`;
+      
+      // Update corner hint text on final page
+      const cornerHint = document.querySelector('.pov-corner-hint');
+      if (currentBookPage === bookPages.length - 1) {
+        cornerHint.textContent = "Click corner to close book";
+      } else {
+        cornerHint.textContent = "Click bottom-right corner to turn page";
+      }
+    }
+
+    if (pageTurnCorner) {
+      pageTurnCorner.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentBookPage < bookPages.length - 1) {
+          currentBookPage++;
+          renderBookPage();
+        } else {
+          // Close book on final page click
+          closeAdventuresModalFunc();
+        }
+      });
+    }
+
+    // Custom Cat Paw Pointer follower inside POV Modal
+    if (adventuresModalEl) {
+      adventuresModalEl.addEventListener('mousemove', (e) => {
+        customCatPaw.style.left = `${e.clientX}px`;
+        customCatPaw.style.top = `${e.clientY}px`;
+      });
+      adventuresModalEl.addEventListener('mouseenter', () => {
+        customCatPaw.style.display = 'block';
+      });
+      adventuresModalEl.addEventListener('mouseleave', () => {
+        customCatPaw.style.display = 'none';
+      });
+    }
 
     // Slideshow Logic
     const slides = document.querySelectorAll('.slide-item');
@@ -1355,31 +1584,25 @@
       }
     }
 
+    function closeAdventuresModalFunc() {
+      adventuresModal.style.display = 'none';
+      customCatPaw.style.display = 'none';
+      if (emberGlasses) {
+        emberGlasses.style.opacity = '0';
+        emberGlasses.style.transform = 'translateY(-15px)';
+      }
+    }
+
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeContactModal);
     if (closeCabinModalBtn) closeCabinModalBtn.addEventListener('click', () => cabinModal.style.display = 'none');
     if (closeGalleryModalBtn) closeGalleryModalBtn.addEventListener('click', () => galleryModal.style.display = 'none');
-    
-    if (closeAdventuresModalBtn) {
-      closeAdventuresModalBtn.addEventListener('click', () => {
-        adventuresModal.style.display = 'none';
-        if (emberGlasses) {
-          emberGlasses.style.opacity = '0';
-          emberGlasses.style.transform = 'translateY(-15px)';
-        }
-      });
-    }
+    if (closeAdventuresModalBtn) closeAdventuresModalBtn.addEventListener('click', closeAdventuresModalFunc);
 
     window.addEventListener('click', (e) => {
       if (e.target === contactModal) closeContactModal();
       if (e.target === cabinModal) cabinModal.style.display = 'none';
       if (e.target === galleryModal) galleryModal.style.display = 'none';
-      if (e.target === adventuresModal) {
-        adventuresModal.style.display = 'none';
-        if (emberGlasses) {
-          emberGlasses.style.opacity = '0';
-          emberGlasses.style.transform = 'translateY(-15px)';
-        }
-      }
+      if (e.target === adventuresModal) closeAdventuresModalFunc();
     });
 
     if (smsForm) {
