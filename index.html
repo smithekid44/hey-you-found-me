@@ -493,7 +493,7 @@
     .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
     .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
 
-    /* Cabin Interior Vector Illustration */
+    /* Cabin Interior Vector Illustration Stage */
     .cabin-interior-stage {
       width: 100%;
       height: 220px;
@@ -516,6 +516,56 @@
 
     .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
     .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
+
+    /* Interior Walking Ember Animation */
+    @keyframes cabinEmberWander {
+      0% { left: 20%; transform: scaleX(1); }
+      40% { left: 60%; transform: scaleX(1); }
+      45% { left: 60%; transform: scaleX(-1); }
+      85% { left: 20%; transform: scaleX(-1); }
+      90% { left: 20%; transform: scaleX(1); }
+      100% { left: 20%; transform: scaleX(1); }
+    }
+
+    @keyframes cabinLegMoveBack {
+      0% { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-3px) rotate(14deg); }
+    }
+
+    @keyframes cabinLegMoveFront {
+      0% { transform: translateY(-3px) rotate(14deg); }
+      100% { transform: translateY(0px) rotate(-14deg); }
+    }
+
+    @keyframes cabinBodyBob {
+      0% { transform: translateY(0px) rotate(-1deg); }
+      100% { transform: translateY(-3px) rotate(1deg); }
+    }
+
+    .interior-ember-character {
+      position: absolute;
+      bottom: 22px;
+      width: 65px;
+      height: 65px;
+      z-index: 10;
+      animation: cabinEmberWander 14s infinite linear;
+    }
+
+    .interior-ember-character .ember-body-group {
+      animation: cabinBodyBob 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
 
     .ember-lore-text {
       text-align: left;
@@ -784,7 +834,7 @@
       <h3>Meet Ember</h3>
       <p>Inside the cozy forest cabin, warmth fills the room...</p>
 
-      <!-- Vector Art: Cabin Interior & Fireplace -->
+      <!-- Vector Art: Cabin Interior & Fireplace with Idly Wandering Ember -->
       <div class="cabin-interior-stage">
         <svg viewBox="0 0 400 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <rect x="0" y="0" width="400" height="200" fill="#18110b"/>
@@ -805,6 +855,42 @@
             <path d="M300,125 Q295,107 300,90 Q305,107 300,125 Z" fill="#ff7043"/>
           </g>
         </svg>
+
+        <!-- Walking Interior Ember Sprite -->
+        <div class="interior-ember-character">
+          <svg viewBox="0 0 130 130" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+            <g class="ember-body-group">
+              <g class="leg-back-left">
+                <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="leg-back-right">
+                <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="tail-group" style="transform-origin: 92px 85px; animation: tailSwishNormal 1.2s infinite ease-in-out;">
+                <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+              </g>
+              <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+              <g class="leg-front-left">
+                <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="leg-front-right">
+                <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </g>
+              <g class="head-group">
+                <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
+                <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
+                <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
+                <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
+                <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
+                <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
+                <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
+                <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
+                <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </g>
+            </g>
+          </svg>
+        </div>
       </div>
 
       <div class="ember-lore-text">
@@ -1067,7 +1153,6 @@
             }, 400);
           });
         } else if (navType === 'cabin') {
-          // Walk right into the open doorway, shrink/fade inside, then open modal
           moveEmberTo(tx, ty, () => {
             setTimeout(() => {
               emberWalker.style.transform = 'translate(-50%, -85%) scale(0.08) translateY(-35px)';
