@@ -389,7 +389,7 @@
     }
 
     /* ==========================================
-        WALKING EMBER CHARACTER ANIMATIONS
+        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
         ========================================== */
     .ember-wrapper {
       position: absolute;
@@ -413,11 +413,11 @@
 
     .ember-body-group { transform-origin: 65px 75px; }
     .ground-shadow { transform-origin: 65px 102px; }
-    .leg-back-left { transform-origin: 46px 82px; }
-    .leg-back-right { transform-origin: 80px 82px; }
-    .leg-front-left { transform-origin: 54px 84px; }
-    .leg-front-right { transform-origin: 72px 84px; }
-    .tail-group { transform-origin: 92px 85px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
+    .leg-back-left { transform-origin: 48px 78px; }
+    .leg-back-right { transform-origin: 78px 78px; }
+    .leg-front-left { transform-origin: 54px 80px; }
+    .leg-front-right { transform-origin: 72px 80px; }
+    .tail-group { transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
 
     @keyframes legMoveBack {
       0% { transform: translateY(0px) rotate(-14deg); }
@@ -441,7 +441,7 @@
 
     @keyframes tailSwishNormal {
       0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(8deg); }
+      50% { transform: rotate(12deg); }
     }
 
     @keyframes lanternFlicker {
@@ -867,43 +867,95 @@
         </div>
       </button>
 
-      <!-- Walking Ember Character Element -->
+      <!-- Walking Ember Character Element (Accurate Tabby Cat Design matching photo) -->
       <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 78%;">
         <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
           <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
 
           <g id="emberBodyG" class="ember-body-group">
+            <!-- Back Legs -->
             <g class="leg-back-left">
-              <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Paws -->
+              <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
             </g>
             <g class="leg-back-right">
-              <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Paws -->
+              <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
             </g>
+
+            <!-- Tail -->
             <g class="tail-group">
-              <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M92 78 Q106 72 102 52" stroke="#888" stroke-width="2" stroke-linecap="round" fill="none"/>
             </g>
-            <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+
+            <!-- Body (Tabby Grey Stripes & White Chest Blaze) -->
+            <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+            <!-- Tabby Stripes on Body -->
+            <path d="M 55,60 Q 58,74 53,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 65,58 Q 68,74 65,88" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 75,60 Q 77,74 74,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            
+            <!-- White Chest Fur / Blaze -->
+            <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+
+            <!-- Front Legs -->
             <g class="leg-front-left">
-              <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Sock Paw -->
+              <path d="M 52,90 L 56,90 L 56,100 L 52,100 Z" fill="#ffffff" rx="2"/>
+              <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
             </g>
             <g class="leg-front-right">
-              <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Sock Paw -->
+              <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
             </g>
+
             <!-- Letter in Mouth (hidden by default) -->
             <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
               <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
               <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
             </g>
+
+            <!-- Head Group (Tabby markings, White Muzzle/Nose stripe, Golden Eyes) -->
             <g class="head-group">
-              <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
-              <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
-              <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
-              <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
-              <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
-              <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
-              <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
-              <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
-              <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Ears -->
+              <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
+              <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
+              <!-- Inner Pink Ears -->
+              <polygon points="45,34 40,20 50,27" fill="#ffb6c1"/>
+              <polygon points="85,34 90,20 80,27" fill="#ffb6c1"/>
+
+              <!-- Head Base (Tabby Grey) -->
+              <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+              
+              <!-- Forehead Tabby Stripes -->
+              <path d="M 61,23 L 61,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 65,22 L 65,32" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 69,23 L 69,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+
+              <!-- Distinct White Blaze Up Nose & Muzzle -->
+              <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+
+              <!-- Expressive Golden/Yellow Cat Eyes -->
+              <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <!-- Vertical Slit Pupils -->
+              <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+              <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+
+              <!-- Cute Pink Nose & Mouth -->
+              <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
+              <path d="M 65,47 Q 63,51 61,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <path d="M 65,47 Q 67,51 69,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <!-- Whiskers -->
+              <line x1="50" y1="46" x2="36" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="50" y1="48" x2="35" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="80" y1="46" x2="94" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="80" y1="48" x2="95" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
             </g>
           </g>
         </svg>
@@ -946,37 +998,42 @@
           </g>
         </svg>
 
-        <!-- Walking Interior Ember Sprite -->
+        <!-- Walking Interior Ember Sprite (Matching Tabby Cat Design) -->
         <div class="interior-ember-character">
           <svg viewBox="0 0 130 130" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
             <g class="ember-body-group">
               <g class="leg-back-left">
-                <path d="M44 78 Q42 92 45 98" stroke="#d47a3d" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
               </g>
               <g class="leg-back-right">
-                <path d="M80 78 Q82 92 84 98" stroke="#b85d22" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
               </g>
-              <g class="tail-group" style="transform-origin: 92px 85px; animation: tailSwishNormal 1.2s infinite ease-in-out;">
-                <path d="M92 85 Q115 80 110 55 Q108 45 115 40" stroke="#d47a3d" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <g class="tail-group" style="transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out;">
+                <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
               </g>
-              <ellipse cx="65" cy="76" rx="28" ry="20" fill="#d47a3d"/>
+              <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+              <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
               <g class="leg-front-left">
-                <path d="M52 82 Q50 94 53 100" stroke="#e08a47" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
               </g>
               <g class="leg-front-right">
-                <path d="M74 82 Q76 94 77 100" stroke="#c96b2e" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
               </g>
               <g class="head-group">
-                <polygon points="46,42 38,20 56,33" fill="#d47a3d"/>
-                <polygon points="84,42 92,20 74,33" fill="#d47a3d"/>
-                <polygon points="47,40 42,25 53,33" fill="#f3c68f" opacity="0.6"/>
-                <polygon points="83,40 88,25 77,33" fill="#f3c68f" opacity="0.6"/>
-                <circle cx="65" cy="45" r="22" fill="#d47a3d"/>
-                <circle cx="57" cy="43" r="2.5" fill="#172c4a"/>
-                <circle cx="73" cy="43" r="2.5" fill="#172c4a"/>
-                <polygon points="65,47 63,45 67,45" fill="#f3c68f"/>
-                <path d="M63 49 Q65 52 67 49" stroke="#172c4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
+                <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
+                <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+                <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+                <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+                <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+                <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+                <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+                <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
               </g>
             </g>
           </svg>
