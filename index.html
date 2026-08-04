@@ -766,16 +766,36 @@
       background: linear-gradient(135deg, transparent 40%, rgba(212, 175, 55, 0.5) 40%);
     }
 
-    /* Custom Tabby Cat Paw Pointer */
+    .page-turn-corner-left {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(225deg, transparent 50%, rgba(212, 175, 55, 0.25) 50%);
+      cursor: pointer;
+      z-index: 10;
+      border-bottom-left-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .page-turn-corner-left:hover {
+      background: linear-gradient(225deg, transparent 40%, rgba(212, 175, 55, 0.5) 40%);
+    }
+
+    /* Custom Tabby Cat Arm & Paw Pointer coming from off-camera */
     .custom-cat-paw {
       position: fixed;
-      width: 65px;
-      height: 65px;
+      width: 140px;
+      height: 140px;
       pointer-events: none;
       z-index: 99999;
-      transform: translate(-20%, -20%);
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      /* Anchor transform origin near top-left so the arm extends from off-screen */
+      transform-origin: 15% 10%;
+      transform: translate(-30px, -20px);
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
       display: none;
+      will-change: transform, left, top;
     }
 
     @media (max-width: 768px) {
@@ -1108,28 +1128,29 @@
           <span class="pov-corner-hint">Click bottom-right corner to turn page</span>
         </div>
 
-        <!-- Clickable page turn corner -->
-        <div id="pageTurnCorner" class="page-turn-corner" title="Turn Page"></div>
+        <!-- Clickable page turn corners -->
+        <div id="pageTurnCorner" class="page-turn-corner" title="Next Page"></div>
+        <div id="pageTurnCornerLeft" class="page-turn-corner-left" title="Previous Page"></div>
       </div>
     </div>
   </div>
 
-  <!-- Custom Tabby Cat Paw Pointer -->
+  <!-- Custom Tabby Cat Arm & Paw Pointer extending from off-screen -->
   <div id="customCatPaw" class="custom-cat-paw">
-    <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <!-- Tabby cat forearm / paw graphic -->
-      <path d="M 40,0 Q 55,20 60,45 Q 65,70 55,95 L 30,95 Q 20,70 28,45 Q 35,20 40,0 Z" fill="#7a7a7a" stroke="#4a4a4a" stroke-width="3"/>
-      <!-- Tabby stripes -->
-      <path d="M 35,15 Q 48,18 52,22" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <path d="M 32,30 Q 46,33 55,38" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <path d="M 30,50 Q 42,54 52,60" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <svg viewBox="0 0 160 160" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <!-- Extended Tabby Cat Arm coming from top-left off-screen -->
+      <path d="M 0,0 Q 40,25 70,65 Q 95,100 85,135 L 60,135 Q 40,105 20,70 Q 10,40 0,0 Z" fill="#7a7a7a" stroke="#4a4a4a" stroke-width="3"/>
+      <!-- Tabby Arm Stripes -->
+      <path d="M 12,12 Q 35,28 48,45" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M 22,32 Q 45,50 60,72" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M 35,58 Q 55,75 72,100" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
       <!-- Main toe pad -->
-      <ellipse cx="42" cy="84" rx="11" ry="8" fill="#ffb6c1" stroke="#d48a98" stroke-width="2"/>
+      <ellipse cx="72" cy="120" rx="12" ry="9" fill="#ffb6c1" stroke="#d48a98" stroke-width="2"/>
       <!-- Little toe beans -->
-      <circle cx="27" cy="74" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="37" cy="70" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="49" cy="70" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="58" cy="74" r="4.5" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="56" cy="108" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="67" cy="102" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="79" cy="102" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
+      <circle cx="90" cy="108" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
     </svg>
   </div>
 
@@ -1482,22 +1503,21 @@
     const povPageText = document.getElementById('povPageText');
     const povPageIndicator = document.getElementById('povPageIndicator');
     const pageTurnCorner = document.getElementById('pageTurnCorner');
+    const pageTurnCornerLeft = document.getElementById('pageTurnCornerLeft');
     const customCatPaw = document.getElementById('customCatPaw');
     const adventuresModalEl = document.getElementById('adventuresModal');
 
     function renderBookPage() {
       const pageData = bookPages[currentBookPage];
       povPageTitle.textContent = pageData.title;
-      // Preserve line breaks
       povPageText.innerHTML = pageData.text.replace(/\n/g, '<br>');
       povPageIndicator.textContent = `Page ${currentBookPage + 1} of ${bookPages.length}`;
       
-      // Update corner hint text on final page
       const cornerHint = document.querySelector('.pov-corner-hint');
       if (currentBookPage === bookPages.length - 1) {
-        cornerHint.textContent = "Click corner to close book";
+        cornerHint.textContent = "Click bottom-right corner to close book";
       } else {
-        cornerHint.textContent = "Click bottom-right corner to turn page";
+        cornerHint.textContent = "Bottom-left: Prev | Bottom-right: Next";
       }
     }
 
@@ -1508,13 +1528,22 @@
           currentBookPage++;
           renderBookPage();
         } else {
-          // Close book on final page click
           closeAdventuresModalFunc();
         }
       });
     }
 
-    // Custom Cat Paw Pointer follower inside POV Modal
+    if (pageTurnCornerLeft) {
+      pageTurnCornerLeft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentBookPage > 0) {
+          currentBookPage--;
+          renderBookPage();
+        }
+      });
+    }
+
+    // Custom Cat Arm & Paw Pointer tracking movement seamlessly like your own arm
     if (adventuresModalEl) {
       adventuresModalEl.addEventListener('mousemove', (e) => {
         customCatPaw.style.left = `${e.clientX}px`;
