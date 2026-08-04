@@ -255,16 +255,6 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
-    /* Cabin Door Gentle Open Animation - Fixed transform origin to door hinge (left edge) */
-    #cabinDoorNode {
-      transform-origin: 10px 18px;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-    }
-    #cabinDoorNode.door-open {
-      transform: rotateY(-75deg) scaleX(0.4);
-      opacity: 0.7;
-    }
-
     /* Dropped letter on map stage style */
     .dropped-letter-node {
       position: absolute;
@@ -673,7 +663,7 @@
         <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
         <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
 
-        <!-- VECTOR LANDMARK 1: THE CABIN WITH DETAILED DOOR & HINGE -->
+        <!-- VECTOR LANDMARK 1: THE CABIN WITH AN OPEN DOORWAY -->
         <g transform="translate(300, 110)">
           <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
           <!-- Cabin Main Wall Structure -->
@@ -681,14 +671,11 @@
           <!-- Cabin Window -->
           <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
           
-          <!-- Cabin Door Background (Warm Interior Void when open) -->
-          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#1b0e06" stroke="#100804" stroke-width="1"/>
-          <circle cx="21" cy="33" r="1.5" fill="#ffd166" opacity="0.7"/>
-
-          <!-- Cabin Door Node (Hinged Wooden Door for open animation) -->
-          <rect id="cabinDoorNode" x="10" y="18" width="16" height="30" rx="1.5" fill="#4a2e18" stroke="#2d1b0e" stroke-width="1.2"/>
-          <!-- Door Knob / Accent -->
-          <circle cx="22" cy="33" r="1.2" fill="#ffd166"/>
+          <!-- Open Doorway Void (Warm Fire Glow Inside) -->
+          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
+          <!-- Inner warm hearth glow peeking out -->
+          <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
+          <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
 
           <!-- Roof & Chimney -->
           <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
@@ -950,7 +937,6 @@
     const emberWalker = document.getElementById('emberWalker');
     const emberBodyGroup = document.getElementById('emberBodyG');
     const emberLetterInMouth = document.getElementById('emberLetterInMouth');
-    const cabinDoorNode = document.getElementById('cabinDoorNode');
 
     let currentX = 50;
     let currentY = 78;
@@ -1081,10 +1067,8 @@
             }, 400);
           });
         } else if (navType === 'cabin') {
-          // Walk to cabin, swing door open gently, shrink/fade Ember directly into the doorway, then open modal
+          // Walk right into the open doorway, shrink/fade inside, then open modal
           moveEmberTo(tx, ty, () => {
-            cabinDoorNode.classList.add('door-open');
-
             setTimeout(() => {
               emberWalker.style.transform = 'translate(-50%, -85%) scale(0.08) translateY(-35px)';
               emberWalker.style.opacity = '0';
@@ -1093,12 +1077,11 @@
                 cabinModal.style.display = 'flex';
                 
                 setTimeout(() => {
-                  cabinDoorNode.classList.remove('door-open');
                   emberWalker.style.transform = 'translate(-50%, -85%) scale(1)';
                   emberWalker.style.opacity = '1';
                 }, 300);
               }, 550);
-            }, 350);
+            }, 300);
           });
         } else {
           moveEmberTo(tx, ty, () => {});
