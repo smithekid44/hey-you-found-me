@@ -250,19 +250,19 @@
     }
 
     /* Well-spaced circular coordinates for the 4 Props */
-    .prop-cabin { top: 24%; left: 50%; width: 90px; height: 85px; }
+    .prop-cabin { top: 24%; left: 50%; width: 105px; height: 95px; }
     .prop-camera { top: 50%; left: 76%; width: 75px; height: 75px; }
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
-    /* Explicit Cabin Door Swing-Open Animation using transform-origin on the left hinge */
+    /* Cabin Door Swing-Open Animation mapped precisely to the new SVG door coordinates */
     #cabinDoorNode {
-      transform-origin: 275px 128px;
+      transform-origin: 288px 148px;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     }
     #cabinDoorNode.door-open {
       transform: scaleX(0.08) skewY(15deg);
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     /* Dropped letter on map stage style */
@@ -673,20 +673,26 @@
         <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
         <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
 
-        <!-- VECTOR LANDMARK 1: THE CABIN (Top ~50%, 24%) -->
+        <!-- VECTOR LANDMARK 1: THE CABIN WITH DETAILED DOOR & HINGE -->
         <g transform="translate(300, 110)">
-          <ellipse cx="0" cy="35" rx="38" ry="12" fill="#03070c" opacity="0.6"/>
-          <rect x="-30" y="5" width="60" height="35" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
-          <rect x="-17" y="13" width="12" height="15" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
+          <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
+          <!-- Cabin Main Wall Structure -->
+          <rect x="-34" y="10" width="68" height="38" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <!-- Cabin Window -->
+          <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
           
-          <!-- Cabin Door Background (Dark Opening Interior) -->
-          <rect x="-7" y="13" width="14" height="27" rx="1" fill="#180e08" stroke="#100804" stroke-width="1"/>
-          
-          <!-- Cabin Door Node (Explicitly distinct hinged door element for the swing animation) -->
-          <rect id="cabinDoorNode" x="-25" y="13" width="14" height="27" rx="1" fill="#3d2812" stroke="#221408" stroke-width="1"/>
+          <!-- Cabin Door Background (Warm Interior Void when open) -->
+          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#1b0e06" stroke="#100804" stroke-width="1"/>
+          <circle cx="21" cy="33" r="1.5" fill="#ffd166" opacity="0.7"/>
 
-          <polygon points="0,-15 -40,7 40,7" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
-          <rect x="13" y="-8" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
+          <!-- Cabin Door Node (Hinged Wooden Door for open animation) -->
+          <rect id="cabinDoorNode" x="-6" y="18" width="16" height="30" rx="1.5" fill="#4a2e18" stroke="#2d1b0e" stroke-width="1.2"/>
+          <!-- Door Knob / Accent -->
+          <circle cx="-2" cy="33" r="1.2" fill="#ffd166"/>
+
+          <!-- Roof & Chimney -->
+          <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
+          <rect x="16" y="-5" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
         </g>
 
         <!-- VECTOR LANDMARK 2: THE CAMERA (Right ~76%, 50%) -->
