@@ -255,14 +255,14 @@
     .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
     .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
 
-    /* Cabin Door Gentle Open Animation */
+    /* Cabin Door Gentle Open Animation - Fixed transform origin to door hinge (left edge) */
     #cabinDoorNode {
-      transform-origin: 288px 148px;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      transform-origin: 10px 18px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     }
     #cabinDoorNode.door-open {
-      transform: scaleX(0.25) skewY(5deg);
-      opacity: 0.6;
+      transform: rotateY(-75deg) scaleX(0.4);
+      opacity: 0.7;
     }
 
     /* Dropped letter on map stage style */
@@ -686,9 +686,9 @@
           <circle cx="21" cy="33" r="1.5" fill="#ffd166" opacity="0.7"/>
 
           <!-- Cabin Door Node (Hinged Wooden Door for open animation) -->
-          <rect id="cabinDoorNode" x="-6" y="18" width="16" height="30" rx="1.5" fill="#4a2e18" stroke="#2d1b0e" stroke-width="1.2"/>
+          <rect id="cabinDoorNode" x="10" y="18" width="16" height="30" rx="1.5" fill="#4a2e18" stroke="#2d1b0e" stroke-width="1.2"/>
           <!-- Door Knob / Accent -->
-          <circle cx="-2" cy="33" r="1.2" fill="#ffd166"/>
+          <circle cx="22" cy="33" r="1.2" fill="#ffd166"/>
 
           <!-- Roof & Chimney -->
           <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
