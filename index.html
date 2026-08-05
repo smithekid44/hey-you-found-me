@@ -455,17 +455,32 @@
     .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
     .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
 
-    /* Storybook Modal Unique Layout */
+    /* First-Person POV Storybook Modal Styling */
     .storybook-modal-content {
-      max-width: 650px;
-      background: #141b26;
-      border: 2px solid #d4af37;
-      padding: 2.5rem 2rem 2rem 2rem;
+      max-width: 680px;
+      background: #fdfbf7;
+      color: #2c221e;
+      border: 3px solid #d4af37;
+      padding: 2.5rem 2.5rem 2rem 2.5rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 40px rgba(212, 175, 55, 0.15);
+      border-radius: 12px;
+      position: relative;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .storybook-modal-content .close-btn {
+      color: #7c6530;
+      top: 15px;
+      right: 20px;
     }
 
     .storybook-page {
       display: none;
       animation: fadeInPage 0.4s ease-in-out;
+      flex-grow: 1;
     }
 
     .storybook-page.active-page {
@@ -477,50 +492,44 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .storybook-title {
-      font-family: 'Georgia', serif;
-      color: #ffd166;
-      font-size: 1.4rem;
-      margin-bottom: 0.8rem;
-      text-align: center;
-    }
-
     .storybook-text {
       font-family: 'Georgia', serif;
-      font-size: 0.95rem;
-      color: #e2e8f0;
-      line-height: 1.7;
+      font-size: 1.1rem;
+      color: #3e2723;
+      line-height: 1.8;
+      margin-top: 1rem;
       margin-bottom: 1.5rem;
-      background: rgba(5, 11, 20, 0.6);
-      padding: 1.2rem;
+      background: rgba(245, 239, 230, 0.6);
+      padding: 1.8rem;
       border-radius: 8px;
-      border-left: 3px solid #ffd166;
+      border-left: 4px solid #d4af37;
       text-align: left;
+      font-style: italic;
     }
 
     .storybook-nav-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 1rem;
-      border-top: 1px solid rgba(255, 209, 102, 0.2);
+      margin-top: auto;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
       padding-top: 1rem;
     }
 
     .storybook-btn {
-      background: #2a3a50;
-      color: #ffd166;
-      border: 1px solid rgba(255, 209, 102, 0.4);
+      background: #f4ebd0;
+      color: #5c4033;
+      border: 1px solid #d4af37;
       padding: 0.5rem 1.2rem;
       border-radius: 6px;
       font-family: 'Georgia', serif;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
 
     .storybook-btn:hover:not(:disabled) {
-      background: #ffd166;
-      color: #050b14;
+      background: #d4af37;
+      color: #fff;
     }
 
     .storybook-btn:disabled {
@@ -530,7 +539,7 @@
 
     .page-indicator {
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #8c7853;
       font-family: 'Georgia', serif;
     }
   </style>
@@ -799,29 +808,50 @@
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               
               <div class="storybook-page active-page" data-page="0">
-                <h3 class="storybook-title">Chapter I: The Great Mushroom Trail</h3>
                 <div class="storybook-text">
-                  When the glowing blue mushrooms light up the forest floor, Ember leads the way down the winding stone path to uncover secret messages left behind by wandering friends.
+                  Hello, friend. My name is Ember, but the people who love me most call me Mama.
                 </div>
               </div>
 
               <div class="storybook-page" data-page="1">
-                <h3 class="storybook-title">Chapter II: The Hearthlight Sanctuary</h3>
                 <div class="storybook-text">
-                  Far from the chilly night winds, the cabin door stands always welcoming. Here, curled up beside crackling embers, dreaming paws twitch in rhythm with the forest.
+                  I wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still. Every rustling leaf, dancing butterfly, and winding trail whispered another adventure waiting to be discovered.
                 </div>
               </div>
 
               <div class="storybook-page" data-page="2">
-                <h3 class="storybook-title">Chapter III: Always Waiting For You</h3>
                 <div class="storybook-text">
-                  Whether wandering deep into the thicket or resting near the old mailbox, Ember knows every footstep along the trail. You found the way home. ♡
+                  As I grew, I became known for carrying my little traveler stick with a handkerchief tied to the end, convinced that every great explorer needed supplies for the journey ahead. Whether I was marching through moonlit forests, hopping across old stone paths, or inspecting every flower I could find, I believed the world was full of hidden treasures and friendly faces.
+                </div>
+              </div>
+
+              <div class="storybook-page" data-page="3">
+                <div class="storybook-text">
+                  But no matter how exciting the adventure became, there was always one place that mattered more than any forest, field, or mountain.<br><br><strong>Home.</strong>
+                </div>
+              </div>
+
+              <div class="storybook-page" data-page="4">
+                <div class="storybook-text">
+                  My family loves me more than all the stars in the night sky. They worry when I wander too far because, while I think I'm on the greatest expedition ever, they only see an empty spot where I should be sleeping.
+                </div>
+              </div>
+
+              <div class="storybook-page" data-page="5">
+                <div class="storybook-text">
+                  If you've found me, then you've become part of my story. Thank you for stopping, for caring, and for helping a little adventurer find her way back to the people waiting with open arms.
+                </div>
+              </div>
+
+              <div class="storybook-page" data-page="6">
+                <div class="storybook-text">
+                  I may be brave enough to chase the horizon, but my favorite destination has always been home.<br><br>Thank you for helping me get there. ❤️
                 </div>
               </div>
 
               <div class="storybook-nav-row">
                 <button class="storybook-btn" id="prevPageBtn" disabled>&#10094; Previous</button>
-                <span class="page-indicator" id="pageIndicator">Page 1 of 3</span>
+                <span class="page-indicator" id="pageIndicator">Page 1 of 7</span>
                 <button class="storybook-btn" id="nextPageBtn">Next &#10095;</button>
               </div>
             </div>
