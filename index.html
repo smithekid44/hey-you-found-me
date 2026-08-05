@@ -6,10 +6,12 @@
   <style>
     body {
       margin: 0;
-      background: #03070c;
+      background: linear-gradient(to bottom, #03070c, #07111e, #0c1b2a);
       color: #fff;
       font-family: sans-serif;
       overflow: hidden;
+      height: 100vh;
+      width: 100vw;
     }
     #worldBgCanvas {
       position: absolute;
@@ -18,17 +20,22 @@
       width: 100vw;
       height: 100vh;
       z-index: 1;
+      pointer-events: none;
     }
     .stage-interactive-element {
       position: absolute;
-      z-index: 5;
-      background: transparent;
-      border: none;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
       cursor: pointer;
+    }
+    .stage-interactive-element:hover {
+      background: rgba(255, 255, 255, 0.15);
     }
     #emberWalker {
       position: absolute;
-      z-index: 10;
+      z-index: 15;
       width: 80px;
       height: 80px;
       transform: translate(-50%, -85%);
@@ -75,6 +82,7 @@
       max-width: 600px;
       position: relative;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 1001;
     }
     .close-btn {
       position: absolute;
@@ -166,63 +174,26 @@
   <button class="stage-interactive-element" data-nav="table" style="left: 45%; top: 75%; width: 60px; height: 60px;" aria-label="Book Modal"></button>
   <button class="stage-interactive-element" id="secretMushroomCluster" style="left: 15%; top: 75%; width: 40px; height: 40px;" aria-label="Mushroom Status"></button>
 
-  <div id="statusBadge" style="position:fixed; top:20px; left:20px; z-index:50;"><span id="statusText">Ember is home</span></div>
-  <div id="cameraFlashOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#fff; opacity:0; pointer-events:none; transition: opacity 0.2s; z-index:2000;"></div>
+  <div id="statusBadge" style="position:fixed; top:20px; left:20px; z-index:50; color: #fff; font-weight: bold;"><span id="statusText">Ember is home</span></div>
   <div id="modalContainer"></div>
 
   <script>
     const canvas = document.getElementById('worldBgCanvas');
     const ctx = canvas.getContext('2d');
     
-    // Automatically size canvas to full screen resolution
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    function drawForestBackground() {
-      const width = canvas.width;
-      const height = canvas.height;
-      const cx = width / 2;
-      const cy = height / 2;
-
-      // Deep night sky gradient
-      const bgGrad = ctx.createRadialGradient(cx, cy, 30, cx, cy, width * 0.7);
-      bgGrad.addColorStop(0, '#0c1b2a');
-      bgGrad.addColorStop(0.5, '#07111e');
-      bgGrad.addColorStop(1, '#03070c');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Distant glowing forest canopy / trees silhouette
-      ctx.fillStyle = '#050d17';
-      for (let i = 0; i < 28; i++) {
-        const angle = (i / 28) * Math.PI * 2;
-        const dist = 210 + Math.sin(i * 3) * 20;
-        const x = cx + Math.cos(angle) * dist;
-        const y = cy + Math.sin(angle) * dist;
-        
-        ctx.beginPath();
-        ctx.arc(x, y, 75 + (i % 3) * 25, 0, Math.PI * 2);
-        ctx.fill();
+    // Draw background stars/particles on canvas safely
+    function drawBackgroundStars() {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+      for (let i = 0; i < 50; i++) {
+        const x = (i * 73) % canvas.width;
+        const y = (i * 41) % (canvas.height * 0.7);
+        ctx.fillRect(x, y, 2, 2);
       }
-
-      // Magical forest floor moss & grass details
-      ctx.fillStyle = '#091826';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 185, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Soft mystical glow rings in center
-      const centerGlow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 160);
-      centerGlow.addColorStop(0, 'rgba(6, 214, 160, 0.08)');
-      centerGlow.addColorStop(0.5, 'rgba(17, 138, 178, 0.05)');
-      centerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = centerGlow;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, 0, Math.PI * 2);
-      ctx.fill();
     }
-
-    drawForestBackground();
+    drawBackgroundStars();
 
     const emberWalker = document.getElementById('emberWalker');
     const statusText = document.getElementById('statusText');
