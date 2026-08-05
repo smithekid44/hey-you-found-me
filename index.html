@@ -676,17 +676,33 @@
           <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
         </g>
 
-        <!-- TABLE LANDMARK -->
+        <!-- TABLE LANDMARK (Redesigned with open antique book & glowing bookmark) -->
         <g transform="translate(300, 470)">
-          <ellipse cx="0" cy="15" rx="26" ry="9" fill="#03070c" opacity="0.5"/>
-          <ellipse cx="0" cy="8" rx="26" ry="9" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
-          <path d="M -9,7 Q 0,2 9,7 Q 0,12 -9,7 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1"/>
+          <ellipse cx="0" cy="15" rx="30" ry="10" fill="#03070c" opacity="0.6"/>
+          <!-- Wooden Table Base & Top -->
+          <ellipse cx="0" cy="8" rx="28" ry="10" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <!-- Open Antique Storybook on Table -->
+          <g transform="translate(0, 2)">
+            <path d="M -15,-6 Q 0,-9 15,-6 L 15,4 Q 0,1 -15,4 Z" fill="#fdfbf7" stroke="#d4af37" stroke-width="1"/>
+            <line x1="0" y1="-8" x2="0" y2="3" stroke="#d4af37" stroke-width="1"/>
+            <!-- Glowing Book Ribbon Bookmark -->
+            <path d="M 0,-3 Q 6,2 10,7" fill="none" stroke="#ffd166" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="10" cy="7" r="1.5" fill="#06d6a0" filter="drop-shadow(0 0 3px #06d6a0)"/>
+          </g>
         </g>
 
-        <!-- MAILBOX LANDMARK -->
+        <!-- MAILBOX LANDMARK (Redesigned with a perched little bird & cozy post details) -->
         <g transform="translate(144, 300)">
-          <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
-          <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
+          <rect x="-3" y="2" width="6" height="37" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
+          <!-- Mailbox Body & Open Flag -->
+          <path d="M -13,-4 L 11,-4 A 9,9 0 0,1 20,5 L 20,11 L -13,11 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
+          <rect x="17" y="-2" width="2" height="10" rx="1" fill="#ef476f"/>
+          <!-- Perched Little Songbird on Top -->
+          <g transform="translate(-3, -11)">
+            <ellipse cx="0" cy="2" rx="4.5" ry="3.5" fill="#f3c68f"/>
+            <circle cx="3" cy="0" r="2.2" fill="#f3c68f"/>
+            <polygon points="5,0 7,0.8 5,1.5" fill="#e08a47"/>
+          </g>
         </g>
       </svg>
 
@@ -929,11 +945,12 @@
             <div class="modal-content feature-modal" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>If I'm Lost</h3>
-              <p>Spotted Ember out exploring or want to send a note back along the trail? Drop a message for her family!</p>
-              <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent along the trail.'); closeModal();">
-                <input type="text" class="contact-input" placeholder="Your Name or Where You Found Her" required />
-                <textarea class="contact-textarea" placeholder="Your message..." required></textarea>
-                <button type="submit" class="contact-submit">Send Note</button>
+              <p>If Ember is currently lost or you've spotted her on your travels, please send a message straight to her family so she can return home safely!</p>
+              <form class="contact-form" id="lostContactForm" onsubmit="event.preventDefault(); alert('Message sent to Ember\\'s family! Thank you for helping.'); closeModal();">
+                <input type="text" class="contact-input" placeholder="Your Name" required>
+                <input type="tel" class="contact-input" placeholder="Your Phone Number / Contact" required>
+                <textarea class="contact-textarea" placeholder="Where did you find Ember? Any details..." required></textarea>
+                <button type="submit" class="contact-submit">Send Message to Family</button>
               </form>
             </div>
           </div>
@@ -944,27 +961,11 @@
 
       const overlay = document.getElementById('activeModalOverlay');
       const closeBtn = document.getElementById('modalCloseBtn');
-
-      if (overlay && closeBtn) {
-        closeBtn.addEventListener('click', () => {
-          closeModal();
-          emberWalker.classList.remove('wearing-glasses');
-        });
-        overlay.addEventListener('click', (e) => {
-          if (e.target === overlay) {
-            closeModal();
-            emberWalker.classList.remove('wearing-glasses');
-          }
-        });
-      }
+      if (overlay) overlay.addEventListener('click', closeModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
       if (key === 'table') {
-        const prevBtn = document.getElementById('prevPageBtn');
-        const nextBtn = document.getElementById('nextPageBtn');
-        if (prevBtn && nextBtn) {
-          prevBtn.addEventListener('click', () => changeStoryPage(-1));
-          nextBtn.addEventListener('click', () => changeStoryPage(1));
-        }
+        setupStorybookListeners();
       }
     }
 
@@ -972,43 +973,46 @@
       modalContainer.innerHTML = '';
     }
 
-    function changeStoryPage(direction) {
-      const pages = document.querySelectorAll('.storybook-page');
+    function setupStorybookListeners() {
       const prevBtn = document.getElementById('prevPageBtn');
       const nextBtn = document.getElementById('nextPageBtn');
-      const indicator = document.getElementById('pageIndicator');
-      
-      if (!pages.length) return;
+      const pageIndicator = document.getElementById('pageIndicator');
+      const pages = document.querySelectorAll('.storybook-page');
 
-      pages[currentStoryPage].classList.remove('active-page');
-      currentStoryPage += direction;
+      function updatePage() {
+        pages.forEach((p, idx) => {
+          if (idx === currentStoryPage) {
+            p.classList.add('active-page');
+          } else {
+            p.classList.remove('active-page');
+          }
+        });
+        pageIndicator.textContent = `Page ${currentStoryPage + 1} of ${pages.length}`;
+        prevBtn.disabled = currentStoryPage === 0;
+        nextBtn.disabled = currentStoryPage === pages.length - 1;
+      }
 
-      if (currentStoryPage < 0) currentStoryPage = 0;
-      if (currentStoryPage >= pages.length) currentStoryPage = pages.length - 1;
+      prevBtn.addEventListener('click', () => {
+        if (currentStoryPage > 0) {
+          currentStoryPage--;
+          updatePage();
+        }
+      });
 
-      pages[currentStoryPage].classList.add('active-page');
-      indicator.textContent = `Page ${currentStoryPage + 1} of ${pages.length}`;
-      if (prevBtn) prevBtn.disabled = (currentStoryPage === 0);
-      if (nextBtn) nextBtn.disabled = (currentStoryPage === pages.length - 1);
+      nextBtn.addEventListener('click', () => {
+        if (currentStoryPage < pages.length - 1) {
+          currentStoryPage++;
+          updatePage();
+        }
+      });
     }
 
     secretMushroomCluster.addEventListener('click', (e) => {
       e.stopPropagation();
       isLostMode = !isLostMode;
-
-      document.querySelectorAll('.glowing-mushroom').forEach(shroom => {
-        shroom.classList.toggle('mushroom-glowing', isLostMode);
-      });
-
-      if (isLostMode) {
-        statusBadge.classList.add('lost');
-        statusText.textContent = "Ember is lost!";
-        emberLetterInMouth.style.display = 'block';
-      } else {
-        statusBadge.classList.remove('lost');
-        statusText.textContent = "Ember is home";
-        emberLetterInMouth.style.display = 'none';
-      }
+      document.querySelectorAll('.glowing-mushroom').forEach(m => m.classList.toggle('mushroom-glowing', isLostMode));
+      statusBadge.classList.toggle('lost', isLostMode);
+      statusText.textContent = isLostMode ? 'Ember is lost!' : 'Ember is home';
     });
   </script>
 </body>
