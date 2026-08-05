@@ -130,7 +130,6 @@
       transform: rotateY(90deg) scale(0.95);
       opacity: 0;
     }
-
     .book-footer {
       display: flex;
       justify-content: space-between;
@@ -146,7 +145,7 @@
 <body>
 
   <!-- CANVAS BACKGROUND -->
-  <canvas id="worldBgCanvas" width="1000" height="800"></canvas>
+  <canvas id="worldBgCanvas"></canvas>
 
   <!-- EMBER CHARACTER -->
   <div id="emberWalker" style="left: 50%; top: 78%;">
@@ -175,8 +174,55 @@
     const canvas = document.getElementById('worldBgCanvas');
     const ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = '#07111e';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Automatically size canvas to full screen resolution
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function drawForestBackground() {
+      const width = canvas.width;
+      const height = canvas.height;
+      const cx = width / 2;
+      const cy = height / 2;
+
+      // Deep night sky gradient
+      const bgGrad = ctx.createRadialGradient(cx, cy, 30, cx, cy, width * 0.7);
+      bgGrad.addColorStop(0, '#0c1b2a');
+      bgGrad.addColorStop(0.5, '#07111e');
+      bgGrad.addColorStop(1, '#03070c');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Distant glowing forest canopy / trees silhouette
+      ctx.fillStyle = '#050d17';
+      for (let i = 0; i < 28; i++) {
+        const angle = (i / 28) * Math.PI * 2;
+        const dist = 210 + Math.sin(i * 3) * 20;
+        const x = cx + Math.cos(angle) * dist;
+        const y = cy + Math.sin(angle) * dist;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, 75 + (i % 3) * 25, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Magical forest floor moss & grass details
+      ctx.fillStyle = '#091826';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 185, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Soft mystical glow rings in center
+      const centerGlow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 160);
+      centerGlow.addColorStop(0, 'rgba(6, 214, 160, 0.08)');
+      centerGlow.addColorStop(0.5, 'rgba(17, 138, 178, 0.05)');
+      centerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = centerGlow;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 160, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    drawForestBackground();
 
     const emberWalker = document.getElementById('emberWalker');
     const statusText = document.getElementById('statusText');
@@ -270,7 +316,6 @@
       let innerHTML = '';
 
       if (type === 'table') {
-        // Multi-page Storybook Modal with 3D Stage
         innerHTML = `
           <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
@@ -312,7 +357,6 @@
       }
     };
 
-    // Storybook Pages Array
     const bookPages = [
       "Hello, friend. My name is Ember, but the people who love me most call me Mama.",
       "I wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still. Every rustling leaf, dancing butterfly, and winding trail whispered another adventure waiting to be discovered.",
@@ -334,7 +378,6 @@
       isTurningPage = true;
       const pageElement = document.getElementById('bookPageText');
       
-      // Apply 3D flip-out animation direction
       const flipClass = direction > 0 ? 'flip-out-left' : 'flip-out-right';
       pageElement.classList.add(flipClass);
 
@@ -343,11 +386,9 @@
         pageElement.innerHTML = bookPages[currentBookPage];
         document.getElementById('pageIndicator').textContent = `Page ${currentBookPage + 1} of ${bookPages.length}`;
 
-        // Update button states
         document.getElementById('prevPageBtn').disabled = (currentBookPage === 0);
         document.getElementById('nextPageBtn').disabled = (currentBookPage === bookPages.length - 1);
 
-        // Remove flip-out class to transition back smoothly (flip-in)
         pageElement.classList.remove('flip-out-left', 'flip-out-right');
         
         setTimeout(() => {
