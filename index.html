@@ -249,10 +249,11 @@
       transform: translate(-50%, -50%) scale(1.15);
     }
 
-    /* Well-spaced circular coordinates for the 3 Props */
+    /* Well-spaced circular coordinates for the 4 Props */
     .prop-cabin { top: 28%; left: 50%; width: 105px; height: 95px; }
     .prop-camera { top: 50%; left: 74%; width: 75px; height: 75px; }
     .prop-mailbox{ top: 50%; left: 26%; width: 65px; height: 75px; }
+    .prop-table { top: 72%; left: 50%; width: 85px; height: 75px; }
 
     /* Dropped letter on map stage style */
     .dropped-letter-node {
@@ -492,6 +493,11 @@
       text-align: center;
     }
 
+    .storybook-modal-content {
+      max-width: 580px;
+      text-align: center;
+    }
+
     .gallery-modal-content {
       max-width: 540px;
       text-align: center;
@@ -519,6 +525,19 @@
       border: 1px solid rgba(255, 209, 102, 0.2);
       margin-bottom: 1rem;
       position: relative;
+    }
+
+    /* Storybook Modal Interactive Stage (Mouse tracking paws) */
+    .storybook-stage {
+      width: 100%;
+      height: 240px;
+      background: #241911;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      margin-bottom: 1rem;
+      position: relative;
+      cursor: crosshair;
     }
 
     @keyframes roaringFire {
@@ -769,6 +788,7 @@
     <ul class="nav-links">
       <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
       <li><a href="#" class="nav-link-item" data-target="camera">Gallery</a></li>
+      <li><a href="#" class="nav-link-item" data-target="storybook">Storybook</a></li>
       <li><a href="#" class="nav-link-item" data-target="mailbox">If I'm Lost</a></li>
     </ul>
     <div class="nav-right">
@@ -785,7 +805,7 @@
       <span class="hero-greeting">Hey... ♡</span>
       <h1>You Found Me</h1>
       <p class="hero-subtext">
-        Explore the circular forest trail map. Click anywhere along the path, landmarks, or the dropped letter to interact with Ember!
+        Explore the circular forest trail map. Click anywhere along the path, landmarks, table, or the dropped letter to interact with Ember!
       </p>
     </div>
 
@@ -811,7 +831,6 @@
           
           <!-- Open Doorway Void (Warm Fire Glow Inside) -->
           <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
-          <!-- Inner warm hearth glow peeking out -->
           <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
           <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
 
@@ -826,7 +845,6 @@
           <line x1="-10" y1="5" x2="4" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
           <rect x="-20" y="-6" width="20" height="13" rx="2" fill="#8c7853" stroke="#3d2812" stroke-width="1.2"/>
           <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
-          <!-- Magical String of Lanterns Arc -->
           <path d="M -55,-35 Q -30,-55 0,-40 T 45,-35" fill="none" stroke="#222" stroke-width="1.2"/>
           <ellipse class="string-lantern" cx="-30" cy="-44" rx="4.5" ry="6" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>
           <ellipse class="string-lantern" cx="10" cy="-36" rx="4.5" ry="6" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.6s;"/>
@@ -838,12 +856,25 @@
           <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
           <rect x="17" y="-2" width="2.5" height="8" rx="1" fill="#ef476f"/>
         </g>
+
+        <!-- VECTOR LANDMARK 4: THE TABLE & OPEN STORYBOOK (Bottom ~50%, 72%) -->
+        <g transform="translate(300, 432)">
+          <ellipse cx="0" cy="15" rx="35" ry="10" fill="#03070c" opacity="0.6"/>
+          <!-- Table legs & Top -->
+          <rect x="-24" y="6" width="48" height="6" rx="2" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
+          <line x1="-18" y1="12" x2="-22" y2="25" stroke="#432c1c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="18" y1="12" x2="22" y2="25" stroke="#432c1c" stroke-width="3" stroke-linecap="round"/>
+          <!-- Open Storybook on Table -->
+          <path d="M -16,-2 C -16,-6 -6,-9 0,-5 C 6,-9 16,-6 16,-2 L 16,8 C 16,8 6,5 0,8 C -6,5 -16,8 -16,8 Z" fill="#fdf6e2" stroke="#d4af37" stroke-width="1.2"/>
+          <path d="M 0,-5 L 0,8" stroke="#d4af37" stroke-width="1"/>
+        </g>
       </svg>
 
       <!-- Clickable Landmark Hotspots & Dropped Letter Node -->
       <button class="stage-interactive-element prop-cabin" id="hotspotCabin" title="Meet Ember at the Cabin" aria-label="Meet Ember at the Cabin"></button>
       <button class="stage-interactive-element prop-camera" id="hotspotCamera" title="View Ember's Gallery" aria-label="View Ember's Gallery"></button>
       <button class="stage-interactive-element prop-mailbox" id="hotspotMailbox" title="If I'm Lost" aria-label="If I'm Lost"></button>
+      <button class="stage-interactive-element prop-table" id="hotspotTable" title="Open Storybook" aria-label="Open Storybook"></button>
       <div class="dropped-letter-node" id="droppedLetterNode" title="Read letter" style="top: 68%; left: 62%;"></div>
 
       <!-- Interactive Mushroom Cluster Toggle (Bottom Right of Circle) -->
@@ -871,12 +902,10 @@
             <!-- Back Legs -->
             <g class="leg-back-left">
               <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <!-- White Paws -->
               <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
             </g>
             <g class="leg-back-right">
               <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <!-- White Paws -->
               <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
             </g>
 
@@ -888,63 +917,50 @@
 
             <!-- Body (Tabby Grey Stripes & White Chest Blaze) -->
             <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-            <!-- Tabby Stripes on Body -->
             <path d="M 55,60 Q 58,74 53,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
             <path d="M 65,58 Q 68,74 65,88" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
             <path d="M 75,60 Q 77,74 74,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
             
-            <!-- White Chest Fur / Blaze -->
             <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
 
             <!-- Front Legs -->
             <g class="leg-front-left">
               <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <!-- White Sock Paw -->
-              <path d="M 52,90 L 56,90 L 56,100 L 52,100 Z" fill="#ffffff" rx="2"/>
               <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
             </g>
             <g class="leg-front-right">
               <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <!-- White Sock Paw -->
               <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
             </g>
 
-            <!-- Letter in Mouth (hidden by default) -->
+            <!-- Letter in Mouth -->
             <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
               <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
               <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
             </g>
 
-            <!-- Head Group (Tabby markings, White Muzzle/Nose stripe, Golden Eyes) -->
+            <!-- Head Group -->
             <g class="head-group">
-              <!-- Ears -->
               <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
               <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
-              <!-- Inner Pink Ears -->
               <polygon points="45,34 40,20 50,27" fill="#ffb6c1"/>
               <polygon points="85,34 90,20 80,27" fill="#ffb6c1"/>
 
-              <!-- Head Base (Tabby Grey) -->
               <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
               
-              <!-- Forehead Tabby Stripes -->
               <path d="M 61,23 L 61,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
               <path d="M 65,22 L 65,32" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
               <path d="M 69,23 L 69,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
 
-              <!-- Distinct White Blaze Up Nose & Muzzle -->
               <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
 
-              <!-- Expressive Golden/Yellow Cat Eyes -->
               <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
               <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
               <ellipse cx="56" cy="40" rx="2" ry="2.2" fill="#111"/>
               <ellipse cx="74" cy="40" rx="2" ry="2.2" fill="#111"/>
-              <!-- Eye shine highlights -->
               <circle cx="54.5" cy="39" r="0.8" fill="#fff"/>
               <circle cx="72.5" cy="39" r="0.8" fill="#fff"/>
 
-              <!-- Cute Pink Nose & Whiskers -->
               <polygon points="63,47 67,47 65,45" fill="#ff9999"/>
               <path d="M 52,48 Q 45,47 41,45" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
               <path d="M 52,50 Q 45,51 40,51" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
@@ -977,20 +993,18 @@
       const hotspotCabin = document.getElementById('hotspotCabin');
       const hotspotCamera = document.getElementById('hotspotCamera');
       const hotspotMailbox = document.getElementById('hotspotMailbox');
+      const hotspotTable = document.getElementById('hotspotTable');
 
       let isEmberLost = false;
       let walkTimeout = null;
 
       function moveEmberTo(targetX, targetY, callback) {
         const rect = worldPanorama.getBoundingClientRect();
-        // Convert client/click coords to percentages
         const clickX = ((targetX - rect.left) / rect.width) * 100;
         const clickY = ((targetY - rect.top) / rect.height) * 100;
 
         const currentLeft = parseFloat(emberWalker.style.left) || 50;
-        const currentTop = parseFloat(emberWalker.style.top) || 78;
 
-        // Determine facing direction (scaleX)
         if (clickX < currentLeft) {
           emberWalker.style.transform = 'translate(-50%, -85%) scaleX(-1)';
         } else {
@@ -1001,7 +1015,6 @@
         emberWalker.style.left = clickX + '%';
         emberWalker.style.top = clickY + '%';
 
-        // Spawn pawprint trail effect
         spawnPawprint(targetX, targetY);
 
         if (walkTimeout) clearTimeout(walkTimeout);
@@ -1021,72 +1034,66 @@
         setTimeout(() => paw.remove(), 800);
       }
 
-      // Click anywhere on map background walks Ember there
       worldPanorama.addEventListener('click', (e) => {
         if (e.target.closest('.stage-interactive-element') || e.target.closest('.dropped-letter-node') || e.target.closest('.mushroom-cluster')) {
-          return; // handled by specific buttons
+          return;
         }
         const rect = worldPanorama.getBoundingClientRect();
         moveEmberTo(e.clientX, e.clientY);
       });
 
-      // Landmark 1: Cabin (Meet Ember Modal)
       function openCabinModal() {
         const rect = worldPanorama.getBoundingClientRect();
-        const targetX = rect.left + (rect.width * 0.5);
-        const targetY = rect.top + (rect.height * 0.28);
-        moveEmberTo(targetX, targetY, () => {
+        moveEmberTo(rect.left + (rect.width * 0.5), rect.top + (rect.height * 0.28), () => {
           showModal('cabin');
         });
       }
 
-      // Landmark 2: Camera (Gallery Slideshow Modal)
       function openCameraModal() {
         const rect = worldPanorama.getBoundingClientRect();
-        const targetX = rect.left + (rect.width * 0.74);
-        const targetY = rect.top + (rect.height * 0.50);
-        moveEmberTo(targetX, targetY, () => {
+        moveEmberTo(rect.left + (rect.width * 0.74), rect.top + (rect.height * 0.50), () => {
           cameraFlashOverlay.style.opacity = '0.8';
           setTimeout(() => { cameraFlashOverlay.style.opacity = '0'; }, 150);
           showModal('camera');
         });
       }
 
-      // Landmark 3: Mailbox (Lost / Contact Modal)
       function openMailboxModal() {
         const rect = worldPanorama.getBoundingClientRect();
-        const targetX = rect.left + (rect.width * 0.26);
-        const targetY = rect.top + (rect.height * 0.50);
-        moveEmberTo(targetX, targetY, () => {
+        moveEmberTo(rect.left + (rect.width * 0.26), rect.top + (rect.height * 0.50), () => {
           showModal('mailbox');
         });
       }
 
-      // Dropped Letter Interaction
+      function openStorybookModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.5), rect.top + (rect.height * 0.72), () => {
+          showModal('storybook');
+        });
+      }
+
       function openLetterModal() {
         const rect = worldPanorama.getBoundingClientRect();
-        const targetX = rect.left + (rect.width * 0.62);
-        const targetY = rect.top + (rect.height * 0.68);
-        moveEmberTo(targetX, targetY, () => {
+        moveEmberTo(rect.left + (rect.width * 0.62), rect.top + (rect.height * 0.68), () => {
           emberLetterInMouth.style.display = 'block';
           droppedLetterNode.style.display = 'none';
           showModal('letter');
         });
       }
 
-      // Event Listeners for Hotspots
       hotspotCabin.addEventListener('click', (e) => { e.stopPropagation(); openCabinModal(); });
       hotspotCamera.addEventListener('click', (e) => { e.stopPropagation(); openCameraModal(); });
       hotspotMailbox.addEventListener('click', (e) => { e.stopPropagation(); openMailboxModal(); });
+      hotspotTable.addEventListener('click', (e) => { e.stopPropagation(); openStorybookModal(); });
       droppedLetterNode.addEventListener('click', (e) => { e.stopPropagation(); openLetterModal(); });
 
-      // Nav link click handlers
       navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const target = link.getAttribute('data-target');
           if (target === 'cabin') openCabinModal();
           if (target === 'camera') openCameraModal();
+          if (target === 'storybook') openStorybookModal();
           if (target === 'mailbox') openMailboxModal();
         });
       });
@@ -1096,7 +1103,6 @@
         openCabinModal();
       });
 
-      // Mushroom cluster status toggle
       secretMushroomCluster.addEventListener('click', (e) => {
         e.stopPropagation();
         isEmberLost = !isEmberLost;
@@ -1110,7 +1116,6 @@
         }
       });
 
-      // Modal Generator Helper
       function showModal(type) {
         const existing = document.getElementById('activeModalOverlay');
         if (existing) existing.remove();
@@ -1127,33 +1132,27 @@
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>Meet Ember</h3>
               <p>Welcome to Ember's cozy forest cabin by the hearth.</p>
-              <div class="cabin-interior-stage" id="cabinInteriorStage">
-                <!-- Interior Room SVG Illustration -->
+              <div class="cabin-interior-stage">
                 <svg width="100%" height="100%" viewBox="0 0 500 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Wooden Room Wall & Floor -->
                   <rect width="500" height="220" fill="#18100a"/>
                   <rect y="160" width="500" height="60" fill="#0d0805"/>
-                  <!-- Stone Fireplace -->
                   <path d="M 350,160 L 350,70 L 440,70 L 440,160 Z" fill="#2d2520" stroke="#1c1613" stroke-width="3"/>
                   <path d="M 370,160 L 370,95 L 420,95 L 420,160 Z" fill="#100804"/>
-                  <!-- Roaring Fireplace Flame -->
                   <g class="roaring-flame" transform="translate(395, 135)">
                     <ellipse cx="0" cy="0" rx="16" ry="22" fill="#ff7043" class="fireplace-glow"/>
                     <ellipse cx="0" cy="2" rx="10" ry="16" fill="#ffd166"/>
                     <ellipse cx="0" cy="5" rx="5" ry="9" fill="#ffffff"/>
                   </g>
-                  <!-- Warm Windows -->
                   <rect x="60" y="40" width="50" height="70" rx="4" fill="#101c2c" stroke="#3d2812" stroke-width="4"/>
                   <line x1="85" y1="40" x2="85" y2="110" stroke="#3d2812" stroke-width="3"/>
                   <line x1="60" y1="75" x2="110" y2="75" stroke="#3d2812" stroke-width="3"/>
                   <rect x="63" y="43" width="44" height="64" fill="#ffd166" opacity="0.35"/>
                 </svg>
 
-                <!-- Interior Precision Mouse Tracking Character -->
-                <div class="interior-ember-character" id="interiorEmber" style="left: 50%; bottom: 22px;">
+                <div class="interior-ember-character" style="left: 50%; bottom: 22px;">
                   <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
                     <ellipse class="ground-shadow" cx="65" cy="102" rx="20" ry="6" fill="#03070c" opacity="0.6"/>
-                    <g class="ember-body-group" id="cabinBodyGroup">
+                    <g class="ember-body-group">
                       <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
                       <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
                       <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
@@ -1169,7 +1168,58 @@
                 </div>
               </div>
               <div class="ember-lore-text">
-                Ember is a gentle-spirited tabby cat with striking green-gold eyes and distinct white socks. Move your mouse inside the storybook cabin stage to watch Ember's paws precision-track your movement!
+                Ember is a gentle-spirited tabby cat with striking green-gold eyes and distinct white socks. Relax and enjoy the warmth of the cabin.
+              </div>
+            </div>
+          `;
+        } else if (type === 'storybook') {
+          innerHTML = `
+            <div class="modal-content storybook-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>The Storybook Paw Tracker</h3>
+              <p>Move your cursor inside the storybook stage below to watch Ember's paws precision-track your mouse movement!</p>
+              <div class="storybook-stage" id="storybookStage">
+                <!-- Open Storybook Illustration Backdrop -->
+                <svg width="100%" height="100%" viewBox="0 0 520 240" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Wooden Desk Surface -->
+                  <rect width="520" height="240" fill="#1c120a"/>
+                  <rect y="180" width="520" height="60" fill="#120a06"/>
+                  <!-- Open Book Pages -->
+                  <path d="M 40,30 Q 260,10 480,30 L 480,210 Q 260,190 40,210 Z" fill="#fcf6e5" stroke="#d4af37" stroke-width="2"/>
+                  <path d="M 260,18 L 260,202" stroke="#d4af37" stroke-width="1.5"/>
+                  <!-- Book text lines preview -->
+                  <line x1="70" y1="60" x2="220" y2="60" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="70" y1="80" x2="200" y2="80" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="70" y1="100" x2="210" y2="100" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="300" y1="60" x2="450" y2="60" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="300" y1="80" x2="430" y2="80" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+
+                <!-- Precision Mouse Tracking Cat Paws / Character -->
+                <div class="interior-ember-character" id="storybookEmber" style="left: 260px; bottom: 35px;">
+                  <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="ground-shadow" cx="65" cy="102" rx="20" ry="6" fill="#03070c" opacity="0.6"/>
+                    <g class="ember-body-group" id="storybookBodyGroup">
+                      <!-- Back Paws -->
+                      <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
+                      <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
+                      <!-- Body -->
+                      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+                      <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+                      <!-- Front Paws (Precision tracking group) -->
+                      <g class="leg-front-left"><path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="54" cy="99" r="3.5" fill="#ffffff"/></g>
+                      <g class="leg-front-right"><path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="73" cy="99" r="3.5" fill="#ffffff"/></g>
+                      <!-- Head -->
+                      <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+                      <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+                      <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166"/><ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
+                      <ellipse cx="56" cy="40" rx="2" ry="2.2" fill="#111"/><ellipse cx="74" cy="40" rx="2" ry="2.2" fill="#111"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="ember-lore-text">
+                Watch how Ember's paws instantly lock onto your cursor's exact coordinates across the open storybook pages!
               </div>
             </div>
           `;
@@ -1222,7 +1272,7 @@
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>A Note from Ember</h3>
               <p style="font-family: 'Georgia', serif; font-style: italic; color: #ffd166; font-size: 1rem; line-height: 1.6;">
-                "Thank you for finding your way here. Whether you are exploring the forest trail or resting by the cabin fire, I am so glad our paths crossed today. Let's stay cozy together. ♡ - Ember"
+                "Thank you for finding your way here. Whether you are exploring the forest trail or resting by the storybook table, I am so glad our paths crossed today. Let's stay cozy together. ♡ - Ember"
               </p>
             </div>
           `;
@@ -1231,14 +1281,12 @@
         overlay.innerHTML = innerHTML;
         document.body.appendChild(overlay);
 
-        // Close handlers
         const closeBtn = overlay.querySelector('#modalCloseBtn');
         if (closeBtn) closeBtn.addEventListener('click', () => overlay.remove());
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) overlay.remove();
         });
 
-        // Slideshow logic if gallery modal
         if (type === 'camera') {
           const slides = overlay.querySelectorAll('.slide-item');
           let currentSlide = 0;
@@ -1261,7 +1309,6 @@
           });
         }
 
-        // Form submit handler if mailbox modal
         if (type === 'mailbox') {
           const form = overlay.querySelector('#smsAlertForm');
           form.addEventListener('submit', (e) => {
@@ -1271,14 +1318,13 @@
           });
         }
 
-        // Cabin Mouse Tracking / Precision Paw Tracking Setup
-        if (type === 'cabin') {
-          const stage = overlay.querySelector('#cabinInteriorStage');
-          const ember = overlay.querySelector('#interiorEmber');
-          const bodyGrp = overlay.querySelector('#cabinBodyGroup');
+        // Storybook Precision Mouse Tracking Setup
+        if (type === 'storybook') {
+          const stage = overlay.querySelector('#storybookStage');
+          const ember = overlay.querySelector('#storybookEmber');
 
-          let posX = 150;
-          let targetX = 150;
+          let posX = stage.clientWidth / 2;
+          let targetX = posX;
           let isMoving = false;
 
           stage.addEventListener('mousemove', (e) => {
@@ -1286,13 +1332,12 @@
             targetX = e.clientX - rect.left;
           });
 
-          function animateCabinCat() {
+          function animateStorybookCat() {
             if (!document.body.contains(stage)) return;
 
-            // Smooth interpolation (lerp) towards mouse X
             const dx = targetX - posX;
             if (Math.abs(dx) > 1) {
-              posX += dx * 0.12;
+              posX += dx * 0.15;
               isMoving = true;
               ember.classList.add('is-walking');
               if (dx < 0) {
@@ -1305,13 +1350,12 @@
               ember.classList.remove('is-walking');
             }
 
-            // Clamp inside stage bounds
             posX = Math.max(40, Math.min(stage.clientWidth - 40, posX));
             ember.style.left = posX + 'px';
 
-            requestAnimationFrame(animateCabinCat);
+            requestAnimationFrame(animateStorybookCat);
           }
-          requestAnimationFrame(animateCabinCat);
+          requestAnimationFrame(animateStorybookCat);
         }
       }
     });
