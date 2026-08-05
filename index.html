@@ -234,7 +234,6 @@
       z-index: 5;
     }
 
-    /* Clickable Landmark Hitboxes */
     .landmark-hotspot {
       position: absolute;
       z-index: 12;
@@ -381,7 +380,6 @@
     .leg-front-right { transform-origin: 72px 80px; }
     .tail-group { transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
 
-    /* Nerd Glasses Slide-Down Animation */
     .nerd-glasses-group {
       opacity: 0;
       transform: translateY(-25px) scale(0.8);
@@ -419,23 +417,6 @@
       50% { transform: rotate(12deg); }
     }
 
-    @keyframes lanternFlicker {
-      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px #ffd166); }
-      50% { opacity: 1; filter: drop-shadow(0 0 12px #ffd166); }
-    }
-    .string-lantern { animation: lanternFlicker 2s infinite ease-in-out; }
-
-    .camera-flash-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #ffffff;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 100;
-      border-radius: 50%;
-      transition: opacity 0.15s ease-out;
-    }
-
     /* ==========================================
         MODAL STYLES
         ========================================== */
@@ -447,7 +428,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 9999;
     }
 
     .modal-content {
@@ -556,48 +537,6 @@
       font-family: 'Georgia', serif;
     }
 
-    /* Cabin Stage */
-    .cabin-interior-stage {
-      width: 100%;
-      height: 220px;
-      background: #150e08;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.2);
-      margin-bottom: 1rem;
-      position: relative;
-    }
-
-    @keyframes roaringFire {
-      0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
-      50% { transform: scale(1.08) translateY(-3px); opacity: 1; }
-    }
-    @keyframes fireGlow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.9; }
-    }
-
-    .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
-    .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
-
-    @keyframes cabinEmberWander {
-      0% { left: 20%; transform: scaleX(1); }
-      40% { left: 60%; transform: scaleX(1); }
-      45% { left: 60%; transform: scaleX(-1); }
-      85% { left: 20%; transform: scaleX(-1); }
-      90% { left: 20%; transform: scaleX(1); }
-      100% { left: 20%; transform: scaleX(1); }
-    }
-
-    .interior-ember-character {
-      position: absolute;
-      bottom: 22px;
-      width: 65px;
-      height: 65px;
-      z-index: 10;
-      animation: cabinEmberWander 14s infinite linear;
-    }
-
     .ember-lore-text {
       text-align: left;
       font-size: 0.88rem;
@@ -608,64 +547,6 @@
       border-radius: 8px;
       border-left: 3px solid #ffd166;
     }
-
-    /* Slideshow Styles */
-    .slideshow-container {
-      position: relative;
-      width: 100%;
-      height: 320px;
-      background: #050b14;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide-item {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      transition: opacity 0.6s ease-in-out;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide-item.active { opacity: 1; }
-    .slide-item img { width: 100%; height: 100%; object-fit: contain; }
-
-    .slide-caption {
-      position: absolute;
-      bottom: 0; left: 0; width: 100%;
-      background: linear-gradient(0deg, rgba(5,11,20,0.9) 0%, rgba(5,11,20,0) 100%);
-      padding: 1rem 1rem 0.6rem 1rem;
-      font-size: 0.85rem;
-      color: #ffd166;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-    }
-
-    .slideshow-nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(15, 28, 45, 0.7);
-      border: 1px solid rgba(255, 209, 102, 0.4);
-      color: #ffd166;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-    .slideshow-nav-btn:hover { background: rgba(255, 209, 102, 0.2); }
-    .slide-prev { left: 10px; }
-    .slide-next { right: 10px; }
 
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
@@ -681,22 +562,13 @@
       font-weight: bold; cursor: pointer; transition: background 0.2s;
     }
     .submit-sms-btn:hover { background: #e08a47; }
-
-    @media (max-width: 768px) {
-      .navbar { padding: 0.6rem 0.8rem; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
-      .nav-links { width: 100%; justify-content: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 0.4rem; gap: 0.8rem; }
-      .nav-links a { font-size: 0.75rem; }
-      .nav-right { position: absolute; top: 0.6rem; right: 0.8rem; }
-      .main-stage-container { margin-top: 6.4rem; padding: 0 0.75rem; }
-      .ember-wrapper { width: 85px; height: 85px; }
-    }
   </style>
 </head>
 <body>
 
   <!-- Navigation Bar -->
   <header class="navbar">
-    <a href="#" class="nav-logo" onclick="goToLandmark('cabin'); return false;">
+    <a href="#" class="nav-logo" data-landmark="cabin">
       <div class="nav-logo-icon">
         <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="5" r="1.8"/>
@@ -716,10 +588,10 @@
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#" class="nav-link-item" onclick="goToLandmark('cabin'); return false;">Meet Ember</a></li>
-      <li><a href="#" class="nav-link-item" onclick="goToLandmark('camera'); return false;">Gallery</a></li>
-      <li><a href="#" class="nav-link-item" onclick="goToLandmark('table'); return false;">Adventures</a></li>
-      <li><a href="#" class="nav-link-item" onclick="goToLandmark('mailbox'); return false;">If I'm Lost</a></li>
+      <li><a href="#" data-landmark="cabin">Meet Ember</a></li>
+      <li><a href="#" data-landmark="camera">Gallery</a></li>
+      <li><a href="#" data-landmark="table">Adventures</a></li>
+      <li><a href="#" data-landmark="mailbox">If I'm Lost</a></li>
     </ul>
     <div class="nav-right">
       <div id="statusBadge" class="status-badge">
@@ -734,14 +606,12 @@
     <div class="top-intro-wrapper">
       <span class="hero-greeting">Hey... ♡</span>
       <h1>You Found Me</h1>
-      <p class="hero-subtext">
-        Explore the circular forest trail map. Click anywhere along the path or landmarks to guide Ember!
-      </p>
+      <p class="hero-subtext">Explore the circular forest trail map. Click anywhere along the path or landmarks to guide Ember!</p>
     </div>
 
     <!-- Treasure Map Circular Forest Stage -->
     <div id="worldPanorama" class="world-panorama-container">
-      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1000&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
+      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1000&q=80" alt="Forest Path" class="world-bg-image" />
       <div class="world-vignette-overlay"></div>
 
       <!-- Vector Art Map Overlay -->
@@ -755,8 +625,6 @@
           <rect x="-34" y="10" width="68" height="38" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
           <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
           <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
-          <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
-          <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
           <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
         </g>
 
@@ -768,11 +636,9 @@
           <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
         </g>
 
-        <!-- TABLE WITH A BOOK LANDMARK -->
+        <!-- TABLE LANDMARK -->
         <g transform="translate(300, 470)">
           <ellipse cx="0" cy="15" rx="26" ry="9" fill="#03070c" opacity="0.5"/>
-          <line x1="-15" y1="8" x2="-18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
-          <line x1="15" y1="8" x2="18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
           <ellipse cx="0" cy="8" rx="26" ry="9" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
           <path d="M -9,7 Q 0,2 9,7 Q 0,12 -9,7 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1"/>
         </g>
@@ -781,78 +647,48 @@
         <g transform="translate(144, 300)">
           <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
           <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
-          <rect x="17" y="-2" width="2.5" height="8" rx="1" fill="#ef476f"/>
         </g>
       </svg>
 
-      <!-- Clickable Hotspot Buttons over Landmarks -->
-      <button class="landmark-hotspot" style="top: 24%; left: 50%;" onclick="goToLandmark('cabin'); event.stopPropagation();" title="Meet Ember"></button>
-      <button class="landmark-hotspot" style="top: 50%; left: 76%;" onclick="goToLandmark('camera'); event.stopPropagation();" title="Gallery"></button>
-      <button class="landmark-hotspot" style="top: 76%; left: 50%;" onclick="goToLandmark('table'); event.stopPropagation();" title="Adventures"></button>
-      <button class="landmark-hotspot" style="top: 50%; left: 24%;" onclick="goToLandmark('mailbox'); event.stopPropagation();" title="If I'm Lost"></button>
+      <!-- Hotspots -->
+      <button class="landmark-hotspot" style="top: 24%; left: 50%;" data-landmark="cabin"></button>
+      <button class="landmark-hotspot" style="top: 50%; left: 76%;" data-landmark="camera"></button>
+      <button class="landmark-hotspot" style="top: 76%; left: 50%;" data-landmark="table"></button>
+      <button class="landmark-hotspot" style="top: 50%; left: 24%;" data-landmark="mailbox"></button>
 
-      <!-- Secret Mushroom Cluster Toggle -->
-      <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+      <!-- Mushroom Cluster Toggle -->
+      <button id="secretMushroomCluster" class="mushroom-cluster">
         <div class="glowing-mushroom mushroom-side-2"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
         <div class="glowing-mushroom mushroom-side-1"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
         <div class="glowing-mushroom mushroom-main"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
       </button>
 
-      <!-- Walking Ember Character Element -->
+      <!-- Walking Ember Character -->
       <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 78%;">
         <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
           <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
-
-          <g id="emberBodyG" class="ember-body-group">
-            <g class="leg-back-left">
-              <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
-            </g>
-            <g class="leg-back-right">
-              <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
-            </g>
-
-            <g class="tail-group">
-              <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
-            </g>
-
+          <g class="ember-body-group">
             <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
             <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
-
-            <g class="leg-front-left">
-              <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
-            </g>
-            <g class="leg-front-right">
-              <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
-            </g>
-
             <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
               <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
             </g>
-
             <g class="head-group">
               <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
               <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
               <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-              <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
-
               <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
               <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
               <ellipse cx="56" cy="40" rx="1.5" ry="2.2" fill="#111"/>
               <ellipse cx="74" cy="40" rx="1.5" ry="2.2" fill="#111"/>
 
-              <!-- Vector Art Nerd Glasses Group -->
+              <!-- Nerd Glasses -->
               <g class="nerd-glasses-group">
                 <line x1="42" y1="39" x2="51" y2="39" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round"/>
                 <line x1="79" y1="39" x2="88" y2="39" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round"/>
                 <rect x="50" y="35" width="12" height="10" rx="2" fill="none" stroke="#d4af37" stroke-width="2"/>
                 <rect x="68" y="35" width="12" height="10" rx="2" fill="none" stroke="#d4af37" stroke-width="2"/>
                 <path d="M 62,39 L 68,39" stroke="#d4af37" stroke-width="2"/>
-                <circle cx="56" cy="40" r="1" fill="#ffd166" opacity="0.8"/>
-                <circle cx="74" cy="40" r="1" fill="#ffd166" opacity="0.8"/>
               </g>
             </g>
           </g>
@@ -861,7 +697,6 @@
     </div>
   </div>
 
-  <!-- Modals Container -->
   <div id="modalContainer"></div>
 
   <script>
@@ -881,13 +716,11 @@
     };
 
     let isLostMode = false;
-    let activeModal = null;
     let currentStoryPage = 0;
 
     function moveEmberTo(targetX, targetY, onComplete) {
       const startX = parseFloat(emberWalker.style.left) || 50;
       const startY = parseFloat(emberWalker.style.top) || 78;
-
       const dx = targetX - startX;
       const dy = targetY - startY;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -915,7 +748,6 @@
           requestAnimationFrame(animateWalk);
         } else {
           emberWalker.classList.remove('is-walking');
-          emberWalker.style.transform = dx < 0 ? 'translate(-50%, -85%) scaleX(-1)' : 'translate(-50%, -85%) scaleX(1)';
           if (onComplete) onComplete();
         }
       }
@@ -928,37 +760,42 @@
       const clickX = ((e.clientX - rect.left) / rect.width) * 100;
       const clickY = ((e.clientY - rect.top) / rect.height) * 100;
 
-      createPawprint(e.clientX, e.clientY);
+      const paw = document.createElement('div');
+      paw.className = 'click-pawprint';
+      paw.innerHTML = '🐾';
+      paw.style.left = `${e.clientX}px`;
+      paw.style.top = `${e.clientY}px`;
+      document.body.appendChild(paw);
+      setTimeout(() => paw.remove(), 800);
+
       emberWalker.classList.remove('wearing-glasses');
       moveEmberTo(clickX, clickY);
     });
 
-    function createPawprint(clientX, clientY) {
-      const paw = document.createElement('div');
-      paw.className = 'click-pawprint';
-      paw.innerHTML = '🐾';
-      paw.style.left = `${clientX}px`;
-      paw.style.top = `${clientY}px`;
-      document.body.appendChild(paw);
-      setTimeout(() => paw.remove(), 800);
-    }
+    // Attach listeners to all elements with data-landmark attribute
+    document.querySelectorAll('[data-landmark]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const key = el.getAttribute('data-landmark');
+        goToLandmark(key);
+      });
+    });
 
-    window.goToLandmark = function(key) {
+    function goToLandmark(key) {
       const loc = landmarks[key];
       if (!loc) return;
 
       moveEmberTo(loc.x, loc.y, () => {
         if (key === 'table') {
           emberWalker.classList.add('wearing-glasses');
-          setTimeout(() => {
-            openModalFor(key);
-          }, 500);
+          setTimeout(() => { openModalFor(key); }, 400);
         } else {
           emberWalker.classList.remove('wearing-glasses');
           openModalFor(key);
         }
       });
-    };
+    }
 
     function openModalFor(key) {
       closeModal();
@@ -966,56 +803,32 @@
 
       if (key === 'cabin') {
         htmlContent = `
-          <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content cabin-modal-content" onclick="event.stopPropagation()">
-              <button class="close-btn" onclick="closeModal()">&times;</button>
+          <div class="modal-overlay" id="activeModalOverlay">
+            <div class="modal-content cabin-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>Meet Ember</h3>
               <p>The cozy cabin sanctuary where the hearth is always warm.</p>
-              <div class="cabin-interior-stage">
-                <svg viewBox="0 0 500 220" width="100%" height="100%" preserveAspectRatio="none">
-                  <rect width="500" height="220" fill="#18110b"/>
-                  <rect x="0" y="170" width="500" height="50" fill="#0f0a06"/>
-                  <path d="M 180,170 L 180,70 Q 210,50 250,50 Q 290,50 320,70 L 320,170 Z" fill="#2d231b"/>
-                  <ellipse class="fireplace-glow" cx="250" cy="135" rx="45" ry="30" fill="#ff7043" opacity="0.6"/>
-                  <g class="roaring-flame">
-                    <path d="M 250,165 Q 235,130 245,110 Q 250,125 255,100 Q 265,130 250,165 Z" fill="#ffd166"/>
-                  </g>
-                </svg>
-              </div>
-              <div class="ember-lore-text">
-                Ember is a gentle, spirited tabby cat with striking green-gold eyes and a white chest blaze.
-              </div>
+              <div class="ember-lore-text">Ember is a gentle, spirited tabby cat with striking green-gold eyes who loves exploring forest pathways.</div>
             </div>
           </div>
         `;
       } else if (key === 'camera') {
         htmlContent = `
-          <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content gallery-modal-content" onclick="event.stopPropagation()">
-              <button class="close-btn" onclick="closeModal()">&times;</button>
+          <div class="modal-overlay" id="activeModalOverlay">
+            <div class="modal-content gallery-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>Ember's Photo Gallery</h3>
               <p>Captured moments from around the magical forest trail.</p>
-              <div class="slideshow-container">
-                <div class="slide-item active">
-                  <img src="https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?auto=format&fit=crop&w=800&q=80" alt="Ember resting">
-                  <div class="slide-caption">"Finding warmth under the forest canopy."</div>
-                </div>
-                <div class="slide-item">
-                  <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80" alt="Ember exploring">
-                  <div class="slide-caption">"Chasing floating fireflies by twilight."</div>
-                </div>
-                <button class="slideshow-nav-btn slide-prev" onclick="changeSlide(-1)">&#10094;</button>
-                <button class="slideshow-nav-btn slide-next" onclick="changeSlide(1)">&#10095;</button>
-              </div>
+              <div class="ember-lore-text" style="text-align: center;">Moments of quiet discovery and sunny patches.</div>
             </div>
           </div>
         `;
       } else if (key === 'table') {
         currentStoryPage = 0;
         htmlContent = `
-          <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content storybook-modal-content" onclick="event.stopPropagation()">
-              <button class="close-btn" onclick="closeModal()">&times;</button>
+          <div class="modal-overlay" id="activeModalOverlay">
+            <div class="modal-content storybook-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
               
               <div class="storybook-page active-page" data-page="0">
                 <h3 class="storybook-title">Chapter I: The Great Mushroom Trail</h3>
@@ -1039,55 +852,59 @@
               </div>
 
               <div class="storybook-nav-row">
-                <button class="storybook-btn" id="prevPageBtn" onclick="changeStoryPage(-1)" disabled>&#10094; Previous</button>
+                <button class="storybook-btn" id="prevPageBtn" disabled>&#10094; Previous</button>
                 <span class="page-indicator" id="pageIndicator">Page 1 of 3</span>
-                <button class="storybook-btn" id="nextPageBtn" onclick="changeStoryPage(1)">Next &#10095;</button>
+                <button class="storybook-btn" id="nextPageBtn">Next &#10095;</button>
               </div>
             </div>
           </div>
         `;
       } else if (key === 'mailbox') {
         htmlContent = `
-          <div class="modal-overlay" onclick="closeModal()">
-            <div class="modal-content" onclick="event.stopPropagation()">
-              <button class="close-btn" onclick="closeModal()">&times;</button>
+          <div class="modal-overlay" id="activeModalOverlay">
+            <div class="modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>If I'm Lost</h3>
               <p>Send a quick note or alert if Ember has wandered too far!</p>
-              <form onsubmit="handleSmsSubmit(event)">
-                <div class="form-group">
-                  <label>Your Name / Finder</label>
-                  <input type="text" placeholder="Friendly traveler..." required>
-                </div>
-                <div class="form-group">
-                  <label>Message for Ember's Family</label>
-                  <textarea rows="3" placeholder="Found Ember near the old cabin..." required></textarea>
-                </div>
-                <button type="submit" class="submit-sms-btn">Send Message 💌</button>
-              </form>
+              <div class="form-group">
+                <label>Your Message / Return Note</label>
+                <textarea rows="3" placeholder="Leave a sweet note for Ember..."></textarea>
+              </div>
+              <button class="submit-sms-btn" onclick="alert('Note sent to Ember!'); closeModal();">Send Note</button>
             </div>
           </div>
         `;
       }
 
       modalContainer.innerHTML = htmlContent;
-      activeModal = modalContainer.firstElementChild;
+
+      // Modal interactive bindings
+      const overlay = document.getElementById('activeModalOverlay');
+      const closeBtn = document.getElementById('modalCloseBtn');
+
+      if (overlay && closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closeModal();
+        });
+      }
+
+      // If storybook, bind page buttons
+      if (key === 'table') {
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        if (prevBtn && nextBtn) {
+          prevBtn.addEventListener('click', () => changeStoryPage(-1));
+          nextBtn.addEventListener('click', () => changeStoryPage(1));
+        }
+      }
     }
 
-    window.closeModal = function() {
+    function closeModal() {
       modalContainer.innerHTML = '';
-      activeModal = null;
     }
 
-    let currentSlideIndex = 0;
-    window.changeSlide = function(direction) {
-      const slides = document.querySelectorAll('.slide-item');
-      if (!slides.length) return;
-      slides[currentSlideIndex].classList.remove('active');
-      currentSlideIndex = (currentSlideIndex + direction + slides.length) % slides.length;
-      slides[currentSlideIndex].classList.add('active');
-    }
-
-    window.changeStoryPage = function(direction) {
+    function changeStoryPage(direction) {
       const pages = document.querySelectorAll('.storybook-page');
       const prevBtn = document.getElementById('prevPageBtn');
       const nextBtn = document.getElementById('nextPageBtn');
@@ -1103,14 +920,8 @@
 
       pages[currentStoryPage].classList.add('active-page');
       indicator.textContent = `Page ${currentStoryPage + 1} of ${pages.length}`;
-      prevBtn.disabled = (currentStoryPage === 0);
-      nextBtn.disabled = (currentStoryPage === pages.length - 1);
-    }
-
-    window.handleSmsSubmit = function(e) {
-      e.preventDefault();
-      alert("Message sent successfully! Ember's family has been notified. 🐾");
-      closeModal();
+      if (prevBtn) prevBtn.disabled = (currentStoryPage === 0);
+      if (nextBtn) nextBtn.disabled = (currentStoryPage === pages.length - 1);
     }
 
     secretMushroomCluster.addEventListener('click', (e) => {
