@@ -436,7 +436,7 @@
       border: 1px solid rgba(255, 209, 102, 0.3);
       padding: 2rem;
       border-radius: 16px;
-      max-width: 420px;
+      max-width: 480px;
       width: 90%;
       color: #f1f5f9;
       position: relative;
@@ -454,6 +454,66 @@
 
     .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
     .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
+
+    /* Cabin Interior, Gallery, & Contact Form Styles */
+    .feature-modal {
+      max-width: 540px;
+      background: #111b2b;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .gallery-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 209, 102, 0.2);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .contact-input, .contact-textarea {
+      width: 100%;
+      padding: 0.7rem;
+      background: #0a1019;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      border-radius: 6px;
+      color: #fffdf0;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .contact-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .contact-submit {
+      background: #ffd166;
+      color: #111b2b;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      transition: background 0.2s;
+    }
+
+    .contact-submit:hover {
+      background: #f3c68f;
+    }
 
     /* First-Person POV Storybook Modal Styling */
     .storybook-modal-content {
@@ -783,20 +843,26 @@
       if (key === 'cabin') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-content feature-modal" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
-              <h3>Meet Ember</h3>
-              <p>The cozy cabin sanctuary where the hearth is always warm and welcoming.</p>
+              <h3>Inside Ember's Cabin</h3>
+              <p>Welcome to the warm hearth! A cozy wooden sanctuary filled with soft blankets, gentle lamplight, and the quiet comfort of home where Ember loves to curl up and rest.</p>
             </div>
           </div>
         `;
       } else if (key === 'camera') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-content feature-modal" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
-              <h3>Photo Gallery</h3>
-              <p>Captured moments and snapshots from around the magical forest trail.</p>
+              <h3>Ember's Photo Gallery</h3>
+              <p>Snapshots from along the woodland trails, sunny meadows, and cozy resting spots.</p>
+              <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=400&q=80" alt="Explorer Cat 1" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80" alt="Explorer Cat 2" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=400&q=80" alt="Explorer Cat 3" class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80" alt="Explorer Cat 4" class="gallery-img">
+              </div>
             </div>
           </div>
         `;
@@ -860,10 +926,15 @@
       } else if (key === 'mailbox') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-content feature-modal" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>If I'm Lost</h3>
-              <p>If Ember has wandered too far, send a note back along the trail!</p>
+              <p>Spotted Ember out exploring or want to send a note back along the trail? Drop a message for her family!</p>
+              <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent along the trail.'); closeModal();">
+                <input type="text" class="contact-input" placeholder="Your Name or Where You Found Her" required />
+                <textarea class="contact-textarea" placeholder="Your message..." required></textarea>
+                <button type="submit" class="contact-submit">Send Note</button>
+              </form>
             </div>
           </div>
         `;
