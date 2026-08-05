@@ -1,71 +1,141 @@
-<button class="stage-interactive-element prop-mailbox" data-target-x="24" data-target-y="50" data-nav="mailbox" aria-label="If I'm Lost"></button>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ember's Nocturnal Forest</title>
+  <style>
+    body {
+      margin: 0;
+      background: #03070c;
+      color: #fff;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    #worldBgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+    .stage-interactive-element {
+      position: absolute;
+      z-index: 5;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    #emberWalker {
+      position: absolute;
+      z-index: 10;
+      width: 80px;
+      height: 80px;
+      transform: translate(-50%, -85%);
+      transition: transform 0.2s ease;
+    }
+    #emberWalker.is-walking {
+      animation: bounceWalk 0.3s infinite alternate;
+    }
+    @keyframes bounceWalk {
+      from { transform: translate(-50%, -85%) translateY(0); }
+      to { transform: translate(-50%, -85%) translateY(-6px); }
+    }
+    .click-pawprint {
+      position: absolute;
+      z-index: 100;
+      font-size: 1.2rem;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      animation: fadeOutPaw 0.8s forwards;
+    }
+    @keyframes fadeOutPaw {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+      100% { opacity: 0; transform: translate(-50%, -150%) scale(1.2); }
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 7, 12, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #0c1b2a;
+      border: 2px solid #118ab2;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .submit-sms-btn {
+      background: #06d6a0;
+      color: #03070c;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CANVAS BACKGROUND -->
+  <canvas id="worldBgCanvas" width="1000" height="800"></canvas>
+
+  <!-- EMBER CHARACTER -->
+  <div id="emberWalker" style="left: 50%; top: 78%;">
+    <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+      <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+      <!-- Scholar Glasses (Hidden by default) -->
+      <g id="emberGlasses" style="opacity: 0; transition: all 0.3s ease;">
+        <rect x="52" y="36" width="10" height="7" rx="2" fill="none" stroke="#ffd166" stroke-width="2"/>
+        <rect x="68" y="36" width="10" height="7" rx="2" fill="none" stroke="#ffd166" stroke-width="2"/>
+        <line x1="62" y1="39" x2="68" y2="39" stroke="#ffd166" stroke-width="2"/>
+      </g>
+    </svg>
   </div>
 
-  <!-- MODALS CONTAINER -->
+  <!-- INTERACTIVE HOTSPOTS -->
+  <button class="stage-interactive-element" data-nav="cabin" style="left: 45%; top: 20%; width: 60px; height: 60px;" aria-label="Cabin"></button>
+  <button class="stage-interactive-element" data-nav="camera" style="left: 75%; top: 45%; width: 60px; height: 60px;" aria-label="Gallery"></button>
+  <button class="stage-interactive-element" data-nav="table" style="left: 45%; top: 75%; width: 60px; height: 60px;" aria-label="Book Modal"></button>
+  <button class="stage-interactive-element" id="secretMushroomCluster" style="left: 15% ; top: 75%; width: 40px; height: 40px;" aria-label="Mushroom Status"></button>
+
+  <div id="statusBadge" style="position:fixed; top:20px; left:20px; z-index:50;"><span id="statusText">Ember is home</span></div>
+  <div id="cameraFlashOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#fff; opacity:0; pointer-events:none; transition: opacity 0.2s; z-index:2000;"></div>
   <div id="modalContainer"></div>
 
   <script>
-    /* ==========================================
-        PROCEDURAL GHIBLI NIGHT FOREST CANVAS BG
-        ========================================== */
     const canvas = document.getElementById('worldBgCanvas');
     const ctx = canvas.getContext('2d');
+    
+    // Fill background forest
+    ctx.fillStyle = '#07111e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    function drawForestBackground() {
-      const width = canvas.width;
-      const height = canvas.height;
-      const cx = width / 2;
-      const cy = height / 2;
-
-      // Deep night sky gradient
-      const bgGrad = ctx.createRadialGradient(cx, cy, 30, cx, cy, width * 0.7);
-      bgGrad.addColorStop(0, '#0c1b2a');
-      bgGrad.addColorStop(0.5, '#07111e');
-      bgGrad.addColorStop(1, '#03070c');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Distant glowing forest canopy / trees silhouette
-      ctx.fillStyle = '#050d17';
-      for (let i = 0; i < 28; i++) {
-        const angle = (i / 28) * Math.PI * 2;
-        const dist = 210 + Math.sin(i * 3) * 20;
-        const x = cx + Math.cos(angle) * dist;
-        const y = cy + Math.sin(angle) * dist;
-        
-        ctx.beginPath();
-        ctx.arc(x, y, 75 + (i % 3) * 25, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Magical forest floor moss & grass details
-      ctx.fillStyle = '#091826';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 185, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Soft mystical glow rings in center
-      const centerGlow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 160);
-      centerGlow.addColorStop(0, 'rgba(6, 214, 160, 0.08)');
-      centerGlow.addColorStop(0.5, 'rgba(17, 138, 178, 0.05)');
-      centerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = centerGlow;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 160, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    drawForestBackground();
-
-    /* ==========================================
-        APPLICATION STATE & CONTROLS
-        ========================================== */
     const emberWalker = document.getElementById('emberWalker');
     const statusBadge = document.getElementById('statusBadge');
     const statusText = document.getElementById('statusText');
     const cameraFlash = document.getElementById('cameraFlashOverlay');
-    const modalContainer = document.getElementById('modalContainer');
     const emberGlasses = document.getElementById('emberGlasses');
     const secretMushroomCluster = document.getElementById('secretMushroomCluster');
 
@@ -74,29 +144,28 @@
     let isMoving = false;
     let activeModal = null;
     let isEmberLost = false;
-    let currentSlide = 0;
 
-    // Landmark coordinates mapped to percentage
     const landmarks = {
       cabin: { x: 50, y: 24, name: 'Meet Ember' },
       camera: { x: 76, y: 50, name: 'Gallery' },
-      table: { x: 50, y: 76, name: 'Adventures' },
+      table: { x: 50, y: 76, name: 'Backstory Book' },
       mailbox: { x: 24, y: 50, name: "If I'm Lost" }
     };
 
-    // Pawprint click ripple effect
+    // Precision Pawprint Click Tracker
     document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.modal-content') || e.target.closest('.navbar')) return;
+      if (e.target.closest('button') || e.target.closest('.modal-content')) return;
+      
       const paw = document.createElement('div');
       paw.className = 'click-pawprint';
       paw.innerHTML = '🐾';
       paw.style.left = `${e.clientX}px`;
       paw.style.top = `${e.clientY}px`;
       document.body.appendChild(paw);
+      
       setTimeout(() => paw.remove(), 800);
     });
 
-    // Move Ember character along the path
     function moveEmberTo(targetX, targetY, callback) {
       if (isMoving) return;
       isMoving = true;
@@ -105,20 +174,11 @@
       const startX = currentX;
       const startY = currentY;
       const startTime = performance.now();
-      const duration = 900; // Milliseconds for travel
-
-      // Flip character direction based on movement
-      if (targetX < currentX) {
-        emberWalker.style.transform = 'translate(-50%, -85%) scaleX(-1)';
-      } else {
-        emberWalker.style.transform = 'translate(-50%, -85%) scaleX(1)';
-      }
+      const duration = 900;
 
       function animateWalk(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
-        // Smooth easing curve
         const easeProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
         currentX = startX + (targetX - startX) * easeProgress;
@@ -132,19 +192,16 @@
         } else {
           isMoving = false;
           emberWalker.classList.remove('is-walking');
-          emberWalker.style.transform = 'translate(-50%, -85%) scaleX(1)';
           if (callback) callback();
         }
       }
-
       requestAnimationFrame(animateWalk);
     }
 
-    // Navigation and interactive hotspots listeners
-    document.querySelectorAll('.stage-interactive-element, .nav-link-item').forEach(el => {
+    document.querySelectorAll('.stage-interactive-element').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetKey = el.getAttribute('data-nav') || el.getAttribute('data-target');
+        const targetKey = el.getAttribute('data-nav');
         const coords = landmarks[targetKey];
         if (!coords) return;
 
@@ -155,140 +212,39 @@
       });
     });
 
-    // Mushroom status toggle
-    secretMushroomCluster.addEventListener('click', () => {
-      isEmberLost = !isEmberLost;
-      document.querySelectorAll('.glowing-mushroom').forEach(m => m.classList.toggle('mushroom-glowing', isEmberLost));
-      if (isEmberLost) {
-        statusBadge.classList.add('lost');
-        statusText.textContent = "Ember is roaming out!";
-      } else {
-        statusBadge.classList.remove('lost');
-        statusText.textContent = "Ember is home";
-      }
-    });
+    if (secretMushroomCluster) {
+      secretMushroomCluster.addEventListener('click', () => {
+        isEmberLost = !isEmberLost;
+        statusText.textContent = isEmberLost ? "Ember is roaming out!" : "Ember is home";
+      });
+    }
 
-    /* ==========================================
-        MODAL SYSTEM & CONTENT BUILDERS
-        ========================================== */
     function openModal(type) {
       closeModal();
       const modalOverlay = document.createElement('div');
       modalOverlay.className = 'modal-overlay';
-      modalOverlay.id = 'activeModalOverlay';
 
       let innerHTML = '';
 
-      if (type === 'cabin') {
-        innerHTML = `
-          <div class="modal-content cabin-modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>Meet Ember</h3>
-            <div class="cabin-interior-stage">
-              <svg width="100%" height="100%" viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
-                <!-- Fireplace -->
-                <rect x="220" y="110" width="60" height="90" fill="#2b1810" stroke="#1a0f0a" stroke-width="2"/>
-                <path d="M 230,140 Q 250,110 270,140 L 270,200 L 230,200 Z" fill="#110804"/>
-                <ellipse class="fireplace-glow" cx="250" cy="175" rx="25" ry="15" fill="#ff7043" opacity="0.7"/>
-                <path class="roaring-flame" d="M 250,145 Q 262,175 250,195 Q 238,175 250,145 Z" fill="#ffd166"/>
-                <path class="roaring-flame" d="M 248,155 Q 258,180 248,198 Q 238,180 248,155 Z" fill="#ff4500" style="animation-delay: 0.2s;"/>
-                
-                <!-- Interior Ember Wandering Stage Character -->
-                <div class="interior-ember-character">
-                  <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-                    <g class="ember-body-group">
-                      <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
-                      <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
-                      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-                      <g class="leg-front-left"><path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="54" cy="99" r="3.5" fill="#ffffff"/></g>
-                      <g class="leg-front-right"><path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="73" cy="99" r="3.5" fill="#ffffff"/></g>
-                      <g class="head-group">
-                        <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-                        <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166"/><ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
-                        <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/><ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
-                      </g>
-                    </g>
-                  </svg>
-                </div>
-              </svg>
-            </div>
-            <div class="ember-lore-text">
-              Ember is a gentle, inquisitive tabby cat who loves cozy nights, glowing forest trails, and discovering secret corners. Always ready for a warm fireplace nap or a new adventure!
-            </div>
-          </div>
-        `;
-      } else if (type === 'camera') {
-        innerHTML = `
-          <div class="modal-content gallery-modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>Ember's Gallery</h3>
-            <div class="slideshow-container">
-              <button class="slideshow-nav-btn slide-prev" onclick="changeSlide(-1)">&#10094;</button>
-              <button class="slideshow-nav-btn slide-next" onclick="changeSlide(1)">&#10095;</button>
-              
-              <div class="slide-item active">
-                <div class="slide-canvas-art">
-                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="42" fill="#152238" stroke="#ffd166" stroke-width="2"/>
-                    <path d="M 30,65 Q 50,30 70,65 Z" fill="#2d4a3e"/>
-                    <circle cx="50" cy="45" r="12" fill="#ffd166" opacity="0.8"/>
-                  </svg>
-                </div>
-                <div class="slide-caption">“Stargazing near the old pine ridge.”</div>
-              </div>
-
-              <div class="slide-item">
-                <div class="slide-canvas-art">
-                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="42" fill="#22110c" stroke="#ff7043" stroke-width="2"/>
-                    <rect x="35" y="45" width="30" height="25" rx="4" fill="#e07a5f"/>
-                    <circle cx="50" cy="35" r="14" fill="#ffd166"/>
-                  </svg>
-                </div>
-                <div class="slide-caption">“Warm paws by the hearth on a chilly night.”</div>
-              </div>
-
-              <div class="slide-item">
-                <div class="slide-canvas-art">
-                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="42" fill="#091826" stroke="#06d6a0" stroke-width="2"/>
-                    <path d="M 40,70 L 40,45 L 60,45 L 60,70 Z" fill="#118ab2"/>
-                    <circle cx="50" cy="32" r="8" fill="#06d6a0"/>
-                  </svg>
-                </div>
-                <div class="slide-caption">“Chasing glowing forest fireflies in the mist.”</div>
-              </div>
-            </div>
-            <p>Snapshots captured along the nocturnal forest paths.</p>
-          </div>
-        `;
-      } else if (type === 'table') {
+      if (type === 'table') {
+        // Interactive Backstory Book Modal
         innerHTML = `
           <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>Adventures & Glasses</h3>
-            <p>Ember loves reading old forest maps and wearing reading glasses for extra scholarly wisdom!</p>
-            <div style="text-align: center; margin: 1rem 0;">
-              <button class="submit-sms-btn" onclick="toggleEmberGlasses()">Toggle Ember's Scholar Glasses</button>
+            <h3>Ember's Secret Book</h3>
+            <p id="bookPageText">Chapter 1: Long ago, under the canopy of whispering pine trees, a little tabby cat discovered a glowing path...</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button class="submit-sms-btn" onclick="turnBookPage(-1)">Previous</button>
+              <button class="submit-sms-btn" onclick="turnBookPage(1)">Next Page</button>
             </div>
           </div>
         `;
-      } else if (type === 'mailbox') {
+      } else {
         innerHTML = `
           <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>Leave a Note for Ember</h3>
-            <form onsubmit="handleNoteSubmit(event)">
-              <div class="form-group">
-                <label>Your Name / From</label>
-                <input type="text" placeholder="Friendly visitor..." required />
-              </div>
-              <div class="form-group">
-                <label>Secret Note</label>
-                <textarea rows="3" placeholder="Write a cozy greeting..." required></textarea>
-              </div>
-              <button type="submit" class="submit-sms-btn">Send Note into the Woods</button>
-            </form>
+            <h3>${landmarks[type]?.name || 'Notice'}</h3>
+            <p>Welcome to this cozy corner of the forest!</p>
           </div>
         `;
       }
@@ -308,46 +264,15 @@
       }
     };
 
-    // Gallery slideshow controls
-    window.changeSlide = function(direction) {
-      const slides = document.querySelectorAll('.slide-item');
-      if (!slides.length) return;
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + direction + slides.length) % slides.length;
-      slides[currentSlide].classList.add('active');
-    };
-
-    // Glasses toggle
-    window.toggleEmberGlasses = function() {
-      const currentOpacity = emberGlasses.style.opacity;
-      if (currentOpacity === '1') {
-        emberGlasses.style.opacity = '0';
-        emberGlasses.style.transform = 'translateY(-15px)';
-      } else {
-        emberGlasses.style.opacity = '1';
-        emberGlasses.style.transform = 'translateY(0px)';
-      }
-    };
-
-    // Mailbox note submission
-    window.handleNoteSubmit = function(e) {
-      e.preventDefault();
-      closeModal();
-      
-      // Camera flash trigger effect
-      cameraFlash.style.opacity = '0.8';
-      setTimeout(() => { cameraFlash.style.opacity = '0'; }, 200);
-
-      const alertBox = document.createElement('div');
-      alertBox.className = 'modal-overlay';
-      alertBox.innerHTML = `
-        <div class="modal-content" style="text-align: center;">
-          <h3 style="color: #06d6a0;">Note Delivered!</h3>
-          <p>Ember received your cozy message tucked safely into the mailbox.</p>
-          <button class="submit-sms-btn" onclick="this.closest('.modal-overlay').remove()">Wonderful ♡</button>
-        </div>
-      `;
-      document.body.appendChild(alertBox);
+    let bookPage = 1;
+    window.turnBookPage = function(direction) {
+      const pages = [
+        "Chapter 1: Long ago, under the canopy of whispering pine trees, a little tabby cat discovered a glowing path...",
+        "Chapter 2: Armed with curiosity and scholar glasses, Ember mapped out every hidden mushroom circle in the valley.",
+        "Chapter 3: And so the legend of the nocturnal forest cat lives on, warm by the fireplace and ready for your notes!"
+      ];
+      bookPage = Math.max(0, Math.min(pages.length - 1, bookPage + direction));
+      document.getElementById('bookPageText').textContent = pages[bookPage];
     };
   </script>
 </body>
