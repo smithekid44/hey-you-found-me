@@ -1,389 +1,1557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ember's Circular Forest Map</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hey You Found Me - Ember</title>
+  
   <style>
-    body {
+    /* ==========================================
+        GHIBLI NIGHT FOREST THEME & RESET
+        ========================================== */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: #03070c;
-      color: #fff;
-      font-family: sans-serif;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
+      background-color: #050b14;
+      color: #f1f5f9;
       overflow-x: hidden;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    header {
+
+    /* ==========================================
+        COZY NAVIGATION BAR
+        ========================================== */
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: pointer;
       position: relative;
-      z-index: 50;
     }
-    .logo-area {
-      font-weight: bold;
-      font-size: 1.1rem;
-      line-height: 1.2;
+
+    .nav-logo-icon {
+      width: 28px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
+
+    .nav-logo-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #f3c68f;
+      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      color: #fffdf0;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
+      white-space: nowrap;
+    }
+
     .nav-links {
       display: flex;
-      gap: 2rem;
-      font-size: 0.95rem;
-      color: #c0c0c0;
+      list-style: none;
+      gap: 1.2rem;
     }
-    .nav-links span {
+
+    .nav-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
       cursor: pointer;
-      transition: color 0.2s;
+      position: relative;
     }
-    .nav-links span:hover {
-      color: #fff;
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #ffd166;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
     }
-    .status-btn {
-      background: #721c24;
-      border: 1px solid #f5c6cb;
-      color: #fff;
-      padding: 0.4rem 1rem;
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(6, 214, 160, 0.15);
+      border: 1px solid #06d6a0;
+      padding: 0.35rem 0.8rem;
       border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #06d6a0;
+      user-select: none;
+      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
+      white-space: nowrap;
+    }
+
+    .status-badge.lost {
+      background: rgba(239, 71, 111, 0.15);
+      border-color: #ef476f;
+      color: #ef476f;
+      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #06d6a0;
+      box-shadow: 0 0 8px #06d6a0;
+      flex-shrink: 0;
+    }
+
+    .status-badge.lost .status-dot {
+      background-color: #ef476f;
+      box-shadow: 0 0 8px #ef476f;
+    }
+
+    /* ==========================================
+        MAIN EXPANDED TREASURE MAP LAYOUT
+        ========================================== */
+    .main-stage-container {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin: 4.8rem auto 2rem auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .top-intro-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0 0.5rem;
+    }
+
+    .hero-greeting {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #f3c68f;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: normal;
+      color: #fffdf0;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
+
+    .hero-subtext {
+      color: #b2bec3;
       font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 550px;
+    }
+
+    /* ==========================================
+        TREASURE MAP CIRCULAR FOREST STAGE
+        ========================================== */
+    .world-panorama-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 680px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
+      background: #07111e;
       cursor: pointer;
     }
-    .intro-text {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      font-size: 0.95rem;
-      color: #9da3af;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 50;
+
+    .world-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.😎 contrast(1.1) sepia(0.15);
+      display: block;
     }
-    
-    /* Circular Map Stage */
-    .map-container {
-      position: relative;
-      width: 500px;
-      height: 500px;
-      margin: 1rem auto 4rem auto;
-    }
-    .outer-ring {
+
+    .world-vignette-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border: 2px solid rgba(212, 175, 55, 0.4);
-      border-radius: 50%;
+      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
       pointer-events: none;
-    }
-    .track-ring {
-      position: absolute;
-      top: 50px;
-      left: 50px;
-      width: 400px;
-      height: 400px;
-      border: 45px dashed #2a241f; /* Simulates the path ties */
       border-radius: 50%;
-      box-sizing: border-box;
-    }
-    
-    /* Landmarks on Path */
-    .landmark {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-    #cabinLandmark { top: 75px; left: 250px; }
-    #cameraLandmark { top: 250px; left: 375px; }
-    #tableLandmark { top: 425px; left: 250px; }
-    #mailboxLandmark { top: 250px; left: 125px; }
-    #mushroomLandmark { top: 390px; left: 320px; }
-
-    /* Ember Walker */
-    #emberWalker {
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      transform: translate(-50%, -85%);
-      transition: all 0.3s ease;
-      z-index: 20;
-    }
-    #emberWalker.is-walking {
-      animation: bounceWalk 0.3s infinite alternate;
-    }
-    @keyframes bounceWalk {
-      from { transform: translate(-50%, -85%) translateY(0); }
-      to { transform: translate(-50%, -85%) translateY(-5px); }
     }
 
-    /* Pawprints */
-    .click-pawprint {
+    /* ==========================================
+        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
+        ========================================== */
+    .map-vector-overlay {
       position: absolute;
-      z-index: 100;
-      font-size: 1.1rem;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      animation: fadeOutPaw 0.8s forwards;
-    }
-    @keyframes fadeOutPaw {
-      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
-      100% { opacity: 0; transform: translate(-50%, -150%) scale(1.2); }
-    }
-
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(3, 7, 12, 0.85);
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stage-interactive-element {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 15;
+      padding: 0;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stage-interactive-element:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    /* Well-spaced circular coordinates for the 4 Props */
+    .prop-cabin { top: 24%; left: 50%; width: 105px; height: 95px; }
+    .prop-camera { top: 50%; left: 76%; width: 75px; height: 75px; }
+    .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
+    .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
+
+    /* Dropped letter on map stage style with fade out transition */
+    .dropped-letter-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 34px;
+      background: #fdf6e2;
+      border: 2px solid #d4af37;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 15px rgba(255,209,102,0.8);
+      cursor: pointer;
+      z-index: 19;
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: letterPulse 1.5s infinite alternate ease-in-out;
+      opacity: 1;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .dropped-letter-node.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .dropped-letter-node::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 14px solid #e6d5b8;
+      top: 0;
+    }
+
+    @keyframes letterPulse {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
+      100% { transform: translate(-50%, -50%) scale(1.15) translateY(-5px); filter: drop-shadow(0 0 12px rgba(255,209,102,0.95)); }
+    }
+
+    /* ==========================================
+        GLOWING PAWPRINT EFFECT
+        ========================================== */
+    .click-pawprint {
+      position: fixed;
+      transform: translate(-50%, -50%) scale(0.3);
+      pointer-events: none;
       z-index: 1000;
-      perspective: 1000px;
+      font-size: 1.8rem;
+      color: #ffd166;
+      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
+      opacity: 0;
+      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
-    .modal-content {
-      background: #0c1b2a;
-      border: 2px solid #118ab2;
-      border-radius: 12px;
-      padding: 2.5rem 2rem 2rem 2rem;
-      width: 90%;
-      max-width: 600px;
+
+    @keyframes pawprintPopBelow {
+      0% {
+        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, 35%) scale(1) rotate(0deg);
+        opacity: 0;
+      }
+    }
+
+    /* ==========================================
+        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
+        ========================================== */
+    .mushroom-cluster {
+      position: absolute;
+      top: 76%;
+      left: 76%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      z-index: 20;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .glowing-mushroom {
+      background: transparent;
+      border: none;
+      padding: 0;
+      pointer-events: none;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
     }
+
+    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
+
+    .mushroom-main { width: 26px; height: 26px; }
+    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
+    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
+
+    .shroom-cap {
+      background-color: #e08a47;
+      border-radius: 12px 12px 4px 4px;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      margin: 0 auto;
+      transition: all 0.4s ease;
+    }
+
+    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
+    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
+    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
+
+    .shroom-stem {
+      background-color: #f3c68f;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      margin: 0 auto;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
+
+    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
+    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
+    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
+
+    .glowing-mushroom.mushroom-glowing .shroom-cap {
+      background-color: #06d6a0 !important;
+      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
+    }
+
+    .glowing-mushroom.mushroom-glowing .shroom-stem {
+      background-color: #a9def9 !important;
+      box-shadow: 0 0 10px #06d6a0;
+    }
+
+    /* ==========================================
+        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
+        ========================================== */
+    .ember-wrapper {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      z-index: 18;
+      pointer-events: none;
+      transform: translate(-50%, -85%);
+      will-change: left, top, transform, opacity;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .ember-char { width: 100%; height: 100%; overflow: visible; }
+
+    .ember-wrapper.is-walking .ember-body-group { animation: continuousWalkAnim 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .ground-shadow { animation: shadowWalkPulse 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
+
+    .ember-body-group { transform-origin: 65px 75px; }
+    .ground-shadow { transform-origin: 65px 102px; }
+    .leg-back-left { transform-origin: 48px 78px; }
+    .leg-back-right { transform-origin: 78px 78px; }
+    .leg-front-left { transform-origin: 54px 80px; }
+    .leg-front-right { transform-origin: 72px 80px; }
+    .tail-group { transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
+
+    @keyframes legMoveBack {
+      0% { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-4px) rotate(14deg); }
+    }
+
+    @keyframes legMoveFront {
+      0% { transform: translateY(-4px) rotate(14deg); }
+      100% { transform: translateY(0px) rotate(-14deg); }
+    }
+
+    @keyframes continuousWalkAnim {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      100% { transform: translateY(-5px) rotate(2deg); }
+    }
+
+    @keyframes shadowWalkPulse {
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
+      100% { transform: scaleX(0.78) scaleY(0.5); opacity: 0.35; }
+    }
+
+    @keyframes tailSwishNormal {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(12deg); }
+    }
+
+    @keyframes lanternFlicker {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px #ffd166); }
+      50% { opacity: 1; filter: drop-shadow(0 0 12px #ffd166); }
+    }
+    .string-lantern { animation: lanternFlicker 2s infinite ease-in-out; }
+
+    /* Camera Flash FX overlay on Map stage */
+    .camera-flash-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      border-radius: 50%;
+      transition: opacity 0.15s ease-out;
+    }
+
+    /* ==========================================
+        MODAL STYLES
+        ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(3, 7, 12, 0.85);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #0f1c2d;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      color: #f1f5f9;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .cabin-modal-content {
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .gallery-modal-content {
+      max-width: 540px;
+      text-align: center;
+    }
+
     .close-btn {
       position: absolute;
-      top: 10px;
-      right: 15px;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
+      top: 12px; right: 15px;
+      background: none; border: none;
+      color: #ffd166; font-size: 1.5rem;
       cursor: pointer;
+      z-index: 10;
     }
-    .action-btn {
-      background: #06d6a0;
-      color: #03070c;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
+
+    .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
+    .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
+
+    /* Cabin Interior Vector Illustration Stage */
+    .cabin-interior-stage {
+      width: 100%;
+      height: 220px;
+      background: #150e08;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.2);
+      margin-bottom: 1rem;
+      position: relative;
     }
-    
-    /* Book Styles */
-    .book-stage { perspective: 1200px; margin: 1.5rem 0; }
-    .book-page-container {
-      min-height: 150px;
-      font-size: 1.05rem;
+
+    @keyframes roaringFire {
+      0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
+      50% { transform: scale(1.08) translateY(-3px); opacity: 1; }
+    }
+    @keyframes fireGlow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.9; }
+    }
+
+    .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
+    .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
+
+    /* Interior Walking Ember Animation */
+    @keyframes cabinEmberWander {
+      0% { left: 20%; transform: scaleX(1); }
+      40% { left: 60%; transform: scaleX(1); }
+      45% { left: 60%; transform: scaleX(-1); }
+      85% { left: 20%; transform: scaleX(-1); }
+      90% { left: 20%; transform: scaleX(1); }
+      100% { left: 20%; transform: scaleX(1); }
+    }
+
+    @keyframes cabinLegMoveBack {
+      0% { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-3px) rotate(14deg); }
+    }
+
+    @keyframes cabinLegMoveFront {
+      0% { transform: translateY(-3px) rotate(14deg); }
+      100% { transform: translateY(0px) rotate(-14deg); }
+    }
+
+    @keyframes cabinBodyBob {
+      0% { transform: translateY(0px) rotate(-1deg); }
+      100% { transform: translateY(-3px) rotate(1deg); }
+    }
+
+    .interior-ember-character {
+      position: absolute;
+      bottom: 22px;
+      width: 65px;
+      height: 65px;
+      z-index: 10;
+      animation: cabinEmberWander 14s infinite linear;
+    }
+
+    .interior-ember-character .ember-body-group {
+      animation: cabinBodyBob 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
+
+    .ember-lore-text {
+      text-align: left;
+      font-size: 0.88rem;
+      color: #d1d5db;
       line-height: 1.6;
-      color: #e0fbfc;
+      background: rgba(5, 11, 20, 0.5);
       padding: 1rem;
-      background: rgba(7, 17, 30, 0.8);
-      border-left: 4px solid #ffd166;
-      border-radius: 4px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      border-radius: 8px;
+      border-left: 3px solid #ffd166;
     }
-    .book-footer {
+
+    /* ==========================================
+        REAL EMBER PHOTO SLIDESHOW STYLES
+        ========================================== */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: #050b14;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      margin-bottom: 1rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-top: 1.5rem;
+      justify-content: center;
+    }
+
+    .slide-item {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-item.active {
+      opacity: 1;
+    }
+
+    .slide-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%;
+      background: linear-gradient(0deg, rgba(5,11,20,0.9) 0%, rgba(5,11,20,0) 100%);
+      padding: 1rem 1rem 0.6rem 1rem;
+      font-size: 0.85rem;
+      color: #ffd166;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+    }
+
+    .slideshow-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 28, 45, 0.7);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      color: #ffd166;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .slideshow-nav-btn:hover {
+      background: rgba(255, 209, 102, 0.2);
+    }
+
+    .slide-prev { left: 10px; }
+    .slide-next { right: 10px; }
+
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.7rem;
+      background: #050b14; border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px; color: #fff; font-size: 0.9rem;
+    }
+
+    .submit-sms-btn {
+      width: 100%; background: #d47a3d; color: #fff;
+      border: none; padding: 0.8rem; border-radius: 8px;
+      font-weight: bold; cursor: pointer; transition: background 0.2s;
+    }
+    .submit-sms-btn:hover { background: #e08a47; }
+
+    /* ==========================================
+        RESPONSIVE MOBILE OPTIMIZATIONS
+        ========================================== */
+    @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+      }
+      .navbar { 
+        padding: 0.6rem 0.8rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .nav-logo-text {
+        font-size: 0.75rem;
+      }
+      .nav-links { 
+        display: flex;
+        gap: 0.8rem;
+        width: 100%;
+        justify-content: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 0.4rem;
+      }
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+      .nav-right {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.8rem;
+      }
+      .status-badge {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      .main-stage-container { 
+        margin-top: 6.4rem; 
+        padding: 0 0.75rem;
+        gap: 0.75rem;
+      }
+      .world-panorama-container { 
+        max-width: 100%;
+      }
+      .ember-wrapper {
+        width: 85px;
+        height: 85px;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      .hero-greeting {
+        font-size: 0.9rem;
+      }
+      .hero-subtext {
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo-area">🌿 Hey You<br>Found Me</div>
-    <div class="nav-links">
-      <span onclick="navigateTo('cabin')">Meet Ember</span>
-      <span onclick="navigateTo('camera')">Gallery</span>
-      <span onclick="navigateTo('table')">Adventures</span>
-      <span onclick="navigateTo('mailbox')">If I'm Lost</span>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="5" r="1.8"/>
+          <circle cx="8" cy="8" r="1.2"/>
+          <circle cx="16" cy="8" r="1.2"/>
+          <circle cx="6" cy="11" r="1.1"/>
+          <circle cx="18" cy="11" r="1.1"/>
+          <path d="M12 9.5 C9.5 9.5 8 11.5 8 13.5 C8 15.5 10 17 12 17 C14 17 16 15.5 16 13.5 C16 11.5 14.5 9.5 12 9.5 Z"/>
+          <path d="M12 9.5 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M12 24 Q7 22 5 19 Q9 20 12 24 Z" fill="#f3c68f"/>
+          <path d="M12 22 Q17 20 19 17 Q15 18 12 22 Z" fill="#f3c68f"/>
+          <path d="M12 28 Q8 27 7 24 Q10 25 12 28 Z" fill="#f3c68f"/>
+          <path d="M12 26 Q16 25 17 22 Q14 23 12 26 Z" fill="#f3c68f"/>
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>Hey You</span>
+        <span>Found Me</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
+      <li><a href="#" class="nav-link-item" data-target="camera">Gallery</a></li>
+      <li><a href="#" class="nav-link-item" data-target="table">Adventures</a></li>
+      <li><a href="#" class="nav-link-item" data-target="mailbox">If I'm Lost</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="statusBadge" class="status-badge">
+        <span class="status-dot"></span>
+        <span id="statusText">Ember is home</span>
+      </div>
     </div>
-    <button class="status-btn" id="statusToggleBtn">● Ember is lost</button>
   </header>
 
-  <div class="intro-text">
-    Explore the circular forest trail map. Click anywhere along the path or a landmark to guide Ember!
-  </div>
+  <!-- Main Expanded Treasure Map Container -->
+  <div class="main-stage-container">
+    <div class="top-intro-wrapper">
+      <span class="hero-greeting">Hey... ♡</span>
+      <h1>You Found Me</h1>
+      <p class="hero-subtext">
+        Explore the circular forest trail map. Click anywhere along the path or landmarks to guide Ember!
+      </p>
+    </div>
 
-  <!-- MAP STAGE -->
-  <div class="map-container" id="mapContainer">
-    <div class="outer-ring"></div>
-    <div class="track-ring"></div>
+    <!-- Treasure Map Circular Forest Stage -->
+    <div id="worldPanorama" class="world-panorama-container">
+      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1000&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
+      <div class="world-vignette-overlay"></div>
+      <div id="cameraFlashOverlay" class="camera-flash-overlay"></div>
 
-    <!-- LANDMARKS -->
-    <div class="landmark" id="cabinLandmark" title="Cabin" onclick="navigateTo('cabin')">🏠</div>
-    <div class="landmark" id="cameraLandmark" title="Gallery" onclick="navigateTo('camera')">📷</div>
-    <div class="landmark" id="tableLandmark" title="Storybook" onclick="navigateTo('table')">🪵</div>
-    <div class="landmark" id="mailboxLandmark" title="Mailbox" onclick="navigateTo('mailbox')">📫</div>
-    <div class="landmark" id="mushroomLandmark" title="Mushrooms" onclick="toggleMushroomStatus()">🍄</div>
+      <!-- Vector Art Circular Stone Path & Landmarks Overlay -->
+      <svg class="map-vector-overlay" viewBox="0 0 600 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Circular Winding Stone Path -->
+        <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
+        <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
 
-    <!-- EMBER CHARACTER -->
-    <div id="emberWalker" style="left: 50%; top: 15%;">
-      <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-        <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-        <!-- Ears -->
-        <polygon points="48,28 55,10 65,26" fill="#7a7a7a"/>
-        <polygon points="82,28 75,10 65,26" fill="#7a7a7a"/>
-        <!-- Face details -->
-        <circle cx="57" cy="40" r="3" fill="#ffd166"/>
-        <circle cx="73" cy="40" r="3" fill="#ffd166"/>
+        <!-- VECTOR LANDMARK 1: THE CABIN WITH AN OPEN DOORWAY -->
+        <g transform="translate(300, 110)">
+          <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
+          <!-- Cabin Main Wall Structure -->
+          <rect x="-34" y="10" width="68" height="38" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <!-- Cabin Window -->
+          <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
+          
+          <!-- Open Doorway Void (Warm Fire Glow Inside) -->
+          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
+          <!-- Inner warm hearth glow peeking out -->
+          <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
+          <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
+
+          <!-- Roof & Chimney -->
+          <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
+          <rect x="16" y="-5" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 2: THE CAMERA (Right ~76%, 50%) -->
+        <g transform="translate(456, 300)">
+          <line x1="-10" y1="5" x2="-22" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-10" y1="5" x2="4" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="-20" y="-6" width="20" height="13" rx="2" fill="#8c7853" stroke="#3d2812" stroke-width="1.2"/>
+          <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
+          <!-- Magical String of Lanterns Arc -->
+          <path d="M -55,-35 Q -30,-55 0,-40 T 45,-35" fill="none" stroke="#222" stroke-width="1.2"/>
+          <ellipse class="string-lantern" cx="-30" cy="-44" rx="4.5" ry="6" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>
+          <ellipse class="string-lantern" cx="10" cy="-36" rx="4.5" ry="6" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.6s;"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 3: TABLE WITH A BOOK (Bottom ~50%, 76%) -->
+        <g transform="translate(300, 470)">
+          <ellipse cx="0" cy="15" rx="26" ry="9" fill="#03070c" opacity="0.5"/>
+          <line x1="-15" y1="8" x2="-18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
+          <line x1="15" y1="8" x2="18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
+          <ellipse cx="0" cy="8" rx="26" ry="9" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <path d="M -9,7 Q 0,2 9,7 Q 0,12 -9,7 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 4: THE MAILBOX (Left ~24%, 50%) -->
+        <g transform="translate(144, 300)">
+          <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
+          <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
+          <rect x="17" y="-2" width="2.5" height="8" rx="1" fill="#ef476f"/>
+        </g>
       </svg>
+
+      <!-- Interactive Mushroom Cluster Toggle (Bottom Right of Circle) -->
+      <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+        <div class="glowing-mushroom mushroom-side-2">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-side-1">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-main">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+      </button>
+
+      <!-- Walking Ember Character Element (Accurate Tabby Cat Design matching photo) -->
+      <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 78%;">
+        <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+
+          <g id="emberBodyG" class="ember-body-group">
+            <!-- Back Legs -->
+            <g class="leg-back-left">
+              <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Paws -->
+              <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
+            </g>
+            <g class="leg-back-right">
+              <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Paws -->
+              <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <!-- Tail -->
+            <g class="tail-group">
+              <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M92 78 Q106 72 102 52" stroke="#888" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+
+            <!-- Body (Tabby Grey Stripes & White Chest Blaze) -->
+            <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+            <!-- Tabby Stripes on Body -->
+            <path d="M 55,60 Q 58,74 53,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 65,58 Q 68,74 65,88" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 75,60 Q 77,74 74,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            
+            <!-- White Chest Fur / Blaze -->
+            <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+
+            <!-- Front Legs -->
+            <g class="leg-front-left">
+              <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Sock Paw -->
+              <path d="M 52,90 L 56,90 L 56,100 L 52,100 Z" fill="#ffffff" rx="2"/>
+              <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
+            </g>
+            <g class="leg-front-right">
+              <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <!-- White Sock Paw -->
+              <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <!-- Letter in Mouth (hidden by default) -->
+            <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
+              <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
+              <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </g>
+
+            <!-- Head Group (Tabby markings, White Muzzle/Nose stripe, Golden Eyes) -->
+            <g class="head-group">
+              <!-- Ears -->
+              <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
+              <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
+              <!-- Inner Pink Ears -->
+              <polygon points="45,34 40,20 50,27" fill="#ffb6c1"/>
+              <polygon points="85,34 90,20 80,27" fill="#ffb6c1"/>
+
+              <!-- Head Base (Tabby Grey) -->
+              <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+              
+              <!-- Forehead Tabby Stripes -->
+              <path d="M 61,23 L 61,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 65,22 L 65,32" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 69,23 L 69,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+
+              <!-- Distinct White Blaze Up Nose & Muzzle -->
+              <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+
+              <!-- Expressive Golden/Yellow Cat Eyes -->
+              <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <!-- Vertical Slit Pupils -->
+              <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+              <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+
+              <!-- Cute Pink Nose & Mouth -->
+              <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
+              <path d="M 65,47 Q 63,51 61,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <path d="M 65,47 Q 67,51 69,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <!-- Whiskers -->
+              <line x1="50" y1="46" x2="36" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="50" y1="48" x2="35" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="80" y1="46" x2="94" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+              <line x1="80" y1="48" x2="95" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
+
+              <!-- VECTOR GLASSES (Put on when clicking Adventures / Table) -->
+              <g id="emberGlasses" style="opacity: 0; transform: translateY(-15px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <path d="M 45,39 L 52,35 L 59,39" fill="none" stroke="#222" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M 71,39 L 78,35 L 85,39" fill="none" stroke="#222" stroke-width="1.8" stroke-linecap="round"/>
+                <!-- Left Lens -->
+                <rect x="50" y="36" width="12" height="9" rx="2.5" fill="rgba(169, 222, 249, 0.35)" stroke="#333" stroke-width="1.8"/>
+                <!-- Right Lens -->
+                <rect x="68" y="36" width="12" height="9" rx="2.5" fill="rgba(169, 222, 249, 0.35)" stroke="#333" stroke-width="1.8"/>
+                <!-- Bridge -->
+                <line x1="62" y1="39" x2="68" y2="39" stroke="#333" stroke-width="1.8"/>
+                <!-- Cute Paws holding glasses frame sides -->
+                <ellipse cx="50" cy="37" rx="3" ry="2.5" fill="#fff"/>
+                <ellipse cx="80" cy="37" rx="3" ry="2.5" fill="#fff"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Interactive Landmark Buttons -->
+      <button class="stage-interactive-element prop-cabin" data-target-x="50" data-target-y="24" data-nav="cabin" aria-label="Meet Ember"></button>
+      <button class="stage-interactive-element prop-camera" data-target-x="76" data-target-y="50" data-nav="camera" aria-label="Gallery"></button>
+      <button class="stage-interactive-element prop-table" data-target-x="50" data-target-y="76" data-nav="table" aria-label="Adventures"></button>
+      <button class="stage-interactive-element prop-mailbox" data-target-x="24" data-target-y="50" data-nav="mailbox" aria-label="If I'm Lost"></button>
     </div>
   </div>
 
-  <div id="modalWrapper"></div>
+  <!-- Cabin Modal Popup (Meet Ember) -->
+  <div id="cabinModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content cabin-modal-content">
+      <button id="closeCabinModal" class="close-btn">&times;</button>
+      <h3>Meet Ember</h3>
+      <p>Inside the cozy forest cabin, warmth fills the room...</p>
 
-  <script>
-    const emberWalker = document.getElementById('emberWalker');
-    const statusBtn = document.getElementById('statusToggleBtn');
-    
-    let currentX = 50; // percentage coordinates relative to map container
-    let currentY = 15;
-    let isMoving = false;
-    let activeModal = null;
-    let isLostState = true;
+      <!-- Vector Art: Cabin Interior & Fireplace with Idly Wandering Ember -->
+      <div class="cabin-interior-stage">
+        <svg viewBox="0 0 400 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="400" height="200" fill="#18110b"/>
+          <path d="M0,135 L400,135 L400,200 L0,200 Z" fill="#2b170b"/>
+          <line x1="0" y1="152" x2="400" y2="152" stroke="#1e1007" stroke-width="2"/>
+          <line x1="0" y1="176" x2="400" y2="176" stroke="#1e1007" stroke-width="2"/>
 
-    const coordinates = {
-      cabin: { x: 50, y: 15, name: "Meet Ember" },
-      camera: { x: 75, y: 50, name: "Gallery" },
-      table: { x: 50, y: 85, name: "Ember's Storybook" },
-      mailbox: { x: 25, y: 50, name: "If I'm Lost" }
-    };
+          <path d="M250,35 L350,35 L370,145 L230,145 Z" fill="#3a3027" stroke="#251e19" stroke-width="3"/>
+          <path d="M270,70 L330,70 L330,140 L270,140 Z" fill="#090503"/>
+          
+          <circle class="fireplace-glow" cx="300" cy="110" r="35" fill="#ff7043" opacity="0.5"/>
 
-    // Pawprint click tracker
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.landmark') || e.target.closest('.modal-content') || e.target.closest('header')) return;
+          <rect x="285" y="120" width="30" height="8" rx="3" fill="#4a2e18"/>
+          <rect x="280" y="126" width="40" height="8" rx="3" fill="#382110"/>
+
+          <g class="roaring-flame">
+            <path d="M300,125 Q290,100 300,75 Q310,100 300,125 Z" fill="#ffd166"/>
+            <path d="M300,125 Q295,107 300,90 Q305,107 300,125 Z" fill="#ff7043"/>
+          </g>
+        </svg>
+
+        <!-- Walking Interior Ember Sprite (Matching Tabby Cat Design) -->
+        <div class="interior-ember-character">
+          <svg viewBox="0 0 130 130" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+            <g class="ember-body-group">
+              <g class="leg-back-left">
+                <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
+              </g>
+              <g class="leg-back-right">
+                <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
+              </g>
+              <g class="tail-group" style="transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out;">
+                <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
+              </g>
+              <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+              <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+              <g class="leg-front-left">
+                <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
+              </g>
+              <g class="leg-front-right">
+                <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
+              </g>
+              <g class="head-group">
+                <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
+                <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
+                <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+                <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+                <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+                <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+                <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+                <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
+                <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="ember-lore-text">
+        <p><strong>Born in September of 2025</strong>, Ember is a gentle spirit and the dedicated <strong>guardian of the forest</strong>.</p>
+        <p style="margin-top: 0.5rem;">She loves to wander through the ancient woods under the moonlight, discovering hidden trails and watching over all the forest creatures.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery / Slideshow Modal Popup (Camera) -->
+  <div id="galleryModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content gallery-modal-content">
+      <button id="closeGalleryModal" class="close-btn">&times;</button>
+      <h3>Ember's Photo Gallery</h3>
+      <p>Captured moments of the real Ember in her element...</p>
+
+      <!-- Slideshow Container -->
+      <div class="slideshow-container">
+        <!-- Slide 1 -->
+        <div class="slide-item active">
+          <img src="https://i.imgur.com/CFWRZ0r.jpeg" alt="Ember exploring" />
+          <div class="slide-caption">Ember in her element</div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide-item">
+          <img src="https://i.imgur.com/4hG3dZx.jpeg" alt="Ember relaxing" />
+          <div class="slide-caption">Taking a peaceful moment</div>
+        </div>
+
+        <!-- Slideshow Navigation Arrows -->
+        <button class="slideshow-nav-btn slide-prev" id="slidePrev">&#10094;</button>
+        <button class="slideshow-nav-btn slide-next" id="slideNext">&#10095;</button>
+      </div>
+
+      <div class="ember-lore-text">
+        <p>Every picture tells a story of warmth, joy, and unconditional love.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adventures / Lore Modal Popup (Table & Book) -->
+  <div id="adventuresModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <button id="closeAdventuresModal" class="close-btn">&times;</button>
+      <h3>Ember's Adventures & Chronicles</h3>
+      <p>Wearing her scholarly glasses, Ember reads through the ancient forest ledger of maps and nocturnal discoveries.</p>
+      <div class="ember-lore-text">
+        <p>She logs every secret forest path, every friendly firefly gathering, and every starry night constellation she witnesses during her watch.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Modal Popup (Mailbox) -->
+  <div id="contactModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <button id="closeModal" class="close-btn">&times;</button>
+      <h3>Contact Ember's Family</h3>
+      <p>Thank you so much for finding Ember! Send a direct message or text alert to <strong>616-309-0059</strong>.</p>
       
+      <form id="smsForm">
+        <div class="form-group">
+          <label for="finderPhone">Your Phone Number:</label>
+          <input type="tel" id="finderPhone" placeholder="e.g., (616) 555-0199" required />
+        </div>
+        <div class="form-group">
+          <label for="finderMessage">Message / Where is she:</label>
+          <textarea id="finderMessage" rows="3" placeholder="e.g., Spotted near the mailbox..."></textarea>
+        </div>
+        <button type="submit" class="submit-sms-btn">Send Text to 616-309-0059</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const BIN_ID = '6a6d10d5f5f4af5e29dbba5a';
+    const API_KEY = '$2a$10$n6/bIWyMwykOIHMdHLpUoea.KTSuyJ4R2mHLuvkCNjyy.L6vPUXAq';
+    const JSONBIN_URL = https://api.jsonbin.io/v3/b/${BIN_ID};
+
+    const mushroomCluster = document.getElementById('secretMushroomCluster');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
+
+    let currentLostState = false; 
+
+    function updateStatusUI(isLost) {
+      currentLostState = isLost;
+      if (isLost) {
+        statusBadge.classList.add('lost');
+        statusText.textContent = 'Ember is lost';
+        glowingMushrooms.forEach(m => m.classList.add('mushroom-glowing'));
+      } else {
+        statusBadge.classList.remove('lost');
+        statusText.textContent = 'Ember is home';
+        glowingMushrooms.forEach(m => m.classList.remove('mushroom-glowing'));
+      }
+    }
+
+    async function fetchStatus() {
+      if (isToggling) return;
+      
+      try {
+        const response = await fetch(${JSONBIN_URL}/latest, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const result = await response.json();
+        if (result && result.record && typeof result.record.isLost !== 'undefined') {
+          if (result.record.isLost !== currentLostState) {
+            updateStatusUI(result.record.isLost);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to sync live status', err);
+      }
+    }
+
+    async function saveStatus(isLost) {
+      try {
+        await fetch(JSONBIN_URL, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
+          body: JSON.stringify({ isLost: isLost })
+        });
+      } catch (err) {
+        console.error('Failed to update live status', err);
+      }
+    }
+
+    function triggerEmberAlertSMS() {
+      const alertMessage = encodeURIComponent("⚠️EMBER ALERT!⚠️ Ember's website status has just been toggled to LOST!");
+      const phone = "16163090059"; 
+      const apikey = "7732618"; 
+      
+      const whatsappUrl = https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${alertMessage}&apikey=${apikey};
+      
+      const ping = new Image();
+      ping.src = whatsappUrl;
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 2000); 
+
+    let isToggling = false;
+
+    if (mushroomCluster) {
+      mushroomCluster.addEventListener('click', async (e) => {
+        e.stopPropagation();
+
+        if (isToggling) return;
+        isToggling = true;
+
+        const newLost = !currentLostState;
+        
+        updateStatusUI(newLost);
+        
+        if (newLost) {
+          triggerEmberAlertSMS();
+        }
+
+        await saveStatus(newLost);
+
+        setTimeout(() => {
+          isToggling = false;
+        }, 1500);
+      });
+    }
+
+    const worldPanorama = document.getElementById('worldPanorama');
+    const emberWalker = document.getElementById('emberWalker');
+    const emberBodyGroup = document.getElementById('emberBodyG');
+    const emberLetterInMouth = document.getElementById('emberLetterInMouth');
+    const emberGlasses = document.getElementById('emberGlasses');
+    const cameraFlashOverlay = document.getElementById('cameraFlashOverlay');
+
+    let currentX = 50;
+    let currentY = 78;
+    let isMoving = false;
+    let animFrameId = null;
+    let activeDroppedLetter = null;
+
+    function spawnPawprint(x, y) {
       const paw = document.createElement('div');
       paw.className = 'click-pawprint';
       paw.innerHTML = '🐾';
-      paw.style.left = `${e.clientX}px`;
-      paw.style.top = `${e.clientY}px`;
+      paw.style.left = ${x}px;
+      paw.style.top = ${y}px;
       document.body.appendChild(paw);
-      
-      setTimeout(() => paw.remove(), 800);
-    });
 
-    function navigateTo(landmarkKey) {
-      const target = coordinates[landmarkKey];
-      if (!target || isMoving) return;
+      setTimeout(() => {
+        paw.remove();
+      }, 800);
+    }
 
-      isMoving = true;
+    function moveEmberTo(targetX, targetY, onComplete) {
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+      }
+
+      if (targetX < currentX) {
+        emberBodyGroup.style.transform = 'scaleX(-1)';
+      } else if (targetX > currentX) {
+        emberBodyGroup.style.transform = 'scaleX(1)';
+      }
+
       emberWalker.classList.add('is-walking');
+      isMoving = true;
 
       const startX = currentX;
       const startY = currentY;
+      const distance = Math.hypot(targetX - startX, targetY - startY);
+      const duration = Math.max(600, distance * 22); 
       const startTime = performance.now();
-      const duration = 800;
 
-      function walkFrame(time) {
-        const elapsed = time - startTime;
+      function animateStep(currentTime) {
+        const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        currentX = startX + (target.x - startX) * progress;
-        currentY = startY + (target.y - startY) * progress;
+        const easeProgress = progress < 0.5 
+          ? 2 * progress * progress 
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
-        emberWalker.style.left = `${currentX}%`;
-        emberWalker.style.top = `${currentY}%`;
+        currentX = startX + (targetX - startX) * easeProgress;
+        currentY = startY + (targetY - startY) * easeProgress;
+
+        emberWalker.style.left = ${currentX}%;
+        emberWalker.style.top = ${currentY}%;
 
         if (progress < 1) {
-          requestAnimationFrame(walkFrame);
+          animFrameId = requestAnimationFrame(animateStep);
         } else {
-          isMoving = false;
           emberWalker.classList.remove('is-walking');
-          openModal(landmarkKey);
+          isMoving = false;
+          animFrameId = null;
+          if (onComplete) onComplete();
         }
       }
-      requestAnimationFrame(walkFrame);
+
+      animFrameId = requestAnimationFrame(animateStep);
     }
 
-    function toggleMushroomStatus() {
-      isLostState = !isLostState;
-      statusBtn.textContent = isLostState ? "● Ember is lost" : "● Ember is home";
-      statusBtn.style.background = isLostState ? "#721c24" : "#155724";
-    }
+    if (worldPanorama && emberWalker) {
+      worldPanorama.addEventListener('click', (e) => {
+        if (e.target.closest('.stage-interactive-element') || e.target.closest('.mushroom-cluster') || e.target.closest('.dropped-letter-node')) return;
 
-    function openModal(type) {
-      closeModal();
-      const overlay = document.createElement('div');
-      overlay.className = 'modal-overlay';
+        const rect = worldPanorama.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
 
-      let content = '';
-      if (type === 'table') {
-        content = `
-          <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3 style="color: #ffd166; margin-top: 0;">📖 Ember's Journal</h3>
-            <div class="book-stage">
-              <div class="book-page-container" id="bookPageText">
-                Hello, friend. My name is Ember, but the people who love me most call me Mama.
-              </div>
-            </div>
-            <div class="book-footer">
-              <button class="action-btn" id="prevPageBtn" onclick="turnPage(-1)" disabled>Previous</button>
-              <span id="pageIndicator" style="color:#8d99ae;">Page 1 of 6</span>
-              <button class="action-btn" id="nextPageBtn" onclick="turnPage(1)">Next</button>
-            </div>
-          </div>
-        `;
-      } else {
-        content = `
-          <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>${coordinates[type]?.name || 'Notice'}</h3>
-            <p>Welcome to this cozy section of Ember's forest trail!</p>
-          </div>
-        `;
-      }
+        spawnPawprint(e.clientX, e.clientY);
 
-      overlay.innerHTML = content;
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal();
+        const clickPctX = (clickX / rect.width) * 100;
+        const clickPctY = (clickY / rect.height) * 100;
+
+        moveEmberTo(clickPctX, clickPctY);
       });
-      document.body.appendChild(overlay);
-      activeModal = overlay;
     }
 
-    window.closeModal = function() {
-      if (activeModal) {
-        activeModal.remove();
-        activeModal = null;
+    const stageElements = document.querySelectorAll('.stage-interactive-element');
+    const contactModal = document.getElementById('contactModal');
+    const cabinModal = document.getElementById('cabinModal');
+    const galleryModal = document.getElementById('galleryModal');
+    const adventuresModal = document.getElementById('adventuresModal');
+
+    stageElements.forEach(element => {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const elemRect = element.getBoundingClientRect();
+        const centerX = elemRect.left + elemRect.width / 2;
+        const centerY = elemRect.bottom + 8;
+
+        spawnPawprint(centerX, centerY);
+
+        const tx = parseFloat(element.getAttribute('data-target-x'));
+        const ty = parseFloat(element.getAttribute('data-target-y'));
+        const navType = element.getAttribute('data-nav');
+
+        if (navType === 'mailbox') {
+          if (activeDroppedLetter) return;
+
+          moveEmberTo(tx, ty, () => {
+            setTimeout(() => {
+              emberLetterInMouth.style.display = 'block';
+              
+              moveEmberTo(38, 55, () => {
+                emberLetterInMouth.style.display = 'none';
+
+                const letterNode = document.createElement('div');
+                letterNode.className = 'dropped-letter-node';
+                letterNode.style.left = ${38}%;
+                letterNode.style.top = ${55}%;
+                letterNode.title = "Click to open letter / contact owner";
+                
+                letterNode.addEventListener('click', (ev) => {
+                  ev.stopPropagation();
+                  contactModal.style.display = 'flex';
+                });
+
+                worldPanorama.appendChild(letterNode);
+                activeDroppedLetter = letterNode;
+              });
+            }, 400);
+          });
+        } else if (navType === 'cabin') {
+          moveEmberTo(tx, ty, () => {
+            setTimeout(() => {
+              emberWalker.style.transform = 'translate(-50%, -85%) scale(0.08) translateY(-35px)';
+              emberWalker.style.opacity = '0';
+
+              setTimeout(() => {
+                cabinModal.style.display = 'flex';
+                
+                setTimeout(() => {
+                  emberWalker.style.transform = 'translate(-50%, -85%) scale(1)';
+                  emberWalker.style.opacity = '1';
+                }, 300);
+              }, 550);
+            }, 300);
+          });
+        } else if (navType === 'camera') {
+          moveEmberTo(tx, ty, () => {
+            setTimeout(() => {
+              emberBodyGroup.style.transform = 'scaleX(1) rotate(-8deg) translateY(-4px)';
+              setTimeout(() => {
+                emberBodyGroup.style.transform = 'scaleX(1) rotate(10deg) translateY(-2px)';
+                setTimeout(() => {
+                  emberBodyGroup.style.transform = 'scaleX(1) rotate(-5deg) translateY(-6px)';
+                  setTimeout(() => {
+                    cameraFlashOverlay.style.opacity = '0.9';
+                    setTimeout(() => {
+                      cameraFlashOverlay.style.opacity = '0';
+                      emberBodyGroup.style.transform = 'scaleX(1) rotate(0deg) translateY(0px)';
+                      galleryModal.style.display = 'flex';
+                    }, 200);
+                  }, 400);
+                }, 400);
+              }, 400);
+            }, 300);
+          });
+        } else if (navType === 'table') {
+          // Adventures: Ember walks to table and puts on glasses with paws
+          moveEmberTo(tx, ty, () => {
+            setTimeout(() => {
+              // Raise paws to face and slide on glasses
+              emberGlasses.style.opacity = '1';
+              emberGlasses.style.transform = 'translateY(0px)';
+              
+              setTimeout(() => {
+                adventuresModal.style.display = 'flex';
+              }, 500);
+            }, 300);
+          });
+        } else {
+          moveEmberTo(tx, ty, () => {});
+        }
+      });
+    });
+
+    // Slideshow Logic
+    const slides = document.querySelectorAll('.slide-item');
+    const slidePrev = document.getElementById('slidePrev');
+    const slideNext = document.getElementById('slideNext');
+    let currentSlideIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    if (slidePrev && slideNext) {
+      slidePrev.addEventListener('click', () => {
+        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+        showSlide(currentSlideIndex);
+      });
+
+      slideNext.addEventListener('click', () => {
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        showSlide(currentSlideIndex);
+      });
+    }
+
+    const navLinksItems = document.querySelectorAll('.nav-link-item');
+    navLinksItems.forEach(link => {
+      link.addEventListener('mouseenter', (e) => {
+        const linkRect = link.getBoundingClientRect();
+        spawnPawprint(linkRect.left + linkRect.width / 2, linkRect.bottom + 8);
+      });
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetNav = link.getAttribute('data-target');
+        const correspondingElement = document.querySelector(.stage-interactive-element[data-nav="${targetNav}"]);
+        
+        if (correspondingElement) {
+          correspondingElement.click();
+        }
+      });
+    });
+
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+      navLogo.addEventListener('mouseenter', (e) => {
+        const logoRect = navLogo.getBoundingClientRect();
+        spawnPawprint(logoRect.left + logoRect.width / 2, logoRect.bottom + 8);
+      });
+    }
+
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeCabinModalBtn = document.getElementById('closeCabinModal');
+    const closeGalleryModalBtn = document.getElementById('closeGalleryModal');
+    const closeAdventuresModalBtn = document.getElementById('closeAdventuresModal');
+    const smsForm = document.getElementById('smsForm');
+
+    function closeContactModal() {
+      contactModal.style.display = 'none';
+      if (activeDroppedLetter) {
+        activeDroppedLetter.classList.add('fade-out');
+        setTimeout(() => {
+          if (activeDroppedLetter) {
+            activeDroppedLetter.remove();
+            activeDroppedLetter = null;
+          }
+        }, 1500); 
       }
-    };
+    }
 
-    const pages = [
-      "Hello, friend. My name is Ember, but the people who love me most call me Mama.",
-      "I wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still.",
-      "As I grew, I became known for carrying my little traveler stick, convinced every great explorer needed supplies for the journey ahead.",
-      "But no matter how exciting the adventure became, there was always one place that mattered more than any forest: Home.",
-      "My family loves me more than all the stars in the night sky and worry when I wander too far.",
-      "If you've found me, thank you for helping a little adventurer find her way back home. ❤️"
-    ];
-    let currentPage = 0;
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', () => {
+        closeContactModal();
+      });
+    }
 
-    window.turnPage = function(dir) {
-      const next = currentPage + dir;
-      if (next < 0 || next >= pages.length) return;
-      currentPage = next;
-      document.getElementById('bookPageText').innerHTML = pages[currentPage];
-      document.getElementById('pageIndicator').textContent = `Page ${currentPage + 1} of ${pages.length}`;
-      document.getElementById('prevPageBtn').disabled = (currentPage === 0);
-      document.getElementById('nextPageBtn').disabled = (currentPage === pages.length - 1);
-    };
+    if (closeCabinModalBtn) {
+      closeCabinModalBtn.addEventListener('click', () => {
+        cabinModal.style.display = 'none';
+      });
+    }
+
+    if (closeGalleryModalBtn) {
+      closeGalleryModalBtn.addEventListener('click', () => {
+        galleryModal.style.display = 'none';
+      });
+    }
+
+    if (closeAdventuresModalBtn) {
+      closeAdventuresModalBtn.addEventListener('click', () => {
+        adventuresModal.style.display = 'none';
+        // Take off glasses when exiting adventures modal
+        if (emberGlasses) {
+          emberGlasses.style.opacity = '0';
+          emberGlasses.style.transform = 'translateY(-15px)';
+        }
+      });
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === contactModal) {
+        closeContactModal();
+      }
+      if (e.target === cabinModal) {
+        cabinModal.style.display = 'none';
+      }
+      if (e.target === galleryModal) {
+        galleryModal.style.display = 'none';
+      }
+      if (e.target === adventuresModal) {
+        adventuresModal.style.display = 'none';
+        if (emberGlasses) {
+          emberGlasses.style.opacity = '0';
+          emberGlasses.style.transform = 'translateY(-15px)';
+        }
+      }
+    });
+
+    if (smsForm) {
+      smsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const phone = document.getElementById('finderPhone').value;
+        const msg = document.getElementById('finderMessage').value;
+        
+        const smsBody = encodeURIComponent(I found Ember! My phone is ${phone}. Message: ${msg});
+        window.location.href = sms:6163090059?body=${smsBody};
+        
+        closeContactModal();
+      });
+    }
   </script>
 </body>
 </html>
