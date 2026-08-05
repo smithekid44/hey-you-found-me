@@ -875,9 +875,15 @@
       const closeBtn = document.getElementById('modalCloseBtn');
 
       if (overlay && closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', () => {
+          closeModal();
+          emberWalker.classList.remove('wearing-glasses');
+        });
         overlay.addEventListener('click', (e) => {
-          if (e.target === overlay) closeModal();
+          if (e.target === overlay) {
+            closeModal();
+            emberWalker.classList.remove('wearing-glasses');
+          }
         });
       }
 
