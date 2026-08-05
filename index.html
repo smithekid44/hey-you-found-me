@@ -443,9 +443,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
 
-    .cabin-modal-content { max-width: 520px; text-align: center; }
-    .gallery-modal-content { max-width: 540px; text-align: center; }
-
     .close-btn {
       position: absolute;
       top: 12px; right: 15px;
@@ -536,32 +533,6 @@
       color: #94a3b8;
       font-family: 'Georgia', serif;
     }
-
-    .ember-lore-text {
-      text-align: left;
-      font-size: 0.88rem;
-      color: #d1d5db;
-      line-height: 1.6;
-      background: rgba(5, 11, 20, 0.5);
-      padding: 1rem;
-      border-radius: 8px;
-      border-left: 3px solid #ffd166;
-    }
-
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 0.7rem;
-      background: #050b14; border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px; color: #fff; font-size: 0.9rem;
-    }
-
-    .submit-sms-btn {
-      width: 100%; background: #d47a3d; color: #fff;
-      border: none; padding: 0.8rem; border-radius: 8px;
-      font-weight: bold; cursor: pointer; transition: background 0.2s;
-    }
-    .submit-sms-btn:hover { background: #e08a47; }
   </style>
 </head>
 <body>
@@ -803,22 +774,20 @@
       if (key === 'cabin') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content cabin-modal-content">
+            <div class="modal-content" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>Meet Ember</h3>
-              <p>The cozy cabin sanctuary where the hearth is always warm.</p>
-              <div class="ember-lore-text">Ember is a gentle, spirited tabby cat with striking green-gold eyes who loves exploring forest pathways.</div>
+              <p>The cozy cabin sanctuary where the hearth is always warm and welcoming.</p>
             </div>
           </div>
         `;
       } else if (key === 'camera') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content gallery-modal-content">
+            <div class="modal-content" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
-              <h3>Ember's Photo Gallery</h3>
-              <p>Captured moments from around the magical forest trail.</p>
-              <div class="ember-lore-text" style="text-align: center;">Moments of quiet discovery and sunny patches.</div>
+              <h3>Photo Gallery</h3>
+              <p>Captured moments and snapshots from around the magical forest trail.</p>
             </div>
           </div>
         `;
@@ -826,7 +795,7 @@
         currentStoryPage = 0;
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content storybook-modal-content">
+            <div class="modal-content storybook-modal-content" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               
               <div class="storybook-page active-page" data-page="0">
@@ -861,15 +830,10 @@
       } else if (key === 'mailbox') {
         htmlContent = `
           <div class="modal-overlay" id="activeModalOverlay">
-            <div class="modal-content">
+            <div class="modal-content" onclick="event.stopPropagation()">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
               <h3>If I'm Lost</h3>
-              <p>Send a quick note or alert if Ember has wandered too far!</p>
-              <div class="form-group">
-                <label>Your Message / Return Note</label>
-                <textarea rows="3" placeholder="Leave a sweet note for Ember..."></textarea>
-              </div>
-              <button class="submit-sms-btn" onclick="alert('Note sent to Ember!'); closeModal();">Send Note</button>
+              <p>If Ember has wandered too far, send a note back along the trail!</p>
             </div>
           </div>
         `;
