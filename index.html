@@ -496,6 +496,8 @@
     .storybook-modal-content {
       max-width: 580px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .gallery-modal-content {
@@ -527,7 +529,7 @@
       position: relative;
     }
 
-    /* Storybook Modal Interactive Stage (Mouse tracking paws) */
+    /* Storybook Modal First-Person POV Stage */
     .storybook-stage {
       width: 100%;
       height: 240px;
@@ -538,6 +540,36 @@
       margin-bottom: 1rem;
       position: relative;
       cursor: crosshair;
+    }
+
+    /* First-Person POV Ember Paws coming from bottom corners */
+    .ember-pov-paws {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .ember-paw {
+      position: absolute;
+      bottom: -10px;
+      width: 75px;
+      height: 75px;
+      transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .ember-paw.left {
+      left: 15%;
+      transform-origin: bottom left;
+    }
+
+    .ember-paw.right {
+      right: 15%;
+      transform-origin: bottom right;
     }
 
     @keyframes roaringFire {
@@ -1174,10 +1206,10 @@
           `;
         } else if (type === 'storybook') {
           innerHTML = `
-            <div class="modal-content storybook-modal-content">
+            <div class="modal-content storybook-modal-content" id="storybookModalContent">
               <button class="close-btn" id="modalCloseBtn">&times;</button>
-              <h3>The Storybook Paw Tracker</h3>
-              <p>Move your cursor inside the storybook stage below to watch Ember's paws precision-track your mouse movement!</p>
+              <h3>The Storybook POV</h3>
+              <p>Move your cursor across the book pages below. Experience first-person POV as Ember's front paws follow word-for-word along your gaze!</p>
               <div class="storybook-stage" id="storybookStage">
                 <!-- Open Storybook Illustration Backdrop -->
                 <svg width="100%" height="100%" viewBox="0 0 520 240" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -1195,31 +1227,34 @@
                   <line x1="300" y1="80" x2="430" y2="80" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
                 </svg>
 
-                <!-- Precision Mouse Tracking Cat Paws / Character -->
-                <div class="interior-ember-character" id="storybookEmber" style="left: 260px; bottom: 35px;">
-                  <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse class="ground-shadow" cx="65" cy="102" rx="20" ry="6" fill="#03070c" opacity="0.6"/>
-                    <g class="ember-body-group" id="storybookBodyGroup">
-                      <!-- Back Paws -->
-                      <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
-                      <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
-                      <!-- Body -->
-                      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-                      <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
-                      <!-- Front Paws (Precision tracking group) -->
-                      <g class="leg-front-left"><path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="54" cy="99" r="3.5" fill="#ffffff"/></g>
-                      <g class="leg-front-right"><path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="73" cy="99" r="3.5" fill="#ffffff"/></g>
-                      <!-- Head -->
-                      <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-                      <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
-                      <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166"/><ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
-                      <ellipse cx="56" cy="40" rx="2" ry="2.2" fill="#111"/><ellipse cx="74" cy="40" rx="2" ry="2.2" fill="#111"/>
-                    </g>
-                  </svg>
+                <!-- First-Person POV Paws Layer -->
+                <div class="ember-pov-paws">
+                  <!-- Left Paw -->
+                  <div class="ember-paw left" id="emberPawLeft">
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 80 Q15 45 40 40 Q65 45 70 80 Z" fill="#6a6a6a"/>
+                      <!-- White Sock / Paw Tip -->
+                      <path d="M22 80 Q25 58 40 55 Q55 58 58 80 Z" fill="#ffffff"/>
+                      <circle cx="31" cy="70" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="40" cy="67" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="49" cy="70" r="3.5" fill="#ffb6c1"/>
+                    </svg>
+                  </div>
+                  <!-- Right Paw -->
+                  <div class="ember-paw right" id="emberPawRight">
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 80 Q15 45 40 40 Q65 45 70 80 Z" fill="#5c5c5c"/>
+                      <!-- White Sock / Paw Tip -->
+                      <path d="M22 80 Q25 58 40 55 Q55 58 58 80 Z" fill="#ffffff"/>
+                      <circle cx="31" cy="70" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="40" cy="67" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="49" cy="70" r="3.5" fill="#ffb6c1"/>
+                    </svg>
+                  </div>
                 </div>
               </div>
               <div class="ember-lore-text">
-                Watch how Ember's paws instantly lock onto your cursor's exact coordinates across the open storybook pages!
+                Ember's front paws smoothly mirror your cursor position as you read across the pages.
               </div>
             </div>
           `;
@@ -1318,44 +1353,33 @@
           });
         }
 
-        // Storybook Precision Mouse Tracking Setup
+        // Storybook First-Person POV Paws Mouse Tracking
         if (type === 'storybook') {
-          const stage = overlay.querySelector('#storybookStage');
-          const ember = overlay.querySelector('#storybookEmber');
+          const storybookModal = overlay.querySelector('#storybookModalContent');
+          const leftPaw = overlay.querySelector('#emberPawLeft');
+          const rightPaw = overlay.querySelector('#emberPawRight');
 
-          let posX = stage.clientWidth / 2;
-          let targetX = posX;
-          let isMoving = false;
+          if (storybookModal && leftPaw && rightPaw) {
+            storybookModal.addEventListener('mousemove', (e) => {
+              const rect = storybookModal.getBoundingClientRect();
+              const mouseX = e.clientX - rect.left;
+              const mouseY = e.clientY - rect.top;
 
-          stage.addEventListener('mousemove', (e) => {
-            const rect = stage.getBoundingClientRect();
-            targetX = e.clientX - rect.left;
-          });
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
 
-          function animateStorybookCat() {
-            if (!document.body.contains(stage)) return;
+              const moveX = (mouseX - centerX) * 0.12;
+              const moveY = (mouseY - centerY) * 0.08;
 
-            const dx = targetX - posX;
-            if (Math.abs(dx) > 1) {
-              posX += dx * 0.15;
-              isMoving = true;
-              ember.classList.add('is-walking');
-              if (dx < 0) {
-                ember.style.transform = `scaleX(-1)`;
-              } else {
-                ember.style.transform = `scaleX(1)`;
-              }
-            } else {
-              isMoving = false;
-              ember.classList.remove('is-walking');
-            }
+              leftPaw.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 0.04}deg)`;
+              rightPaw.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * -0.04}deg)`;
+            });
 
-            posX = Math.max(40, Math.min(stage.clientWidth - 40, posX));
-            ember.style.left = posX + 'px';
-
-            requestAnimationFrame(animateStorybookCat);
+            storybookModal.addEventListener('mouseleave', () => {
+              leftPaw.style.transform = 'translate(0px, 0px) rotate(0deg)';
+              rightPaw.style.transform = 'translate(0px, 0px) rotate(0deg)';
+            });
           }
-          requestAnimationFrame(animateStorybookCat);
         }
       }
     });
