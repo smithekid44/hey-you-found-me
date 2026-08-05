@@ -1,1649 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hey You Found Me - Ember</title>
-  
-  <style>
-    /* ==========================================
-        GHIBLI NIGHT FOREST THEME & RESET
-        ========================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
-      background-color: #050b14;
-      color: #f1f5f9;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ==========================================
-        COZY NAVIGATION BAR
-        ========================================== */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      gap: 1rem;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-logo-icon {
-      width: 28px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .nav-logo-icon svg {
-      width: 100%;
-      height: 100%;
-      fill: #f3c68f;
-      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
-    }
-
-    .nav-logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-      font-family: 'Georgia', serif;
-      font-size: 0.8rem;
-      color: #fffdf0;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
-      white-space: nowrap;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 1.2rem;
-    }
-
-    .nav-links a {
-      color: #d1d5db;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #ffd166;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(6, 214, 160, 0.15);
-      border: 1px solid #06d6a0;
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: #06d6a0;
-      user-select: none;
-      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
-      white-space: nowrap;
-    }
-
-    .status-badge.lost {
-      background: rgba(239, 71, 111, 0.15);
-      border-color: #ef476f;
-      color: #ef476f;
-      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: #06d6a0;
-      box-shadow: 0 0 8px #06d6a0;
-      flex-shrink: 0;
-    }
-
-    .status-badge.lost .status-dot {
-      background-color: #ef476f;
-      box-shadow: 0 0 8px #ef476f;
-    }
-
-    /* ==========================================
-        MAIN EXPANDED TREASURE MAP LAYOUT
-        ========================================== */
-    .main-stage-container {
-      position: relative;
-      width: 100%;
-      max-width: 1100px;
-      margin: 4.8rem auto 2rem auto;
-      padding: 0 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .top-intro-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      padding: 0 0.5rem;
-    }
-
-    .hero-greeting {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: #f3c68f;
-    }
-
-    h1 {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: normal;
-      color: #fffdf0;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-      line-height: 1.1;
-    }
-
-    .hero-subtext {
-      color: #b2bec3;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      max-width: 550px;
-    }
-
-    /* ==========================================
-        TREASURE MAP CIRCULAR FOREST STAGE
-        ========================================== */
-    .world-panorama-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      max-width: 680px;
-      margin: 0 auto;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid rgba(255, 209, 102, 0.4);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
-      background: #07111e;
-      cursor: pointer;
-    }
-
-    .world-bg-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .world-vignette-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
-      pointer-events: none;
-      border-radius: 50%;
-    }
-
-    /* ==========================================
-        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
-        ========================================== */
-    .map-vector-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .stage-interactive-element {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 15;
-      padding: 0;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .stage-interactive-element:hover {
-      transform: translate(-50%, -50%) scale(1.15);
-    }
-
-    .prop-cabin { top: 24%; left: 50%; width: 105px; height: 95px; }
-    .prop-camera { top: 50%; left: 76%; width: 75px; height: 75px; }
-    .prop-table  { top: 76%; left: 50%; width: 80px; height: 70px; }
-    .prop-mailbox{ top: 50%; left: 24%; width: 65px; height: 75px; }
-
-    .dropped-letter-node {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      width: 44px;
-      height: 34px;
-      background: #fdf6e2;
-      border: 2px solid #d4af37;
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 15px rgba(255,209,102,0.8);
-      cursor: pointer;
-      z-index: 19;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: letterPulse 1.5s infinite alternate ease-in-out;
-      opacity: 1;
-      transition: opacity 1.5s ease-in-out;
-    }
-
-    .dropped-letter-node.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .dropped-letter-node::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 14px solid #e6d5b8;
-      top: 0;
-    }
-
-    @keyframes letterPulse {
-      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
-      100% { transform: translate(-50%, -50%) scale(1.15) translateY(-5px); filter: drop-shadow(0 0 12px rgba(255,209,102,0.95)); }
-    }
-
-    /* ==========================================
-        GLOWING PAWPRINT EFFECT
-        ========================================== */
-    .click-pawprint {
-      position: fixed;
-      transform: translate(-50%, -50%) scale(0.3);
-      pointer-events: none;
-      z-index: 1000;
-      font-size: 1.8rem;
-      color: #ffd166;
-      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
-      opacity: 0;
-      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    @keyframes pawprintPopBelow {
-      0% { transform: translate(-50%, -30%) scale(0.3) rotate(0deg); opacity: 1; }
-      50% { transform: translate(-50%, 15%) scale(1.2) rotate(5deg); opacity: 1; }
-      100% { transform: translate(-50%, 35%) scale(1) rotate(0deg); opacity: 0; }
-    }
-
-    /* ==========================================
-        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
-        ========================================== */
-    .mushroom-cluster {
-      position: absolute;
-      top: 76%;
-      left: 76%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      z-index: 20;
-      background: transparent;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .glowing-mushroom {
-      background: transparent;
-      border: none;
-      padding: 0;
-      pointer-events: none;
-      position: relative;
-      transition: transform 0.2s ease;
-    }
-
-    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
-
-    .mushroom-main { width: 26px; height: 26px; }
-    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
-    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
-
-    .shroom-cap {
-      background-color: #e08a47;
-      border-radius: 12px 12px 4px 4px;
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      margin: 0 auto;
-      transition: all 0.4s ease;
-    }
-
-    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
-    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
-    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
-
-    .shroom-stem {
-      background-color: #f3c68f;
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      margin: 0 auto;
-      border-radius: 2px;
-      transition: all 0.4s ease;
-    }
-
-    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
-    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
-    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
-
-    .glowing-mushroom.mushroom-glowing .shroom-cap {
-      background-color: #06d6a0 !important;
-      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
-    }
-
-    .glowing-mushroom.mushroom-glowing .shroom-stem {
-      background-color: #a9def9 !important;
-      box-shadow: 0 0 10px #06d6a0;
-    }
-
-    /* ==========================================
-        WALKING EMBER CHARACTER ANIMATIONS
-        ========================================== */
-    .ember-wrapper {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      z-index: 18;
-      pointer-events: none;
-      transform: translate(-50%, -85%);
-      will-change: left, top, transform, opacity;
-      transition: transform 0.6s ease, opacity 0.6s ease;
-    }
-
-    .ember-char { width: 100%; height: 100%; overflow: visible; }
-
-    .ember-wrapper.is-walking .ember-body-group { animation: continuousWalkAnim 0.22s infinite alternate ease-in-out; }
-    .ember-wrapper.is-walking .ground-shadow { animation: shadowWalkPulse 0.22s infinite alternate ease-in-out; }
-    .ember-wrapper.is-walking .leg-back-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
-    .ember-wrapper.is-walking .leg-back-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
-    .ember-wrapper.is-walking .leg-front-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
-    .ember-wrapper.is-walking .leg-front-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
-
-    .ember-body-group { transform-origin: 65px 75px; }
-    .ground-shadow { transform-origin: 65px 102px; }
-    .leg-back-left { transform-origin: 48px 78px; }
-    .leg-back-right { transform-origin: 78px 78px; }
-    .leg-front-left { transform-origin: 54px 80px; }
-    .leg-front-right { transform-origin: 72px 80px; }
-    .tail-group { transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
-
-    @keyframes legMoveBack {
-      0% { transform: translateY(0px) rotate(-14deg); }
-      100% { transform: translateY(-4px) rotate(14deg); }
-    }
-
-    @keyframes legMoveFront {
-      0% { transform: translateY(-4px) rotate(14deg); }
-      100% { transform: translateY(0px) rotate(-14deg); }
-    }
-
-    @keyframes continuousWalkAnim {
-      0% { transform: translateY(0px) rotate(-2deg); }
-      100% { transform: translateY(-5px) rotate(2deg); }
-    }
-
-    @keyframes shadowWalkPulse {
-      0% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
-      100% { transform: scaleX(0.78) scaleY(0.5); opacity: 0.35; }
-    }
-
-    @keyframes tailSwishNormal {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(12deg); }
-    }
-
-    @keyframes lanternFlicker {
-      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px #ffd166); }
-      50% { opacity: 1; filter: drop-shadow(0 0 12px #ffd166); }
-    }
-    .string-lantern { animation: lanternFlicker 2s infinite ease-in-out; }
-
-    .camera-flash-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #ffffff;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 100;
-      border-radius: 50%;
-      transition: opacity 0.15s ease-out;
-    }
-
-    /* ==========================================
-        MODAL STYLES
-        ========================================== */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(3, 7, 12, 0.85);
-      backdrop-filter: blur(5px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #0f1c2d;
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      padding: 2rem;
-      border-radius: 16px;
-      max-width: 420px;
-      width: 90%;
-      color: #f1f5f9;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-
-    .cabin-modal-content {
-      max-width: 520px;
-      text-align: center;
-    }
-
-    .gallery-modal-content {
-      max-width: 540px;
-      text-align: center;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 12px; right: 15px;
-      background: none; border: none;
-      color: #ffd166; font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
-    .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
-
-    .cabin-interior-stage {
-      width: 100%;
-      height: 220px;
-      background: #150e08;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.2);
-      margin-bottom: 1rem;
-      position: relative;
-    }
-
-    @keyframes roaringFire {
-      0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
-      50% { transform: scale(1.08) translateY(-3px); opacity: 1; }
-    }
-    @keyframes fireGlow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.9; }
-    }
-
-    .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
-    .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
-
-    @keyframes cabinEmberWander {
-      0% { left: 20%; transform: scaleX(1); }
-      40% { left: 60%; transform: scaleX(1); }
-      45% { left: 60%; transform: scaleX(-1); }
-      85% { left: 20%; transform: scaleX(-1); }
-      90% { left: 20%; transform: scaleX(1); }
-      100% { left: 20%; transform: scaleX(1); }
-    }
-
-    @keyframes cabinLegMoveBack {
-      0% { transform: translateY(0px) rotate(-14deg); }
-      100% { transform: translateY(-3px) rotate(14deg); }
-    }
-
-    @keyframes cabinLegMoveFront {
-      0% { transform: translateY(-3px) rotate(14deg); }
-      100% { transform: translateY(0px) rotate(-14deg); }
-    }
-
-    @keyframes cabinBodyBob {
-      0% { transform: translateY(0px) rotate(-1deg); }
-      100% { transform: translateY(-3px) rotate(1deg); }
-    }
-
-    .interior-ember-character {
-      position: absolute;
-      bottom: 22px;
-      width: 65px;
-      height: 65px;
-      z-index: 10;
-      animation: cabinEmberWander 14s infinite linear;
-    }
-
-    .interior-ember-character .ember-body-group { animation: cabinBodyBob 0.25s infinite alternate ease-in-out; }
-    .interior-ember-character .leg-back-left { animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out; }
-    .interior-ember-character .leg-back-right { animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out; }
-    .interior-ember-character .leg-front-left { animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out; }
-    .interior-ember-character .leg-front-right { animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out; }
-
-    .ember-lore-text {
-      text-align: left;
-      font-size: 0.88rem;
-      color: #d1d5db;
-      line-height: 1.6;
-      background: rgba(5, 11, 20, 0.5);
-      padding: 1rem;
-      border-radius: 8px;
-      border-left: 3px solid #ffd166;
-    }
-
-    /* ==========================================
-        GALLERY PHOTO SLIDESHOW STYLES
-        ========================================== */
-    .slideshow-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: #050b14;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide-item {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      transition: opacity 0.6s ease-in-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-
-    .slide-item.active { opacity: 1; }
-
-    .slide-canvas-art {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 0.8rem;
-    }
-
-    .slide-caption {
-      font-size: 0.95rem;
-      color: #ffd166;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      text-align: center;
-    }
-
-    .slideshow-nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(15, 28, 45, 0.7);
-      border: 1px solid rgba(255, 209, 102, 0.4);
-      color: #ffd166;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      transition: background 0.2s;
-    }
-
-    .slideshow-nav-btn:hover { background: rgba(255, 209, 102, 0.2); }
-    .slide-prev { left: 10px; }
-    .slide-next { right: 10px; }
-
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 0.7rem;
-      background: #050b14; border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px; color: #fff; font-size: 0.9rem;
-    }
-
-    .submit-sms-btn {
-      width: 100%; background: #d47a3d; color: #fff;
-      border: none; padding: 0.8rem; border-radius: 8px;
-      font-weight: bold; cursor: pointer; transition: background 0.2s;
-    }
-    .submit-sms-btn:hover { background: #e08a47; }
-
-    /* ==========================================
-        POV BOOK READER MODAL STYLES
-        ========================================== */
-    .pov-book-modal {
-      max-width: 650px;
-      width: 95%;
-      background: #120904;
-      border: 2px solid #5a3d28;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 50px rgba(0,0,0,0.8);
-      padding: 2rem 2.5rem;
-      border-radius: 12px;
-      position: relative;
-      cursor: none; /* Hide default cursor so custom paw pointer stands out */
-    }
-
-    .pov-book-spread {
-      position: relative;
-      width: 100%;
-      min-height: 340px;
-      background: #fdf6e2;
-      border-radius: 6px;
-      border: 1px solid #d4af37;
-      box-shadow: inset 0 0 35px rgba(180, 140, 90, 0.25), 0 5px 20px rgba(0,0,0,0.5);
-      padding: 2rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-    }
-
-    /* Book Center Binding Crease */
-    .pov-book-spread::before {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0; left: 50%;
-      width: 30px;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.12), rgba(0,0,0,0.02));
-      pointer-events: none;
-    }
-
-    .pov-page-content {
-      position: relative;
-      z-index: 2;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .pov-page-title {
-      font-family: 'Georgia', serif;
-      font-size: 1.3rem;
-      color: #654321;
-      margin-bottom: 0.8rem;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .pov-page-text {
-      font-family: 'Georgia', serif;
-      font-size: 0.95rem;
-      color: #2c1d0c;
-      line-height: 1.65;
-      text-align: center;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .pov-page-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1.5rem;
-      padding-top: 0.8rem;
-      border-top: 1px solid rgba(180, 140, 90, 0.3);
-      font-size: 0.8rem;
-      color: #8c6d46;
-      font-family: 'Georgia', serif;
-      position: relative;
-      z-index: 2;
-    }
-
-    .pov-corner-hint {
-      font-style: italic;
-      color: #a07850;
-    }
-
-    /* Clickable Corner Zones for Page Turning */
-    .page-turn-corner {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 90px;
-      height: 90px;
-      background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.25) 50%);
-      cursor: pointer;
-      z-index: 10;
-      border-bottom-right-radius: 6px;
-      transition: background 0.2s ease;
-    }
-
-    .page-turn-corner:hover {
-      background: linear-gradient(135deg, transparent 40%, rgba(212, 175, 55, 0.5) 40%);
-    }
-
-    .page-turn-corner-left {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 90px;
-      height: 90px;
-      background: linear-gradient(225deg, transparent 50%, rgba(212, 175, 55, 0.25) 50%);
-      cursor: pointer;
-      z-index: 10;
-      border-bottom-left-radius: 6px;
-      transition: background 0.2s ease;
-    }
-
-    .page-turn-corner-left:hover {
-      background: linear-gradient(225deg, transparent 40%, rgba(212, 175, 55, 0.5) 40%);
-    }
-
-    /* Custom Tabby Cat Arm & Paw Pointer coming from off-camera */
-    .custom-cat-paw {
-      position: fixed;
-      width: 140px;
-      height: 140px;
-      pointer-events: none;
-      z-index: 99999;
-      /* Anchor transform origin near top-left so the arm extends from off-screen */
-      transform-origin: 15% 10%;
-      transform: translate(-30px, -20px);
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
-      display: none;
-      will-change: transform, left, top;
-    }
-
-    @media (max-width: 768px) {
-      body { overflow-y: auto; }
-      .navbar { padding: 0.6rem 0.8rem; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
-      .nav-logo-text { font-size: 0.75rem; }
-      .nav-links { display: flex; gap: 0.8rem; width: 100%; justify-content: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 0.4rem; }
-      .nav-links a { font-size: 0.75rem; }
-      .nav-right { position: absolute; top: 0.6rem; right: 0.8rem; }
-      .status-badge { padding: 0.25rem 0.6rem; font-size: 0.7rem; }
-      .main-stage-container { margin-top: 6.4rem; padding: 0 0.75rem; gap: 0.75rem; }
-      .world-panorama-container { max-width: 100%; }
-      .ember-wrapper { width: 85px; height: 85px; }
-      h1 { font-size: 1.4rem; }
-      .hero-greeting { font-size: 0.9rem; }
-      .hero-subtext { font-size: 0.75rem; }
-      .pov-book-modal { padding: 1.2rem; }
-      .pov-book-spread { padding: 1.2rem; min-height: 280px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ember's Storybook Modal</title>
+    <style>
+        /* --- GENERAL PAGE LAYOUT (The Room) --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #2c2f33;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- THE TABLE BACKGROUND --- */
+        .table-background {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #5c4033, #3e2723); /* Wood color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- THE BOOK MODAL --- */
+        .book-modal {
+            position: relative; /* Crucial for constraining the paws */
+            width: 800px;
+            max-width: 90vw;
+            height: 600px;
+            background: #fdf6e3; /* Paper color */
+            border-radius: 10px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden; /* CRUCIAL: Hides the paws when they go off the book */
+            display: flex;
+            padding: 40px;
+            box-sizing: border-box;
+            cursor: text;
+        }
+
+        /* Book Binding / Middle Fold */
+        .book-modal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 40px;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0) 0%, 
+                rgba(0,0,0,0.1) 40%, 
+                rgba(0,0,0,0.2) 50%, 
+                rgba(0,0,0,0.1) 60%, 
+                rgba(0,0,0,0) 100%);
+            pointer-events: none;
+        }
+
+        /* Book Content */
+        .book-content {
+            width: 100%;
+            column-count: 2; /* Two pages */
+            column-gap: 80px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            z-index: 1; /* Keeps text above paws */
+        }
+
+        .book-content h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            color: #b54918;
+        }
+
+        /* --- EMBER'S POV PAWS --- */
+        .ember-pov-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Lets clicks pass through to text */
+            z-index: 10;
+        }
+
+        .cat-arm {
+            position: absolute;
+            bottom: -80px; /* Hidden slightly off the bottom of the book */
+            width: 140px;
+            height: 250px;
+            background: linear-gradient(135deg, #e08b4c 0%, #c67131 100%);
+            border-radius: 70px 70px 0 0;
+            box-shadow: inset 0 15px 25px rgba(255, 255, 255, 0.2), 
+                        0 -5px 15px rgba(0, 0, 0, 0.3);
+            transform-origin: bottom center;
+            will-change: transform;
+        }
+
+        /* Tabby Stripes */
+        .cat-arm::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 15px;
+            right: 15px;
+            height: 12px;
+            background: rgba(94, 49, 13, 0.3);
+            border-radius: 6px;
+            box-shadow: 0 40px 0 rgba(94, 49, 13, 0.3), 0 80px 0 rgba(94, 49, 13, 0.3);
+        }
+
+        .left-arm {
+            left: 5%;
+            transform: rotate(15deg);
+        }
+
+        .right-arm {
+            right: 5%;
+            transform: rotate(-15deg);
+        }
+
+        /* Paw Pads */
+        .paw-pad {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 60px;
+            background: #f7caad; /* Peach paw pad color */
+            border-radius: 40px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <header class="navbar">
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-icon">
-        <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="5" r="1.8"/>
-          <circle cx="8" cy="8" r="1.2"/>
-          <circle cx="16" cy="8" r="1.2"/>
-          <circle cx="6" cy="11" r="1.1"/>
-          <circle cx="18" cy="11" r="1.1"/>
-          <path d="M12 9.5 C9.5 9.5 8 11.5 8 13.5 C8 15.5 10 17 12 17 C14 17 16 15.5 16 13.5 C16 11.5 14.5 9.5 12 9.5 Z"/>
-          <path d="M12 9.5 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M12 24 Q7 22 5 19 Q9 20 12 24 Z" fill="#f3c68f"/>
-          <path d="M12 22 Q17 20 19 17 Q15 18 12 22 Z" fill="#f3c68f"/>
-          <path d="M12 28 Q8 27 7 24 Q10 25 12 28 Z" fill="#f3c68f"/>
-          <path d="M12 26 Q16 25 17 22 Q14 23 12 26 Z" fill="#f3c68f"/>
-        </svg>
-      </div>
-      <div class="nav-logo-text">
-        <span>Hey You</span>
-        <span>Found Me</span>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
-      <li><a href="#" class="nav-link-item" data-target="camera">Gallery</a></li>
-      <li><a href="#" class="nav-link-item" data-target="table">Adventures</a></li>
-      <li><a href="#" class="nav-link-item" data-target="mailbox">If I'm Lost</a></li>
-    </ul>
-    <div class="nav-right">
-      <div id="statusBadge" class="status-badge">
-        <span class="status-dot"></span>
-        <span id="statusText">Ember is home</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Expanded Treasure Map Container -->
-  <div class="main-stage-container">
-    <div class="top-intro-wrapper">
-      <span class="hero-greeting">Hey... ♡</span>
-      <h1>You Found Me</h1>
-      <p class="hero-subtext">
-        Explore the circular forest trail map. Click anywhere along the path or landmarks to guide Ember!
-      </p>
-    </div>
-
-    <!-- Treasure Map Circular Forest Stage -->
-    <div id="worldPanorama" class="world-panorama-container">
-      <!-- Self-contained Procedural Forest Background Canvas -->
-      <canvas id="worldBgCanvas" class="world-bg-canvas" width="680" height="680"></canvas>
-      <div class="world-vignette-overlay"></div>
-      <div id="cameraFlashOverlay" class="camera-flash-overlay"></div>
-
-      <!-- Vector Art Circular Stone Path & Landmarks Overlay -->
-      <svg class="map-vector-overlay" viewBox="0 0 600 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
-        <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
-
-        <!-- LANDMARK 1: CABIN -->
-        <g transform="translate(300, 110)">
-          <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
-          <rect x="-34" y="10" width="68" height="38" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
-          <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
-          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
-          <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
-          <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
-          <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
-          <rect x="16" y="-5" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
-        </g>
-
-        <!-- LANDMARK 2: CAMERA -->
-        <g transform="translate(456, 300)">
-          <line x1="-10" y1="5" x2="-22" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="-10" y1="5" x2="4" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
-          <rect x="-20" y="-6" width="20" height="13" rx="2" fill="#8c7853" stroke="#3d2812" stroke-width="1.2"/>
-          <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
-          <path d="M -55,-35 Q -30,-55 0,-40 T 45,-35" fill="none" stroke="#222" stroke-width="1.2"/>
-          <ellipse class="string-lantern" cx="-30" cy="-44" rx="4.5" ry="6" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>
-          <ellipse class="string-lantern" cx="10" cy="-36" rx="4.5" ry="6" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.6s;"/>
-        </g>
-
-        <!-- LANDMARK 3: TABLE WITH BOOK -->
-        <g transform="translate(300, 470)">
-          <ellipse cx="0" cy="15" rx="26" ry="9" fill="#03070c" opacity="0.5"/>
-          <line x1="-15" y1="8" x2="-18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
-          <line x1="15" y1="8" x2="18" y2="22" stroke="#4a311c" stroke-width="2.5"/>
-          <ellipse cx="0" cy="8" rx="26" ry="9" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
-          <path d="M -9,7 Q 0,2 9,7 Q 0,12 -9,7 Z" fill="#fffdf0" stroke="#c2b280" stroke-width="1"/>
-        </g>
-
-        <!-- LANDMARK 4: MAILBOX -->
-        <g transform="translate(144, 300)">
-          <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
-          <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
-          <rect x="17" y="-2" width="2.5" height="8" rx="1" fill="#ef476f"/>
-        </g>
-      </svg>
-
-      <!-- Interactive Mushroom Cluster Toggle -->
-      <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
-        <div class="glowing-mushroom mushroom-side-2"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
-        <div class="glowing-mushroom mushroom-side-1"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
-        <div class="glowing-mushroom mushroom-main"><div class="shroom-cap"></div><div class="shroom-stem"></div></div>
-      </button>
-
-      <!-- Walking Ember Character Element -->
-      <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 78%;">
-        <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-          <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
-
-          <g id="emberBodyG" class="ember-body-group">
-            <g class="leg-back-left">
-              <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
-            </g>
-            <g class="leg-back-right">
-              <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
-            </g>
-
-            <g class="tail-group">
-              <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
-              <path d="M92 78 Q106 72 102 52" stroke="#888" stroke-width="2" stroke-linecap="round" fill="none"/>
-            </g>
-
-            <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-            <path d="M 55,60 Q 58,74 53,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <path d="M 65,58 Q 68,74 65,88" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <path d="M 75,60 Q 77,74 74,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
-
-            <g class="leg-front-left">
-              <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
-            </g>
-            <g class="leg-front-right">
-              <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
-            </g>
-
-            <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
-              <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
-              <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
-            </g>
-
-            <g class="head-group">
-              <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
-              <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
-              <polygon points="45,34 40,20 50,27" fill="#ffb6c1"/>
-              <polygon points="85,34 90,20 80,27" fill="#ffb6c1"/>
-
-              <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-              <path d="M 61,23 L 61,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M 65,22 L 65,32" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M 69,23 L 69,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
-
-              <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
-              <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
-              <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
-              <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
-
-              <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
-              <path d="M 65,47 Q 63,51 61,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
-              <path d="M 65,47 Q 67,51 69,49" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
-              <line x1="50" y1="46" x2="36" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
-              <line x1="50" y1="48" x2="35" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
-              <line x1="80" y1="46" x2="94" y2="44" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
-              <line x1="80" y1="48" x2="95" y2="50" stroke="#e0e0e0" stroke-width="0.8" stroke-linecap="round"/>
-
-              <!-- VECTOR GLASSES -->
-              <g id="emberGlasses" style="opacity: 0; transform: translateY(-15px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                <path d="M 45,39 L 52,35 L 59,39" fill="none" stroke="#222" stroke-width="1.8" stroke-linecap="round"/>
-                <path d="M 71,39 L 78,35 L 85,39" fill="none" stroke="#222" stroke-width="1.8" stroke-linecap="round"/>
-                <rect x="50" y="36" width="12" height="9" rx="2.5" fill="rgba(169, 222, 249, 0.35)" stroke="#333" stroke-width="1.8"/>
-                <rect x="68" y="36" width="12" height="9" rx="2.5" fill="rgba(169, 222, 249, 0.35)" stroke="#333" stroke-width="1.8"/>
-                <line x1="62" y1="39" x2="68" y2="39" stroke="#333" stroke-width="1.8"/>
-                <ellipse cx="50" cy="37" rx="3" ry="2.5" fill="#fff"/>
-                <ellipse cx="80" cy="37" rx="3" ry="2.5" fill="#fff"/>
-              </g>
-            </g>
-          </g>
-        </svg>
-      </div>
-
-      <button class="stage-interactive-element prop-cabin" data-target-x="50" data-target-y="24" data-nav="cabin" aria-label="Meet Ember"></button>
-      <button class="stage-interactive-element prop-camera" data-target-x="76" data-target-y="50" data-nav="camera" aria-label="Gallery"></button>
-      <button class="stage-interactive-element prop-table" data-target-x="50" data-target-y="76" data-nav="table" aria-label="Adventures"></button>
-      <button class="stage-interactive-element prop-mailbox" data-target-x="24" data-target-y="50" data-nav="mailbox" aria-label="If I'm Lost"></button>
-    </div>
-  </div>
-
-  <!-- Cabin Modal Popup -->
-  <div id="cabinModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content cabin-modal-content">
-      <button id="closeCabinModal" class="close-btn">&times;</button>
-      <h3>Meet Ember</h3>
-      <p>Inside the cozy forest cabin, warmth fills the room...</p>
-
-      <div class="cabin-interior-stage">
-        <svg viewBox="0 0 400 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width="400" height="200" fill="#18110b"/>
-          <path d="M0,135 L400,135 L400,200 L0,200 Z" fill="#2b170b"/>
-          <line x1="0" y1="152" x2="400" y2="152" stroke="#1e1007" stroke-width="2"/>
-          <line x1="0" y1="176" x2="400" y2="176" stroke="#1e1007" stroke-width="2"/>
-          <path d="M250,35 L350,35 L370,145 L230,145 Z" fill="#3a3027" stroke="#251e19" stroke-width="3"/>
-          <path d="M270,70 L330,70 L330,140 L270,140 Z" fill="#090503"/>
-          <circle class="fireplace-glow" cx="300" cy="110" r="35" fill="#ff7043" opacity="0.5"/>
-          <rect x="285" y="120" width="30" height="8" rx="3" fill="#4a2e18"/>
-          <rect x="280" y="126" width="40" height="8" rx="3" fill="#382110"/>
-          <g class="roaring-flame">
-            <path d="M300,125 Q290,100 300,75 Q310,100 300,125 Z" fill="#ffd166"/>
-            <path d="M300,125 Q295,107 300,90 Q305,107 300,125 Z" fill="#ff7043"/>
-          </g>
-        </svg>
-
-        <div class="interior-ember-character">
-          <svg viewBox="0 0 130 130" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
-            <g class="ember-body-group">
-              <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
-              <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
-              <g class="tail-group" style="transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out;"><path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/></g>
-              <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-              <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
-              <g class="leg-front-left"><path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="54" cy="99" r="3.5" fill="#ffffff"/></g>
-              <g class="leg-front-right"><path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="73" cy="99" r="3.5" fill="#ffffff"/></g>
-              <g class="head-group">
-                <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
-                <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
-                <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-                <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
-                <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
-                <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
-                <ellipse cx="56" cy="40" rx="1.2" ry="2.6" fill="#111"/>
-                <ellipse cx="74" cy="40" rx="1.2" ry="2.6" fill="#111"/>
-                <polygon points="65,47 62.5,45 67.5,45" fill="#e07a5f"/>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <div class="ember-lore-text">
-        <p><strong>Born in September of 2025</strong>, Ember is a gentle spirit and the dedicated <strong>guardian of the forest</strong>.</p>
-        <p style="margin-top: 0.5rem;">She loves to wander through ancient woods under moonlight, discovering hidden trails and watching over all forest creatures.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Gallery Modal Popup -->
-  <div id="galleryModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content gallery-modal-content">
-      <button id="closeGalleryModal" class="close-btn">&times;</button>
-      <h3>Ember's Photo Gallery</h3>
-      <p>Captured moments of Ember in her element...</p>
-
-      <div class="slideshow-container">
-        <!-- Slide 1: Procedural Vector Art Illustration 1 -->
-        <div class="slide-item active">
-          <svg class="slide-canvas-art" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="45" fill="#0d1b2a" stroke="#ffd166" stroke-width="2"/>
-            <path d="M 30,70 Q 50,20 70,70 Z" fill="#2d4a3e"/>
-            <circle cx="50" cy="35" r="8" fill="#ffd166"/>
-            <ellipse cx="50" cy="65" rx="18" ry="12" fill="#7a7a7a"/>
-            <circle cx="50" cy="55" r="10" fill="#7a7a7a"/>
-          </svg>
-          <div class="slide-caption">Ember resting under the moonlight</div>
-        </div>
-        <!-- Slide 2: Procedural Vector Art Illustration 2 -->
-        <div class="slide-item">
-          <svg class="slide-canvas-art" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="45" fill="#1b120c" stroke="#ff7043" stroke-width="2"/>
-            <path d="M 20,80 L 80,80 L 80,40 L 50,20 L 20,40 Z" fill="#3a2e2b"/>
-            <rect x="42" y="60" width="16" height="20" fill="#ffd166"/>
-            <circle cx="50" cy="50" r="12" fill="#7a7a7a"/>
-          </svg>
-          <div class="slide-caption">Safe inside her cozy cabin hearth</div>
-        </div>
-
-        <button class="slideshow-nav-btn slide-prev" id="slidePrev">&#10094;</button>
-        <button class="slideshow-nav-btn slide-next" id="slideNext">&#10095;</button>
-      </div>
-
-      <div class="ember-lore-text">
-        <p>Every memory tells a story of warmth, curiosity, and unconditional woodland friendship.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Adventures / POV Book Modal Popup -->
-  <div id="adventuresModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content pov-book-modal">
-      <button id="closeAdventuresModal" class="close-btn">&times;</button>
-      
-      <div class="pov-book-spread">
-        <div class="pov-page-content">
-          <div id="povPageTitle" class="pov-page-title">Ember's Backstory</div>
-          <div id="povPageText" class="pov-page-text">
-            Hello, friend. My name is Ember, but the people who love me most call me Mama.
-          </div>
-        </div>
-        
-        <div class="pov-page-footer">
-          <span id="povPageIndicator">Page 1 of 5</span>
-          <span class="pov-corner-hint">Click bottom-right corner to turn page</span>
-        </div>
-
-        <!-- Clickable page turn corners -->
-        <div id="pageTurnCorner" class="page-turn-corner" title="Next Page"></div>
-        <div id="pageTurnCornerLeft" class="page-turn-corner-left" title="Previous Page"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Custom Tabby Cat Arm & Paw Pointer extending from off-screen -->
-  <div id="customCatPaw" class="custom-cat-paw">
-    <svg viewBox="0 0 160 160" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <!-- Extended Tabby Cat Arm coming from top-left off-screen -->
-      <path d="M 0,0 Q 40,25 70,65 Q 95,100 85,135 L 60,135 Q 40,105 20,70 Q 10,40 0,0 Z" fill="#7a7a7a" stroke="#4a4a4a" stroke-width="3"/>
-      <!-- Tabby Arm Stripes -->
-      <path d="M 12,12 Q 35,28 48,45" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <path d="M 22,32 Q 45,50 60,72" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <path d="M 35,58 Q 55,75 72,100" stroke="#4a4a4a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <!-- Main toe pad -->
-      <ellipse cx="72" cy="120" rx="12" ry="9" fill="#ffb6c1" stroke="#d48a98" stroke-width="2"/>
-      <!-- Little toe beans -->
-      <circle cx="56" cy="108" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="67" cy="102" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="79" cy="102" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-      <circle cx="90" cy="108" r="4.8" fill="#ffb6c1" stroke="#d48a98" stroke-width="1.5"/>
-    </svg>
-  </div>
-
-  <!-- Contact Modal Popup -->
-  <div id="contactModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-      <button id="closeModal" class="close-btn">&times;</button>
-      <h3>Contact Ember's Family</h3>
-      <p>Thank you so much for finding Ember! Send a direct message or text alert to <strong>616-309-0059</strong>.</p>
-      
-      <form id="smsForm">
-        <div class="form-group">
-          <label for="finderPhone">Your Phone Number:</label>
-          <input type="tel" id="finderPhone" placeholder="e.g., (616) 555-0199" required />
-        </div>
-        <div class="form-group">
-          <label for="finderMessage">Message / Where is she:</label>
-          <textarea id="finderMessage" rows="3" placeholder="e.g., Spotted near the mailbox..."></textarea>
-        </div>
-        <button type="submit" class="submit-sms-btn">Send Text to 616-309-0059</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script>
-    // Procedural HTML5 Canvas Forest Background Renderer (Zero external image dependencies)
-    function drawProceduralForest() {
-      const canvas = document.getElementById('worldBgCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const w = canvas.width;
-      const h = canvas.height;
-
-      // Deep Ghibli Night Forest Gradient
-      const bgGrad = ctx.createRadialGradient(w/2, h/2, 40, w/2, h/2, w/1.2);
-      bgGrad.addColorStop(0, '#102a36');
-      bgGrad.addColorStop(0.6, '#07111e');
-      bgGrad.addColorStop(1, '#03070c');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, w, h);
-
-      // Draw subtle background pine trees
-      function drawPine(x, y, scale, tint) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.scale(scale, scale);
-        ctx.fillStyle = tint;
-        ctx.beginPath();
-        ctx.moveTo(0, -40);
-        ctx.lineTo(-20, 10);
-        ctx.lineTo(-10, 10);
-        ctx.lineTo(-25, 35);
-        ctx.lineTo(-12, 35);
-        ctx.lineTo(-30, 60);
-        ctx.lineTo(30, 60);
-        ctx.lineTo(12, 35);
-        ctx.lineTo(25, 35);
-        ctx.lineTo(10, 10);
-        ctx.lineTo(20, 10);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
-
-      // Ring of distant atmosphere trees
-      for (let i = 0; i < 24; i++) {
-        const angle = (i / 24) * Math.PI * 2;
-        const dist = 210 + (i % 3) * 15;
-        const tx = w / 2 + Math.cos(angle) * dist;
-        const ty = h / 2 + Math.sin(angle) * dist;
-        drawPine(tx, ty, 0.8, i % 2 === 0 ? '#0b1d28' : '#071622');
-      }
-
-      // Soft glowing forest moss spots & magical firefly dots
-      for (let j = 0; j < 40; j++) {
-        const fx = Math.sin(j * 99) * w * 0.45 + w / 2;
-        const fy = Math.cos(j * 33) * h * 0.45 + h / 2;
-        ctx.fillStyle = j % 2 === 0 ? 'rgba(6, 214, 160, 0.25)' : 'rgba(255, 209, 102, 0.35)';
-        ctx.beginPath();
-        ctx.arc(fx, fy, (j % 3) + 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    drawProceduralForest();
-
-    // Local Storage state management (Zero external API dependencies)
-    let currentLostState = false;
-    const STORAGE_KEY = 'ember_site_lost_state';
-
-    function loadLocalStatus() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved !== null) {
-        currentLostState = JSON.parse(saved);
-        updateStatusUI(currentLostState);
-      }
-    }
-
-    function saveLocalStatus(isLost) {
-      currentLostState = isLost;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(isLost));
-    }
-
-    const mushroomCluster = document.getElementById('secretMushroomCluster');
-    const statusBadge = document.getElementById('statusBadge');
-    const statusText = document.getElementById('statusText');
-    const glowingMushrooms = document.querySelectorAll('.glowing-mushroom');
-
-    function updateStatusUI(isLost) {
-      currentLostState = isLost;
-      if (isLost) {
-        statusBadge.classList.add('lost');
-        statusText.textContent = 'Ember is lost';
-        glowingMushrooms.forEach(m => m.classList.add('mushroom-glowing'));
-      } else {
-        statusBadge.classList.remove('lost');
-        statusText.textContent = 'Ember is home';
-        glowingMushrooms.forEach(m => m.classList.remove('mushroom-glowing'));
-      }
-    }
-
-    loadLocalStatus();
-
-    let isToggling = false;
-    if (mushroomCluster) {
-      mushroomCluster.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isToggling) return;
-        isToggling = true;
-
-        const newLost = !currentLostState;
-        updateStatusUI(newLost);
-        saveLocalStatus(newLost);
-
-        setTimeout(() => {
-          isToggling = false;
-        }, 1000);
-      });
-    }
-
-    const worldPanorama = document.getElementById('worldPanorama');
-    const emberWalker = document.getElementById('emberWalker');
-    const emberBodyGroup = document.getElementById('emberBodyG');
-    const emberLetterInMouth = document.getElementById('emberLetterInMouth');
-    const emberGlasses = document.getElementById('emberGlasses');
-    const cameraFlashOverlay = document.getElementById('cameraFlashOverlay');
-
-    let currentX = 50;
-    let currentY = 78;
-    let isMoving = false;
-    let animFrameId = null;
-    let activeDroppedLetter = null;
-
-    function spawnPawprint(x, y) {
-      const paw = document.createElement('div');
-      paw.className = 'click-pawprint';
-      paw.innerHTML = '🐾';
-      paw.style.left = `${x}px`;
-      paw.style.top = `${y}px`;
-      document.body.appendChild(paw);
-      setTimeout(() => paw.remove(), 800);
-    }
-
-    function moveEmberTo(targetX, targetY, onComplete) {
-      if (animFrameId) cancelAnimationFrame(animFrameId);
-
-      if (targetX < currentX) {
-        emberBodyGroup.style.transform = 'scaleX(-1)';
-      } else if (targetX > currentX) {
-        emberBodyGroup.style.transform = 'scaleX(1)';
-      }
-
-      emberWalker.classList.add('is-walking');
-      isMoving = true;
-
-      const startX = currentX;
-      const startY = currentY;
-      const distance = Math.hypot(targetX - startX, targetY - startY);
-      const duration = Math.max(600, distance * 22);
-      const startTime = performance.now();
-
-      function animateStep(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-        currentX = startX + (targetX - startX) * easeProgress;
-        currentY = startY + (targetY - startY) * easeProgress;
-
-        emberWalker.style.left = `${currentX}%`;
-        emberWalker.style.top = `${currentY}%`;
-
-        if (progress < 1) {
-          animFrameId = requestAnimationFrame(animateStep);
-        } else {
-          emberWalker.classList.remove('is-walking');
-          isMoving = false;
-          animFrameId = null;
-          if (onComplete) onComplete();
-        }
-      }
-
-      animFrameId = requestAnimationFrame(animateStep);
-    }
-
-    if (worldPanorama && emberWalker) {
-      worldPanorama.addEventListener('click', (e) => {
-        if (e.target.closest('.stage-interactive-element') || e.target.closest('.mushroom-cluster') || e.target.closest('.dropped-letter-node')) return;
-
-        const rect = worldPanorama.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
-
-        spawnPawprint(e.clientX, e.clientY);
-
-        const clickPctX = (clickX / rect.width) * 100;
-        const clickPctY = (clickY / rect.height) * 100;
-
-        moveEmberTo(clickPctX, clickPctY);
-      });
-    }
-
-    const stageElements = document.querySelectorAll('.stage-interactive-element');
-    const contactModal = document.getElementById('contactModal');
-    const cabinModal = document.getElementById('cabinModal');
-    const galleryModal = document.getElementById('galleryModal');
-    const adventuresModal = document.getElementById('adventuresModal');
-
-    stageElements.forEach(element => {
-      element.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const elemRect = element.getBoundingClientRect();
-        const centerX = elemRect.left + elemRect.width / 2;
-        const centerY = elemRect.bottom + 8;
-
-        spawnPawprint(centerX, centerY);
-
-        const tx = parseFloat(element.getAttribute('data-target-x'));
-        const ty = parseFloat(element.getAttribute('data-target-y'));
-        const navType = element.getAttribute('data-nav');
-
-        if (navType === 'mailbox') {
-          if (activeDroppedLetter) return;
-
-          moveEmberTo(tx, ty, () => {
-            setTimeout(() => {
-              emberLetterInMouth.style.display = 'block';
-              moveEmberTo(38, 55, () => {
-                emberLetterInMouth.style.display = 'none';
-
-                const letterNode = document.createElement('div');
-                letterNode.className = 'dropped-letter-node';
-                letterNode.style.left = `${38}%`;
-                letterNode.style.top = `${55}%`;
-                letterNode.title = "Click to open letter / contact owner";
+    <div class="table-background">
+        <!-- The Book Modal -->
+        <div class="book-modal" id="bookModal">
+            
+            <div class="book-content">
+                <h2>Chapter One</h2>
+                <p>Ember was no ordinary tabby. She had a knack for finding the warmest sunbeams and the most interesting stories. As she looked down at the pages, her paws rested on the worn edges of the book.</p>
+                <p>Hover your cursor over the text. You will notice that Ember is reading right along with you. Her paws will shift and follow your invisible finger as it traces the words across the page.</p>
+                <p>It was a quiet afternoon. The dust motes danced in the light, and the only sound was the soft scratching of a claw against parchment.</p>
+            </div>
+
+            <!-- Procedural POV Paws -->
+            <div class="ember-pov-container">
+                <div class="cat-arm left-arm" id="leftArm">
+                    <div class="paw-pad"></div>
+                </div>
                 
-                letterNode.addEventListener('click', (ev) => {
-                  ev.stopPropagation();
-                  contactModal.style.display = 'flex';
-                });
+                <div class="cat-arm right-arm" id="rightArm">
+                    <div class="paw-pad"></div>
+                </div>
+            </div>
 
-                worldPanorama.appendChild(letterNode);
-                activeDroppedLetter = letterNode;
-              });
-            }, 400);
-          });
-        } else if (navType === 'cabin') {
-          moveEmberTo(tx, ty, () => {
-            setTimeout(() => {
-              emberWalker.style.transform = 'translate(-50%, -85%) scale(0.08) translateY(-35px)';
-              emberWalker.style.opacity = '0';
-              setTimeout(() => {
-                cabinModal.style.display = 'flex';
-                setTimeout(() => {
-                  emberWalker.style.transform = 'translate(-50%, -85%) scale(1)';
-                  emberWalker.style.opacity = '1';
-                }, 300);
-              }, 550);
-            }, 300);
-          });
-        } else if (navType === 'camera') {
-          moveEmberTo(tx, ty, () => {
-            setTimeout(() => {
-              emberBodyGroup.style.transform = 'scaleX(1) rotate(-8deg) translateY(-4px)';
-              setTimeout(() => {
-                emberBodyGroup.style.transform = 'scaleX(1) rotate(10deg) translateY(-2px)';
-                setTimeout(() => {
-                  emberBodyGroup.style.transform = 'scaleX(1) rotate(-5deg) translateY(-6px)';
-                  setTimeout(() => {
-                    cameraFlashOverlay.style.opacity = '0.9';
-                    setTimeout(() => {
-                      cameraFlashOverlay.style.opacity = '0';
-                      emberBodyGroup.style.transform = 'scaleX(1) rotate(0deg) translateY(0px)';
-                      galleryModal.style.display = 'flex';
-                    }, 200);
-                  }, 400);
-                }, 400);
-              }, 400);
-            }, 300);
-          });
-        } else if (navType === 'table') {
-          // Adventures / POV Book: Ember walks to table and puts on glasses, opening POV book reader modal
-          moveEmberTo(tx, ty, () => {
-            setTimeout(() => {
-              emberGlasses.style.opacity = '1';
-              emberGlasses.style.transform = 'translateY(0px)';
-              setTimeout(() => {
-                currentBookPage = 0;
-                renderBookPage();
-                adventuresModal.style.display = 'flex';
-                customCatPaw.style.display = 'block';
-              }, 500);
-            }, 300);
-          });
-        } else {
-          moveEmberTo(tx, ty, () => {});
+        </div>
+    </div>
+
+    <script>
+        const bookModal = document.getElementById('bookModal');
+        const rightArm = document.getElementById('rightArm');
+        const leftArm = document.getElementById('leftArm');
+
+        // Target coordinates (normalized -1 to 1)
+        let targetX = 0;
+        let targetY = 1; // Default to resting at the bottom
+
+        // Current coordinates (for smooth lerping)
+        let currentRightX = 0;
+        let currentRightY = 0;
+        let currentLeftX = 0;
+        let currentLeftY = 0;
+
+        // Track mouse only when it is inside the book modal
+        bookModal.addEventListener('mousemove', (e) => {
+            const rect = bookModal.getBoundingClientRect();
+            
+            // Get mouse position relative to the modal
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Normalize coordinates from -1 (left/top) to 1 (right/bottom)
+            targetX = (x / rect.width) * 2 - 1;
+            targetY = (y / rect.height) * 2 - 1;
+        });
+
+        // Reset paws to resting position when mouse leaves the book
+        bookModal.addEventListener('mouseleave', () => {
+            targetX = 0;
+            targetY = 1; // 1 means bottom of the modal
+        });
+
+        function animatePaws() {
+            // Speed of the organic paw movement
+            const ease = 0.05;
+
+            // --- RIGHT PAW LOGIC ---
+            // If mouse is on the right side of the book (targetX > 0), the right paw follows closer
+            let rightTargetX = targetX > 0 ? targetX * 100 : targetX * 30;
+            let rightTargetY = targetY * -80; // Negative because CSS Y goes down, we want paw to go up
+            
+            currentRightX += (rightTargetX - currentRightX) * ease;
+            currentRightY += (rightTargetY - currentRightY) * ease;
+            
+            const rightRotation = -15 + (currentRightX * 0.1); // Base rotation + tracking adjustment
+
+            // --- LEFT PAW LOGIC ---
+            // If mouse is on the left side of the book (targetX < 0), the left paw follows closer
+            let leftTargetX = targetX < 0 ? targetX * 100 : targetX * 30;
+            let leftTargetY = targetY * -80;
+            
+            currentLeftX += (leftTargetX - currentLeftX) * ease;
+            currentLeftY += (leftTargetY - currentLeftY) * ease;
+            
+            const leftRotation = 15 + (currentLeftX * 0.1);
+
+            // Apply the transforms
+            rightArm.style.transform = `translate(${currentRightX}px, ${currentRightY}px) rotate(${rightRotation}deg)`;
+            leftArm.style.transform = `translate(${currentLeftX}px, ${currentLeftY}px) rotate(${leftRotation}deg)`;
+
+            requestAnimationFrame(animatePaws);
         }
-      });
-    });
 
-    // POV Book Reader Pagination Logic
-    const bookPages = [
-      {
-        title: "Ember's Backstory",
-        text: "Hello, friend. My name is Ember, but the people who love me most call me Mama.\n\nI wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still. Every rustling leaf, dancing butterfly, and winding trail whispered another adventure waiting to be discovered."
-      },
-      {
-        title: "The Journey Ahead",
-        text: "As I grew, I became known for carrying my little traveler stick with a handkerchief tied to the end, convinced that every great explorer needed supplies for the journey ahead.\n\nWhether I was marching through moonlit forests, hopping across old stone paths, or inspecting every flower I could find, I believed the world was full of hidden treasures and friendly faces."
-      },
-      {
-        title: "The Heart of Home",
-        text: "But no matter how exciting the adventure became, there was always one place that mattered more than any forest, field, or mountain.\n\nHome.\n\nMy family loves me more than all the stars in the night sky. They worry when I wander too far because, while I think I'm on the greatest expedition ever, they only see an empty spot where I should be sleeping."
-      },
-      {
-        title: "Found by You",
-        text: "If you've found me, then you've become part of my story. Thank you for stopping, for caring, and for helping a little adventurer find her way back to the people waiting with open arms."
-      },
-      {
-        title: "Always Heading Home",
-        text: "I may be brave enough to chase the horizon, but my favorite destination has always been home.\n\nThank you for helping me get there. ❤️"
-      }
-    ];
-
-    let currentBookPage = 0;
-    const povPageTitle = document.getElementById('povPageTitle');
-    const povPageText = document.getElementById('povPageText');
-    const povPageIndicator = document.getElementById('povPageIndicator');
-    const pageTurnCorner = document.getElementById('pageTurnCorner');
-    const pageTurnCornerLeft = document.getElementById('pageTurnCornerLeft');
-    const customCatPaw = document.getElementById('customCatPaw');
-    const adventuresModalEl = document.getElementById('adventuresModal');
-
-    function renderBookPage() {
-      const pageData = bookPages[currentBookPage];
-      povPageTitle.textContent = pageData.title;
-      povPageText.innerHTML = pageData.text.replace(/\n/g, '<br>');
-      povPageIndicator.textContent = `Page ${currentBookPage + 1} of ${bookPages.length}`;
-      
-      const cornerHint = document.querySelector('.pov-corner-hint');
-      if (currentBookPage === bookPages.length - 1) {
-        cornerHint.textContent = "Click bottom-right corner to close book";
-      } else {
-        cornerHint.textContent = "Bottom-left: Prev | Bottom-right: Next";
-      }
-    }
-
-    if (pageTurnCorner) {
-      pageTurnCorner.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentBookPage < bookPages.length - 1) {
-          currentBookPage++;
-          renderBookPage();
-        } else {
-          closeAdventuresModalFunc();
-        }
-      });
-    }
-
-    if (pageTurnCornerLeft) {
-      pageTurnCornerLeft.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentBookPage > 0) {
-          currentBookPage--;
-          renderBookPage();
-        }
-      });
-    }
-
-    // Custom Cat Arm & Paw Pointer tracking movement seamlessly like your own arm
-    if (adventuresModalEl) {
-      adventuresModalEl.addEventListener('mousemove', (e) => {
-        customCatPaw.style.left = `${e.clientX}px`;
-        customCatPaw.style.top = `${e.clientY}px`;
-      });
-      adventuresModalEl.addEventListener('mouseenter', () => {
-        customCatPaw.style.display = 'block';
-      });
-      adventuresModalEl.addEventListener('mouseleave', () => {
-        customCatPaw.style.display = 'none';
-      });
-    }
-
-    // Slideshow Logic
-    const slides = document.querySelectorAll('.slide-item');
-    const slidePrev = document.getElementById('slidePrev');
-    const slideNext = document.getElementById('slideNext');
-    let currentSlideIndex = 0;
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-    }
-
-    if (slidePrev && slideNext) {
-      slidePrev.addEventListener('click', () => {
-        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-        showSlide(currentSlideIndex);
-      });
-      slideNext.addEventListener('click', () => {
-        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-        showSlide(currentSlideIndex);
-      });
-    }
-
-    const navLinksItems = document.querySelectorAll('.nav-link-item');
-    navLinksItems.forEach(link => {
-      link.addEventListener('mouseenter', (e) => {
-        const linkRect = link.getBoundingClientRect();
-        spawnPawprint(linkRect.left + linkRect.width / 2, linkRect.bottom + 8);
-      });
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetNav = link.getAttribute('data-target');
-        const correspondingElement = document.querySelector(`.stage-interactive-element[data-nav="${targetNav}"]`);
-        if (correspondingElement) correspondingElement.click();
-      });
-    });
-
-    const closeModalBtn = document.getElementById('closeModal');
-    const closeCabinModalBtn = document.getElementById('closeCabinModal');
-    const closeGalleryModalBtn = document.getElementById('closeGalleryModal');
-    const closeAdventuresModalBtn = document.getElementById('closeAdventuresModal');
-    const smsForm = document.getElementById('smsForm');
-
-    function closeContactModal() {
-      contactModal.style.display = 'none';
-      if (activeDroppedLetter) {
-        activeDroppedLetter.classList.add('fade-out');
-        setTimeout(() => {
-          if (activeDroppedLetter) {
-            activeDroppedLetter.remove();
-            activeDroppedLetter = null;
-          }
-        }, 1500);
-      }
-    }
-
-    function closeAdventuresModalFunc() {
-      adventuresModal.style.display = 'none';
-      customCatPaw.style.display = 'none';
-      if (emberGlasses) {
-        emberGlasses.style.opacity = '0';
-        emberGlasses.style.transform = 'translateY(-15px)';
-      }
-    }
-
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeContactModal);
-    if (closeCabinModalBtn) closeCabinModalBtn.addEventListener('click', () => cabinModal.style.display = 'none');
-    if (closeGalleryModalBtn) closeGalleryModalBtn.addEventListener('click', () => galleryModal.style.display = 'none');
-    if (closeAdventuresModalBtn) closeAdventuresModalBtn.addEventListener('click', closeAdventuresModalFunc);
-
-    window.addEventListener('click', (e) => {
-      if (e.target === contactModal) closeContactModal();
-      if (e.target === cabinModal) cabinModal.style.display = 'none';
-      if (e.target === galleryModal) galleryModal.style.display = 'none';
-      if (e.target === adventuresModal) closeAdventuresModalFunc();
-    });
-
-    if (smsForm) {
-      smsForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const phone = document.getElementById('finderPhone').value;
-        const msg = document.getElementById('finderMessage').value;
-        const smsBody = encodeURIComponent(`I found Ember! My phone is ${phone}. Message: ${msg}`);
-        window.location.href = `sms:6163090059?body=${smsBody}`;
-        closeContactModal();
-      });
-    }
-  </script>
+        // Start the procedural animation loop
+        animatePaws();
+    </script>
 </body>
 </html>
