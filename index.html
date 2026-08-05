@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ember's World - Interactive Storybook</title>
+    <title>Ember's World</title>
     <style>
         /* --- GENERAL WEBSITE STYLING --- */
         body {
@@ -41,22 +41,20 @@
         }
 
         .main-content {
-            padding: 80px 20px;
+            padding: 60px 20px;
             text-align: center;
         }
 
         .main-content h2 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             color: #e08b4c;
-            margin-bottom: 10px;
         }
 
         .main-content p {
             max-width: 600px;
-            margin: 0 auto 30px auto;
+            margin: 20px auto;
             line-height: 1.6;
             color: #bfa888;
-            font-size: 1.1rem;
         }
 
         /* Trigger Button to Open Book */
@@ -64,13 +62,13 @@
             background: #e08b4c;
             color: #1e1b18;
             border: none;
-            padding: 14px 32px;
+            padding: 12px 30px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 4px 15px rgba(224, 139, 76, 0.3);
+            margin-top: 20px;
         }
 
         .open-book-btn:hover {
@@ -85,213 +83,182 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 13, 11, 0.85);
-            display: none; /* Hidden by default */
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            /* Toggle visibility with display: none / flex */
         }
 
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        /* The Wooden Table Environment wrapper inside the modal */
-        .table-environment {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #4a3327 0%, #291c14 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            padding: 20px;
-        }
-
-        /* The Book Modal Component */
+        /* The Book Container */
         .book-modal {
-            position: relative; /* Crucial for containing the POV paws */
-            width: 850px;
-            max-width: 95vw;
-            height: 580px;
-            background: #fdf6e3; /* Warm parchment paper color */
-            border-radius: 12px;
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.08), 0 25px 60px rgba(0,0,0,0.7);
-            overflow: hidden; /* CRUCIAL: Keeps paws strictly trapped inside the book pages */
+            position: relative; /* Crucial for containing the paws */
+            width: 800px;
+            max-width: 90vw;
+            height: 550px;
+            background: #fdf6e3; /* Paper color */
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            overflow: hidden; /* Hides paws when they reach off the book edges */
             display: flex;
-            padding: 50px;
+            padding: 40px;
             box-sizing: border-box;
         }
 
-        /* Book Binding Spine Fold in the middle */
+        /* Book Binding Fold */
         .book-modal::after {
             content: '';
             position: absolute;
             top: 0;
             bottom: 0;
             left: 50%;
-            width: 50px;
+            width: 40px;
             transform: translateX(-50%);
             background: linear-gradient(to right, 
                 rgba(0,0,0,0) 0%, 
-                rgba(0,0,0,0.06) 40%, 
-                rgba(0,0,0,0.14) 50%, 
-                rgba(0,0,0,0.06) 60%, 
+                rgba(0,0,0,0.08) 40%, 
+                rgba(0,0,0,0.15) 50%, 
+                rgba(0,0,0,0.08) 60%, 
                 rgba(0,0,0,0) 100%);
             pointer-events: none;
-            z-index: 2;
         }
 
-        /* Book Pages Content (Fully Animated Storybook pages) */
+        /* Book Pages Content */
         .book-content {
             width: 100%;
             column-count: 2;
-            column-gap: 70px;
+            column-gap: 60px;
             font-size: 1.1rem;
-            line-height: 1.8;
-            color: #3b2f2f;
-            z-index: 3; /* Keeps interactive text above paws */
-            position: relative;
+            line-height: 1.7;
+            color: #333;
+            z-index: 1; /* Keeps text above paws */
         }
 
         .book-content h3 {
             margin-top: 0;
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             color: #b54918;
-            border-bottom: 2px solid #e0c9a6;
-            padding-bottom: 8px;
-        }
-
-        .book-content p {
-            margin-bottom: 20px;
         }
 
         /* Close Button inside the book */
         .close-book-btn {
             position: absolute;
             top: 15px;
-            right: 25px;
+            right: 20px;
             background: none;
             border: none;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: #7a6855;
-            z-index: 25;
-            transition: color 0.2s;
+            color: #888;
+            z-index: 20;
         }
         .close-book-btn:hover {
-            color: #b54918;
+            color: #333;
         }
 
-        /* --- EMBER'S POV PROCEDURAL PAWS --- */
+        /* --- EMBER'S POV PAWS (Scoped inside the book modal) --- */
         .ember-pov-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Let mouse clicks pass through completely to text */
+            pointer-events: none; /* Let clicks pass right through */
             z-index: 10;
         }
 
         .cat-arm {
             position: absolute;
-            bottom: -90px; /* Hidden slightly off the bottom edge */
-            width: 140px;
-            height: 250px;
+            bottom: -70px; /* Hidden slightly off the bottom edge */
+            width: 130px;
+            height: 230px;
             background: linear-gradient(135deg, #e08b4c 0%, #c67131 100%);
-            border-radius: 70px 70px 0 0;
-            box-shadow: inset 0 15px 25px rgba(255, 255, 255, 0.25), 
-                        0 -5px 15px rgba(0, 0, 0, 0.35);
+            border-radius: 65px 65px 0 0;
+            box-shadow: inset 0 15px 25px rgba(255, 255, 255, 0.2), 
+                        0 -5px 15px rgba(0, 0, 0, 0.3);
             transform-origin: bottom center;
             will-change: transform;
         }
 
-        /* Tabby Stripes Pattern */
+        /* Tabby Stripes */
         .cat-arm::before {
             content: '';
             position: absolute;
-            top: 50px;
-            left: 15px;
-            right: 15px;
-            height: 12px;
+            top: 45px;
+            left: 14px;
+            right: 14px;
+            height: 10px;
             background: rgba(94, 49, 13, 0.3);
-            border-radius: 6px;
-            box-shadow: 0 40px 0 rgba(94, 49, 13, 0.3), 0 80px 0 rgba(94, 49, 13, 0.3);
+            border-radius: 5px;
+            box-shadow: 0 35px 0 rgba(94, 49, 13, 0.3), 0 70px 0 rgba(94, 49, 13, 0.3);
         }
 
         .left-arm {
-            left: 6%;
+            left: 8%;
             transform: rotate(15deg);
         }
 
         .right-arm {
-            right: 6%;
+            right: 8%;
             transform: rotate(-15deg);
         }
 
-        /* Soft Cat Paw Pads */
+        /* Paw Pads */
         .paw-pad {
             position: absolute;
-            top: -10px;
+            top: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 60px;
+            width: 75px;
+            height: 55px;
             background: #f7caad;
-            border-radius: 40px;
+            border-radius: 35px;
             box-shadow: inset 0 -4px 8px rgba(0,0,0,0.15);
         }
     </style>
 </head>
 <body>
 
-    <!-- Website Header -->
+    <!-- Rest of your website header -->
     <header>
-        <h1>🐾 Ember's Storybook</h1>
+        <h1>🐾 Ember's Corner</h1>
         <nav>
             <a href="#">Home</a>
-            <a href="#">About Ember</a>
-            <a href="#">Contact</a>
+            <a href="#">Gallery</a>
+            <a href="#">About</a>
         </nav>
     </header>
 
-    <!-- Main Website Hero Section -->
+    <!-- Rest of your website main content -->
     <main class="main-content">
-        <h2>Welcome to Ember's Cozy Nook</h2>
-        <p>Step into the world of our resident tabby cat. Click below to sit down at the wooden table, open her animated storybook, and read along with her paws tracking every word!</p>
+        <h2>Welcome to Ember's Website</h2>
+        <p>Explore the cozy world of our favorite tabby cat. Click below to open her interactive storybook and read along with her!</p>
         <button class="open-book-btn" id="openModal">Open Storybook</button>
     </main>
 
-    <!-- The Wooden Table & Book Modal Overlay Container -->
+    <!-- The Table / Modal Overlay Wrapper -->
     <div class="modal-overlay" id="modalOverlay">
-        <div class="table-environment">
-            <div class="book-modal" id="bookModal">
-                
-                <button class="close-book-btn" id="closeModal">&times;</button>
+        <div class="book-modal" id="bookModal">
+            
+            <button class="close-book-btn" id="closeModal">&times;</button>
 
-                <!-- Fully Animated Storybook Content -->
-                <div class="book-content">
-                    <h3>Chapter One: The Sunbeam</h3>
-                    <p>Ember curled up against the edge of the wooden table as the warm afternoon light spilled across the room. She loved a good mystery, especially one written across crisp parchment pages.</p>
-                    <p>As you glide your cursor across this text, notice how Ember reads right along with you. Her paws naturally follow your movements, reaching closer to whatever word catches your eye.</p>
-                    <p>Turn the page or linger here awhile—there's no rush when you have a sleepy tabby keeping you company in the quiet hours.</p>
-                </div>
-
-                <!-- Procedural POV Paws Trackers Inside the Book -->
-                <div class="ember-pov-container">
-                    <div class="cat-arm left-arm" id="leftArm">
-                        <div class="paw-pad"></div>
-                    </div>
-                    <div class="cat-arm right-arm" id="rightArm">
-                        <div class="paw-pad"></div>
-                    </div>
-                </div>
-
+            <div class="book-content">
+                <h3>Chapter One</h3>
+                <p>Ember settled down on the warm wooden table, her eyes tracking across the pages. As you move your mouse over this text, watch her paws follow right along as if she is reading over your shoulder.</p>
+                <p>Every flick of the cursor draws her closer to the words, turning an ordinary story into a live, interactive experience with a curious little tabby.</p>
             </div>
+
+            <!-- Procedural POV Paws strictly inside the book -->
+            <div class="ember-pov-container">
+                <div class="cat-arm left-arm" id="leftArm">
+                    <div class="paw-pad"></div>
+                </div>
+                <div class="cat-arm right-arm" id="rightArm">
+                    <div class="paw-pad"></div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -303,76 +270,61 @@
         const rightArm = document.getElementById('rightArm');
         const leftArm = document.getElementById('leftArm');
 
-        // Open and close modal listeners
-        openModalBtn.addEventListener('click', () => {
-            modalOverlay.classList.add('active');
-        });
+        // Modal open/close controls
+        openModalBtn.addEventListener('click', () => { modalOverlay.style.display = 'flex'; });
+        closeModalBtn.addEventListener('click', () => { modalOverlay.style.display = 'none'; });
 
-        closeModalBtn.addEventListener('click', () => {
-            modalOverlay.classList.remove('active');
-        });
-
-        // Close modal when clicking outside the book on the table background
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay || e.target.classList.contains('table-environment')) {
-                modalOverlay.classList.remove('active');
-            }
-        });
-
-        // Target and current coordinates for smooth procedural tracking
+        // Target and current coordinates for paw tracking
         let targetX = 0;
-        let targetY = 1; // Default resting position at bottom
+        let targetY = 1; // Default resting at bottom
 
         let currentRightX = 0;
         let currentRightY = 0;
         let currentLeftX = 0;
         let currentLeftY = 0;
 
-        // Track mouse position strictly inside the bounds of the book modal
+        // Track mouse strictly relative to the book modal
         bookModal.addEventListener('mousemove', (e) => {
             const rect = bookModal.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            // Normalize coordinates from -1 to 1 relative to the book container
             targetX = (x / rect.width) * 2 - 1;
             targetY = (y / rect.height) * 2 - 1;
         });
 
-        // Reset paws to resting bottom position when mouse leaves the book
+        // Reset paws when mouse leaves the book area
         bookModal.addEventListener('mouseleave', () => {
             targetX = 0;
             targetY = 1;
         });
 
-        // Animation Loop using Linear Interpolation (Lerp) for organic paw movement
         function animatePaws() {
-            const ease = 0.06;
+            const ease = 0.05;
 
-            // Right paw tracking logic
-            let rightTargetX = targetX > 0 ? targetX * 95 : targetX * 25;
-            let rightTargetY = targetY * -80;
+            // Right paw follow logic
+            let rightTargetX = targetX > 0 ? targetX * 90 : targetX * 25;
+            let rightTargetY = targetY * -75;
             
             currentRightX += (rightTargetX - currentRightX) * ease;
             currentRightY += (rightTargetY - currentRightY) * ease;
             const rightRotation = -15 + (currentRightX * 0.1);
 
-            // Left paw tracking logic
-            let leftTargetX = targetX < 0 ? targetX * 95 : targetX * 25;
-            let leftTargetY = targetY * -80;
+            // Left paw follow logic
+            let leftTargetX = targetX < 0 ? targetX * 90 : targetX * 25;
+            let leftTargetY = targetY * -75;
             
             currentLeftX += (leftTargetX - currentLeftX) * ease;
             currentLeftY += (leftTargetY - currentLeftY) * ease;
             const leftRotation = 15 + (currentLeftX * 0.1);
 
-            // Apply transforms inside the book container
+            // Apply transforms inside the bounds of the modal container
             rightArm.style.transform = `translate(${currentRightX}px, ${currentRightY}px) rotate(${rightRotation}deg)`;
             leftArm.style.transform = `translate(${currentLeftX}px, ${currentLeftY}px) rotate(${leftRotation}deg)`;
 
             requestAnimationFrame(animatePaws);
         }
 
-        // Start animation loop
         animatePaws();
     </script>
 </body>
