@@ -2,56 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ember's Nocturnal Forest</title>
+  <title>Ember's Circular Forest Map</title>
   <style>
     body {
       margin: 0;
-      background: linear-gradient(to bottom, #03070c, #07111e, #0c1b2a);
+      background: #03070c;
       color: #fff;
       font-family: sans-serif;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
-    #worldBgCanvas {
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      position: relative;
+      z-index: 50;
+    }
+    .logo-area {
+      font-weight: bold;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.95rem;
+      color: #c0c0c0;
+    }
+    .nav-links span {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .nav-links span:hover {
+      color: #fff;
+    }
+    .status-btn {
+      background: #721c24;
+      border: 1px solid #f5c6cb;
+      color: #fff;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .intro-text {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      font-size: 0.95rem;
+      color: #9da3af;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 50;
+    }
+    
+    /* Circular Map Stage */
+    .map-container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      margin: 1rem auto 4rem auto;
+    }
+    .outer-ring {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 50%;
       pointer-events: none;
     }
-    .stage-interactive-element {
+    .track-ring {
       position: absolute;
-      z-index: 20;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed rgba(255, 255, 255, 0.2);
+      top: 50px;
+      left: 50px;
+      width: 400px;
+      height: 400px;
+      border: 45px dashed #2a241f; /* Simulates the path ties */
       border-radius: 50%;
+      box-sizing: border-box;
+    }
+    
+    /* Landmarks on Path */
+    .landmark {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      transform: translate(-50%, -50%);
       cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
     }
-    .stage-interactive-element:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
+    #cabinLandmark { top: 75px; left: 250px; }
+    #cameraLandmark { top: 250px; left: 375px; }
+    #tableLandmark { top: 425px; left: 250px; }
+    #mailboxLandmark { top: 250px; left: 125px; }
+    #mushroomLandmark { top: 390px; left: 320px; }
+
+    /* Ember Walker */
     #emberWalker {
       position: absolute;
-      z-index: 15;
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       transform: translate(-50%, -85%);
-      transition: transform 0.2s ease;
+      transition: all 0.3s ease;
+      z-index: 20;
     }
     #emberWalker.is-walking {
       animation: bounceWalk 0.3s infinite alternate;
     }
     @keyframes bounceWalk {
       from { transform: translate(-50%, -85%) translateY(0); }
-      to { transform: translate(-50%, -85%) translateY(-6px); }
+      to { transform: translate(-50%, -85%) translateY(-5px); }
     }
+
+    /* Pawprints */
     .click-pawprint {
       position: absolute;
       z-index: 100;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOutPaw 0.8s forwards;
@@ -60,6 +135,8 @@
       0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
       100% { opacity: 0; transform: translate(-50%, -150%) scale(1.2); }
     }
+
+    /* Modals */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -82,7 +159,6 @@
       max-width: 600px;
       position: relative;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      z-index: 1001;
     }
     .close-btn {
       position: absolute;
@@ -94,7 +170,7 @@
       font-size: 1.5rem;
       cursor: pointer;
     }
-    .submit-sms-btn {
+    .action-btn {
       background: #06d6a0;
       color: #03070c;
       border: none;
@@ -102,22 +178,10 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .submit-sms-btn:hover {
-      opacity: 0.9;
-    }
-    .submit-sms-btn:disabled {
-      background: #2b3e50;
-      color: #7a8c9e;
-      cursor: not-allowed;
     }
     
-    /* 3D Book Page Flip Styles */
-    .book-stage {
-      perspective: 1200px;
-      margin: 1.5rem 0;
-    }
+    /* Book Styles */
+    .book-stage { perspective: 1200px; margin: 1.5rem 0; }
     .book-page-container {
       min-height: 150px;
       font-size: 1.05rem;
@@ -127,16 +191,7 @@
       background: rgba(7, 17, 30, 0.8);
       border-left: 4px solid #ffd166;
       border-radius: 4px;
-      transform-style: preserve-3d;
-      transition: transform 0.4s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease;
-    }
-    .book-page-container.flip-out-left {
-      transform: rotateY(-90deg) scale(0.95);
-      opacity: 0;
-    }
-    .book-page-container.flip-out-right {
-      transform: rotateY(90deg) scale(0.95);
-      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
     }
     .book-footer {
       display: flex;
@@ -144,77 +199,74 @@
       align-items: center;
       margin-top: 1.5rem;
     }
-    #pageIndicator {
-      font-size: 0.9rem;
-      color: #8d99ae;
-    }
   </style>
 </head>
 <body>
 
-  <!-- CANVAS BACKGROUND -->
-  <canvas id="worldBgCanvas"></canvas>
+  <header>
+    <div class="logo-area">🌿 Hey You<br>Found Me</div>
+    <div class="nav-links">
+      <span onclick="navigateTo('cabin')">Meet Ember</span>
+      <span onclick="navigateTo('camera')">Gallery</span>
+      <span onclick="navigateTo('table')">Adventures</span>
+      <span onclick="navigateTo('mailbox')">If I'm Lost</span>
+    </div>
+    <button class="status-btn" id="statusToggleBtn">● Ember is lost</button>
+  </header>
 
-  <!-- EMBER CHARACTER -->
-  <div id="emberWalker" style="left: 50%; top: 78%;">
-    <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
-      <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
-      <g id="emberGlasses" style="opacity: 0; transition: all 0.3s ease;">
-        <rect x="52" y="36" width="10" height="7" rx="2" fill="none" stroke="#ffd166" stroke-width="2"/>
-        <rect x="68" y="36" width="10" height="7" rx="2" fill="none" stroke="#ffd166" stroke-width="2"/>
-        <line x1="62" y1="39" x2="68" y2="39" stroke="#ffd166" stroke-width="2"/>
-      </g>
-    </svg>
+  <div class="intro-text">
+    Explore the circular forest trail map. Click anywhere along the path or a landmark to guide Ember!
   </div>
 
-  <!-- INTERACTIVE HOTSPOTS -->
-  <button class="stage-interactive-element" data-nav="cabin" style="left: 45%; top: 20%; width: 60px; height: 60px;" aria-label="Cabin"></button>
-  <button class="stage-interactive-element" data-nav="camera" style="left: 75%; top: 45%; width: 60px; height: 60px;" aria-label="Gallery"></button>
-  <button class="stage-interactive-element" data-nav="table" style="left: 45%; top: 75%; width: 60px; height: 60px;" aria-label="Book Modal"></button>
-  <button class="stage-interactive-element" id="secretMushroomCluster" style="left: 15%; top: 75%; width: 40px; height: 40px;" aria-label="Mushroom Status"></button>
+  <!-- MAP STAGE -->
+  <div class="map-container" id="mapContainer">
+    <div class="outer-ring"></div>
+    <div class="track-ring"></div>
 
-  <div id="statusBadge" style="position:fixed; top:20px; left:20px; z-index:50; color: #fff; font-weight: bold;"><span id="statusText">Ember is home</span></div>
-  <div id="modalContainer"></div>
+    <!-- LANDMARKS -->
+    <div class="landmark" id="cabinLandmark" title="Cabin" onclick="navigateTo('cabin')">🏠</div>
+    <div class="landmark" id="cameraLandmark" title="Gallery" onclick="navigateTo('camera')">📷</div>
+    <div class="landmark" id="tableLandmark" title="Storybook" onclick="navigateTo('table')">🪵</div>
+    <div class="landmark" id="mailboxLandmark" title="Mailbox" onclick="navigateTo('mailbox')">📫</div>
+    <div class="landmark" id="mushroomLandmark" title="Mushrooms" onclick="toggleMushroomStatus()">🍄</div>
+
+    <!-- EMBER CHARACTER -->
+    <div id="emberWalker" style="left: 50%; top: 15%;">
+      <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+        <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+        <!-- Ears -->
+        <polygon points="48,28 55,10 65,26" fill="#7a7a7a"/>
+        <polygon points="82,28 75,10 65,26" fill="#7a7a7a"/>
+        <!-- Face details -->
+        <circle cx="57" cy="40" r="3" fill="#ffd166"/>
+        <circle cx="73" cy="40" r="3" fill="#ffd166"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="modalWrapper"></div>
 
   <script>
-    const canvas = document.getElementById('worldBgCanvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Draw background stars/particles on canvas safely
-    function drawBackgroundStars() {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      for (let i = 0; i < 50; i++) {
-        const x = (i * 73) % canvas.width;
-        const y = (i * 41) % (canvas.height * 0.7);
-        ctx.fillRect(x, y, 2, 2);
-      }
-    }
-    drawBackgroundStars();
-
     const emberWalker = document.getElementById('emberWalker');
-    const statusText = document.getElementById('statusText');
-    const secretMushroomCluster = document.getElementById('secretMushroomCluster');
-
-    let currentX = 50;
-    let currentY = 78;
+    const statusBtn = document.getElementById('statusToggleBtn');
+    
+    let currentX = 50; // percentage coordinates relative to map container
+    let currentY = 15;
     let isMoving = false;
     let activeModal = null;
-    let isEmberLost = false;
+    let isLostState = true;
 
-    const landmarks = {
-      cabin: { x: 50, y: 24, name: 'Meet Ember' },
-      camera: { x: 76, y: 50, name: 'Gallery' },
-      table: { x: 50, y: 76, name: 'Ember’s Storybook' },
-      mailbox: { x: 24, y: 50, name: "If I'm Lost" }
+    const coordinates = {
+      cabin: { x: 50, y: 15, name: "Meet Ember" },
+      camera: { x: 75, y: 50, name: "Gallery" },
+      table: { x: 50, y: 85, name: "Ember's Storybook" },
+      mailbox: { x: 25, y: 50, name: "If I'm Lost" }
     };
 
-    // Precision Pawprint Click Tracker
+    // Pawprint click tracker
     document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.modal-content')) return;
+      if (e.target.closest('button') || e.target.closest('.landmark') || e.target.closest('.modal-content') || e.target.closest('header')) return;
       
       const paw = document.createElement('div');
       paw.className = 'click-pawprint';
@@ -226,68 +278,53 @@
       setTimeout(() => paw.remove(), 800);
     });
 
-    function moveEmberTo(targetX, targetY, callback) {
-      if (isMoving) return;
+    function navigateTo(landmarkKey) {
+      const target = coordinates[landmarkKey];
+      if (!target || isMoving) return;
+
       isMoving = true;
       emberWalker.classList.add('is-walking');
 
       const startX = currentX;
       const startY = currentY;
       const startTime = performance.now();
-      const duration = 900;
+      const duration = 800;
 
-      function animateWalk(currentTime) {
-        const elapsed = currentTime - startTime;
+      function walkFrame(time) {
+        const elapsed = time - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-        currentX = startX + (targetX - startX) * easeProgress;
-        currentY = startY + (targetY - startY) * easeProgress;
+        
+        currentX = startX + (target.x - startX) * progress;
+        currentY = startY + (target.y - startY) * progress;
 
         emberWalker.style.left = `${currentX}%`;
         emberWalker.style.top = `${currentY}%`;
 
         if (progress < 1) {
-          requestAnimationFrame(animateWalk);
+          requestAnimationFrame(walkFrame);
         } else {
           isMoving = false;
           emberWalker.classList.remove('is-walking');
-          if (callback) callback();
+          openModal(landmarkKey);
         }
       }
-      requestAnimationFrame(animateWalk);
+      requestAnimationFrame(walkFrame);
     }
 
-    document.querySelectorAll('.stage-interactive-element').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetKey = el.getAttribute('data-nav');
-        const coords = landmarks[targetKey];
-        if (!coords) return;
-
-        closeModal();
-        moveEmberTo(coords.x, coords.y, () => {
-          openModal(targetKey);
-        });
-      });
-    });
-
-    if (secretMushroomCluster) {
-      secretMushroomCluster.addEventListener('click', () => {
-        isEmberLost = !isEmberLost;
-        statusText.textContent = isEmberLost ? "Ember is roaming out!" : "Ember is home";
-      });
+    function toggleMushroomStatus() {
+      isLostState = !isLostState;
+      statusBtn.textContent = isLostState ? "● Ember is lost" : "● Ember is home";
+      statusBtn.style.background = isLostState ? "#721c24" : "#155724";
     }
 
     function openModal(type) {
       closeModal();
-      const modalOverlay = document.createElement('div');
-      modalOverlay.className = 'modal-overlay';
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
 
-      let innerHTML = '';
-
+      let content = '';
       if (type === 'table') {
-        innerHTML = `
+        content = `
           <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
             <h3 style="color: #ffd166; margin-top: 0;">📖 Ember's Journal</h3>
@@ -297,28 +334,28 @@
               </div>
             </div>
             <div class="book-footer">
-              <button class="submit-sms-btn" id="prevPageBtn" onclick="turnBookPage(-1)" disabled>&#10094; Previous</button>
-              <span id="pageIndicator">Page 1 of 6</span>
-              <button class="submit-sms-btn" id="nextPageBtn" onclick="turnBookPage(1)">Next &#10095;</button>
+              <button class="action-btn" id="prevPageBtn" onclick="turnPage(-1)" disabled>Previous</button>
+              <span id="pageIndicator" style="color:#8d99ae;">Page 1 of 6</span>
+              <button class="action-btn" id="nextPageBtn" onclick="turnPage(1)">Next</button>
             </div>
           </div>
         `;
       } else {
-        innerHTML = `
+        content = `
           <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>${landmarks[type]?.name || 'Notice'}</h3>
-            <p>Welcome to this cozy corner of the forest!</p>
+            <h3>${coordinates[type]?.name || 'Notice'}</h3>
+            <p>Welcome to this cozy section of Ember's forest trail!</p>
           </div>
         `;
       }
 
-      modalOverlay.innerHTML = innerHTML;
-      modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
+      overlay.innerHTML = content;
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
       });
-      document.body.appendChild(modalOverlay);
-      activeModal = modalOverlay;
+      document.body.appendChild(overlay);
+      activeModal = overlay;
     }
 
     window.closeModal = function() {
@@ -328,44 +365,24 @@
       }
     };
 
-    const bookPages = [
+    const pages = [
       "Hello, friend. My name is Ember, but the people who love me most call me Mama.",
-      "I wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still. Every rustling leaf, dancing butterfly, and winding trail whispered another adventure waiting to be discovered.",
-      "As I grew, I became known for carrying my little traveler stick with a handkerchief tied to the end, convinced that every great explorer needed supplies for the journey ahead. Whether I was marching through moonlit forests, hopping across old stone paths, or inspecting every flower I could find, I believed the world was full of hidden treasures and friendly faces.",
-      "But no matter how exciting the adventure became, there was always one place that mattered more than any forest, field, or mountain.<br><br><strong>Home.</strong>",
-      "My family loves me more than all the stars in the night sky. They worry when I wander too far because, while I think I'm on the greatest expedition ever, they only see an empty spot where I should be sleeping.",
-      "If you've found me, then you've become part of my story. Thank you for stopping, for caring, and for helping a little adventurer find her way back to the people waiting with open arms.<br><br>I may be brave enough to chase the horizon, but my favorite destination has always been home. Thank you for helping me get there. ❤️"
+      "I wasn't always the fearless little explorer you see today. Once upon a time, I was just a tiny kitten with curious eyes and paws that could never stay still.",
+      "As I grew, I became known for carrying my little traveler stick, convinced every great explorer needed supplies for the journey ahead.",
+      "But no matter how exciting the adventure became, there was always one place that mattered more than any forest: Home.",
+      "My family loves me more than all the stars in the night sky and worry when I wander too far.",
+      "If you've found me, thank you for helping a little adventurer find her way back home. ❤️"
     ];
+    let currentPage = 0;
 
-    let currentBookPage = 0;
-    let isTurningPage = false;
-
-    window.turnBookPage = function(direction) {
-      if (isTurningPage) return;
-      
-      const newPage = currentBookPage + direction;
-      if (newPage < 0 || newPage >= bookPages.length) return;
-
-      isTurningPage = true;
-      const pageElement = document.getElementById('bookPageText');
-      
-      const flipClass = direction > 0 ? 'flip-out-left' : 'flip-out-right';
-      pageElement.classList.add(flipClass);
-
-      setTimeout(() => {
-        currentBookPage = newPage;
-        pageElement.innerHTML = bookPages[currentBookPage];
-        document.getElementById('pageIndicator').textContent = `Page ${currentBookPage + 1} of ${bookPages.length}`;
-
-        document.getElementById('prevPageBtn').disabled = (currentBookPage === 0);
-        document.getElementById('nextPageBtn').disabled = (currentBookPage === bookPages.length - 1);
-
-        pageElement.classList.remove('flip-out-left', 'flip-out-right');
-        
-        setTimeout(() => {
-          isTurningPage = false;
-        }, 200);
-      }, 300);
+    window.turnPage = function(dir) {
+      const next = currentPage + dir;
+      if (next < 0 || next >= pages.length) return;
+      currentPage = next;
+      document.getElementById('bookPageText').innerHTML = pages[currentPage];
+      document.getElementById('pageIndicator').textContent = `Page ${currentPage + 1} of ${pages.length}`;
+      document.getElementById('prevPageBtn').disabled = (currentPage === 0);
+      document.getElementById('nextPageBtn').disabled = (currentPage === pages.length - 1);
     };
   </script>
 </body>
