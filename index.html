@@ -641,20 +641,20 @@
 
     .pov-paw {
       position: absolute;
-      bottom: -35px;
-      width: 140px;
-      height: 140px;
-      transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
+      bottom: -40px;
+      width: 130px;
+      height: 130px;
+      transition: transform 0.05s cubic-bezier(0, 0, 0.2, 1);
       will-change: transform;
     }
 
     .pov-paw.left-paw {
-      left: -20px;
+      left: -30px;
       transform-origin: top center;
     }
 
     .pov-paw.right-paw {
-      right: -20px;
+      right: -30px;
       transform-origin: top center;
     }
 
@@ -1307,15 +1307,14 @@
       // Calculate vertical ratio (normalized)
       const yRatio = Math.max(0, Math.min(1, mouseY / rect.height));
 
-      // Translate paws inward and upward to follow the cursor across the whole width
-      // Left paw moves right and up; Right paw moves left and up
-      const leftMoveX = xRatio * 220;
-      const leftMoveY = - (1 - yRatio) * 60 - (Math.sin(xRatio * Math.PI) * 25);
-      const leftRotate = xRatio * 25 - 5;
+      // Translate paws inward and upward to track word-for-word across the entire width
+      const leftMoveX = xRatio * 260;
+      const leftMoveY = - (1 - yRatio) * 80 - (Math.sin(xRatio * Math.PI) * 35);
+      const leftRotate = xRatio * 32 - 8;
 
-      const rightMoveX = - (1 - xRatio) * 220;
-      const rightMoveY = - (1 - yRatio) * 60 - (Math.sin(xRatio * Math.PI) * 25);
-      const rightRotate = - (1 - xRatio) * 25 + 5;
+      const rightMoveX = - (1 - xRatio) * 260;
+      const rightMoveY = - (1 - yRatio) * 80 - (Math.sin(xRatio * Math.PI) * 35);
+      const rightRotate = - (1 - xRatio) * 32 + 8;
 
       leftPaw.style.transform = `translate(${leftMoveX}px, ${leftMoveY}px) rotate(${leftRotate}deg)`;
       rightPaw.style.transform = `translate(${rightMoveX}px, ${rightMoveY}px) rotate(${rightRotate}deg)`;
