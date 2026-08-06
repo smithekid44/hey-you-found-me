@@ -1,544 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hey You Found Me - Ember</title>
-  
-  <style>
-    /* ==========================================
-        GHIBLI NIGHT FOREST THEME & RESET
-        ========================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hey You Found Me - Ember</title>
+  
+  <style>
+    /* ==========================================
+        GHIBLI NIGHT FOREST THEME & RESET
+        ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    body {
-      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
-      background-color: #050b14;
-      color: #f1f5f9;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    body {
+      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
+      background-color: #050b14;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    /* ==========================================
-        COZY NAVIGATION BAR
-        ========================================== */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      gap: 1rem;
-    }
+    /* ==========================================
+        COZY NAVIGATION BAR
+        ========================================== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      gap: 1rem;
+    }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none;
-      cursor: pointer;
-      position: relative;
-    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+    }
 
-    .nav-logo-icon {
-      width: 28px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+    .nav-logo-icon {
+      width: 28px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-    .nav-logo-icon svg {
-      width: 100%;
-      height: 100%;
-      fill: #f3c68f;
-      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
-    }
+    .nav-logo-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #f3c68f;
+      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
+    }
 
-    .nav-logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-      font-family: 'Georgia', serif;
-      font-size: 0.8rem;
-      color: #fffdf0;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
-      white-space: nowrap;
-    }
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      color: #fffdf0;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
+      white-space: nowrap;
+    }
 
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 1.2rem;
-    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+    }
 
-    .nav-links a {
-      color: #d1d5db;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
+    .nav-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #ffd166;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
-    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #ffd166;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
 
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(6, 214, 160, 0.15);
-      border: 1px solid #06d6a0;
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: #06d6a0;
-      user-select: none;
-      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
-      white-space: nowrap;
-    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(6, 214, 160, 0.15);
+      border: 1px solid #06d6a0;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #06d6a0;
+      user-select: none;
+      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
+      white-space: nowrap;
+    }
 
-    .status-badge.lost {
-      background: rgba(239, 71, 111, 0.15);
-      border-color: #ef476f;
-      color: #ef476f;
-      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
-    }
+    .status-badge.lost {
+      background: rgba(239, 71, 111, 0.15);
+      border-color: #ef476f;
+      color: #ef476f;
+      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
+    }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: #06d6a0;
-      box-shadow: 0 0 8px #06d6a0;
-      flex-shrink: 0;
-    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #06d6a0;
+      box-shadow: 0 0 8px #06d6a0;
+      flex-shrink: 0;
+    }
 
-    .status-badge.lost .status-dot {
-      background-color: #ef476f;
-      box-shadow: 0 0 8px #ef476f;
-    }
+    .status-badge.lost .status-dot {
+      background-color: #ef476f;
+      box-shadow: 0 0 8px #ef476f;
+    }
 
-    /* ==========================================
-        MAIN EXPANDED TREASURE MAP LAYOUT
-        ========================================== */
-    .main-stage-container {
-      position: relative;
-      width: 100%;
-      max-width: 1100px;
-      margin: 4.8rem auto 2rem auto;
-      padding: 0 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    /* ==========================================
+        MAIN EXPANDED TREASURE MAP LAYOUT
+        ========================================== */
+    .main-stage-container {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin: 4.8rem auto 2rem auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-    .top-intro-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      padding: 0 0.5rem;
-    }
+    .top-intro-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0 0.5rem;
+    }
 
-    .hero-greeting {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: #f3c68f;
-    }
+    .hero-greeting {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #f3c68f;
+    }
 
-    h1 {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: normal;
-      color: #fffdf0;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-      line-height: 1.1;
-    }
+    h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: normal;
+      color: #fffdf0;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
 
-    .hero-subtext {
-      color: #b2bec3;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      max-width: 550px;
-    }
+    .hero-subtext {
+      color: #b2bec3;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 550px;
+    }
 
-    /* ==========================================
-        TREASURE MAP CIRCULAR FOREST STAGE
-        ========================================== */
-    .world-panorama-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      max-width: 680px;
-      margin: 0 auto;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid rgba(255, 209, 102, 0.4);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
-      background: #07111e;
-      cursor: pointer;
-    }
+    /* ==========================================
+        TREASURE MAP CIRCULAR FOREST STAGE
+        ========================================== */
+    .world-panorama-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 680px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
+      background: #07111e;
+      cursor: pointer;
+    }
 
-    .world-bg-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.8) contrast(1.1) sepia(0.15);
-      display: block;
-    }
+    .world-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8) contrast(1.1) sepia(0.15);
+      display: block;
+    }
 
-    .world-vignette-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
-      pointer-events: none;
-      border-radius: 50%;
-    }
+    .world-vignette-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
+      pointer-events: none;
+      border-radius: 50%;
+    }
 
-    /* ==========================================
-        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
-        ========================================== */
-    .map-vector-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
+    /* ==========================================
+        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
+        ========================================== */
+    .map-vector-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
 
-    .stage-interactive-element {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 25;
-      padding: 0;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    .stage-interactive-element {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 25;
+      padding: 0;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-    .stage-interactive-element:hover {
-      transform: translate(-50%, -50%) scale(1.15);
-    }
+    .stage-interactive-element:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
 
-    /* Well-spaced circular coordinates for the 4 Props */
-    .prop-cabin { top: 28%; left: 50%; width: 105px; height: 95px; }
-    .prop-camera { top: 50%; left: 74%; width: 75px; height: 75px; }
-    .prop-mailbox{ top: 50%; left: 26%; width: 65px; height: 75px; }
-    .prop-table { top: 72%; left: 50%; width: 85px; height: 75px; }
+    /* Well-spaced circular coordinates for the 4 Props */
+    .prop-cabin { top: 28%; left: 50%; width: 105px; height: 95px; }
+    .prop-camera { top: 50%; left: 74%; width: 75px; height: 75px; }
+    .prop-mailbox{ top: 50%; left: 26%; width: 65px; height: 75px; }
+    .prop-table { top: 72%; left: 50%; width: 85px; height: 75px; }
 
-    /* Dropped letter on map stage style */
-    .dropped-letter-node {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      width: 32px;
-      height: 24px;
-      background: #fdf6e2;
-      border: 1px solid #d4af37;
-      border-radius: 3px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
-      cursor: pointer;
-      z-index: 25;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: letterPulse 1.5s infinite alternate ease-in-out;
-    }
+    /* Dropped letter on map stage style */
+    .dropped-letter-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 24px;
+      background: #fdf6e2;
+      border: 1px solid #d4af37;
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
+      cursor: pointer;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: letterPulse 1.5s infinite alternate ease-in-out;
+    }
 
-    .dropped-letter-node::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 10px solid #e6d5b8;
-      top: 0;
-    }
+    .dropped-letter-node::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 10px solid #e6d5b8;
+      top: 0;
+    }
 
-    @keyframes letterPulse {
-      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
-      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
-    }
+    @keyframes letterPulse {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
+      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
+    }
 
-    /* ==========================================
-        GLOWING PAWPRINT EFFECT
-        ========================================== */
-    .click-pawprint {
-      position: fixed;
-      transform: translate(-50%, -50%) scale(0.3);
-      pointer-events: none;
-      z-index: 1000;
-      font-size: 1.8rem;
-      color: #ffd166;
-      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
-      opacity: 0;
-      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
+    /* ==========================================
+        GLOWING PAWPRINT EFFECT
+        ========================================== */
+    .click-pawprint {
+      position: fixed;
+      transform: translate(-50%, -50%) scale(0.3);
+      pointer-events: none;
+      z-index: 1000;
+      font-size: 1.8rem;
+      color: #ffd166;
+      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
+      opacity: 0;
+      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
 
-    @keyframes pawprintPopBelow {
-      0% {
-        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(-50%, 35%) scale(1) rotate(0deg);
-        opacity: 0;
-      }
-    }
+    @keyframes pawprintPopBelow {
+      0% {
+        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, 35%) scale(1) rotate(0deg);
+        opacity: 0;
+      }
+    }
 
-    /* ==========================================
-        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
-        ========================================== */
-    .mushroom-cluster {
-      position: absolute;
-      top: 76%;
-      left: 76%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      z-index: 25;
-      background: transparent;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
+    /* ==========================================
+        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
+        ========================================== */
+    .mushroom-cluster {
+      position: absolute;
+      top: 76%;
+      left: 76%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      z-index: 25;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
 
-    .glowing-mushroom {
-      background: transparent;
-      border: none;
-      padding: 0;
-      pointer-events: none;
-      position: relative;
-      transition: transform 0.2s ease;
-    }
+    .glowing-mushroom {
+      background: transparent;
+      border: none;
+      padding: 0;
+      pointer-events: none;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
 
-    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
+    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
 
-    .mushroom-main { width: 26px; height: 26px; }
-    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
-    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
+    .mushroom-main { width: 26px; height: 26px; }
+    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
+    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
 
-    .shroom-cap {
-      background-color: #e08a47;
-      border-radius: 12px 12px 4px 4px;
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      margin: 0 auto;
-      transition: all 0.4s ease;
-    }
+    .shroom-cap {
+      background-color: #e08a47;
+      border-radius: 12px 12px 4px 4px;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      margin: 0 auto;
+      transition: all 0.4s ease;
+    }
 
-    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
-    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
-    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
+    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
+    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
+    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
 
-    .shroom-stem {
-      background-color: #f3c68f;
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      margin: 0 auto;
-      border-radius: 2px;
-      transition: all 0.4s ease;
-    }
+    .shroom-stem {
+      background-color: #f3c68f;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      margin: 0 auto;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
 
-    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
-    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
-    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
+    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
+    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
+    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
 
-    .glowing-mushroom.mushroom-glowing .shroom-cap {
-      background-color: #06d6a0 !important;
-      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
-    }
+    .glowing-mushroom.mushroom-glowing .shroom-cap {
+      background-color: #06d6a0 !important;
+      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
+    }
 
-    .glowing-mushroom.mushroom-glowing .shroom-stem {
-      background-color: #a9def9 !important;
-      box-shadow: 0 0 10px #06d6a0;
-    }
+    .glowing-mushroom.mushroom-glowing .shroom-stem {
+      background-color: #a9def9 !important;
+      box-shadow: 0 0 10px #06d6a0;
+    }
 
-    /* ==========================================
-        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
-        ========================================== */
-    .ember-wrapper {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      z-index: 18;
-      pointer-events: none;
-      transform: translate(-50%, -85%);
-      will-change: left, top, transform, opacity;
-      transition: transform 0.6s ease, opacity 0.6s ease;
-    }
-
-    /* ==========================================
-       TABBY CAT PAWS TRACKING SYSTEM (STORYBOOK)
-       ========================================== */
-    .storybook-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(3, 7, 12, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .storybook-modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .storybook-container {
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      background: linear-gradient(135deg, #fdf6e2 0%, #f4e8c1 100%);
-      border: 4px solid #d4af37;
-      border-radius: 12px;
-      padding: 3rem 2.5rem;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(184, 134, 11, 0.2);
-      color: #2c221e;
-      font-family: 'Georgia', serif;
-      transform: scale(0.95) translateY(15px);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .storybook-modal-overlay.active .storybook-container {
-      transform: scale(1) translateY(0);
-    }
-
-    .storybook-close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1.2rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: #8c6d33;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    .storybook-close-btn:hover {
-      color: #2c221e;
-    }
-
-    /* Interactive Tabby Cat Paws Container */
-    .tabby-paws-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 10;
-      border-radius: 12px;
-    }
-
-    .tabby-paw {
-      position: absolute;
-      width: 48px;
-      height: 54px;
-      background: #d99b59;
-      border: 2px solid #8c5322;
-      border-radius: 50% 50% 45% 45%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 -4px 6px rgba(140, 83, 34, 0.4);
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-      transition: transform 0.15s ease-out, opacity 0.15s ease-out;
-      will-change: left, top, transform, opacity;
-    }
-
-    /* Tabby Toe Beans */
-    .tabby-paw::before {
-      content: '';
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 26px;
-      height: 18px;
-      background: #f7d1ba;
-      border-radius: 50%;
-      box-shadow: inset 0 2px 3px rgba(0,0,0,0.15);
-    }
-
-    /* Tabby Toe Claws / Pads */
-    .tabby-paw::after {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 32px;
-      height: 10px;
-      background: radial-gradient(circle, #f7d1ba 40%, transparent 41%);
-      background-size: 8px 8px;
-      background-repeat: space;
-    }
-
-    .tabby-paw.active {
-      transform: translate(-50%, -50%) scale(1) rotate(-8deg);
-      opacity: 0.95;
-    }
-
-    .tabby-paw.right-paw.active {
-      transform: translate(-50%, -50%) scale(1) rotate(8deg);
-    }
-
-    .storybook-content h2 {
-      font-size: 2rem;
-      color: #5c3a21;
-      margin-bottom: 1rem;
-      border-bottom: 2px dashed #d4af37;
-      padding-bottom: 0.5rem;
-    }
-
-    .storybook-content p {
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: #3d2c21;
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
+    /* ==========================================
+        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
+        ========================================== */
+    .ember-wrapper {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      z-index: 18;
+      pointer-events: none;
+      transform: translate(-50%, -85%);
+      will-change: left, top, transform, opacity;
+      transition: transform 0.6s ease, opacity 0.6s ease
