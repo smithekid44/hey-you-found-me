@@ -1,402 +1,1389 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hey You Found Me - Ember</title>
-  
-  <style>
-    /* ==========================================
-        GHIBLI NIGHT FOREST THEME & RESET
-        ========================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hey You Found Me - Ember</title>
+  
+  <style>
+    /* ==========================================
+        GHIBLI NIGHT FOREST THEME & RESET
+        ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    body {
-      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
-      background-color: #050b14;
-      color: #f1f5f9;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    body {
+      font-family: 'Georgia', serif, 'Segoe UI', sans-serif;
+      background-color: #050b14;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    /* ==========================================
-        COZY NAVIGATION BAR
-        ========================================== */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      gap: 1rem;
-    }
+    /* ==========================================
+        COZY NAVIGATION BAR
+        ========================================== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(180deg, rgba(5, 11, 20, 0.98) 0%, rgba(5, 11, 20, 0) 100%);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      gap: 1rem;
+    }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none;
-      cursor: pointer;
-      position: relative;
-    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+    }
 
-    .nav-logo-icon {
-      width: 28px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+    .nav-logo-icon {
+      width: 28px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-    .nav-logo-icon svg {
-      width: 100%;
-      height: 100%;
-      fill: #f3c68f;
-      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
-    }
+    .nav-logo-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #f3c68f;
+      filter: drop-shadow(0 0 6px rgba(243, 198, 143, 0.4));
+    }
 
-    .nav-logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-      font-family: 'Georgia', serif;
-      font-size: 0.8rem;
-      color: #fffdf0;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
-      white-space: nowrap;
-    }
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      font-family: 'Georgia', serif;
+      font-size: 0.8rem;
+      color: #fffdf0;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
+      white-space: nowrap;
+    }
 
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 1.2rem;
-    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+    }
 
-    .nav-links a {
-      color: #d1d5db;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
+    .nav-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #ffd166;
-      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
-    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #ffd166;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
 
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(6, 214, 160, 0.15);
-      border: 1px solid #06d6a0;
-      padding: 0.35rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: #06d6a0;
-      user-select: none;
-      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
-      white-space: nowrap;
-    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(6, 214, 160, 0.15);
+      border: 1px solid #06d6a0;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #06d6a0;
+      user-select: none;
+      box-shadow: 0 0 8px rgba(6, 214, 160, 0.2);
+      white-space: nowrap;
+    }
 
-    .status-badge.lost {
-      background: rgba(239, 71, 111, 0.15);
-      border-color: #ef476f;
-      color: #ef476f;
-      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
-    }
+    .status-badge.lost {
+      background: rgba(239, 71, 111, 0.15);
+      border-color: #ef476f;
+      color: #ef476f;
+      box-shadow: 0 0 8px rgba(239, 71, 111, 0.2);
+    }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: #06d6a0;
-      box-shadow: 0 0 8px #06d6a0;
-      flex-shrink: 0;
-    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #06d6a0;
+      box-shadow: 0 0 8px #06d6a0;
+      flex-shrink: 0;
+    }
 
-    .status-badge.lost .status-dot {
-      background-color: #ef476f;
-      box-shadow: 0 0 8px #ef476f;
-    }
+    .status-badge.lost .status-dot {
+      background-color: #ef476f;
+      box-shadow: 0 0 8px #ef476f;
+    }
 
-    /* ==========================================
-        MAIN EXPANDED TREASURE MAP LAYOUT
-        ========================================== */
-    .main-stage-container {
-      position: relative;
-      width: 100%;
-      max-width: 1100px;
-      margin: 4.8rem auto 2rem auto;
-      padding: 0 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    /* ==========================================
+        MAIN EXPANDED TREASURE MAP LAYOUT
+        ========================================== */
+    .main-stage-container {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin: 4.8rem auto 2rem auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-    .top-intro-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      padding: 0 0.5rem;
-    }
+    .top-intro-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0 0.5rem;
+    }
 
-    .hero-greeting {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: #f3c68f;
-    }
+    .hero-greeting {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #f3c68f;
+    }
 
-    h1 {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: normal;
-      color: #fffdf0;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-      line-height: 1.1;
-    }
+    h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: normal;
+      color: #fffdf0;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
 
-    .hero-subtext {
-      color: #b2bec3;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      max-width: 550px;
-    }
+    .hero-subtext {
+      color: #b2bec3;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 550px;
+    }
 
-    /* ==========================================
-        TREASURE MAP CIRCULAR FOREST STAGE
-        ========================================== */
-    .world-panorama-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      max-width: 680px;
-      margin: 0 auto;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid rgba(255, 209, 102, 0.4);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
-      background: #07111e;
-      cursor: pointer;
-    }
+    /* ==========================================
+        TREASURE MAP CIRCULAR FOREST STAGE
+        ========================================== */
+    .world-panorama-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 680px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255, 209, 102, 0.15), inset 0 0 60px rgba(5, 11, 20, 0.7);
+      background: #07111e;
+      cursor: pointer;
+    }
 
-    .world-bg-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.8) contrast(1.1) sepia(0.15);
-      display: block;
-    }
+    .world-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8) contrast(1.1) sepia(0.15);
+      display: block;
+    }
 
-    .world-vignette-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
-      pointer-events: none;
-      border-radius: 50%;
-    }
+    .world-vignette-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 100px rgba(3, 7, 12, 0.85);
+      pointer-events: none;
+      border-radius: 50%;
+    }
 
-    /* ==========================================
-        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
-        ========================================== */
-    .map-vector-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
+    /* ==========================================
+        VECTOR ART STAGE OBJECTS & HOTSPOTS (RADIAL)
+        ========================================== */
+    .map-vector-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
 
-    .stage-interactive-element {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 25;
-      padding: 0;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    .stage-interactive-element {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 25;
+      padding: 0;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-    .stage-interactive-element:hover {
-      transform: translate(-50%, -50%) scale(1.15);
-    }
+    .stage-interactive-element:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
 
-    /* Well-spaced circular coordinates for the 4 Props */
-    .prop-cabin { top: 28%; left: 50%; width: 105px; height: 95px; }
-    .prop-camera { top: 50%; left: 74%; width: 75px; height: 75px; }
-    .prop-mailbox{ top: 50%; left: 26%; width: 65px; height: 75px; }
-    .prop-table { top: 72%; left: 50%; width: 85px; height: 75px; }
+    /* Well-spaced circular coordinates for the 4 Props */
+    .prop-cabin { top: 28%; left: 50%; width: 105px; height: 95px; }
+    .prop-camera { top: 50%; left: 74%; width: 75px; height: 75px; }
+    .prop-mailbox{ top: 50%; left: 26%; width: 65px; height: 75px; }
+    .prop-table { top: 72%; left: 50%; width: 85px; height: 75px; }
 
-    /* Dropped letter on map stage style */
-    .dropped-letter-node {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      width: 32px;
-      height: 24px;
-      background: #fdf6e2;
-      border: 1px solid #d4af37;
-      border-radius: 3px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
-      cursor: pointer;
-      z-index: 25;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: letterPulse 1.5s infinite alternate ease-in-out;
-    }
+    /* Dropped letter on map stage style */
+    .dropped-letter-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 24px;
+      background: #fdf6e2;
+      border: 1px solid #d4af37;
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px rgba(255,209,102,0.6);
+      cursor: pointer;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: letterPulse 1.5s infinite alternate ease-in-out;
+    }
 
-    .dropped-letter-node::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 10px solid #e6d5b8;
-      top: 0;
-    }
+    .dropped-letter-node::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 10px solid #e6d5b8;
+      top: 0;
+    }
 
-    @keyframes letterPulse {
-      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
-      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
-    }
+    @keyframes letterPulse {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0); filter: drop-shadow(0 0 4px rgba(255,209,102,0.4)); }
+      100% { transform: translate(-50%, -50%) scale(1.1) translateY(-4px); filter: drop-shadow(0 0 10px rgba(255,209,102,0.9)); }
+    }
 
-    /* ==========================================
-        GLOWING PAWPRINT EFFECT
-        ========================================== */
-    .click-pawprint {
-      position: fixed;
-      transform: translate(-50%, -50%) scale(0.3);
-      pointer-events: none;
-      z-index: 1000;
-      font-size: 1.8rem;
-      color: #ffd166;
-      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
-      opacity: 0;
-      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
+    /* ==========================================
+        GLOWING PAWPRINT EFFECT
+        ========================================== */
+    .click-pawprint {
+      position: fixed;
+      transform: translate(-50%, -50%) scale(0.3);
+      pointer-events: none;
+      z-index: 1000;
+      font-size: 1.8rem;
+      color: #ffd166;
+      text-shadow: 0 0 10px #ffd166, 0 0 20px #06d6a0, 0 0 30px #118ab2;
+      opacity: 0;
+      animation: pawprintPopBelow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
 
-    @keyframes pawprintPopBelow {
-      0% {
-        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(-50%, 35%) scale(1) rotate(0deg);
-        opacity: 0;
-      }
-    }
+    @keyframes pawprintPopBelow {
+      0% {
+        transform: translate(-50%, -30%) scale(0.3) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, 15%) scale(1.2) rotate(5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, 35%) scale(1) rotate(0deg);
+        opacity: 0;
+      }
+    }
 
-    /* ==========================================
-        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
-        ========================================== */
-    .mushroom-cluster {
-      position: absolute;
-      top: 76%;
-      left: 76%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      z-index: 25;
-      background: transparent;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
+    /* ==========================================
+        MUSHROOM CLUSTER STYLES & GLOW ANIMATIONS
+        ========================================== */
+    .mushroom-cluster {
+      position: absolute;
+      top: 76%;
+      left: 76%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      z-index: 25;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
 
-    .glowing-mushroom {
-      background: transparent;
-      border: none;
-      padding: 0;
-      pointer-events: none;
-      position: relative;
-      transition: transform 0.2s ease;
-    }
+    .glowing-mushroom {
+      background: transparent;
+      border: none;
+      padding: 0;
+      pointer-events: none;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
 
-    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
+    .mushroom-cluster:hover { transform: translate(-50%, -50%) scale(1.15); }
 
-    .mushroom-main { width: 26px; height: 26px; }
-    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
-    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
+    .mushroom-main { width: 26px; height: 26px; }
+    .mushroom-side-1 { width: 20px; height: 20px; margin-bottom: -2px; }
+    .mushroom-side-2 { width: 16px; height: 16px; margin-bottom: -4px; }
 
-    .shroom-cap {
-      background-color: #e08a47;
-      border-radius: 12px 12px 4px 4px;
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      margin: 0 auto;
-      transition: all 0.4s ease;
-    }
+    .shroom-cap {
+      background-color: #e08a47;
+      border-radius: 12px 12px 4px 4px;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      margin: 0 auto;
+      transition: all 0.4s ease;
+    }
 
-    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
-    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
-    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
+    .mushroom-main .shroom-cap { width: 24px; height: 15px; }
+    .mushroom-side-1 .shroom-cap { width: 18px; height: 12px; }
+    .mushroom-side-2 .shroom-cap { width: 15px; height: 10px; }
 
-    .shroom-stem {
-      background-color: #f3c68f;
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      margin: 0 auto;
-      border-radius: 2px;
-      transition: all 0.4s ease;
-    }
+    .shroom-stem {
+      background-color: #f3c68f;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      margin: 0 auto;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
 
-    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
-    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
-    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
+    .mushroom-main .shroom-stem { width: 8px; height: 13px; }
+    .mushroom-side-1 .shroom-stem { width: 6px; height: 10px; }
+    .mushroom-side-2 .shroom-stem { width: 5px; height: 8px; }
 
-    .glowing-mushroom.mushroom-glowing .shroom-cap {
-      background-color: #06d6a0 !important;
-      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
-    }
+    .glowing-mushroom.mushroom-glowing .shroom-cap {
+      background-color: #06d6a0 !important;
+      box-shadow: 0 0 14px #06d6a0, 0 0 24px #118ab2;
+    }
 
-    .glowing-mushroom.mushroom-glowing .shroom-stem {
-      background-color: #a9def9 !important;
-      box-shadow: 0 0 10px #06d6a0;
-    }
+    .glowing-mushroom.mushroom-glowing .shroom-stem {
+      background-color: #a9def9 !important;
+      box-shadow: 0 0 10px #06d6a0;
+    }
 
-    /* ==========================================
-        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
-        ========================================== */
-    .ember-wrapper {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      z-index: 18;
-      pointer-events: none;
-      transform: translate(-50%, -85%);
-      will-change: left, top, transform, opacity;
-      transition: transform 0.6s ease, opacity 0.6s ease
+    /* ==========================================
+        WALKING EMBER CHARACTER ANIMATIONS (TABBY CAT DESIGN)
+        ========================================== */
+    .ember-wrapper {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      z-index: 18;
+      pointer-events: none;
+      transform: translate(-50%, -85%);
+      will-change: left, top, transform, opacity;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .ember-char { width: 100%; height: 100%; overflow: visible; }
+
+    .ember-wrapper.is-walking .ember-body-group { animation: continuousWalkAnim 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .ground-shadow { animation: shadowWalkPulse 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-back-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-left { animation: legMoveBack 0.22s infinite alternate ease-in-out; }
+    .ember-wrapper.is-walking .leg-front-right { animation: legMoveFront 0.22s infinite alternate ease-in-out; }
+
+    .ember-body-group { transform-origin: 65px 75px; }
+    .ground-shadow { transform-origin: 65px 102px; }
+    .leg-back-left { transform-origin: 48px 78px; }
+    .leg-back-right { transform-origin: 78px 78px; }
+    .leg-front-left { transform-origin: 54px 80px; }
+    .leg-front-right { transform-origin: 72px 80px; }
+    .tail-group { transform-origin: 92px 82px; animation: tailSwishNormal 1.2s infinite ease-in-out; }
+
+    @keyframes legMoveBack {
+      0% { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-4px) rotate(14deg); }
+    }
+
+    @keyframes legMoveFront {
+      0% { transform: translateY(-4px) rotate(14deg); }
+      100% { transform: translateY(0px) rotate(-14deg); }
+    }
+
+    @keyframes continuousWalkAnim {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      100% { transform: translateY(-5px) rotate(2deg); }
+    }
+
+    @keyframes shadowWalkPulse {
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.75; }
+      100% { transform: scaleX(0.78) scaleY(0.5); opacity: 0.35; }
+    }
+
+    @keyframes tailSwishNormal {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(12deg); }
+    }
+
+    @keyframes lanternFlicker {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px #ffd166); }
+      50% { opacity: 1; filter: drop-shadow(0 0 12px #ffd166); }
+    }
+    .string-lantern { animation: lanternFlicker 2s infinite ease-in-out; }
+
+    /* Camera Flash FX overlay on Map stage */
+    .camera-flash-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      border-radius: 50%;
+      transition: opacity 0.15s ease-out;
+    }
+
+    /* ==========================================
+        MODAL STYLES
+        ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(3, 7, 12, 0.85);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #0f1c2d;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      color: #f1f5f9;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .cabin-modal-content {
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .storybook-modal-content {
+      max-width: 580px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-modal-content {
+      max-width: 540px;
+      text-align: center;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px; right: 15px;
+      background: none; border: none;
+      color: #ffd166; font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .modal-content h3 { color: #ffd166; font-family: 'Georgia', serif; margin-bottom: 0.5rem; }
+    .modal-content p { font-size: 0.9rem; color: #b2bec3; margin-bottom: 1.2rem; line-height: 1.5; }
+
+    /* Cabin Interior Vector Illustration Stage */
+    .cabin-interior-stage {
+      width: 100%;
+      height: 220px;
+      background: #150e08;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.2);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    /* Storybook Modal First-Person POV Stage */
+    .storybook-stage {
+      width: 100%;
+      height: 240px;
+      background: #241911;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      margin-bottom: 1rem;
+      position: relative;
+      cursor: crosshair;
+    }
+
+    /* First-Person POV Ember Paws coming from bottom corners */
+    .ember-pov-paws {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .ember-paw {
+      position: absolute;
+      bottom: -10px;
+      width: 75px;
+      height: 75px;
+      transition: transform 0.08s cubic-bezier(0, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .ember-paw.left {
+      left: 15%;
+      transform-origin: bottom left;
+    }
+
+    .ember-paw.right {
+      right: 15%;
+      transform-origin: bottom right;
+    }
+
+    @keyframes roaringFire {
+      0%, 100% { transform: scale(1) translateY(0); opacity: 0.9; }
+      50% { transform: scale(1.08) translateY(-3px); opacity: 1; }
+    }
+    @keyframes fireGlow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.9; }
+    }
+
+    .roaring-flame { animation: roaringFire 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
+    .fireplace-glow { animation: fireGlow 0.8s infinite alternate ease-in-out; }
+
+    /* Interior Walking Ember Animation */
+    @keyframes cabinEmberWander {
+      0% { left: 20%; transform: scaleX(1); }
+      40% { left: 60%; transform: scaleX(1); }
+      45% { left: 60%; transform: scaleX(-1); }
+      85% { left: 20%; transform: scaleX(-1); }
+      90% { left: 20%; transform: scaleX(1); }
+      100% { left: 20%; transform: scaleX(1); }
+    }
+
+    @keyframes cabinLegMoveBack {
+      0% { transform: translateY(0px) rotate(-14deg); }
+      100% { transform: translateY(-3px) rotate(14deg); }
+    }
+
+    @keyframes cabinLegMoveFront {
+      0% { transform: translateY(-3px) rotate(14deg); }
+      100% { transform: translateY(0px) rotate(-14deg); }
+    }
+
+    @keyframes cabinBodyBob {
+      0% { transform: translateY(0px) rotate(-1deg); }
+      100% { transform: translateY(-3px) rotate(1deg); }
+    }
+
+    .interior-ember-character {
+      position: absolute;
+      bottom: 22px;
+      width: 65px;
+      height: 65px;
+      z-index: 10;
+      animation: cabinEmberWander 14s infinite linear;
+    }
+
+    .interior-ember-character .ember-body-group {
+      animation: cabinBodyBob 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-back-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-left {
+      animation: cabinLegMoveBack 0.25s infinite alternate ease-in-out;
+    }
+    .interior-ember-character .leg-front-right {
+      animation: cabinLegMoveFront 0.25s infinite alternate ease-in-out;
+    }
+
+    .ember-lore-text {
+      text-align: left;
+      font-size: 0.88rem;
+      color: #d1d5db;
+      line-height: 1.6;
+      background: rgba(5, 11, 20, 0.5);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid #ffd166;
+    }
+
+    /* ==========================================
+        REAL EMBER PHOTO SLIDESHOW STYLES
+        ========================================== */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: #050b14;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-item {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-item.active {
+      opacity: 1;
+    }
+
+    .slide-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%;
+      background: linear-gradient(0deg, rgba(5,11,20,0.9) 0%, rgba(5,11,20,0) 100%);
+      padding: 1rem 1rem 0.6rem 1rem;
+      font-size: 0.85rem;
+      color: #ffd166;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+    }
+
+    .slideshow-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 28, 45, 0.7);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      color: #ffd166;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .slideshow-nav-btn:hover {
+      background: rgba(255, 209, 102, 0.2);
+    }
+
+    .slide-prev { left: 10px; }
+    .slide-next { right: 10px; }
+
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-group label { display: block; font-size: 0.8rem; color: #ffd166; margin-bottom: 0.3rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.7rem;
+      background: #050b14; border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px; color: #fff; font-size: 0.9rem;
+    }
+
+    .submit-sms-btn {
+      width: 100%; background: #d47a3d; color: #fff;
+      border: none; padding: 0.8rem; border-radius: 8px;
+      font-weight: bold; cursor: pointer; transition: background 0.2s;
+    }
+    .submit-sms-btn:hover { background: #e08a47; }
+
+    /* ==========================================
+        RESPONSIVE MOBILE OPTIMIZATIONS
+        ========================================== */
+    @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+      }
+      .navbar { 
+        padding: 0.6rem 0.8rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .nav-logo-text {
+        font-size: 0.75rem;
+      }
+      .nav-links { 
+        display: flex;
+        gap: 0.8rem;
+        width: 100%;
+        justify-content: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 0.4rem;
+      }
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+      .nav-right {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.8rem;
+      }
+      .status-badge {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      .main-stage-container { 
+        margin-top: 6.4rem; 
+        padding: 0 0.75rem;
+        gap: 0.75rem;
+      }
+      .world-panorama-container { 
+        max-width: 100%;
+      }
+      .ember-wrapper {
+        width: 85px;
+        height: 85px;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      .hero-greeting {
+        font-size: 0.9rem;
+      }
+      .hero-subtext {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="nav-logo" id="logoHomeBtn">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="5" r="1.8"/>
+          <circle cx="8" cy="8" r="1.2"/>
+          <circle cx="16" cy="8" r="1.2"/>
+          <circle cx="6" cy="11" r="1.1"/>
+          <circle cx="18" cy="11" r="1.1"/>
+          <path d="M12 9.5 C9.5 9.5 8 11.5 8 13.5 C8 15.5 10 17 12 17 C14 17 16 15.5 16 13.5 C16 11.5 14.5 9.5 12 9.5 Z"/>
+          <path d="M12 9.5 L12 30" stroke="#f3c68f" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M12 24 Q7 22 5 19 Q9 20 12 24 Z" fill="#f3c68f"/>
+          <path d="M12 22 Q17 20 19 17 Q15 18 12 22 Z" fill="#f3c68f"/>
+          <path d="M12 28 Q8 27 7 24 Q10 25 12 28 Z" fill="#f3c68f"/>
+          <path d="M12 26 Q16 25 17 22 Q14 23 12 26 Z" fill="#f3c68f"/>
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>Hey You</span>
+        <span>Found Me</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link-item" data-target="cabin">Meet Ember</a></li>
+      <li><a href="#" class="nav-link-item" data-target="camera">Gallery</a></li>
+      <li><a href="#" class="nav-link-item" data-target="storybook">Storybook</a></li>
+      <li><a href="#" class="nav-link-item" data-target="mailbox">If I'm Lost</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="statusBadge" class="status-badge">
+        <span class="status-dot"></span>
+        <span id="statusText">Ember is home</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Expanded Treasure Map Container -->
+  <div class="main-stage-container">
+    <div class="top-intro-wrapper">
+      <span class="hero-greeting">Hey... ♡</span>
+      <h1>You Found Me</h1>
+      <p class="hero-subtext">
+        Explore the circular forest trail map. Click anywhere along the path, landmarks, table, or the dropped letter to interact with Ember!
+      </p>
+    </div>
+
+    <!-- Treasure Map Circular Forest Stage -->
+    <div id="worldPanorama" class="world-panorama-container">
+      <img src="https://images.unsplash.com/photo-1511497584788-8767611925b5?auto=format&fit=crop&w=1000&q=80" alt="Explore Ember's World Forest Path" class="world-bg-image" />
+      <div class="world-vignette-overlay"></div>
+      <div id="cameraFlashOverlay" class="camera-flash-overlay"></div>
+
+      <!-- Vector Art Circular Stone Path & Landmarks Overlay -->
+      <svg class="map-vector-overlay" viewBox="0 0 600 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Circular Winding Stone Path -->
+        <circle cx="300" cy="300" r="165" fill="none" stroke="#231f20" stroke-width="48" opacity="0.45"/>
+        <circle cx="300" cy="300" r="165" fill="none" stroke="#d5c3aa" stroke-width="40" stroke-dasharray="12 8" opacity="0.9"/>
+
+        <!-- VECTOR LANDMARK 1: THE CABIN WITH AN OPEN DOORWAY -->
+        <g transform="translate(300, 110)">
+          <ellipse cx="0" cy="42" rx="42" ry="12" fill="#03070c" opacity="0.6"/>
+          <!-- Cabin Main Wall Structure -->
+          <rect x="-34" y="10" width="68" height="38" rx="3" fill="#654321" stroke="#3d2812" stroke-width="1.5"/>
+          <!-- Cabin Window -->
+          <rect x="-22" y="18" width="12" height="13" rx="1" fill="#ffd166" stroke="#3d2812" stroke-width="1"/>
+          
+          <!-- Open Doorway Void (Warm Fire Glow Inside) -->
+          <rect x="10" y="18" width="16" height="30" rx="1.5" fill="#150a04" stroke="#100804" stroke-width="1"/>
+          <rect x="12" y="28" width="12" height="20" fill="#ff7043" opacity="0.4"/>
+          <circle cx="18" cy="38" r="4" fill="#ffd166" opacity="0.6"/>
+
+          <!-- Roof & Chimney -->
+          <polygon points="0,-12 -44,12 44,12" fill="#2d4a3e" stroke="#1b2e26" stroke-width="1.5"/>
+          <rect x="16" y="-5" width="10" height="18" fill="#555" stroke="#333" stroke-width="1"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 2: THE CAMERA (Right ~74%, 50%) -->
+        <g transform="translate(444, 300)">
+          <line x1="-10" y1="5" x2="-22" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-10" y1="5" x2="4" y2="30" stroke="#4a311c" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="-20" y="-6" width="20" height="13" rx="2" fill="#8c7853" stroke="#3d2812" stroke-width="1.2"/>
+          <circle cx="-10" cy="0" r="5.5" fill="#222" stroke="#ffd166" stroke-width="1.2"/>
+          <path d="M -55,-35 Q -30,-55 0,-40 T 45,-35" fill="none" stroke="#222" stroke-width="1.2"/>
+          <ellipse class="string-lantern" cx="-30" cy="-44" rx="4.5" ry="6" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>
+          <ellipse class="string-lantern" cx="10" cy="-36" rx="4.5" ry="6" fill="#ff7043" stroke="#b85d22" stroke-width="1" style="animation-delay: 0.6s;"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 3: THE MAILBOX (Left ~26%, 50%) -->
+        <g transform="translate(156, 300)">
+          <rect x="-2" y="4" width="4" height="35" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
+          <path d="M -12,-4 L 10,-4 A 9,9 0 0,1 19,5 L 19,10 L -12,10 Z" fill="#2d5a43" stroke="#183627" stroke-width="1.5"/>
+          <rect x="17" y="-2" width="2.5" height="8" rx="1" fill="#ef476f"/>
+        </g>
+
+        <!-- VECTOR LANDMARK 4: THE TABLE & OPEN STORYBOOK (Bottom ~50%, 72%) -->
+        <g transform="translate(300, 432)">
+          <ellipse cx="0" cy="15" rx="35" ry="10" fill="#03070c" opacity="0.6"/>
+          <!-- Table legs & Top -->
+          <rect x="-24" y="6" width="48" height="6" rx="2" fill="#5a3d28" stroke="#332114" stroke-width="1"/>
+          <line x1="-18" y1="12" x2="-22" y2="25" stroke="#432c1c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="18" y1="12" x2="22" y2="25" stroke="#432c1c" stroke-width="3" stroke-linecap="round"/>
+          <!-- Open Storybook on Table -->
+          <path d="M -16,-2 C -16,-6 -6,-9 0,-5 C 6,-9 16,-6 16,-2 L 16,8 C 16,8 6,5 0,8 C -6,5 -16,8 -16,8 Z" fill="#fdf6e2" stroke="#d4af37" stroke-width="1.2"/>
+          <path d="M 0,-5 L 0,8" stroke="#d4af37" stroke-width="1"/>
+        </g>
+      </svg>
+
+      <!-- Clickable Landmark Hotspots & Dropped Letter Node -->
+      <button class="stage-interactive-element prop-cabin" id="hotspotCabin" title="Meet Ember at the Cabin" aria-label="Meet Ember at the Cabin"></button>
+      <button class="stage-interactive-element prop-camera" id="hotspotCamera" title="View Ember's Gallery" aria-label="View Ember's Gallery"></button>
+      <button class="stage-interactive-element prop-mailbox" id="hotspotMailbox" title="If I'm Lost" aria-label="If I'm Lost"></button>
+      <button class="stage-interactive-element prop-table" id="hotspotTable" title="Open Storybook" aria-label="Open Storybook"></button>
+      <div class="dropped-letter-node" id="droppedLetterNode" title="Read letter" style="top: 68%; left: 62%;"></div>
+
+      <!-- Interactive Mushroom Cluster Toggle (Bottom Right of Circle) -->
+      <button id="secretMushroomCluster" class="mushroom-cluster" title="Toggle status" aria-label="Toggle status mushroom cluster">
+        <div class="glowing-mushroom mushroom-side-2">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-side-1">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+        <div class="glowing-mushroom mushroom-main">
+          <div class="shroom-cap"></div>
+          <div class="shroom-stem"></div>
+        </div>
+      </button>
+
+      <!-- Walking Ember Character Element (Accurate Tabby Cat Design matching photo) -->
+      <div id="emberWalker" class="ember-wrapper" style="left: 50%; top: 78%;">
+        <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="ground-shadow" cx="65" cy="102" rx="22" ry="7" fill="#03070c" opacity="0.6"/>
+
+          <g id="emberBodyG" class="ember-body-group">
+            <!-- Back Legs -->
+            <g class="leg-back-left">
+              <path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <circle cx="47" cy="98" r="3.5" fill="#ffffff"/>
+            </g>
+            <g class="leg-back-right">
+              <path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <circle cx="81" cy="98" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <!-- Tail -->
+            <g class="tail-group">
+              <path d="M88 82 Q110 75 106 50 Q104 40 110 35" stroke="#333" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M92 78 Q106 72 102 52" stroke="#888" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+
+            <!-- Body (Tabby Grey Stripes & White Chest Blaze) -->
+            <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+            <path d="M 55,60 Q 58,74 53,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 65,58 Q 68,74 65,88" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 75,60 Q 77,74 74,86" stroke="#3d3d3d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            
+            <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+
+            <!-- Front Legs -->
+            <g class="leg-front-left">
+              <path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <circle cx="54" cy="99" r="3.5" fill="#ffffff"/>
+            </g>
+            <g class="leg-front-right">
+              <path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <circle cx="73" cy="99" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <!-- Letter in Mouth -->
+            <g id="emberLetterInMouth" style="display: none;" transform="translate(62, 45)">
+              <rect x="0" y="0" width="16" height="11" rx="2" fill="#fdf6e2" stroke="#d4af37" stroke-width="1"/>
+              <path d="M 0,0 L 8,6 L 16,0" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </g>
+
+            <!-- Head Group -->
+            <g class="head-group">
+              <polygon points="46,38 36,14 54,28" fill="#5a5a5a"/>
+              <polygon points="84,38 94,14 76,28" fill="#5a5a5a"/>
+              <polygon points="45,34 40,20 50,27" fill="#ffb6c1"/>
+              <polygon points="85,34 90,20 80,27" fill="#ffb6c1"/>
+
+              <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+              
+              <path d="M 61,23 L 61,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 65,22 L 65,32" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M 69,23 L 69,31" stroke="#3d3d3d" stroke-width="2.5" stroke-linecap="round"/>
+
+              <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+
+              <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166" stroke="#b8860b" stroke-width="0.8"/>
+              <ellipse cx="56" cy="40" rx="2" ry="2.2" fill="#111"/>
+              <ellipse cx="74" cy="40" rx="2" ry="2.2" fill="#111"/>
+              <circle cx="54.5" cy="39" r="0.8" fill="#fff"/>
+              <circle cx="72.5" cy="39" r="0.8" fill="#fff"/>
+
+              <polygon points="63,47 67,47 65,45" fill="#ff9999"/>
+              <path d="M 52,48 Q 45,47 41,45" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
+              <path d="M 52,50 Q 45,51 40,51" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
+              <path d="M 78,48 Q 85,47 89,45" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
+              <path d="M 78,50 Q 85,51 90,51" stroke="#ccc" stroke-width="1" stroke-linecap="round" fill="none"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript Controls and Interactivity -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const worldPanorama = document.getElementById('worldPanorama');
+      const emberWalker = document.getElementById('emberWalker');
+      const statusBadge = document.getElementById('statusBadge');
+      const statusText = document.getElementById('statusText');
+      const secretMushroomCluster = document.getElementById('secretMushroomCluster');
+      const mushrooms = secretMushroomCluster.querySelectorAll('.glowing-mushroom');
+      const cameraFlashOverlay = document.getElementById('cameraFlashOverlay');
+      const emberLetterInMouth = document.getElementById('emberLetterInMouth');
+      const droppedLetterNode = document.getElementById('droppedLetterNode');
+
+      // Navigation links
+      const navLinks = document.querySelectorAll('.nav-link-item');
+      const logoHomeBtn = document.getElementById('logoHomeBtn');
+      const hotspotCabin = document.getElementById('hotspotCabin');
+      const hotspotCamera = document.getElementById('hotspotCamera');
+      const hotspotMailbox = document.getElementById('hotspotMailbox');
+      const hotspotTable = document.getElementById('hotspotTable');
+
+      let isEmberLost = false;
+      let walkTimeout = null;
+
+      function moveEmberTo(targetX, targetY, callback) {
+        const rect = worldPanorama.getBoundingClientRect();
+        const clickX = ((targetX - rect.left) / rect.width) * 100;
+        const clickY = ((targetY - rect.top) / rect.height) * 100;
+
+        const currentLeft = parseFloat(emberWalker.style.left) || 50;
+
+        if (clickX < currentLeft) {
+          emberWalker.style.transform = 'translate(-50%, -85%) scaleX(-1)';
+        } else {
+          emberWalker.style.transform = 'translate(-50%, -85%) scaleX(1)';
+        }
+
+        emberWalker.classList.add('is-walking');
+        emberWalker.style.left = clickX + '%';
+        emberWalker.style.top = clickY + '%';
+
+        spawnPawprint(targetX, targetY);
+
+        if (walkTimeout) clearTimeout(walkTimeout);
+        walkTimeout = setTimeout(() => {
+          emberWalker.classList.remove('is-walking');
+          if (callback) callback();
+        }, 600);
+      }
+
+      function spawnPawprint(clientX, clientY) {
+        const paw = document.createElement('div');
+        paw.className = 'click-pawprint';
+        paw.innerHTML = '🐾';
+        paw.style.left = clientX + 'px';
+        paw.style.top = clientY + 'px';
+        document.body.appendChild(paw);
+        setTimeout(() => paw.remove(), 800);
+      }
+
+      worldPanorama.addEventListener('click', (e) => {
+        if (e.target.closest('.stage-interactive-element') || e.target.closest('.dropped-letter-node') || e.target.closest('.mushroom-cluster')) {
+          return;
+        }
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(e.clientX, e.clientY);
+      });
+
+      function openCabinModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.5), rect.top + (rect.height * 0.28), () => {
+          showModal('cabin');
+        });
+      }
+
+      function openCameraModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.74), rect.top + (rect.height * 0.50), () => {
+          cameraFlashOverlay.style.opacity = '0.8';
+          setTimeout(() => { cameraFlashOverlay.style.opacity = '0'; }, 150);
+          showModal('camera');
+        });
+      }
+
+      function openMailboxModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.26), rect.top + (rect.height * 0.50), () => {
+          showModal('mailbox');
+        });
+      }
+
+      function openStorybookModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.5), rect.top + (rect.height * 0.72), () => {
+          showModal('storybook');
+        });
+      }
+
+      function openLetterModal() {
+        const rect = worldPanorama.getBoundingClientRect();
+        moveEmberTo(rect.left + (rect.width * 0.62), rect.top + (rect.height * 0.68), () => {
+          emberLetterInMouth.style.display = 'block';
+          droppedLetterNode.style.display = 'none';
+          showModal('letter');
+        });
+      }
+
+      hotspotCabin.addEventListener('click', (e) => { e.stopPropagation(); openCabinModal(); });
+      hotspotCamera.addEventListener('click', (e) => { e.stopPropagation(); openCameraModal(); });
+      hotspotMailbox.addEventListener('click', (e) => { e.stopPropagation(); openMailboxModal(); });
+      hotspotTable.addEventListener('click', (e) => { e.stopPropagation(); openStorybookModal(); });
+      droppedLetterNode.addEventListener('click', (e) => { e.stopPropagation(); openLetterModal(); });
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = link.getAttribute('data-target');
+          if (target === 'cabin') openCabinModal();
+          if (target === 'camera') openCameraModal();
+          if (target === 'storybook') openStorybookModal();
+          if (target === 'mailbox') openMailboxModal();
+        });
+      });
+
+      logoHomeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openCabinModal();
+      });
+
+      secretMushroomCluster.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isEmberLost = !isEmberLost;
+        mushrooms.forEach(m => m.classList.toggle('mushroom-glowing', isEmberLost));
+        if (isEmberLost) {
+          statusBadge.classList.add('lost');
+          statusText.textContent = "Ember is exploring (Lost)";
+        } else {
+          statusBadge.classList.remove('lost');
+          statusText.textContent = "Ember is home";
+        }
+      });
+
+      function showModal(type) {
+        const existing = document.getElementById('activeModalOverlay');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.id = 'activeModalOverlay';
+
+        let innerHTML = '';
+
+        if (type === 'cabin') {
+          innerHTML = `
+            <div class="modal-content cabin-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>Meet Ember</h3>
+              <p>Welcome to Ember's cozy forest cabin by the hearth.</p>
+              <div class="cabin-interior-stage">
+                <svg width="100%" height="100%" viewBox="0 0 500 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="500" height="220" fill="#18100a"/>
+                  <rect y="160" width="500" height="60" fill="#0d0805"/>
+                  <path d="M 350,160 L 350,70 L 440,70 L 440,160 Z" fill="#2d2520" stroke="#1c1613" stroke-width="3"/>
+                  <path d="M 370,160 L 370,95 L 420,95 L 420,160 Z" fill="#100804"/>
+                  <g class="roaring-flame" transform="translate(395, 135)">
+                    <ellipse cx="0" cy="0" rx="16" ry="22" fill="#ff7043" class="fireplace-glow"/>
+                    <ellipse cx="0" cy="2" rx="10" ry="16" fill="#ffd166"/>
+                    <ellipse cx="0" cy="5" rx="5" ry="9" fill="#ffffff"/>
+                  </g>
+                  <rect x="60" y="40" width="50" height="70" rx="4" fill="#101c2c" stroke="#3d2812" stroke-width="4"/>
+                  <line x1="85" y1="40" x2="85" y2="110" stroke="#3d2812" stroke-width="3"/>
+                  <line x1="60" y1="75" x2="110" y2="75" stroke="#3d2812" stroke-width="3"/>
+                  <rect x="63" y="43" width="44" height="64" fill="#ffd166" opacity="0.35"/>
+                </svg>
+
+                <div class="interior-ember-character" style="left: 50%; bottom: 22px;">
+                  <svg class="ember-char" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="ground-shadow" cx="65" cy="102" rx="20" ry="6" fill="#03070c" opacity="0.6"/>
+                    <g class="ember-body-group">
+                      <g class="leg-back-left"><path d="M48 76 Q45 92 47 98" stroke="#555" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="47" cy="98" r="3.5" fill="#ffffff"/></g>
+                      <g class="leg-back-right"><path d="M78 76 Q81 92 81 98" stroke="#444" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="81" cy="98" r="3.5" fill="#ffffff"/></g>
+                      <ellipse cx="65" cy="74" rx="26" ry="19" fill="#7a7a7a"/>
+                      <path d="M 58,64 Q 65,85 72,64 Q 78,78 65,92 Q 52,78 58,64 Z" fill="#ffffff"/>
+                      <g class="leg-front-left"><path d="M54 78 Q52 93 54 99" stroke="#6a6a6a" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="54" cy="99" r="3.5" fill="#ffffff"/></g>
+                      <g class="leg-front-right"><path d="M72 78 Q74 93 73 99" stroke="#5c5c5c" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="73" cy="99" r="3.5" fill="#ffffff"/></g>
+                      <circle cx="65" cy="42" r="21" fill="#7a7a7a"/>
+                      <path d="M 58,32 Q 65,30 72,32 Q 70,52 65,55 Q 60,52 58,32 Z" fill="#ffffff"/>
+                      <ellipse cx="56" cy="40" rx="4.5" ry="3" fill="#ffd166"/><ellipse cx="74" cy="40" rx="4.5" ry="3" fill="#ffd166"/>
+                      <ellipse cx="56" cy="40" rx="2" ry="2.2" fill="#111"/><ellipse cx="74" cy="40" rx="2" ry="2.2" fill="#111"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="ember-lore-text">
+                Ember is a gentle-spirited tabby cat with striking green-gold eyes and distinct white socks. Relax and enjoy the warmth of the cabin.
+              </div>
+            </div>
+          `;
+        } else if (type === 'storybook') {
+          innerHTML = `
+            <div class="modal-content storybook-modal-content" id="storybookModalContent">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>The Storybook POV</h3>
+              <p>Move your cursor across the book pages below. Experience first-person POV as Ember's front paws follow word-for-word along your gaze!</p>
+              <div class="storybook-stage" id="storybookStage">
+                <!-- Open Storybook Illustration Backdrop -->
+                <svg width="100%" height="100%" viewBox="0 0 520 240" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Wooden Desk Surface -->
+                  <rect width="520" height="240" fill="#1c120a"/>
+                  <rect y="180" width="520" height="60" fill="#120a06"/>
+                  <!-- Open Book Pages -->
+                  <path d="M 40,30 Q 260,10 480,30 L 480,210 Q 260,190 40,210 Z" fill="#fcf6e5" stroke="#d4af37" stroke-width="2"/>
+                  <path d="M 260,18 L 260,202" stroke="#d4af37" stroke-width="1.5"/>
+                  <!-- Book text lines preview -->
+                  <line x1="70" y1="60" x2="220" y2="60" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="70" y1="80" x2="200" y2="80" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="70" y1="100" x2="210" y2="100" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="300" y1="60" x2="450" y2="60" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="300" y1="80" x2="430" y2="80" stroke="#dcd6c5" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+
+                <!-- First-Person POV Paws Layer -->
+                <div class="ember-pov-paws">
+                  <!-- Left Paw -->
+                  <div class="ember-paw left" id="emberPawLeft">
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 80 Q15 45 40 40 Q65 45 70 80 Z" fill="#6a6a6a"/>
+                      <!-- White Sock / Paw Tip -->
+                      <path d="M22 80 Q25 58 40 55 Q55 58 58 80 Z" fill="#ffffff"/>
+                      <circle cx="31" cy="70" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="40" cy="67" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="49" cy="70" r="3.5" fill="#ffb6c1"/>
+                    </svg>
+                  </div>
+                  <!-- Right Paw -->
+                  <div class="ember-paw right" id="emberPawRight">
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 80 Q15 45 40 40 Q65 45 70 80 Z" fill="#5c5c5c"/>
+                      <!-- White Sock / Paw Tip -->
+                      <path d="M22 80 Q25 58 40 55 Q55 58 58 80 Z" fill="#ffffff"/>
+                      <circle cx="31" cy="70" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="40" cy="67" r="3.5" fill="#ffb6c1"/>
+                      <circle cx="49" cy="70" r="3.5" fill="#ffb6c1"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="ember-lore-text">
+                Ember's front paws smoothly mirror your cursor position as you read across the pages.
+              </div>
+            </div>
+          `;
+        } else if (type === 'camera') {
+          innerHTML = `
+            <div class="modal-content gallery-modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>Ember's Photo Gallery</h3>
+              <p>Snapshots captured along the forest pathways.</p>
+              <div class="slideshow-container" id="slideshowContainer">
+                <div class="slide-item active">
+                  <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80" alt="Ember resting by window" />
+                  <div class="slide-caption">Resting by the sunny afternoon window sill.</div>
+                </div>
+                <div class="slide-item">
+                  <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=800&q=80" alt="Ember exploring garden" />
+                  <div class="slide-caption">Exploring the vibrant mossy garden ferns.</div>
+                </div>
+                <div class="slide-item">
+                  <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80" alt="Ember curled up cozy" />
+                  <div class="slide-caption">Curled up in maximum cozy mode.</div>
+                </div>
+                <button class="slideshow-nav-btn slide-prev" id="slidePrevBtn">&#10094;</button>
+                <button class="slideshow-nav-btn slide-next" id="slideNextBtn">&#10095;</button>
+              </div>
+            </div>
+          `;
+        } else if (type === 'mailbox') {
+          innerHTML = `
+            <div class="modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>If I'm Lost</h3>
+              <p>If Ember ever wanders too far into the deep woods, send a quick message to alert home!</p>
+              <form id="smsAlertForm">
+                <div class="form-group">
+                  <label>Your Name / Location</label>
+                  <input type="text" id="finderName" placeholder="e.g. Found near the old oak tree" required />
+                </div>
+                <div class="form-group">
+                  <label>Message for Ember's Family</label>
+                  <textarea id="finderMsg" rows="3" placeholder="Ember is safe and sound..." required></textarea>
+                </div>
+                <button type="submit" class="submit-sms-btn">Send Safe Return Alert 🐾</button>
+              </form>
+            </div>
+          `;
+        } else if (type === 'letter') {
+          innerHTML = `
+            <div class="modal-content">
+              <button class="close-btn" id="modalCloseBtn">&times;</button>
+              <h3>A Note from Ember</h3>
+              <p style="font-family: 'Georgia', serif; font-style: italic; color: #ffd166; font-size: 1rem; line-height: 1.6;">
+                "Thank you for finding your way here. Whether you are exploring the forest trail or resting by the storybook table, I am so glad our paths crossed today. Let's stay cozy together. ♡ - Ember"
+              </p>
+            </div>
+          `;
+        }
+
+        overlay.innerHTML = innerHTML;
+        document.body.appendChild(overlay);
+
+        const closeBtn = overlay.querySelector('#modalCloseBtn');
+        if (closeBtn) closeBtn.addEventListener('click', () => overlay.remove());
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) overlay.remove();
+        });
+
+        if (type === 'camera') {
+          const slides = overlay.querySelectorAll('.slide-item');
+          let currentSlide = 0;
+          const prevBtn = overlay.querySelector('#slidePrevBtn');
+          const nextBtn = overlay.querySelector('#slideNextBtn');
+
+          function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[index].classList.add('active');
+          }
+
+          prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+          });
+
+          nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+          });
+        }
+
+        if (type === 'mailbox') {
+          const form = overlay.querySelector('#smsAlertForm');
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("Safe return alert sent successfully! Ember's family has been notified. 🐾");
+            overlay.remove();
+          });
+        }
+
+        // Storybook First-Person POV Paws Mouse Tracking
+        if (type === 'storybook') {
+          const storybookModal = overlay.querySelector('#storybookModalContent');
+          const leftPaw = overlay.querySelector('#emberPawLeft');
+          const rightPaw = overlay.querySelector('#emberPawRight');
+
+          if (storybookModal && leftPaw && rightPaw) {
+            storybookModal.addEventListener('mousemove', (e) => {
+              const rect = storybookModal.getBoundingClientRect();
+              const mouseX = e.clientX - rect.left;
+              const mouseY = e.clientY - rect.top;
+
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+
+              const moveX = (mouseX - centerX) * 0.12;
+              const moveY = (mouseY - centerY) * 0.08;
+
+              leftPaw.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 0.04}deg)`;
+              rightPaw.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * -0.04}deg)`;
+            });
+
+            storybookModal.addEventListener('mouseleave', () => {
+              leftPaw.style.transform = 'translate(0px, 0px) rotate(0deg)';
+              rightPaw.style.transform = 'translate(0px, 0px) rotate(0deg)';
+            });
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
